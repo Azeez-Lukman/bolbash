@@ -80,24 +80,76 @@ styling, wig installation, bridal styling, nail fixing, and professional beauty 
 
             </div>
 
-            <!-- Hero Visual Showcase Container -->
+            <!-- Hero Visual Showcase Container (Interactive Multi-Image Carousel) -->
             <div class="lg:col-span-5 relative reveal-slide-right">
                 <div class="relative mx-auto max-w-md lg:max-w-none">
 
-                    <!-- Luxury Image Showcase Frame -->
+                    <!-- Luxury Frame Container -->
                     <div class="relative bg-brand-black-light rounded-3xl p-3 sm:p-4 shadow-2xl border border-brand-pink/40 shadow-pink-glow/30 overflow-hidden group">
-                        <div class="aspect-[3/4] sm:aspect-[4/5] rounded-2xl relative overflow-hidden bg-brand-black">
+                        <div id="hero-carousel" class="aspect-[3/4] sm:aspect-[4/5] rounded-2xl relative overflow-hidden bg-brand-black">
                             
-                            <!-- High Resolution Glamour Editorial Bridal Model Image -->
-                            <img src="{% static 'images/bolbash_editorial_model.jpg' %}" 
-                                 alt="Hairbybolbash High Fashion Bridal & Styling Showcase" 
-                                 class="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-700 ease-out" />
+                            <!-- Slide 1: Frontal Melt Showcase -->
+                            <div class="hero-slide absolute inset-0 transition-opacity duration-700 opacity-100 z-10" data-slide="0">
+                                <img src="{% static 'images/frontal_melt_showcase.jpg' %}" 
+                                     alt="100% Invisible Frontal Melt Artistry" 
+                                     class="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-700 ease-out" />
+                                <div class="absolute inset-0 bg-gradient-to-t from-brand-black via-brand-black/20 to-brand-black/40 pointer-events-none"></div>
+                                <div class="absolute bottom-4 left-4 right-4 bg-brand-black/80 backdrop-blur-xl border border-white/15 rounded-2xl p-4 text-white shadow-2xl z-10 flex items-center justify-between">
+                                    <div>
+                                        <div class="flex items-center space-x-2">
+                                            <span class="text-amber-400 text-sm">👑</span>
+                                            <h3 class="font-heading text-lg font-bold tracking-wide text-white">Hairbybolbash</h3>
+                                        </div>
+                                        <p class="text-[10px] text-brand-pink font-semibold uppercase tracking-widest mt-0.5">100% Invisible Frontal Melts</p>
+                                    </div>
+                                    <span class="inline-flex items-center space-x-1 px-3 py-1 rounded-full bg-brand-pink/20 border border-brand-pink/40 text-[10px] text-brand-pink font-bold uppercase tracking-wider">
+                                        ✨ Frontal Melt
+                                    </span>
+                                </div>
+                            </div>
 
-                            <!-- Ambient Gradient Overlays for Elegance -->
-                            <div class="absolute inset-0 bg-gradient-to-t from-brand-black via-brand-black/10 to-brand-black/30 pointer-events-none"></div>
+                            <!-- Slide 2: Bespoke Bridal Glamour -->
+                            <div class="hero-slide absolute inset-0 transition-opacity duration-700 opacity-0 z-0" data-slide="1">
+                                <img src="{% static 'images/bridal_hero.jpg' %}" 
+                                     alt="Bespoke Luxury Bridal Glamour & Styling" 
+                                     class="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-700 ease-out" />
+                                <div class="absolute inset-0 bg-gradient-to-t from-brand-black via-brand-black/20 to-brand-black/40 pointer-events-none"></div>
+                                <div class="absolute bottom-4 left-4 right-4 bg-brand-black/80 backdrop-blur-xl border border-white/15 rounded-2xl p-4 text-white shadow-2xl z-10 flex items-center justify-between">
+                                    <div>
+                                        <div class="flex items-center space-x-2">
+                                            <span class="text-amber-400 text-sm">👰</span>
+                                            <h3 class="font-heading text-lg font-bold tracking-wide text-white">Hairbybolbash</h3>
+                                        </div>
+                                        <p class="text-[10px] text-brand-pink font-semibold uppercase tracking-widest mt-0.5">Bespoke Bridal Glamour & Hair</p>
+                                    </div>
+                                    <span class="inline-flex items-center space-x-1 px-3 py-1 rounded-full bg-brand-pink/20 border border-brand-pink/40 text-[10px] text-brand-pink font-bold uppercase tracking-wider">
+                                        💍 Bridal Glam
+                                    </span>
+                                </div>
+                            </div>
 
-                            <!-- Top Floating Badges -->
-                            <div class="absolute top-4 left-4 right-4 flex justify-between items-center z-10">
+                            <!-- Slide 3: Executive Salon Studio & Styling -->
+                            <div class="hero-slide absolute inset-0 transition-opacity duration-700 opacity-0 z-0" data-slide="2">
+                                <img src="{% static 'images/salon_hero_showcase.jpg' %}" 
+                                     alt="Salon Studio & Luxury Wig Revamp" 
+                                     class="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-700 ease-out" />
+                                <div class="absolute inset-0 bg-gradient-to-t from-brand-black via-brand-black/20 to-brand-black/40 pointer-events-none"></div>
+                                <div class="absolute bottom-4 left-4 right-4 bg-brand-black/80 backdrop-blur-xl border border-white/15 rounded-2xl p-4 text-white shadow-2xl z-10 flex items-center justify-between">
+                                    <div>
+                                        <div class="flex items-center space-x-2">
+                                            <span class="text-amber-400 text-sm">💇</span>
+                                            <h3 class="font-heading text-lg font-bold tracking-wide text-white">Hairbybolbash</h3>
+                                        </div>
+                                        <p class="text-[10px] text-brand-pink font-semibold uppercase tracking-widest mt-0.5">Salon Studio & Wig Revamp</p>
+                                    </div>
+                                    <span class="inline-flex items-center space-x-1 px-3 py-1 rounded-full bg-brand-pink/20 border border-brand-pink/40 text-[10px] text-brand-pink font-bold uppercase tracking-wider">
+                                        ✂️ Hair Revamp
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Top Persistent Badges -->
+                            <div class="absolute top-4 left-4 right-4 flex justify-between items-center z-20">
                                 <span class="badge-pink bg-brand-pink/90 backdrop-blur-md text-white font-bold tracking-wider text-[11px] px-3.5 py-1.5 rounded-full shadow-lg border border-white/20">
                                     LUXURY SALON & ACADEMY
                                 </span>
@@ -106,22 +158,21 @@ styling, wig installation, bridal styling, nail fixing, and professional beauty 
                                 </span>
                             </div>
 
-                            <!-- Bottom Glassmorphic Branding Banner -->
-                            <div class="absolute bottom-4 left-4 right-4 bg-brand-black/80 backdrop-blur-xl border border-white/15 rounded-2xl p-4 text-white shadow-2xl z-10">
-                                <div class="flex items-center justify-between">
-                                    <div>
-                                        <div class="flex items-center space-x-2">
-                                            <span class="text-amber-400 text-sm">👑</span>
-                                            <h3 class="font-heading text-lg font-bold tracking-wide text-white">Hairbybolbash</h3>
-                                        </div>
-                                        <p class="text-[10px] text-brand-pink font-semibold uppercase tracking-widest mt-0.5">Where Beauty Meets Perfection</p>
-                                    </div>
-                                    <div class="hidden sm:block text-right">
-                                        <span class="inline-flex items-center space-x-1 px-3 py-1 rounded-full bg-brand-pink/20 border border-brand-pink/40 text-[10px] text-brand-pink font-bold uppercase tracking-wider">
-                                            ✨ Invisible Melts
-                                        </span>
-                                    </div>
-                                </div>
+                            <!-- Carousel Controls -->
+                            <button id="carousel-prev" type="button" aria-label="Previous Slide" 
+                                    class="absolute left-3 top-1/2 -translate-y-1/2 z-30 w-8 h-8 rounded-full bg-black/60 hover:bg-brand-pink text-white flex items-center justify-center backdrop-blur-md transition-colors border border-white/20 focus:outline-none">
+                                ‹
+                            </button>
+                            <button id="carousel-next" type="button" aria-label="Next Slide" 
+                                    class="absolute right-3 top-1/2 -translate-y-1/2 z-30 w-8 h-8 rounded-full bg-black/60 hover:bg-brand-pink text-white flex items-center justify-center backdrop-blur-md transition-colors border border-white/20 focus:outline-none">
+                                ›
+                            </button>
+
+                            <!-- Indicator Dots -->
+                            <div class="absolute bottom-20 left-1/2 -translate-x-1/2 z-30 flex items-center space-x-2">
+                                <button class="carousel-dot w-6 h-2 rounded-full bg-brand-pink transition-all duration-300" data-index="0" aria-label="Slide 1"></button>
+                                <button class="carousel-dot w-2 h-2 rounded-full bg-white/40 hover:bg-white transition-all duration-300" data-index="1" aria-label="Slide 2"></button>
+                                <button class="carousel-dot w-2 h-2 rounded-full bg-white/40 hover:bg-white transition-all duration-300" data-index="2" aria-label="Slide 3"></button>
                             </div>
 
                         </div>
@@ -847,6 +898,60 @@ styling, wig installation, bridal styling, nail fixing, and professional beauty 
             observer.observe(section);
         } else {
             startCountUp();
+        }
+
+        // Hero Multi-Image Showcase Carousel Controller
+        const slides = document.querySelectorAll('.hero-slide');
+        const dots = document.querySelectorAll('.carousel-dot');
+        const prevBtn = document.getElementById('carousel-prev');
+        const nextBtn = document.getElementById('carousel-next');
+
+        if (slides.length > 0) {
+            let currentIndex = 0;
+            let autoPlayTimer = null;
+
+            function showSlide(index) {
+                currentIndex = (index + slides.length) % slides.length;
+                slides.forEach((slide, i) => {
+                    if (i === currentIndex) {
+                        slide.classList.remove('opacity-0', 'z-0');
+                        slide.classList.add('opacity-100', 'z-10');
+                    } else {
+                        slide.classList.remove('opacity-100', 'z-10');
+                        slide.classList.add('opacity-0', 'z-0');
+                    }
+                });
+                dots.forEach((dot, i) => {
+                    if (i === currentIndex) {
+                        dot.classList.remove('bg-white/40', 'w-2');
+                        dot.classList.add('bg-brand-pink', 'w-6');
+                    } else {
+                        dot.classList.remove('bg-brand-pink', 'w-6');
+                        dot.classList.add('bg-white/40', 'w-2');
+                    }
+                });
+            }
+
+            function nextSlide() { showSlide(currentIndex + 1); }
+            function prevSlide() { showSlide(currentIndex - 1); }
+
+            function startAutoPlay() {
+                if (autoPlayTimer) clearInterval(autoPlayTimer);
+                autoPlayTimer = setInterval(nextSlide, 4500);
+            }
+
+            if (nextBtn) nextBtn.addEventListener('click', () => { nextSlide(); startAutoPlay(); });
+            if (prevBtn) prevBtn.addEventListener('click', () => { prevSlide(); startAutoPlay(); });
+
+            dots.forEach(dot => {
+                dot.addEventListener('click', () => {
+                    const idx = parseInt(dot.getAttribute('data-index'), 10);
+                    showSlide(idx);
+                    startAutoPlay();
+                });
+            });
+
+            startAutoPlay();
         }
     });
 </script>
