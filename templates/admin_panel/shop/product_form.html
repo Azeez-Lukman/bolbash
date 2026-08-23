@@ -1,0 +1,77 @@
+{% extends "admin_panel/base_admin.html" %}
+
+{% block title %}{{ title }} | Bolbash Admin{% endblock title %}
+{% block header_title %}{{ title }}{% endblock header_title %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto space-y-6">
+
+    <div class="flex items-center justify-between">
+        <a href="{% url 'admin_panel:shop_product_list' %}" class="text-xs font-bold text-brand-neutral-500 hover:text-brand-black">
+            ← Cancel & Return to Products
+        </a>
+    </div>
+
+    <div class="bg-white p-6 sm:p-8 rounded-2xl border border-brand-neutral-200 shadow-sm space-y-6">
+        <form method="POST" enctype="multipart/form-data" class="space-y-6">
+            {% csrf_token %}
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div class="sm:col-span-2">
+                    <label class="form-label">Product Name</label>
+                    {{ form.name }}
+                </div>
+
+                <div>
+                    <label class="form-label">Category</label>
+                    {{ form.category }}
+                </div>
+
+                <div>
+                    <label class="form-label">Price (NGN)</label>
+                    {{ form.price }}
+                </div>
+
+                <div>
+                    <label class="form-label">Available Stock Quantity</label>
+                    {{ form.stock_quantity }}
+                </div>
+
+                <div>
+                    <label class="form-label">Product Image</label>
+                    {{ form.image }}
+                </div>
+
+                <div class="sm:col-span-2">
+                    <label class="form-label">Short Summary</label>
+                    {{ form.short_description }}
+                </div>
+
+                <div class="sm:col-span-2">
+                    <label class="form-label">Full Description & Specifications</label>
+                    {{ form.full_description }}
+                </div>
+
+                <div class="flex items-center space-x-6 pt-4">
+                    <label class="flex items-center space-x-2 text-xs font-bold text-brand-black cursor-pointer">
+                        {{ form.is_active }}
+                        <span>Active for Sale</span>
+                    </label>
+                    <label class="flex items-center space-x-2 text-xs font-bold text-brand-black cursor-pointer">
+                        {{ form.is_featured }}
+                        <span>Featured Product</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="pt-6 border-t border-brand-neutral-200 flex justify-end space-x-4">
+                <a href="{% url 'admin_panel:shop_product_list' %}" class="btn-outline text-xs py-3 px-6">Cancel</a>
+                <button type="submit" class="btn-primary text-xs font-bold uppercase tracking-wider py-3 px-8">
+                    Save Product Details →
+                </button>
+            </div>
+        </form>
+    </div>
+
+</div>
+{% endblock content %}

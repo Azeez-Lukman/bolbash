@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}My Orders | Bolbash Beauty Spot Online Shop{% endblock title %}
+
+{% block meta_description %}View your past online shop orders and delivery status at Bolbash Beauty Spot.{% endblock meta_description %}
+
+{% block content %}
+
+<!-- Breadcrumbs Navigation -->
+<div class="bg-brand-neutral-50 border-b border-brand-neutral-200 py-3">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-xs text-brand-neutral-500">
+        <a href="{% url 'core:index' %}" class="hover:text-brand-pink transition-colors">Home</a>
+        <span class="mx-2">/</span>
+        <a href="{% url 'shop:shop_landing' %}" class="hover:text-brand-pink transition-colors">Shop</a>
+        <span class="mx-2">/</span>
+        <span class="text-brand-black font-semibold">My Order History</span>
+    </div>
+</div>
+
+<section class="py-12 sm:py-20 bg-brand-neutral-50 min-h-[80vh]">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 space-y-8">
+        
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-brand-neutral-200 pb-4">
+            <div class="space-y-1">
+                <span class="badge-pink">CUSTOMER ACCOUNT</span>
+                <h1 class="font-heading font-bold text-2xl sm:text-3xl text-brand-black">Order History</h1>
+                <p class="text-brand-neutral-500 text-xs sm:text-sm">Track your past purchases and delivery statuses.</p>
+            </div>
+            <div class="flex items-center space-x-3">
+                <a href="{% url 'academy:my_learning' %}" class="btn-primary text-xs uppercase font-bold py-2.5 px-4 shadow-sm">
+                    🎓 My Learning Area
+                </a>
+                <form method="POST" action="{% url 'academy:logout' %}" class="inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-outline-pink text-xs uppercase font-bold py-2.5 px-3">
+                        Logout
+                    </button>
+                </form>
+            </div>
+        </div>
+
+
+        {% if orders %}
+        <div class="bg-white border border-brand-neutral-200 rounded-3xl p-6 sm:p-8 shadow-md space-y-4">
+            
+            <div class="hidden sm:grid grid-cols-12 text-xs font-bold uppercase tracking-wider text-brand-neutral-400 border-b border-brand-neutral-100 pb-3">
+                <div class="col-span-3">Order Ref</div>
+                <div class="col-span-3">Date</div>
+                <div class="col-span-2">Total</div>
+                <div class="col-span-2 text-center">Status</div>
+                <div class="col-span-2 text-right">Action</div>
+            </div>
+
+            <div class="divide-y divide-brand-neutral-100">
+                {% for ord in orders %}
+                <div class="py-4 flex flex-col sm:grid sm:grid-cols-12 items-center gap-3 text-xs">
+                    <div class="sm:col-span-3 font-mono font-bold text-brand-pink w-full">
+                        #{{ ord.order_number }}
+                    </div>
+
+                    <div class="sm:col-span-3 text-brand-neutral-500 w-full">
+                        {{ ord.created_at|date:"M d, Y" }}
+                    </div>
+
+                    <div class="sm:col-span-2 font-bold text-brand-black w-full">
+                        NGN {{ ord.total_amount }}
+                    </div>
+
+                    <div class="sm:col-span-2 text-center w-full">
+                        {% if ord.payment_status == 'PAID' %}
+                        <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold py-0.5 px-2.5 rounded-full uppercase">Paid</span>
+                        {% else %}
+                        <span class="bg-amber-100 text-amber-800 text-[10px] font-bold py-0.5 px-2.5 rounded-full uppercase">Unpaid</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="sm:col-span-2 text-right w-full">
+                        <a href="{% url 'shop:customer_order_detail' order_number=ord.order_number %}" class="btn-secondary text-[10px] uppercase font-bold py-1.5 px-3 inline-block">
+                            View Receipt →
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+        </div>
+        {% else %}
+        <!-- Empty Orders -->
+        <div class="bg-white border border-brand-neutral-200 rounded-3xl p-12 text-center space-y-4 max-w-md mx-auto">
+            <div class="w-16 h-16 rounded-full bg-brand-pink/10 text-brand-pink flex items-center justify-center text-3xl mx-auto">
+                📦
+            </div>
+            <h3 class="font-heading font-bold text-lg text-brand-black">No Orders Placed Yet</h3>
+            <p class="text-brand-neutral-500 text-xs">
+                You haven't placed any orders in our online shop yet.
+            </p>
+            <a href="{% url 'shop:product_catalogue' %}" class="btn-primary text-xs uppercase font-bold py-3 px-6 inline-block shadow-md shadow-pink-glow">
+                Explore Store Catalogue →
+            </a>
+        </div>
+        {% endif %}
+
+    </div>
+</section>
+
+{% endblock content %}

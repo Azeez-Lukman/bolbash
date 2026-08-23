@@ -1,0 +1,21 @@
+{# Reusable Field Validation Error Component #}
+{# Parameters: field (Django form field or list of error strings) #}
+{% if field.errors %}
+<div role="alert" aria-live="polite" class="mt-1 space-y-1">
+    {% for error in field.errors %}
+    <p class="text-xs font-semibold text-rose-600 flex items-center space-x-1">
+        <span>⚠️</span>
+        <span>{{ error }}</span>
+    </p>
+    {% endfor %}
+</div>
+{% elif errors %}
+<div role="alert" aria-live="polite" class="mt-1 space-y-1">
+    {% for error in errors %}
+    <p class="text-xs font-semibold text-rose-600 flex items-center space-x-1">
+        <span>⚠️</span>
+        <span>{{ error }}</span>
+    </p>
+    {% endfor %}
+</div>
+{% endif %}

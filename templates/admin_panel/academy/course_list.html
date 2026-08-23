@@ -1,0 +1,54 @@
+{% extends "admin_panel/base_admin.html" %}
+
+{% block title %}Academy Courses | Bolbash Admin{% endblock title %}
+{% block header_title %}Academy Training Course Management{% endblock header_title %}
+
+{% block content %}
+<div class="space-y-6">
+
+    <div class="flex items-center justify-between">
+        <div>
+            <h2 class="font-heading font-bold text-xl text-brand-black">Training Courses</h2>
+            <p class="text-xs text-brand-neutral-500">Manage curriculum programs, tuition fees, and publishing status.</p>
+        </div>
+        <a href="{% url 'admin_panel:academy_course_create' %}" class="btn-primary text-xs uppercase tracking-wider font-bold py-2.5 px-6">
+            + Add New Course
+        </a>
+    </div>
+
+    <!-- Courses Grid / Table -->
+    <div class="bg-white rounded-2xl border border-brand-neutral-200 shadow-sm overflow-hidden p-6 space-y-4">
+        {% if courses %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for c in courses %}
+            <div class="p-5 rounded-2xl border border-brand-neutral-200 bg-brand-neutral-50 flex flex-col justify-between space-y-4">
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="badge-pink">{{ c.get_format_type_display }}</span>
+                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold {% if c.active %}bg-emerald-50 text-emerald-700{% else %}bg-gray-200 text-gray-700{% endif %}">
+                            {% if c.active %}Published{% else %}Draft{% endif %}
+                        </span>
+                    </div>
+                    <h3 class="font-heading font-bold text-lg text-brand-black">{{ c.title }}</h3>
+                    <p class="text-xs text-brand-neutral-500 leading-relaxed line-clamp-2">{{ c.short_description }}</p>
+                </div>
+
+                <div class="pt-3 border-t border-brand-neutral-200/80 flex items-center justify-between text-xs">
+                    <span class="font-bold text-brand-pink">
+                        {% if c.price %}₦{{ c.price }}{% else %}Price On Enquiry{% endif %}
+                    </span>
+                    <div class="space-x-2">
+                        <a href="{% url 'admin_panel:academy_module_list_by_course' c.id %}" class="text-xs font-bold text-brand-black hover:underline">Modules</a>
+                        <a href="{% url 'admin_panel:academy_course_edit' c.id %}" class="btn-secondary text-[10px] uppercase py-1 px-3">Edit →</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="text-xs text-brand-neutral-400 text-center py-8">No training courses created yet.</p>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock content %}

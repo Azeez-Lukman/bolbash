@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Certificate Verification | Bolbash Beauty Academy Ibadan{% endblock title %}
+
+{% block meta_description %}Verify official graduation certificates issued by Bolbash Beauty Academy. Enter a certificate reference ID to validate student credentials.{% endblock meta_description %}
+
+{% block content %}
+
+<!-- Breadcrumbs Navigation -->
+<div class="bg-brand-neutral-50 border-b border-brand-neutral-200 py-3">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-xs text-brand-neutral-500">
+        <a href="{% url 'core:index' %}" class="hover:text-brand-pink transition-colors">Home</a>
+        <span class="mx-2">/</span>
+        <a href="{% url 'academy:academy_landing' %}" class="hover:text-brand-pink transition-colors">Academy</a>
+        <span class="mx-2">/</span>
+        <span class="text-brand-black font-semibold">Certificate Verification</span>
+    </div>
+</div>
+
+<section class="py-12 sm:py-20 bg-brand-neutral-50 min-h-[80vh]">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        
+        <!-- Header Introduction Card -->
+        <div class="text-center space-y-3">
+            <div class="w-16 h-16 rounded-full bg-brand-pink/10 text-brand-pink border border-brand-pink/30 flex items-center justify-center text-3xl mx-auto">
+                🔍
+            </div>
+            <span class="badge-gold text-xs font-bold">PUBLIC VERIFICATION PORTAL</span>
+            <h1 class="font-heading font-extrabold text-3xl sm:text-4xl text-brand-black">
+                Verify Certificate Authenticity
+            </h1>
+            <p class="text-brand-neutral-500 text-sm max-w-lg mx-auto">
+                Enter an official Bolbash Beauty Academy Certificate Reference ID to verify graduation credentials and student authenticity.
+            </p>
+        </div>
+
+        <!-- Search Input Card -->
+        <div class="bg-white border border-brand-neutral-200 rounded-3xl p-6 sm:p-8 shadow-xl space-y-6">
+            <form method="GET" action="{% url 'academy:verify_certificate' %}" class="space-y-4">
+                <div class="space-y-2">
+                    <label for="id" class="block text-xs font-bold uppercase tracking-wider text-brand-black">
+                        Certificate Reference ID
+                    </label>
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <input type="text" name="id" id="id" value="{{ query_id }}" placeholder="e.g. BBA-CERT-20260819-A8F3" 
+                               class="input-field flex-grow font-mono uppercase text-base tracking-wider py-3 px-4 rounded-xl border border-brand-neutral-300 focus:border-brand-pink focus:ring-brand-pink" required>
+                        <button type="submit" class="btn-primary text-xs uppercase tracking-wider font-bold py-3.5 px-8 shadow-md shadow-pink-glow flex-shrink-0">
+                            Verify Now →
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Verification Results Pane -->
+        {% if searched %}
+            {% if certificate %}
+            <!-- VALID CERTIFICATE CARD -->
+            <div class="bg-white border-2 border-emerald-500 rounded-3xl p-6 sm:p-10 shadow-2xl space-y-6 animate-fade-in">
+                
+                <div class="flex items-center space-x-3 text-emerald-700 bg-emerald-50 p-4 rounded-2xl border border-emerald-200">
+                    <div class="w-10 h-10 rounded-full bg-emerald-500 text-white flex items-center justify-center text-xl font-bold flex-shrink-0">
+                        ✓
+                    </div>
+                    <div>
+                        <h3 class="font-heading font-bold text-base uppercase tracking-wider">Verified Official Certificate</h3>
+                        <p class="text-xs text-emerald-600">This certificate is genuine, active, and officially recorded in our registry.</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm py-2 border-y border-brand-neutral-100">
+                    <div class="space-y-1">
+                        <p class="text-xs font-bold uppercase tracking-wider text-brand-neutral-400">Student Graduate</p>
+                        <p class="font-heading font-bold text-xl text-brand-black uppercase">
+                            {{ certificate.user.get_full_name|default:certificate.user.username }}
+                        </p>
+                    </div>
+
+                    <div class="space-y-1">
+                        <p class="text-xs font-bold uppercase tracking-wider text-brand-neutral-400">Course Completed</p>
+                        <p class="font-heading font-bold text-lg text-brand-pink">
+                            {{ certificate.course.title }}
+                        </p>
+                    </div>
+
+                    <div class="space-y-1">
+                        <p class="text-xs font-bold uppercase tracking-wider text-brand-neutral-400">Date Issued</p>
+                        <p class="font-semibold text-brand-black">
+                            {{ certificate.issue_date|date:"F j, Y" }}
+                        </p>
+                    </div>
+
+                    <div class="space-y-1">
+                        <p class="text-xs font-bold uppercase tracking-wider text-brand-neutral-400">Certificate Reference</p>
+                        <p class="font-mono font-bold text-brand-pink text-base">
+                            {{ certificate.certificate_id }}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="text-center pt-2">
+                    <p class="text-xs text-brand-neutral-400">
+                        Issued by <strong>Bolbash Beauty Academy</strong>, Ibadan, Nigeria.
+                    </p>
+                </div>
+
+            </div>
+            {% elif invalid %}
+            <!-- INVALID / NOT FOUND CARD -->
+            <div class="bg-white border-2 border-rose-500 rounded-3xl p-6 sm:p-10 shadow-xl space-y-4 text-center">
+                <div class="w-16 h-16 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center text-3xl mx-auto border border-rose-200">
+                    ⚠️
+                </div>
+                <div class="space-y-1">
+                    <h3 class="font-heading font-bold text-xl text-rose-700">Certificate Not Found</h3>
+                    <p class="text-brand-neutral-600 text-sm max-w-md mx-auto">
+                        No official certificate matching reference ID <strong class="font-mono text-brand-black">{{ query_id }}</strong> was found in the Bolbash Beauty Academy registry.
+                    </p>
+                </div>
+                <p class="text-xs text-brand-neutral-400 pt-2">
+                    Please check for typos in the reference ID and try again, or contact Bolbash Support for assistance.
+                </p>
+            </div>
+            {% endif %}
+        {% endif %}
+
+    </div>
+</section>
+
+{% endblock content %}

@@ -1,0 +1,254 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-pink: #DB2777;
+  --color-brand-pink-50: #FDF2F8;
+  --color-brand-pink-100: #FCE7F3;
+  --color-brand-pink-200: #FBCFE8;
+  --color-brand-pink-300: #F699D1;
+  --color-brand-pink-400: #F472B6;
+  --color-brand-pink-500: #EC4899;
+  --color-brand-pink-600: #DB2777;
+  --color-brand-pink-700: #BE185D;
+  --color-brand-pink-800: #9D174D;
+  --color-brand-pink-900: #831843;
+
+  --color-brand-black: #0B0F19;
+  --color-brand-black-light: #111827;
+  --color-brand-black-muted: #1F2937;
+
+  --color-brand-white: #FFFFFF;
+  --color-brand-white-off: #FAFAFA;
+
+  --color-brand-neutral-50: #F9FAFB;
+  --color-brand-neutral-100: #F3F4F6;
+  --color-brand-neutral-200: #E5E7EB;
+  --color-brand-neutral-300: #D1D5DB;
+  --color-brand-neutral-400: #9CA3AF;
+  --color-brand-neutral-500: #6B7280;
+  --color-brand-neutral-700: #374151;
+
+  --font-heading: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+
+  --shadow-pink-glow: 0 4px 20px -2px rgba(219, 39, 119, 0.25);
+  --shadow-premium: 0 10px 30px -5px rgba(11, 15, 25, 0.08);
+}
+
+@layer base {
+  html {
+    @apply overflow-x-hidden max-w-full;
+  }
+
+  body {
+    @apply bg-brand-white-off text-brand-black-light font-sans antialiased overflow-x-hidden max-w-full;
+  }
+
+  html.overflow-hidden,
+  body.overflow-hidden {
+    overflow: hidden !important;
+  }
+
+  ::selection {
+    @apply bg-brand-pink-100 text-brand-pink-800;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading tracking-tight text-brand-black;
+  }
+}
+
+@layer components {
+  /* ==========================================================================
+     BUTTON SYSTEM
+     ========================================================================== */
+  .btn-primary {
+    @apply inline-flex items-center justify-center min-h-[44px] sm:min-h-[48px] px-6 py-3 border border-transparent text-sm font-semibold rounded-lg shadow-sm text-white bg-brand-pink hover:bg-brand-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-pink transition-all duration-200 shadow-pink-glow active:scale-[0.98] cursor-pointer;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center min-h-[44px] sm:min-h-[48px] px-6 py-3 border border-transparent text-sm font-semibold rounded-lg shadow-sm text-white bg-brand-black hover:bg-brand-black-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-black transition-all duration-200 active:scale-[0.98] cursor-pointer;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center min-h-[44px] sm:min-h-[48px] px-6 py-3 border-2 border-brand-black text-sm font-semibold rounded-lg text-brand-black bg-transparent hover:bg-brand-black hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-black transition-all duration-200 active:scale-[0.98] cursor-pointer;
+  }
+
+  .btn-outline-pink {
+    @apply inline-flex items-center justify-center min-h-[44px] sm:min-h-[48px] px-6 py-3 border-2 border-brand-pink text-sm font-semibold rounded-lg text-brand-pink bg-transparent hover:bg-brand-pink hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-pink transition-all duration-200 active:scale-[0.98] cursor-pointer;
+  }
+
+  .btn-dark {
+    @apply inline-flex items-center justify-center min-h-[44px] sm:min-h-[48px] px-6 py-3 border border-brand-black-muted text-sm font-semibold rounded-lg text-white bg-brand-black-light hover:bg-brand-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-pink transition-all duration-200 active:scale-[0.98] cursor-pointer;
+  }
+
+  .btn-disabled {
+    @apply inline-flex items-center justify-center min-h-[44px] sm:min-h-[48px] px-6 py-3 border border-gray-200 text-sm font-semibold rounded-lg text-gray-400 bg-gray-100 cursor-not-allowed pointer-events-none shadow-none;
+  }
+
+  /* ==========================================================================
+     FORM ELEMENT FOUNDATION
+     ========================================================================== */
+  .form-label {
+    @apply block text-xs uppercase tracking-wider font-semibold text-brand-black mb-2;
+  }
+
+  .form-input {
+    @apply block w-full px-4 py-3 bg-white border border-brand-neutral-200 rounded-lg text-brand-black text-sm placeholder-brand-neutral-400 focus:outline-none focus:border-brand-pink focus:ring-1 focus:ring-brand-pink transition-colors duration-200;
+  }
+
+  .form-select {
+    @apply block w-full px-4 py-3 bg-white border border-brand-neutral-200 rounded-lg text-brand-black text-sm focus:outline-none focus:border-brand-pink focus:ring-1 focus:ring-brand-pink transition-colors duration-200;
+  }
+
+  .form-textarea {
+    @apply block w-full px-4 py-3 bg-white border border-brand-neutral-200 rounded-lg text-brand-black text-sm placeholder-brand-neutral-400 focus:outline-none focus:border-brand-pink focus:ring-1 focus:ring-brand-pink transition-colors duration-200 resize-y min-h-[120px];
+  }
+
+  .form-checkbox {
+    @apply h-4 w-4 rounded border-brand-neutral-300 text-brand-pink focus:ring-brand-pink;
+    accent-color: #DB2777;
+  }
+
+  .form-radio {
+    @apply h-4 w-4 border-brand-neutral-300 text-brand-pink focus:ring-brand-pink;
+    accent-color: #DB2777;
+  }
+
+  .form-help {
+    @apply text-xs text-brand-neutral-500 mt-1;
+  }
+
+  .form-error {
+    @apply text-xs text-red-600 font-medium mt-1;
+  }
+
+  /* ==========================================================================
+     CARDS & CONTAINERS
+     ========================================================================== */
+  .card-premium {
+    @apply bg-white border border-brand-neutral-100 rounded-2xl shadow-premium p-6 sm:p-8 transition-all duration-300;
+  }
+
+  .card-hover {
+    @apply hover:shadow-xl hover:-translate-y-1 transition-all duration-300;
+  }
+
+  .card-dark {
+    @apply bg-brand-black text-white border border-brand-black-muted rounded-2xl p-6 sm:p-8 shadow-xl;
+  }
+
+  /* ==========================================================================
+     BADGES & ALERTS
+     ========================================================================== */
+  .badge-pink {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-brand-pink-50 text-brand-pink-700 border border-brand-pink-200;
+  }
+
+  .badge-dark {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-brand-black text-white;
+  }
+
+  .badge-gold {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-200;
+  }
+
+  .badge-outline {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold border border-brand-neutral-300 text-brand-neutral-700 bg-transparent;
+  }
+
+  .alert-info {
+    @apply p-4 rounded-xl border border-brand-pink-200 bg-brand-pink-50 text-brand-pink-800 text-sm flex items-start space-x-3;
+  }
+
+  .alert-success {
+    @apply p-4 rounded-xl border border-emerald-200 bg-emerald-50 text-emerald-800 text-sm flex items-start space-x-3;
+  }
+
+  /* ==========================================================================
+     TYPOGRAPHY & SECTION HEADINGS
+     ========================================================================== */
+  .section-title {
+    @apply text-3xl sm:text-4xl md:text-5xl font-heading font-bold text-brand-black tracking-tight;
+  }
+
+  .section-subtitle {
+    @apply text-xs uppercase tracking-widest font-semibold text-brand-pink mb-3 block;
+  }
+
+  .eyebrow-text {
+    @apply text-xs uppercase tracking-widest font-semibold text-brand-neutral-400 mb-2 block;
+  }
+}
+
+/* ==========================================================================
+   SCROLL REVEAL & TRANSITION UTILITIES
+   ========================================================================== */
+@layer utilities {
+  .reveal-on-scroll,
+  .reveal-fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+  }
+
+  .reveal-fade-in {
+    opacity: 0;
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity;
+  }
+
+  .reveal-slide-left {
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+  }
+
+  .reveal-slide-right {
+    opacity: 0;
+    transform: translateX(40px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+  }
+
+  .reveal-scale {
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+  }
+
+  .is-revealed {
+    opacity: 1 !important;
+    transform: translateY(0) translateX(0) scale(1) !important;
+  }
+
+  /* Stagger delays for grid / list children */
+  .reveal-stagger > *:nth-child(1) { transition-delay: 0.05s; }
+  .reveal-stagger > *:nth-child(2) { transition-delay: 0.12s; }
+  .reveal-stagger > *:nth-child(3) { transition-delay: 0.19s; }
+  .reveal-stagger > *:nth-child(4) { transition-delay: 0.26s; }
+  .reveal-stagger > *:nth-child(5) { transition-delay: 0.33s; }
+  .reveal-stagger > *:nth-child(6) { transition-delay: 0.40s; }
+  .reveal-stagger > *:nth-child(7) { transition-delay: 0.47s; }
+  .reveal-stagger > *:nth-child(8) { transition-delay: 0.54s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal-on-scroll,
+    .reveal-fade-up,
+    .reveal-fade-in,
+    .reveal-slide-left,
+    .reveal-slide-right,
+    .reveal-scale {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+    .reveal-stagger > * {
+      transition-delay: 0s !important;
+    }
+  }
+}
+

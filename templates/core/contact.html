@@ -1,0 +1,349 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Contact Us & Location | Bolbash Beauty Spot Ibadan{% endblock title %}
+{% block meta_description %}Get in touch with Bolbash Beauty Spot in Ibadan. Official address, phone number (08168956606), WhatsApp consultation, Instagram, TikTok, location map, and contact enquiry form.{% endblock meta_description %}
+
+{% block content %}
+
+<!-- Hero & Introduction Section -->
+<section class="relative bg-brand-black text-white py-16 sm:py-20 overflow-hidden border-b border-brand-black-muted">
+    <div class="absolute inset-0 bg-gradient-to-r from-brand-black via-brand-black/90 to-brand-pink/20 pointer-events-none"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-6">
+        
+        <div class="inline-flex items-center space-x-2 bg-brand-pink/10 border border-brand-pink/30 px-4 py-1.5 rounded-full text-xs font-bold text-brand-pink uppercase tracking-widest">
+            <span>📞 We'd Love to Hear From You</span>
+        </div>
+
+        <h1 class="font-heading text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
+            Connect with <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-pink to-rose-300">Bolbash Beauty Spot</span>
+        </h1>
+
+        <p class="max-w-2xl mx-auto text-brand-neutral-300 text-sm sm:text-base lg:text-lg font-normal leading-relaxed">
+            Have questions about our hair styling services, bridal consultations, academy enrolment, or shop orders? Reach out to our team in seconds.
+        </p>
+
+    </div>
+</section>
+
+<!-- Quick Action Contact Details & Cards Grid -->
+<section class="py-12 sm:py-16 bg-white border-b border-brand-neutral-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+            
+            <!-- Address Card -->
+            <div class="bg-brand-neutral-50 p-6 rounded-2xl border border-brand-neutral-200 hover:border-brand-pink/40 hover:shadow-md transition-all space-y-4 flex flex-col justify-between">
+                <div class="space-y-3">
+                    <div class="w-12 h-12 rounded-xl bg-brand-pink/10 text-brand-pink flex items-center justify-center text-2xl font-bold">
+                        📍
+                    </div>
+                    <h3 class="font-heading font-bold text-lg text-brand-black">Our Studio Location</h3>
+                    <p class="text-xs sm:text-sm text-brand-neutral-600 leading-relaxed">
+                        No. 40, SIOA Plaza, entrance of E Exclusive Hotel, Ore-Ofe Bus Stop, Sango-Eleyele Road, Ibadan, Nigeria.
+                    </p>
+                </div>
+                <a href="#map-section" class="inline-flex items-center space-x-1 text-xs font-bold text-brand-pink hover:underline pt-2">
+                    <span>View Location Map</span>
+                    <span>↓</span>
+                </a>
+            </div>
+
+            <!-- Phone Call Card -->
+            <div class="bg-brand-neutral-50 p-6 rounded-2xl border border-brand-neutral-200 hover:border-brand-pink/40 hover:shadow-md transition-all space-y-4 flex flex-col justify-between">
+                <div class="space-y-3">
+                    <div class="w-12 h-12 rounded-xl bg-brand-pink/10 text-brand-pink flex items-center justify-center text-2xl font-bold">
+                        📞
+                    </div>
+                    <h3 class="font-heading font-bold text-lg text-brand-black">Phone Consultation</h3>
+                    <p class="text-xs sm:text-sm text-brand-neutral-600 leading-relaxed">
+                        Speak directly with our front desk receptionist for instant booking inquiries.
+                    </p>
+                    <p class="text-sm font-bold text-brand-black">
+                        <a href="tel:08168956606" class="hover:text-brand-pink transition-colors">08168956606</a>
+                    </p>
+                </div>
+                <a href="tel:08168956606" class="btn-secondary text-center text-xs uppercase font-bold py-2.5 w-full block">
+                    Call 08168956606
+                </a>
+            </div>
+
+            <!-- WhatsApp Card -->
+            <div class="bg-brand-neutral-50 p-6 rounded-2xl border border-brand-neutral-200 hover:border-emerald-500/40 hover:shadow-md transition-all space-y-4 flex flex-col justify-between">
+                <div class="space-y-3">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-2xl font-bold">
+                        💬
+                    </div>
+                    <h3 class="font-heading font-bold text-lg text-brand-black">Instant WhatsApp</h3>
+                    <p class="text-xs sm:text-sm text-brand-neutral-600 leading-relaxed">
+                        Send us photos, ask questions, or request bridal quotes via WhatsApp message.
+                    </p>
+                </div>
+                <a href="https://wa.me/2348168956606?text=Hello%20Bolbash%20Beauty%20Spot%2C%20I%20would%20like%20to%20enquire%20about%20your%20services." 
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   class="bg-emerald-600 hover:bg-emerald-700 text-white text-center text-xs uppercase font-bold py-2.5 rounded-xl transition-colors shadow-sm w-full block">
+                    Chat on WhatsApp
+                </a>
+            </div>
+
+            <!-- Social Profiles Card -->
+            <div class="bg-brand-neutral-50 p-6 rounded-2xl border border-brand-neutral-200 hover:border-brand-pink/40 hover:shadow-md transition-all space-y-4 flex flex-col justify-between">
+                <div class="space-y-3">
+                    <div class="w-12 h-12 rounded-xl bg-brand-pink/10 text-brand-pink flex items-center justify-center text-2xl font-bold">
+                        📱
+                    </div>
+                    <h3 class="font-heading font-bold text-lg text-brand-black">Follow Our Socials</h3>
+                    <p class="text-xs sm:text-sm text-brand-neutral-600 leading-relaxed">
+                        Watch our latest wig melt videos, bridal transformations, and client reviews.
+                    </p>
+                </div>
+                <div class="flex items-center space-x-2 pt-2">
+                    <a href="https://www.instagram.com/hairbybolbash" target="_blank" rel="noopener noreferrer" class="flex-1 bg-white border border-brand-neutral-300 hover:border-brand-pink text-brand-black text-center text-[11px] font-bold py-2 rounded-lg transition-colors">
+                        Instagram
+                    </a>
+                    <a href="https://vm.tiktok.com/ZMj3KpSUk/" target="_blank" rel="noopener noreferrer" class="flex-1 bg-white border border-brand-neutral-300 hover:border-brand-pink text-brand-black text-center text-[11px] font-bold py-2 rounded-lg transition-colors">
+                        TikTok
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<!-- Contact Form & Interactive Location Section -->
+<section class="py-12 sm:py-16 lg:py-20 bg-brand-neutral-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+            
+            <!-- Contact Form Container (7 cols) -->
+            <div class="lg:col-span-7 bg-white p-6 sm:p-10 rounded-3xl border border-brand-neutral-200 shadow-md space-y-8">
+                
+                <div class="space-y-2 border-b border-brand-neutral-100 pb-6">
+                    <span class="text-xs uppercase font-bold tracking-widest text-brand-pink">Send a Message</span>
+                    <h2 class="font-heading text-2xl sm:text-3xl font-extrabold text-brand-black">
+                        How Can We Assist You?
+                    </h2>
+                    <p class="text-xs sm:text-sm text-brand-neutral-500">
+                        Fill out the enquiry form below. Our customer support team responds within 2 business hours.
+                    </p>
+                </div>
+
+                {% if success_submission %}
+                    <!-- Success State Feedback Card -->
+                    <div class="p-6 bg-emerald-50 border border-emerald-200 rounded-2xl text-center space-y-4">
+                        <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-full mx-auto flex items-center justify-center text-2xl font-bold">
+                            ✓
+                        </div>
+                        <h3 class="font-heading font-bold text-xl text-emerald-900">Message Sent Successfully!</h3>
+                        <p class="text-sm text-emerald-700 leading-relaxed max-w-md mx-auto">
+                            Thank you for contacting Bolbash Beauty Spot. We have received your message and will reach out to you via email or phone shortly.
+                        </p>
+                        <div class="pt-2">
+                            <a href="{% url 'core:contact' %}" class="btn-secondary text-xs uppercase font-bold px-6 py-2.5">
+                                Send Another Enquiry
+                            </a>
+                        </div>
+                    </div>
+                {% else %}
+
+                    <!-- Public Contact Form -->
+                    <form method="POST" action="{% url 'core:contact' %}" class="space-y-6" id="contact-form">
+                        {% csrf_token %}
+
+                        <!-- Honeypot Anti-Spam Field (Hidden from real users) -->
+                        <input type="text" name="website_url" style="display:none;" tabindex="-1" autocomplete="off" />
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <!-- Full Name -->
+                            <div class="space-y-2">
+                                <label for="id_name" class="block text-xs font-bold uppercase tracking-wider text-brand-neutral-700">
+                                    Full Name <span class="text-brand-pink">*</span>
+                                </label>
+                                <input type="text" 
+                                       id="id_name" 
+                                       name="name" 
+                                       value="{{ form_data.name|default:'' }}" 
+                                       required
+                                       placeholder="e.g. Adeola Johnson"
+                                       class="w-full px-4 py-3 rounded-xl border border-brand-neutral-300 focus:ring-2 focus:ring-brand-pink focus:border-brand-pink text-sm text-brand-black placeholder-brand-neutral-400 bg-brand-neutral-50/50" />
+                            </div>
+
+                            <!-- Email Address -->
+                            <div class="space-y-2">
+                                <label for="id_email" class="block text-xs font-bold uppercase tracking-wider text-brand-neutral-700">
+                                    Email Address <span class="text-brand-pink">*</span>
+                                </label>
+                                <input type="email" 
+                                       id="id_email" 
+                                       name="email" 
+                                       value="{{ form_data.email|default:'' }}" 
+                                       required
+                                       placeholder="name@example.com"
+                                       class="w-full px-4 py-3 rounded-xl border border-brand-neutral-300 focus:ring-2 focus:ring-brand-pink focus:border-brand-pink text-sm text-brand-black placeholder-brand-neutral-400 bg-brand-neutral-50/50" />
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <!-- Phone Number -->
+                            <div class="space-y-2">
+                                <label for="id_phone" class="block text-xs font-bold uppercase tracking-wider text-brand-neutral-700">
+                                    Phone Number <span class="text-brand-neutral-400 font-normal">(Optional)</span>
+                                </label>
+                                <input type="tel" 
+                                       id="id_phone" 
+                                       name="phone" 
+                                       value="{{ form_data.phone|default:'' }}" 
+                                       placeholder="08168956606"
+                                       class="w-full px-4 py-3 rounded-xl border border-brand-neutral-300 focus:ring-2 focus:ring-brand-pink focus:border-brand-pink text-sm text-brand-black placeholder-brand-neutral-400 bg-brand-neutral-50/50" />
+                            </div>
+
+                            <!-- Subject Selector -->
+                            <div class="space-y-2">
+                                <label for="id_subject" class="block text-xs font-bold uppercase tracking-wider text-brand-neutral-700">
+                                    Enquiry Subject <span class="text-brand-pink">*</span>
+                                </label>
+                                <select id="id_subject" 
+                                        name="subject" 
+                                        required
+                                        class="w-full px-4 py-3 rounded-xl border border-brand-neutral-300 focus:ring-2 focus:ring-brand-pink focus:border-brand-pink text-sm text-brand-black bg-brand-neutral-50/50">
+                                    <option value="" disabled {% if not form_data.subject %}selected{% endif %}>Select Subject...</option>
+                                    <option value="Bridal Styling Consultation" {% if form_data.subject == 'Bridal Styling Consultation' %}selected{% endif %}>Bridal Styling Consultation 👑</option>
+                                    <option value="Salon Appointment Booking" {% if form_data.subject == 'Salon Appointment Booking' %}selected{% endif %}>Salon Appointment Booking 💇‍♀️</option>
+                                    <option value="Beauty Academy Enrolment" {% if form_data.subject == 'Beauty Academy Enrolment' %}selected{% endif %}>Beauty Academy Enrolment 🎓</option>
+                                    <option value="Online Shop Order Query" {% if form_data.subject == 'Online Shop Order Query' %}selected{% endif %}>Online Shop Order Query 🛍️</option>
+                                    <option value="General Information" {% if form_data.subject == 'General Information' %}selected{% endif %}>General Information</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Message Textarea -->
+                        <div class="space-y-2">
+                            <label for="id_message" class="block text-xs font-bold uppercase tracking-wider text-brand-neutral-700">
+                                Message <span class="text-brand-pink">*</span>
+                            </label>
+                            <textarea id="id_message" 
+                                      name="message" 
+                                      rows="5" 
+                                      required
+                                      placeholder="Tell us details about your request, preferred appointment date, or questions..."
+                                      class="w-full px-4 py-3 rounded-xl border border-brand-neutral-300 focus:ring-2 focus:ring-brand-pink focus:border-brand-pink text-sm text-brand-black placeholder-brand-neutral-400 bg-brand-neutral-50/50 leading-relaxed">{{ form_data.message|default:'' }}</textarea>
+                        </div>
+
+                        <!-- Form Submit Button -->
+                        <div class="pt-2">
+                            <button type="submit" 
+                                    id="submit-btn" 
+                                    class="btn-primary w-full text-center text-xs uppercase tracking-wider font-bold py-3.5 shadow-md shadow-pink-glow flex items-center justify-center space-x-2">
+                                <span>Send Message 🚀</span>
+                            </button>
+                        </div>
+                    </form>
+
+                {% endif %}
+
+            </div>
+
+            <!-- Location Details & Embedded Map Container (5 cols) -->
+            <div id="map-section" class="lg:col-span-5 space-y-8">
+                
+                <!-- Operating Hours & Studio Details Card -->
+                <div class="bg-brand-black text-white p-6 sm:p-8 rounded-3xl border border-brand-black-muted space-y-6 shadow-xl">
+                    <div class="flex items-center space-x-3 border-b border-brand-black-muted pb-4">
+                        <span class="w-10 h-10 rounded-xl bg-brand-pink/20 text-brand-pink flex items-center justify-center font-bold text-lg">
+                            🕒
+                        </span>
+                        <div>
+                            <h3 class="font-heading font-bold text-lg text-white">Opening Hours</h3>
+                            <p class="text-xs text-brand-pink">Salon & Academy Schedule</p>
+                        </div>
+                    </div>
+
+                    <ul class="space-y-3 text-xs sm:text-sm text-brand-neutral-300">
+                        <li class="flex items-center justify-between border-b border-brand-black-muted/60 pb-2">
+                            <span>Monday – Saturday</span>
+                            <span class="font-bold text-white">8:00 AM – 7:00 PM</span>
+                        </li>
+                        <li class="flex items-center justify-between border-b border-brand-black-muted/60 pb-2">
+                            <span>Sunday</span>
+                            <span class="font-bold text-brand-pink">By Appointment Only</span>
+                        </li>
+                    </ul>
+
+                    <div class="pt-2 space-y-3 text-xs text-brand-neutral-400 border-t border-brand-black-muted">
+                        <p class="flex items-start space-x-2">
+                            <span class="text-brand-pink font-bold">✓</span>
+                            <span>Secure parking available at SIOA Plaza.</span>
+                        </p>
+                        <p class="flex items-start space-x-2">
+                            <span class="text-brand-pink font-bold">✓</span>
+                            <span>Appointment bookings recommended for minimal wait time.</span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Map Frame Showcase Card -->
+                <div class="bg-white p-4 rounded-3xl border border-brand-neutral-200 shadow-md space-y-4">
+                    <div class="flex items-center justify-between px-2 pt-2">
+                        <h4 class="font-heading font-bold text-sm text-brand-black">Interactive Location Map</h4>
+                        <a href="https://maps.google.com/?q=SIOA+Plaza+Eleyele+Road+Ibadan+Nigeria" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           class="text-xs font-semibold text-brand-pink hover:underline">
+                            Open Maps ↗
+                        </a>
+                    </div>
+                    
+                    <!-- Embedded Responsive Map Iframe -->
+                    <div class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-brand-neutral-100 border border-brand-neutral-200">
+                        <iframe 
+                            title="Bolbash Beauty Spot Location Map"
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3956.128362624838!2d3.8741369750014674!3d7.406041092599723!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x10398d4193309a47%3A0xb2a1d2e1b12b5e28!2sSango-Eleyele%20Rd%2C%20Ibadan%2C%20Nigeria!5e0!3m2!1sen!2sng!4v1700000000000!5m2!1sen!2sng" 
+                            width="100%" 
+                            height="100%" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade"
+                            class="w-full h-full object-cover">
+                        </iframe>
+                    </div>
+
+                    <div class="p-2 text-center">
+                        <a href="https://maps.google.com/?q=SIOA+Plaza+Eleyele+Road+Ibadan+Nigeria" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           class="btn-secondary text-xs uppercase font-bold py-2.5 px-6 w-full block">
+                            Get Directions on Google Maps 🚗
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock content %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const contactForm = document.getElementById('contact-form');
+        const submitBtn = document.getElementById('submit-btn');
+
+        if (contactForm && submitBtn) {
+            contactForm.addEventListener('submit', function() {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = `<span>Sending Message... ⏳</span>`;
+                submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
+            });
+        }
+    });
+</script>
+{% endblock extra_js %}

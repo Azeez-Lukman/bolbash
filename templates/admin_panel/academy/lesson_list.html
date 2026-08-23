@@ -1,0 +1,95 @@
+{% extends "admin_panel/base_admin.html" %}
+
+{% block title %}Course Lessons | Bolbash Admin{% endblock title %}
+{% block header_title %}Lesson Management{% endblock header_title %}
+
+{% block content %}
+<div class="space-y-8 max-w-5xl">
+
+    <!-- Module Selector Tabs -->
+    <div class="bg-white p-4 rounded-2xl border border-brand-neutral-200 shadow-sm flex flex-wrap gap-2 text-xs">
+        <a href="{% url 'admin_panel:academy_lesson_list' %}" class="px-4 py-2 rounded-xl font-bold transition-all {% if not selected_module %} bg-brand-pink text-white {% else %} bg-brand-neutral-50 text-brand-neutral-700 hover:bg-brand-neutral-100 {% endif %}">
+            All Modules
+        </a>
+        {% for m in modules %}
+        <a href="{% url 'admin_panel:academy_lesson_list_by_module' m.id %}" class="px-4 py-2 rounded-xl font-bold transition-all {% if selected_module and selected_module.id == m.id %} bg-brand-pink text-white {% else %} bg-brand-neutral-50 text-brand-neutral-700 hover:bg-brand-neutral-100 {% endif %}">
+            {{ m.course.title }} - {{ m.title }}
+        </a>
+        {% endfor %}
+    </div>
+
+    <!-- Create Lesson Form & Lessons List -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <!-- Lesson Creation Form -->
+        <div class="lg:col-span-5 bg-white p-6 rounded-2xl border border-brand-neutral-200 shadow-sm space-y-4">
+            <h3 class="font-heading font-bold text-base text-brand-black pb-2 border-b border-brand-neutral-100">Add New Lesson</h3>
+            
+            <form method="POST" class="space-y-4">
+                {% csrf_token %}
+                <div>
+                    <label class="form-label">Module</label>
+                    {{ form.module }}
+                </div>
+                <div>
+                    <label class="form-label">Lesson Title</label>
+                    {{ form.title }}
+                </div>
+                <div>
+                    <label class="form-label">Video URL (Optional)</label>
+                    {{ form.video_url }}
+                </div>
+                <div>
+                    <label class="form-label">Lesson Content & Notes</label>
+                    {{ form.content }}
+                </div>
+                <div>
+                    <label class="form-label">Order Weight</label>
+                    {{ form.order }}
+                </div>
+                <div class="flex items-center space-x-4 pt-2 text-xs">
+                    <label class="flex items-center space-x-1.5 font-bold cursor-pointer">
+                        {{ form.active }} <span>Active</span>
+                    </label>
+                    <label class="flex items-center space-x-1.5 font-bold cursor-pointer">
+                        {{ form.is_free_preview }} <span>Free Preview</span>
+                    </label>
+                </div>
+                <button type="submit" class="btn-primary w-full text-xs font-bold uppercase tracking-wider py-3">
+                    + Create Lesson
+                </button>
+            </form>
+        </div>
+
+        <!-- Lessons Table -->
+        <div class="lg:col-span-7 bg-white p-6 rounded-2xl border border-brand-neutral-200 shadow-sm space-y-4">
+            <h3 class="font-heading font-bold text-base text-brand-black pb-2 border-b border-brand-neutral-100">
+                {% if selected_module %}Lessons in: {{ selected_module.title }}{% else %}All Course Lessons{% endif %}
+            </h3>
+
+            {% if lessons %}
+            <div class="space-y-3">
+                {% for l in lessons %}
+                <div class="p-4 rounded-xl border border-brand-neutral-100 bg-brand-neutral-50 flex items-center justify-between">
+                    <div>
+                        <span class="text-[10px] font-bold uppercase tracking-widest text-brand-pink block">Order #{{ l.order }} • {{ l.module.title }}</span>
+                        <h4 class="font-heading font-bold text-sm text-brand-black">{{ l.title }}</h4>
+                        {% if l.video_url %}
+                        <span class="text-[10px] text-emerald-700 block mt-0.5">🎥 Video Attached</span>
+                        {% endif %}
+                    </div>
+                    <span class="px-2 py-0.5 rounded-full text-[10px] font-bold {% if l.active %}bg-emerald-50 text-emerald-700{% else %}bg-gray-200 text-gray-700{% endif %}">
+                        {% if l.active %}Published{% else %}Draft{% endif %}
+                    </span>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="text-xs text-brand-neutral-400 py-6 text-center">No lessons added to this module yet.</p>
+            {% endif %}
+        </div>
+
+    </div>
+
+</div>
+{% endblock content %}

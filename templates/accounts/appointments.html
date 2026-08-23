@@ -1,0 +1,178 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{% if view_mode == 'upcoming' %}Upcoming Appointments{% else %}Appointment History{% endif %} | Bolbash Beauty Spot{% endblock %}
+{% block meta_description %}View and track your salon appointment reservations with Bolbash Beauty Spot.{% endblock %}
+
+{% block content %}
+<section class="py-8 md:py-12 bg-brand-neutral-50 min-h-screen">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Header & View Toggles -->
+        <div class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-brand-neutral-200 mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+                <h1 class="font-heading text-2xl md:text-3xl font-bold text-brand-black tracking-tight">
+                    My Salon Appointments
+                </h1>
+                <p class="text-xs md:text-sm text-brand-neutral-500 mt-1">
+                    Manage your upcoming reservations and view past salon appointment records.
+                </p>
+            </div>
+
+            <!-- View Toggles & Booking CTA -->
+            <div class="flex items-center space-x-3 flex-wrap">
+                <div class="inline-flex p-1 rounded-xl bg-brand-neutral-100 border border-brand-neutral-200">
+                    <a href="{% url 'accounts:upcoming_appointments' %}" class="px-4 py-2 rounded-lg text-xs font-bold transition-colors {% if view_mode == 'upcoming' %}bg-brand-pink text-white shadow-sm{% else %}text-brand-neutral-600 hover:text-brand-black{% endif %}">
+                        Upcoming
+                    </a>
+                    <a href="{% url 'accounts:appointment_history' %}" class="px-4 py-2 rounded-lg text-xs font-bold transition-colors {% if view_mode == 'history' %}bg-brand-pink text-white shadow-sm{% else %}text-brand-neutral-600 hover:text-brand-black{% endif %}">
+                        History
+                    </a>
+                </div>
+                <a href="{% url 'booking:booking_form' %}" class="btn-primary text-xs uppercase tracking-wider font-bold py-2.5 px-4 shadow-md shadow-pink-glow">
+                    + Book New
+                </a>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            
+            <!-- Sidebar Navigation -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-2xl p-4 shadow-sm border border-brand-neutral-200 sticky top-28 space-y-1">
+                    <a href="{% url 'accounts:dashboard' %}" class="flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-semibold text-brand-neutral-700 hover:bg-brand-neutral-100 hover:text-brand-pink transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 00-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="{% url 'accounts:upcoming_appointments' %}" class="flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-bold bg-brand-pink text-white shadow-md shadow-pink-glow">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                        <span>Appointments</span>
+                    </a>
+                    <a href="{% url 'accounts:payment_history' %}" class="flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-semibold text-brand-neutral-700 hover:bg-brand-neutral-100 hover:text-brand-pink transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                        <span>Payment Ledger</span>
+                    </a>
+                    <a href="{% url 'accounts:profile' %}" class="flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-semibold text-brand-neutral-700 hover:bg-brand-neutral-100 hover:text-brand-pink transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                        <span>Profile Info</span>
+                    </a>
+                    <a href="{% url 'accounts:security' %}" class="flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-semibold text-brand-neutral-700 hover:bg-brand-neutral-100 hover:text-brand-pink transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                        <span>Security</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Main Content Area -->
+            <div class="lg:col-span-3 space-y-6">
+                
+                {% if bookings %}
+                    <div class="space-y-4">
+                        {% for b in bookings %}
+                            <div class="bg-white rounded-2xl p-6 shadow-sm border border-brand-neutral-200 flex flex-col md:flex-row md:items-center justify-between gap-6 hover:border-brand-pink/40 transition-colors">
+                                <div class="space-y-3">
+                                    <div class="flex items-center space-x-3">
+                                        <span class="font-mono text-xs font-bold px-3 py-1 rounded bg-brand-black text-white">
+                                            {{ b.reference }}
+                                        </span>
+
+                                        {% if b.status == 'CONFIRMED' %}
+                                            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-green-100 text-green-700">Confirmed</span>
+                                        {% elif b.status == 'PENDING_PAYMENT' %}
+                                            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-700">Pending Deposit</span>
+                                        {% elif b.status == 'COMPLETED' %}
+                                            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-100 text-blue-700">Completed</span>
+                                        {% elif b.status == 'CANCELLED' %}
+                                            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-red-100 text-red-700">Cancelled</span>
+                                        {% endif %}
+
+                                        {% if b.payment_status == 'PAID' %}
+                                            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-600 border border-emerald-200">Deposit Verified</span>
+                                        {% endif %}
+                                    </div>
+
+                                    <div>
+                                        <h3 class="font-heading text-xl font-bold text-brand-black">
+                                            {{ b.service_name_snapshot }}
+                                        </h3>
+                                        <p class="text-xs text-brand-neutral-500 mt-0.5">
+                                            Booked for {{ b.customer_name }} • {{ b.customer_phone }}
+                                        </p>
+                                    </div>
+
+                                    <div class="flex flex-wrap items-center gap-4 text-xs text-brand-neutral-700 pt-1">
+                                        <div class="flex items-center space-x-1.5">
+                                            <span>📅</span>
+                                            <span class="font-semibold">{{ b.appointment_date|date:"D, M d, Y" }}</span>
+                                        </div>
+                                        <div class="flex items-center space-x-1.5">
+                                            <span>⏰</span>
+                                            <span class="font-semibold">{{ b.appointment_time|time:"h:i A" }}</span>
+                                        </div>
+                                        <div class="flex items-center space-x-1.5">
+                                            <span>⏱️</span>
+                                            <span>{{ b.service_duration_snapshot|default:60 }} mins</span>
+                                        </div>
+                                        <div class="flex items-center space-x-1.5">
+                                            <span>💰</span>
+                                            <span class="font-bold text-brand-black">₦{{ b.service_price_snapshot|floatformat:0 }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 flex-shrink-0">
+                                    {% if b.status == 'COMPLETED' %}
+                                        {% if b.review %}
+                                            <span class="px-3 py-2 rounded-lg text-xs font-bold bg-amber-50 text-amber-700 border border-amber-200 text-center">
+                                                ★ {{ b.review.rating }}/5 Review ({{ b.review.get_status_display }})
+                                            </span>
+                                        {% else %}
+                                            <a href="{% url 'accounts:submit_review' b.id %}" class="btn-primary text-center text-xs font-bold py-2.5 px-4 shadow-md shadow-pink-glow">
+                                                ★ Write Review
+                                            </a>
+                                        {% endif %}
+                                    {% endif %}
+                                    {% if b.payment_status != 'PAID' and b.status != 'CANCELLED' %}
+                                        <a href="{% url 'payments:initiate_payment' b.reference %}" class="btn-primary text-center text-xs font-bold py-2.5 px-4 shadow-md shadow-pink-glow">
+                                            Pay Deposit
+                                        </a>
+                                    {% endif %}
+                                    <a href="{% url 'booking:booking_lookup' %}?ref={{ b.reference }}&phone={{ b.customer_phone }}" class="btn-secondary text-center text-xs font-semibold py-2.5 px-4">
+                                        Lookup & Receipt
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="bg-white rounded-2xl p-12 text-center border border-brand-neutral-200">
+                        <div class="w-16 h-16 bg-brand-pink/10 rounded-full flex items-center justify-center mx-auto text-2xl mb-4">
+                            📅
+                        </div>
+                        <h3 class="font-heading text-lg font-bold text-brand-black">
+                            {% if view_mode == 'upcoming' %}
+                                No Upcoming Salon Appointments
+                            {% else %}
+                                No Past Appointment History
+                            {% endif %}
+                        </h3>
+                        <p class="text-xs text-brand-neutral-500 max-w-md mx-auto mt-2">
+                            {% if view_mode == 'upcoming' %}
+                                You don't have any salon reservations scheduled right now. Book your next beauty session today!
+                            {% else %}
+                                You haven't completed any salon visits yet under this account.
+                            {% endif %}
+                        </p>
+                        <a href="{% url 'booking:booking_form' %}" class="btn-primary inline-block text-xs uppercase tracking-wider font-bold py-3 px-6 mt-6 shadow-md shadow-pink-glow">
+                            Book Appointment Now
+                        </a>
+                    </div>
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+{% endblock %}

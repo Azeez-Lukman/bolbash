@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Order Confirmation #{{ order.order_number }} | Bolbash Beauty Spot{% endblock title %}
+
+{% block meta_description %}Your Bolbash Beauty Spot online shop order confirmation receipt.{% endblock meta_description %}
+
+{% block content %}
+
+<!-- Breadcrumbs Navigation -->
+<div class="bg-brand-neutral-50 border-b border-brand-neutral-200 py-3">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-xs text-brand-neutral-500">
+        <a href="{% url 'core:index' %}" class="hover:text-brand-pink transition-colors">Home</a>
+        <span class="mx-2">/</span>
+        <a href="{% url 'shop:shop_landing' %}" class="hover:text-brand-pink transition-colors">Shop</a>
+        <span class="mx-2">/</span>
+        <span class="text-brand-black font-semibold">Order Confirmation</span>
+    </div>
+</div>
+
+<section class="py-12 sm:py-20 bg-brand-neutral-50 min-h-[85vh]">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-8">
+        
+        <!-- Status Card -->
+        <div class="bg-white border border-brand-neutral-200 rounded-3xl p-8 sm:p-10 shadow-xl space-y-6 text-center">
+            
+            {% if order.payment_status == 'PAID' %}
+            <div class="w-20 h-20 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-4xl mx-auto shadow-inner">
+                ✓
+            </div>
+            <div class="space-y-2">
+                <span class="badge-pink">ORDER CONFIRMED</span>
+                <h1 class="font-heading font-extrabold text-2xl sm:text-4xl text-brand-black">Thank You For Your Order!</h1>
+                <p class="text-brand-neutral-500 text-xs sm:text-sm max-w-lg mx-auto">
+                    We have received your payment and your order is currently being processed for shipping.
+                </p>
+            </div>
+            {% else %}
+            <div class="w-20 h-20 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center text-4xl mx-auto shadow-inner">
+                ⏳
+            </div>
+            <div class="space-y-2">
+                <span class="badge-gold">ORDER PENDING PAYMENT</span>
+                <h1 class="font-heading font-extrabold text-2xl sm:text-4xl text-brand-black">Order Placed</h1>
+                <p class="text-brand-neutral-500 text-xs sm:text-sm max-w-lg mx-auto">
+                    Your order reference has been generated. Complete payment to finalize dispatch.
+                </p>
+            </div>
+            {% endif %}
+
+            <!-- Order Number Reference Badge -->
+            <div class="inline-block bg-brand-neutral-50 border border-brand-neutral-200 rounded-2xl px-6 py-3 space-y-1">
+                <span class="text-[10px] uppercase font-bold text-brand-neutral-400 tracking-wider block">Order Reference Number</span>
+                <span class="font-mono font-extrabold text-lg sm:text-2xl text-brand-pink">{{ order.order_number }}</span>
+            </div>
+
+            <!-- Receipt & Shipping Details Table -->
+            <div class="border-t border-brand-neutral-100 pt-6 text-left space-y-6">
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 text-xs text-brand-neutral-600">
+                    <div class="bg-brand-neutral-50 p-4 rounded-2xl border border-brand-neutral-200 space-y-1">
+                        <h4 class="font-bold text-brand-black uppercase tracking-wider text-[11px] mb-2">Customer & Contact</h4>
+                        <p><strong class="text-brand-black">Name:</strong> {{ order.customer_name }}</p>
+                        <p><strong class="text-brand-black">Email:</strong> {{ order.customer_email }}</p>
+                        <p><strong class="text-brand-black">Phone:</strong> {{ order.customer_phone }}</p>
+                    </div>
+
+                    <div class="bg-brand-neutral-50 p-4 rounded-2xl border border-brand-neutral-200 space-y-1">
+                        <h4 class="font-bold text-brand-black uppercase tracking-wider text-[11px] mb-2">Shipping Destination</h4>
+                        <p><strong class="text-brand-black">Address:</strong> {{ order.shipping_address }}</p>
+                        <p><strong class="text-brand-black">City / State:</strong> {{ order.city }}, {{ order.state }}</p>
+                        {% if order.delivery_notes %}
+                        <p><strong class="text-brand-black">Instructions:</strong> {{ order.delivery_notes }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Order Line Items -->
+                <div class="space-y-3">
+                    <h4 class="font-bold text-brand-black text-sm uppercase tracking-wider border-b border-brand-neutral-100 pb-2">Items Purchased</h4>
+                    
+                    <div class="divide-y divide-brand-neutral-100 text-xs">
+                        {% for item in order_items %}
+                        <div class="py-2.5 flex items-center justify-between">
+                            <div class="space-y-0.5">
+                                <span class="font-bold text-brand-black">{{ item.product_name_snapshot }}</span>
+                                <span class="text-brand-neutral-400 block">Qty: {{ item.quantity }} × NGN {{ item.product_price_snapshot }}</span>
+                            </div>
+                            <span class="font-bold text-brand-black">NGN {{ item.subtotal }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="bg-brand-neutral-50 p-4 rounded-2xl border border-brand-neutral-200 space-y-2 text-xs text-brand-neutral-600">
+                        <div class="flex justify-between">
+                            <span>Subtotal</span>
+                            <span class="font-bold text-brand-black">NGN {{ order.subtotal }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Delivery Fee</span>
+                            <span class="font-bold text-brand-black">NGN {{ order.delivery_fee }}</span>
+                        </div>
+                        <div class="border-t border-brand-neutral-200 pt-2 flex justify-between text-sm font-bold text-brand-black">
+                            <span>Total Paid</span>
+                            <span class="font-heading font-extrabold text-brand-pink">NGN {{ order.total_amount }}</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Action CTAs -->
+            <div class="pt-4 flex flex-wrap justify-center gap-4 border-t border-brand-neutral-100">
+                <a href="{% url 'shop:shop_landing' %}" class="btn-primary text-xs uppercase tracking-wider font-bold py-3.5 px-8 shadow-md shadow-pink-glow">
+                    Continue Shopping →
+                </a>
+                {% if user.is_authenticated %}
+                <a href="{% url 'shop:customer_orders' %}" class="btn-secondary text-xs uppercase tracking-wider font-bold py-3.5 px-6">
+                    View My Order History
+                </a>
+                {% endif %}
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock content %}

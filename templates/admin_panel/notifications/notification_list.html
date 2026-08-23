@@ -1,0 +1,150 @@
+{% extends "admin_panel/base_admin.html" %}
+
+{% block admin_title %}Notification Audit Log — Admin Portal{% endblock admin_title %}
+
+{% block admin_content %}
+<div class="space-y-6">
+
+    <!-- Header & Stats Bar -->
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white p-6 rounded-2xl border border-brand-neutral-200 shadow-sm">
+        <div>
+            <h1 class="font-serif text-2xl font-bold text-brand-black">Notification Audit Log</h1>
+            <p class="text-xs text-brand-neutral-500 mt-1">
+                Central multi-channel (Email & WhatsApp) dispatch tracking, status auditing, and retry portal.
+            </p>
+        </div>
+        <div class="flex items-center gap-2">
+            <span class="px-3 py-1.5 rounded-xl bg-brand-neutral-100 text-brand-black font-mono text-xs font-bold border border-brand-neutral-200">
+                Total Logs: {{ logs.paginator.count }}
+            </span>
+        </div>
+    </div>
+
+    <!-- Search & Filter Bar -->
+    <div class="bg-white rounded-2xl border border-brand-neutral-200 p-4 shadow-sm">
+        <form method="GET" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3">
+            <div class="md:col-span-2">
+                <input type="text" name="q" value="{{ q }}" placeholder="Search recipient, email, or summary..." 
+                       class="w-full bg-brand-neutral-50 border border-brand-neutral-200 rounded-xl px-3.5 py-2 text-xs text-brand-black focus:outline-none focus:border-brand-pink focus:bg-white transition-all">
+            </div>
+
+            <div>
+                <select name="channel" class="w-full bg-brand-neutral-50 border border-brand-neutral-200 rounded-xl px-3 py-2 text-xs text-brand-black focus:outline-none focus:border-brand-pink focus:bg-white transition-all">
+                    <option value="">All Channels</option>
+                    {% for key, val in channel_choices %}
+                    <option value="{{ key }}" {% if channel_filter == key %}selected{% endif %}>{{ val }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div>
+                <select name="status" class="w-full bg-brand-neutral-50 border border-brand-neutral-200 rounded-xl px-3 py-2 text-xs text-brand-black focus:outline-none focus:border-brand-pink focus:bg-white transition-all">
+                    <option value="">All Statuses</option>
+                    {% for key, val in status_choices %}
+                    <option value="{{ key }}" {% if status_filter == key %}selected{% endif %}>{{ val }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="flex gap-2">
+                <button type="submit" class="btn-primary text-xs uppercase py-2 px-4 w-full">Filter</button>
+                <a href="{% url 'admin_panel:notification_list' %}" class="btn-outline text-xs uppercase py-2 px-3">Clear</a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Notification Table -->
+    <div class="bg-white rounded-2xl border border-brand-neutral-200 shadow-sm overflow-hidden p-6 space-y-4">
+        {% if logs %}
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+                <thead class="bg-brand-neutral-50 border-b border-brand-neutral-200 text-brand-black font-bold uppercase tracking-wider">
+                    <tr>
+                        <th class="py-3.5 px-4">Channel</th>
+                        <th class="py-3.5 px-4">Event Type</th>
+                        <th class="py-3.5 px-4">Recipient</th>
+                        <th class="py-3.5 px-4">Summary</th>
+                        <th class="py-3.5 px-4">Status</th>
+                        <th class="py-3.5 px-4">Dispatched At</th>
+                        <th class="py-3.5 px-4 text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-brand-neutral-100">
+                    {% for log in logs %}
+                    <tr class="hover:bg-brand-neutral-50">
+                        <td class="py-4 px-4 font-bold">
+                            <span class="px-2 py-1 rounded-lg text-[10px] uppercase font-bold
+                                {% if log.channel == 'EMAIL' %} bg-blue-50 text-blue-700 border border-blue-200
+                                {% else %} bg-emerald-50 text-emerald-700 border border-emerald-200 {% endif %}">
+                                {{ log.get_channel_display }}
+                            </span>
+                        </td>
+                        <td class="py-4 px-4 font-semibold text-brand-black">
+                            {{ log.get_notification_type_display }}
+                        </td>
+                        <td class="py-4 px-4 font-mono font-bold text-brand-neutral-800">
+                            {{ log.recipient }}
+                        </td>
+                        <td class="py-4 px-4 text-brand-neutral-600 max-w-xs truncate" title="{{ log.subject_or_summary }}">
+                            {{ log.subject_or_summary|default:"—" }}
+                        </td>
+                        <td class="py-4 px-4">
+                            <span class="px-2.5 py-1 rounded-full text-[10px] font-bold
+                                {% if log.status == 'SENT' %} bg-emerald-50 text-emerald-700 border border-emerald-200
+                                {% else %} bg-rose-50 text-rose-700 border border-rose-200 {% endif %}">
+                                {{ log.get_status_display }}
+                            </span>
+                            {% if log.error_message %}
+                            <div class="text-[10px] text-rose-600 mt-1 max-w-xs truncate" title="{{ log.error_message }}">
+                                {{ log.error_message }}
+                            </div>
+                            {% endif %}
+                        </td>
+                        <td class="py-4 px-4 text-brand-neutral-500 whitespace-nowrap">
+                            {{ log.sent_at|date:"M d, Y H:i" }}
+                        </td>
+                        <td class="py-4 px-4 text-right">
+                            {% if log.status == 'FAILED' %}
+                            <a href="{% url 'admin_panel:notification_retry' log.pk %}" class="btn-outline-pink text-[10px] uppercase py-1 px-3">
+                                Retry
+                            </a>
+                            {% else %}
+                            <span class="text-[10px] text-brand-neutral-400 font-bold uppercase">Sent</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        {% if logs.has_other_pages %}
+        <div class="flex items-center justify-between border-t border-brand-neutral-200 pt-4">
+            <span class="text-xs text-brand-neutral-500">
+                Page {{ logs.number }} of {{ logs.paginator.num_pages }}
+            </span>
+            <div class="flex items-center gap-2">
+                {% if logs.has_previous %}
+                <a href="?page={{ logs.previous_page_number }}&q={{ q }}&channel={{ channel_filter }}&status={{ status_filter }}" class="btn-outline text-xs py-1.5 px-3">Previous</a>
+                {% endif %}
+                {% if logs.has_next %}
+                <a href="?page={{ logs.next_page_number }}&q={{ q }}&channel={{ channel_filter }}&status={{ status_filter }}" class="btn-outline text-xs py-1.5 px-3">Next</a>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% else %}
+        <div class="text-center py-12">
+            <svg class="w-12 h-12 text-brand-neutral-300 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+            </svg>
+            <h3 class="text-sm font-bold text-brand-black">No Notification Logs Found</h3>
+            <p class="text-xs text-brand-neutral-500 mt-1">Try adjusting your search criteria or filters.</p>
+        </div>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock admin_content %}

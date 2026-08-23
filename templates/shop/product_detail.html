@@ -1,0 +1,254 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ product.name }} | Bolbash Beauty Spot Online Shop{% endblock title %}
+
+{% block meta_description %}{{ product.short_description }} Buy {{ product.name }} online at Bolbash Beauty Spot in Ibadan.{% endblock meta_description %}
+
+{% block og_type %}product{% endblock og_type %}
+{% block og_image %}{% if product.main_image and product.main_image.name %}{{ request.scheme }}://{{ request.get_host }}{{ product.main_image.url }}{% else %}{{ block.super }}{% endif %}{% endblock og_image %}
+
+{% block json_ld %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "{{ product.name|escapejs }}",
+  "description": "{{ product.short_description|escapejs }}",
+  {% if product.image and product.image.name %}
+  "image": "{{ request.scheme }}://{{ request.get_host }}{{ product.image.url }}",
+  {% endif %}
+  "offers": {
+    "@type": "Offer",
+    "price": "{{ product.price }}",
+    "priceCurrency": "NGN",
+    "availability": "{% if product.is_in_stock %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}"
+  }
+}
+</script>
+{% endblock json_ld %}
+
+{% block content %}
+
+<!-- Breadcrumbs Navigation -->
+<div class="bg-brand-neutral-50 border-b border-brand-neutral-200 py-3">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-xs text-brand-neutral-500">
+        <a href="{% url 'core:index' %}" class="hover:text-brand-pink transition-colors">Home</a>
+        <span class="mx-2">/</span>
+        <a href="{% url 'shop:shop_landing' %}" class="hover:text-brand-pink transition-colors">Shop</a>
+        <span class="mx-2">/</span>
+        <a href="{% url 'shop:product_catalogue' %}" class="hover:text-brand-pink transition-colors">Catalogue</a>
+        <span class="mx-2">/</span>
+        <span class="text-brand-black font-semibold line-clamp-1 inline-block max-w-[200px] align-bottom">{{ product.name }}</span>
+    </div>
+</div>
+
+<section class="py-12 sm:py-20 bg-brand-neutral-50 min-h-[85vh]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+        
+        <!-- Product Overview Grid -->
+        <div class="bg-white border border-brand-neutral-200 rounded-3xl p-6 sm:p-10 shadow-xl grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+            
+            <!-- Left Column: Product Gallery & Image -->
+            <div class="lg:col-span-6 space-y-4">
+                <div class="aspect-square bg-brand-neutral-100 rounded-2xl overflow-hidden relative border border-brand-neutral-200 shadow-inner">
+                    {% if product.image %}
+                    <img id="mainProductImg" src="{{ product.image.url }}" alt="{{ product.name }}" class="w-full h-full object-cover transition-opacity duration-300">
+                    {% else %}
+                    <div class="w-full h-full flex items-center justify-center text-6xl text-brand-neutral-300">
+                        🛍️
+                    </div>
+                    {% endif %}
+
+                    <div class="absolute top-4 left-4">
+                        {% if product.category %}
+                        <span class="badge-pink text-xs px-3 py-1">{{ product.category.name }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Gallery Thumbnails -->
+                {% if gallery_images %}
+                <div class="flex items-center gap-3 overflow-x-auto pb-2">
+                    {% if product.image %}
+                    <button type="button" onclick="swapMainImage('{{ product.image.url }}')" class="w-20 h-20 rounded-xl overflow-hidden border-2 border-brand-pink focus:outline-none flex-shrink-0">
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="w-full h-full object-cover">
+                    </button>
+                    {% endif %}
+                    {% for img in gallery_images %}
+                    <button type="button" onclick="swapMainImage('{{ img.image.url }}')" class="w-20 h-20 rounded-xl overflow-hidden border border-brand-neutral-200 hover:border-brand-pink focus:outline-none flex-shrink-0">
+                        <img src="{{ img.image.url }}" alt="{{ img.caption|default:product.name }}" class="w-full h-full object-cover">
+                    </button>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Right Column: Product Details & Add to Cart -->
+            <div class="lg:col-span-6 space-y-6 flex flex-col justify-between">
+                
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        {% if product.is_in_stock %}
+                        <span class="bg-emerald-100 text-emerald-800 text-xs font-bold py-1 px-3 rounded-full uppercase tracking-wider">✓ In Stock ({{ product.stock_quantity }} available)</span>
+                        {% else %}
+                        <span class="bg-rose-100 text-rose-800 text-xs font-bold py-1 px-3 rounded-full uppercase tracking-wider">Out of Stock</span>
+                        {% endif %}
+                    </div>
+
+                    <h1 class="font-heading font-extrabold text-2xl sm:text-4xl text-brand-black leading-tight">
+                        {{ product.name }}
+                    </h1>
+
+                    <div class="flex items-baseline space-x-3 pt-1">
+                        <span class="font-heading font-extrabold text-3xl text-brand-pink">
+                            NGN {{ product.price }}
+                        </span>
+                        <span class="text-xs text-brand-neutral-400 font-semibold">Taxes included</span>
+                    </div>
+
+                    <p class="text-brand-neutral-600 text-sm leading-relaxed border-t border-b border-brand-neutral-100 py-4">
+                        {{ product.short_description }}
+                    </p>
+
+                    <!-- Quantity & Add to Cart Form -->
+                    {% if product.is_in_stock %}
+                    <form method="POST" action="{% url 'shop:cart_add' product_id=product.id %}" class="space-y-4 pt-2">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="cart">
+
+                        <div class="space-y-1.5">
+                            <label class="form-label text-xs uppercase font-bold text-brand-black block">Quantity</label>
+                            <div class="flex items-center space-x-3 max-w-[160px]">
+                                <button type="button" onclick="decrementQty()" class="w-10 h-10 rounded-xl bg-brand-neutral-100 hover:bg-brand-neutral-200 font-bold text-brand-black text-lg flex items-center justify-center transition-colors">-</button>
+                                <input type="number" id="qtyInput" name="quantity" value="1" min="1" max="{{ product.stock_quantity }}" readonly
+                                       class="w-16 py-2 text-center border border-brand-neutral-200 rounded-xl font-bold text-sm text-brand-black focus:outline-none">
+                                <button type="button" onclick="incrementQty({{ product.stock_quantity }})" class="w-10 h-10 rounded-xl bg-brand-neutral-100 hover:bg-brand-neutral-200 font-bold text-brand-black text-lg flex items-center justify-center transition-colors">+</button>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col sm:flex-row gap-3 pt-2">
+                            <button type="submit" class="btn-primary text-xs uppercase tracking-wider font-bold py-4 px-8 flex-grow text-center shadow-lg shadow-pink-glow">
+                                Add To Shopping Cart 🛒
+                            </button>
+                            <a href="{{ whatsapp_url }}" target="_blank" rel="noopener noreferrer" class="btn-outline-pink text-xs uppercase tracking-wider font-bold py-4 px-6 text-center border-emerald-500 text-emerald-600 hover:bg-emerald-50">
+                                Order via WhatsApp 💬
+                            </a>
+                        </div>
+                    </form>
+                    {% else %}
+                    <div class="space-y-3 pt-2">
+                        <div class="bg-rose-50 border border-rose-200 text-rose-700 text-xs rounded-xl p-4">
+                            This product is currently out of stock. You can contact us via WhatsApp to reserve or inquire about restocking dates.
+                        </div>
+                        <a href="{{ whatsapp_url }}" target="_blank" rel="noopener noreferrer" class="btn-outline-pink text-xs uppercase tracking-wider font-bold py-3.5 px-6 inline-block text-center border-emerald-500 text-emerald-600 hover:bg-emerald-50 w-full">
+                            Inquire via WhatsApp 💬
+                        </a>
+                    </div>
+                    {% endif %}
+
+                </div>
+
+                <!-- Trust Badges -->
+                <div class="grid grid-cols-3 gap-4 pt-6 border-t border-brand-neutral-100 text-center text-[11px] text-brand-neutral-500 font-semibold">
+                    <div class="space-y-1">
+                        <div class="text-xl">🚚</div>
+                        <div>Fast Delivery</div>
+                    </div>
+                    <div class="space-y-1">
+                        <div class="text-xl">🔒</div>
+                        <div>100% Authentic</div>
+                    </div>
+                    <div class="space-y-1">
+                        <div class="text-xl">💳</div>
+                        <div>Secure Paystack</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Full Product Description Tab -->
+        <div class="bg-white border border-brand-neutral-200 rounded-3xl p-8 sm:p-10 shadow-md space-y-4">
+            <h2 class="font-heading font-bold text-xl text-brand-black border-b border-brand-neutral-200 pb-3">Product Specifications & Description</h2>
+            <div class="prose max-w-none text-brand-neutral-600 text-sm leading-relaxed whitespace-pre-line">
+                {{ product.full_description }}
+            </div>
+        </div>
+
+        <!-- Related Products Section -->
+        {% if related_products %}
+        <div class="space-y-6">
+            <div class="border-b border-brand-neutral-200 pb-3">
+                <span class="badge-pink">YOU MAY ALSO LIKE</span>
+                <h2 class="font-heading font-bold text-2xl text-brand-black">Related Beauty Products</h2>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                {% for item in related_products %}
+                <div class="bg-white border border-brand-neutral-200 rounded-3xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between group hover:border-brand-pink/40">
+                    <div>
+                        <div class="aspect-square bg-brand-neutral-100 relative overflow-hidden">
+                            {% if item.image %}
+                            <img src="{{ item.image.url }}" alt="{{ item.name }}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            {% else %}
+                            <div class="w-full h-full flex items-center justify-center text-3xl text-brand-neutral-300">
+                                🛍️
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="p-4 space-y-1">
+                            <h3 class="font-heading font-bold text-sm text-brand-black line-clamp-1">
+                                <a href="{% url 'shop:product_detail' slug=item.slug %}" class="hover:text-brand-pink transition-colors">
+                                    {{ item.name }}
+                                </a>
+                            </h3>
+                            <p class="font-heading font-extrabold text-sm text-brand-pink">
+                                NGN {{ item.price }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="p-4 pt-0">
+                        <a href="{% url 'shop:product_detail' slug=item.slug %}" class="btn-secondary text-[10px] uppercase font-bold py-2 w-full text-center block">
+                            View Details
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+</section>
+
+<script>
+    function swapMainImage(url) {
+        document.getElementById('mainProductImg').src = url;
+    }
+
+    function incrementQty(maxVal) {
+        const input = document.getElementById('qtyInput');
+        let val = intVal(input.value);
+        if (val < maxVal) {
+            input.value = val + 1;
+        }
+    }
+
+    function decrementQty() {
+        const input = document.getElementById('qtyInput');
+        let val = intVal(input.value);
+        if (val > 1) {
+            input.value = val - 1;
+        }
+    }
+
+    function intVal(val) {
+        const parsed = parseInt(val, 10);
+        return isNaN(parsed) ? 1 : parsed;
+    }
+</script>
+
+{% endblock content %}

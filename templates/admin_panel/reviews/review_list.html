@@ -1,0 +1,208 @@
+{% extends "admin_panel/base_admin.html" %}
+
+{% block title %}Customer Reviews Moderation | Admin Dashboard{% endblock title %}
+{% block page_title %}Customer Reviews Moderation{% endblock page_title %}
+
+{% block content %}
+<div class="space-y-6">
+
+    <!-- Top Action Bar & Filters -->
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-brand-neutral-200 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="flex items-center space-x-3">
+            <span class="text-2xl">⭐</span>
+            <div>
+                <h2 class="text-lg font-bold text-brand-black-dark">Customer Reviews Moderation</h2>
+                <p class="text-xs text-brand-neutral-500">Inspect, approve, or reject customer salon feedback prior to public publishing.</p>
+            </div>
+        </div>
+
+        <!-- Search & Filter Form -->
+        <form method="GET" action="{% url 'admin_panel:review_list' %}" class="flex flex-wrap items-center gap-3 w-full md:w-auto">
+            <input type="text" 
+                   name="q" 
+                   value="{{ q }}" 
+                   placeholder="Search customer, email, booking ref..." 
+                   class="px-4 py-2 text-xs rounded-xl border border-brand-neutral-200 focus:outline-none focus:ring-2 focus:ring-brand-pink min-w-[220px]">
+
+            <select name="status" class="px-3 py-2 text-xs rounded-xl border border-brand-neutral-200 focus:outline-none focus:ring-2 focus:ring-brand-pink">
+                <option value="">All Statuses</option>
+                {% for code, label in status_choices %}
+                <option value="{{ code }}" {% if status_filter == code %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+
+            <button type="submit" class="btn-primary text-xs font-bold py-2 px-4 shadow-sm">
+                Filter
+            </button>
+
+            {% if q or status_filter %}
+            <a href="{% url 'admin_panel:review_list' %}" class="text-xs text-brand-neutral-500 hover:text-brand-pink py-2">
+                Clear Filters
+            </a>
+            {% endif %}
+        </form>
+    </div>
+
+    <!-- Quick Stats Counter Cards -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <a href="{% url 'admin_panel:review_list' %}" class="bg-white p-4 rounded-xl border border-brand-neutral-200 shadow-sm hover:border-brand-pink transition-all">
+            <span class="text-xs text-brand-neutral-500 block font-medium">Total Reviews</span>
+            <span class="text-xl font-bold text-brand-black mt-1 block">{{ all_count }}</span>
+        </a>
+        <a href="{% url 'admin_panel:review_list' %}?status=PENDING" class="bg-amber-50/60 p-4 rounded-xl border border-amber-200 shadow-sm hover:border-amber-300 transition-all">
+            <span class="text-xs text-amber-700 block font-semibold">Pending Moderation</span>
+            <span class="text-xl font-bold text-amber-900 mt-1 block">{{ pending_count }}</span>
+        </a>
+        <a href="{% url 'admin_panel:review_list' %}?status=APPROVED" class="bg-green-50/60 p-4 rounded-xl border border-green-200 shadow-sm hover:border-green-300 transition-all">
+            <span class="text-xs text-green-700 block font-semibold">Approved</span>
+            <span class="text-xl font-bold text-green-900 mt-1 block">{{ approved_count }}</span>
+        </a>
+        <a href="{% url 'admin_panel:review_list' %}?status=REJECTED" class="bg-red-50/60 p-4 rounded-xl border border-red-200 shadow-sm hover:border-red-300 transition-all">
+            <span class="text-xs text-red-700 block font-semibold">Rejected</span>
+            <span class="text-xl font-bold text-red-900 mt-1 block">{{ rejected_count }}</span>
+        </a>
+    </div>
+
+    <!-- Reviews Data Table -->
+    <div class="bg-white rounded-2xl shadow-sm border border-brand-neutral-200 overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-brand-neutral-50 border-b border-brand-neutral-200 text-[11px] uppercase tracking-wider font-bold text-brand-neutral-600">
+                        <th class="py-3.5 px-4">Customer & Service</th>
+                        <th class="py-3.5 px-4">Rating</th>
+                        <th class="py-3.5 px-4">Review Comment</th>
+                        <th class="py-3.5 px-4">Date</th>
+                        <th class="py-3.5 px-4">Status</th>
+                        <th class="py-3.5 px-4 text-right">Moderation Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-brand-neutral-100 text-xs">
+                    {% for rev in reviews %}
+                    <tr class="hover:bg-brand-neutral-50/60 transition-colors">
+                        <!-- Customer & Service -->
+                        <td class="py-3.5 px-4 align-top">
+                            <div class="font-bold text-brand-black">
+                                {{ rev.user.get_full_name|default:rev.user.username }}
+                            </div>
+                            <div class="text-[11px] text-brand-neutral-400 font-mono">{{ rev.user.email }}</div>
+                            {% if rev.booking %}
+                                <div class="mt-1 inline-block text-[10px] font-semibold text-brand-pink bg-pink-50 px-2 py-0.5 rounded border border-pink-100">
+                                    Ref: {{ rev.booking.reference }} ({{ rev.booking.service_name_snapshot }})
+                                </div>
+                            {% endif %}
+                        </td>
+
+                        <!-- Rating Stars -->
+                        <td class="py-3.5 px-4 align-top">
+                            <div class="font-bold text-amber-500 text-sm tracking-wide">
+                                {% if rev.rating == 5 %}★★★★★
+                                {% elif rev.rating == 4 %}★★★★☆
+                                {% elif rev.rating == 3 %}★★★☆☆
+                                {% elif rev.rating == 2 %}★★☆☆☆
+                                {% else %}★☆☆☆☆{% endif %}
+                            </div>
+                            <span class="text-[10px] text-brand-neutral-400 font-bold block mt-0.5">({{ rev.rating }}/5 Stars)</span>
+                        </td>
+
+                        <!-- Comment Text -->
+                        <td class="py-3.5 px-4 align-top max-w-xs md:max-w-md">
+                            <div class="text-brand-black-dark leading-relaxed whitespace-pre-line">
+                                "{{ rev.comment }}"
+                            </div>
+                        </td>
+
+                        <!-- Submission Date -->
+                        <td class="py-3.5 px-4 align-top text-brand-neutral-500 whitespace-nowrap">
+                            {{ rev.created_at|date:"M d, Y" }}
+                            <span class="block text-[10px] text-brand-neutral-400">{{ rev.created_at|time:"h:i A" }}</span>
+                        </td>
+
+                        <!-- Moderation Status Badge -->
+                        <td class="py-3.5 px-4 align-top whitespace-nowrap">
+                            {% if rev.status == 'APPROVED' %}
+                                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold bg-green-100 text-green-800 border border-green-200">
+                                    ✓ Approved
+                                </span>
+                            {% elif rev.status == 'REJECTED' %}
+                                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold bg-red-100 text-red-800 border border-red-200">
+                                    ✕ Rejected
+                                </span>
+                            {% else %}
+                                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-200">
+                                    ⏳ Pending Moderation
+                                </span>
+                            {% endif %}
+                        </td>
+
+                        <!-- Moderation Actions -->
+                        <td class="py-3.5 px-4 align-top text-right whitespace-nowrap">
+                            <div class="flex items-center justify-end space-x-1">
+                                {% if rev.status != 'APPROVED' %}
+                                    <form method="POST" action="{% url 'admin_panel:review_update_status' rev.pk %}" class="inline">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="status" value="APPROVED">
+                                        <button type="submit" class="px-2.5 py-1 text-[11px] font-bold bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors shadow-sm">
+                                            Approve
+                                        </button>
+                                    </form>
+                                {% endif %}
+
+                                {% if rev.status != 'REJECTED' %}
+                                    <form method="POST" action="{% url 'admin_panel:review_update_status' rev.pk %}" class="inline">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="status" value="REJECTED">
+                                        <button type="submit" class="px-2.5 py-1 text-[11px] font-bold bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors shadow-sm">
+                                            Reject
+                                        </button>
+                                    </form>
+                                {% endif %}
+
+                                {% if rev.status != 'PENDING' %}
+                                    <form method="POST" action="{% url 'admin_panel:review_update_status' rev.pk %}" class="inline">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="status" value="PENDING">
+                                        <button type="submit" class="px-2 py-1 text-[11px] font-semibold bg-brand-neutral-100 hover:bg-brand-neutral-200 text-brand-neutral-700 rounded-lg transition-colors">
+                                            Reset to Pending
+                                        </button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="py-12 text-center text-brand-neutral-400">
+                            <span class="text-3xl block mb-2">⭐</span>
+                            No customer reviews found matching your search criteria.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        {% if reviews.has_other_pages %}
+        <div class="p-4 border-t border-brand-neutral-200 flex items-center justify-between text-xs text-brand-neutral-500">
+            <div>
+                Showing Page {{ reviews.number }} of {{ reviews.paginator.num_pages }}
+            </div>
+            <div class="flex items-center space-x-2">
+                {% if reviews.has_previous %}
+                <a href="?page={{ reviews.previous_page_number }}&q={{ q }}&status={{ status_filter }}" class="px-3 py-1 bg-brand-neutral-100 rounded hover:bg-brand-neutral-200 font-semibold text-brand-black">
+                    Previous
+                </a>
+                {% endif %}
+                {% if reviews.has_next %}
+                <a href="?page={{ reviews.next_page_number }}&q={{ q }}&status={{ status_filter }}" class="px-3 py-1 bg-brand-neutral-100 rounded hover:bg-brand-neutral-200 font-semibold text-brand-black">
+                    Next
+                </a>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock content %}

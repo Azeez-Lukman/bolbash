@@ -1,0 +1,97 @@
+{% extends "admin_panel/base_admin.html" %}
+
+{% block title %}{{ title }} | Bolbash Admin{% endblock title %}
+{% block header_title %}{{ title }}{% endblock header_title %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto space-y-6">
+
+    <div class="flex items-center justify-between">
+        <a href="{% url 'admin_panel:academy_course_list' %}" class="text-xs font-bold text-brand-neutral-500 hover:text-brand-black">
+            ← Cancel & Return to Courses
+        </a>
+    </div>
+
+    <div class="bg-white p-6 sm:p-8 rounded-2xl border border-brand-neutral-200 shadow-sm space-y-6">
+        <form method="POST" enctype="multipart/form-data" class="space-y-6">
+            {% csrf_token %}
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div class="sm:col-span-2">
+                    <label class="form-label">Course Title</label>
+                    {{ form.title }}
+                </div>
+
+                <div>
+                    <label class="form-label">Category</label>
+                    {{ form.category }}
+                </div>
+
+                <div>
+                    <label class="form-label">Training Format</label>
+                    {{ form.format_type }}
+                </div>
+
+                <div>
+                    <label class="form-label">Duration</label>
+                    {{ form.duration }}
+                </div>
+
+                <div>
+                    <label class="form-label">Tuition Fee (NGN)</label>
+                    {{ form.price }}
+                </div>
+
+                <div class="sm:col-span-2">
+                    <label class="form-label">Short Description</label>
+                    {{ form.short_description }}
+                </div>
+
+                <div class="sm:col-span-2">
+                    <label class="form-label">Full Description & Syllabus Overview</label>
+                    {{ form.full_description }}
+                </div>
+
+                <div class="sm:col-span-2">
+                    <label class="form-label">Learning Outcomes (One per line)</label>
+                    {{ form.learning_outcomes }}
+                </div>
+
+                <div class="sm:col-span-2">
+                    <label class="form-label">Target Student Profiles (One per line)</label>
+                    {{ form.target_audience }}
+                </div>
+
+                <div class="sm:col-span-2">
+                    <label class="form-label">Prerequisites</label>
+                    {{ form.prerequisites }}
+                </div>
+
+                <div>
+                    <label class="form-label">Course Thumbnail Image</label>
+                    {{ form.thumbnail }}
+                </div>
+
+                <div class="flex items-center space-x-6 pt-6">
+                    <label class="flex items-center space-x-2 text-xs font-bold text-brand-black cursor-pointer">
+                        {{ form.active }}
+                        <span>Active / Published</span>
+                    </label>
+                    <label class="flex items-center space-x-2 text-xs font-bold text-brand-black cursor-pointer">
+                        {{ form.featured }}
+                        <span>Featured Program</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="pt-6 border-t border-brand-neutral-200 flex justify-end space-x-4">
+                <a href="{% url 'admin_panel:academy_course_list' %}" class="btn-outline text-xs py-3 px-6">Cancel</a>
+                <button type="submit" class="btn-primary text-xs font-bold uppercase tracking-wider py-3 px-8">
+                    Save Course Details →
+                </button>
+            </div>
+        </form>
+    </div>
+
+</div>
+{% endblock content %}

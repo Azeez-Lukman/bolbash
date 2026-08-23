@@ -1,0 +1,263 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Check Your Appointment | Bolbash Beauty Spot Ibadan{% endblock title %}
+
+{% block meta_description %}Retrieve and check your appointment status at Bolbash Beauty Spot using your booking reference and contact details.{% endblock meta_description %}
+
+{% block content %}
+
+<!-- ==========================================================================
+     LOOKUP HERO & FORM SECTION
+     ========================================================================== -->
+<section class="py-12 sm:py-16 lg:py-20 bg-brand-neutral-50 min-h-[75vh] flex items-center">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 w-full space-y-8">
+        
+        <!-- Header -->
+        <div class="text-center space-y-3">
+            <span class="eyebrow-text text-brand-pink font-bold">APPOINTMENT STATUS</span>
+            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold text-brand-black tracking-tight">
+                Check Your <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-pink to-brand-black">Appointment</span>
+            </h1>
+            <p class="text-brand-neutral-500 text-sm sm:text-base max-w-lg mx-auto">
+                Enter your booking reference and the contact email or phone number used during reservation to view your appointment status.
+            </p>
+        </div>
+
+        <!-- Lookup Form Card -->
+        <div class="bg-white p-8 sm:p-10 rounded-3xl border border-brand-neutral-200 shadow-xl space-y-6">
+            
+            {% if error_message %}
+            <div class="p-4 rounded-xl border border-red-200 bg-red-50 text-red-700 text-xs sm:text-sm flex items-start space-x-3">
+                <span class="font-bold flex-shrink-0 text-base">⚠️</span>
+                <span>{{ error_message }}</span>
+            </div>
+            {% endif %}
+
+            <form id="lookup-form" action="{% url 'booking:booking_lookup' %}" method="POST" class="space-y-6">
+                {% csrf_token %}
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div>
+                        <label for="id_reference" class="form-label">Booking Reference *</label>
+                        <input type="text" name="reference" id="id_reference" class="form-input uppercase tracking-wider font-mono text-sm" 
+                               placeholder="e.g. BBS-20260818-91ND" value="{{ reference_input }}" required>
+                    </div>
+
+                    <div>
+                        <label for="id_contact_info" class="form-label">Email Address or Phone *</label>
+                        <input type="text" name="contact_info" id="id_contact_info" class="form-input text-sm" 
+                               placeholder="e.g. client@example.com or 08168956606" value="{{ contact_input }}" required>
+                    </div>
+                </div>
+
+                <div class="pt-2">
+                    <button type="submit" id="lookup-submit-btn" class="btn-primary w-full text-center text-xs uppercase tracking-wider font-bold shadow-xl shadow-pink-glow py-3.5">
+                        <span id="lookup-btn-text">Check Appointment Status →</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- ==========================================================================
+             APPOINTMENT RESULT DISPLAY CARD (Shown when booking is found)
+             ========================================================================== -->
+        {% if booking %}
+        <div id="booking-result" class="bg-white p-8 sm:p-10 rounded-3xl border border-brand-neutral-200 shadow-2xl space-y-6">
+            
+            <!-- Result Header Banner -->
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pb-6 border-b border-brand-neutral-100">
+                <div>
+                    <span class="text-xs uppercase tracking-wider text-brand-neutral-400 font-semibold block">Booking Reference</span>
+                    <div class="flex items-center space-x-3 mt-1">
+                        <span class="font-heading text-2xl font-bold tracking-widest text-brand-pink font-mono">{{ booking.reference }}</span>
+                        
+                        <!-- Copy Reference Button -->
+                        <button type="button" id="copy-ref-btn" data-ref="{{ booking.reference }}"
+                                class="p-1.5 rounded-lg text-brand-neutral-400 hover:text-brand-pink hover:bg-brand-neutral-100 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-pink"
+                                title="Copy Reference">
+                            <svg class="w-5 h-5 stroke-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-2">
+                    <!-- Status Badges -->
+                    {% if booking.status == 'CONFIRMED' %}
+                    <span class="badge-pink bg-emerald-50 text-emerald-700 border-emerald-200 font-bold text-xs">✓ Confirmed</span>
+                    {% elif booking.status == 'COMPLETED' %}
+                    <span class="badge-outline bg-blue-50 text-blue-700 border-blue-200 font-bold text-xs">Completed</span>
+                    {% elif booking.status == 'CANCELLED' %}
+                    <span class="badge-outline bg-red-50 text-red-700 border-red-200 font-bold text-xs">Cancelled</span>
+                    {% else %}
+                    <span class="badge-gold text-xs">Pending Payment</span>
+                    {% endif %}
+
+                    {% if booking.payment_status == 'PAID' %}
+                    <span class="badge-pink bg-emerald-50 text-emerald-700 border-emerald-200 font-bold text-xs">Paid ✓</span>
+                    {% else %}
+                    <span class="badge-outline text-xs">{{ booking.get_payment_status_display }}</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Status Notice Message -->
+            {% if booking.status == 'PENDING_PAYMENT' %}
+            <div class="p-6 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 space-y-3 text-xs">
+                <span class="font-bold text-sm block text-amber-800">⏳ Payment Awaiting Confirmation</span>
+                <p class="leading-relaxed">
+                    Your appointment is awaiting deposit payment and has not yet been secured. Complete your payment via Paystack below to secure your date and time slot.
+                </p>
+                <div class="pt-2">
+                    <a href="{% url 'payments:initiate_payment' booking.reference %}" class="btn-primary w-full text-center text-xs uppercase tracking-wider font-bold shadow-xl shadow-pink-glow py-3 block">
+                        Complete Payment via Paystack →
+                    </a>
+                </div>
+            </div>
+
+            {% elif booking.status == 'CONFIRMED' %}
+            <div class="p-6 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-900 space-y-2 text-xs">
+                <span class="font-bold text-sm block text-emerald-800">✅ Appointment Secured</span>
+                <p class="leading-relaxed">
+                    Your appointment has been confirmed and secured. Please arrive 10 minutes before your scheduled appointment time.
+                </p>
+            </div>
+
+            {% elif booking.status == 'COMPLETED' %}
+            <div class="p-6 rounded-2xl bg-blue-50 border border-blue-200 text-blue-900 space-y-3 text-xs">
+                <span class="font-bold text-sm block text-blue-800">✨ Appointment Completed</span>
+                <p class="leading-relaxed">
+                    This salon session has been successfully completed. Thank you for choosing Bolbash Beauty Spot!
+                </p>
+                <div class="pt-2">
+                    <a href="{% url 'booking:booking_form' %}" class="btn-outline w-full text-center text-xs uppercase tracking-wider font-bold block">
+                        Book Another Appointment →
+                    </a>
+                </div>
+            </div>
+
+            {% elif booking.status == 'CANCELLED' %}
+            <div class="p-6 rounded-2xl bg-red-50 border border-red-200 text-red-900 space-y-3 text-xs">
+                <span class="font-bold text-sm block text-red-800">❌ Appointment Cancelled</span>
+                <p class="leading-relaxed">
+                    This appointment reservation has been cancelled. Payment initiation is disabled for cancelled appointments.
+                </p>
+                <div class="pt-2">
+                    <a href="{% url 'booking:booking_form' %}" class="btn-primary w-full text-center text-xs uppercase tracking-wider font-bold block">
+                        Book New Appointment →
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Appointment Details Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm pt-2">
+                <div>
+                    <span class="text-xs uppercase tracking-wider text-brand-neutral-400 block font-semibold">Service</span>
+                    <span class="font-heading font-bold text-brand-black text-base">{{ booking.service_name_snapshot }}</span>
+                </div>
+
+                <div>
+                    <span class="text-xs uppercase tracking-wider text-brand-neutral-400 block font-semibold">Amount</span>
+                    {% if booking.amount_due %}
+                    <span class="font-heading font-bold text-brand-pink text-base">₦{{ booking.amount_due|floatformat:2 }}</span>
+                    {% else %}
+                    <span class="font-bold text-brand-black text-sm">Available on enquiry</span>
+                    {% endif %}
+                </div>
+
+                <div>
+                    <span class="text-xs uppercase tracking-wider text-brand-neutral-400 block font-semibold">Appointment Date</span>
+                    <span class="font-bold text-brand-black">{{ booking.appointment_date|date:"l, d F Y" }}</span>
+                </div>
+
+                <div>
+                    <span class="text-xs uppercase tracking-wider text-brand-neutral-400 block font-semibold">Appointment Time</span>
+                    <span class="font-bold text-brand-black">⏱ {{ booking.appointment_time|time:"h:i A" }}</span>
+                </div>
+
+                <div class="sm:col-span-2 pt-4 border-t border-brand-neutral-100 space-y-1">
+                    <span class="text-xs uppercase tracking-wider text-brand-neutral-400 block font-semibold">Customer Information</span>
+                    <span class="font-bold text-brand-black block">{{ booking.customer_name }}</span>
+                    <span class="text-brand-neutral-500 block text-xs">{{ booking.customer_phone }} • {{ booking.customer_email }}</span>
+                    {% if booking.customer_note %}
+                    <p class="text-xs text-brand-neutral-500 pt-2 italic">"{{ booking.customer_note }}"</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Location & Contact Info -->
+            <div class="p-6 rounded-2xl bg-brand-neutral-50 border border-brand-neutral-200 space-y-2 text-xs">
+                <span class="font-bold text-brand-black block text-sm">📍 Salon Location & Contact</span>
+                <p class="text-brand-neutral-600 leading-relaxed">
+                    No. 40, SIOA Plaza, at the entrance of E Exclusive Hotel, Ore-Ofe Bus Stop, Sango-Eleyele Road, Ibadan, Nigeria.<br>
+                    <strong>Phone:</strong> <a href="tel:08168956606" class="underline text-brand-black">08168956606</a> | <strong>Policy:</strong> Strictly by appointment.
+                </p>
+            </div>
+
+            <!-- Secondary Actions -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+                <a href="https://wa.me/message/UW6FRPKW3STAM1?text=Hello%20Bolbash,%20I%20have%20an%20enquiry%20regarding%20booking%20{{ booking.reference }}" target="_blank" rel="noopener noreferrer" class="btn-outline-pink w-full sm:w-auto text-xs uppercase tracking-wider text-center">
+                    Contact Support via WhatsApp
+                </a>
+                <a href="{% url 'core:service_list' %}" class="btn-outline w-full sm:w-auto text-xs uppercase tracking-wider text-center">
+                    Explore Other Services
+                </a>
+            </div>
+
+        </div>
+        {% endif %}
+
+    </div>
+</section>
+
+{% endblock content %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Loading state on form submit
+        const lookupForm = document.getElementById('lookup-form');
+        const submitBtn = document.getElementById('lookup-submit-btn');
+        const btnText = document.getElementById('lookup-btn-text');
+
+        if (lookupForm && submitBtn && btnText) {
+            lookupForm.addEventListener('submit', () => {
+                submitBtn.disabled = true;
+                submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
+                btnText.textContent = 'Searching appointment...';
+            });
+        }
+
+        // Copy Reference Handler
+        const copyBtn = document.getElementById('copy-ref-btn');
+        if (copyBtn) {
+            copyBtn.addEventListener('click', () => {
+                const ref = copyBtn.getAttribute('data-ref');
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(ref).then(showCopyFeedback).catch(fallbackCopy);
+                } else {
+                    fallbackCopy();
+                }
+
+                function fallbackCopy() {
+                    const tempInput = document.createElement('input');
+                    tempInput.value = ref;
+                    document.body.appendChild(tempInput);
+                    tempInput.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(tempInput);
+                    showCopyFeedback();
+                }
+
+                function showCopyFeedback() {
+                    copyBtn.classList.add('text-emerald-600');
+                    alert(`Booking reference ${ref} copied to clipboard!`);
+                }
+            });
+        }
+    });
+</script>
+{% endblock extra_js %}

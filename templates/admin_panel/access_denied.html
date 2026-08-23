@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}403 Access Denied | Bolbash Beauty Spot{% endblock title %}
+
+{% block content %}
+<section class="max-w-4xl mx-auto px-4 py-20 text-center space-y-8">
+    <div class="w-20 h-20 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center text-3xl font-bold mx-auto shadow-lg">
+        🔒
+    </div>
+    
+    <div class="space-y-3">
+        <span class="badge-pink bg-rose-50 text-rose-700 border-rose-200 uppercase tracking-widest text-xs font-bold px-4 py-1.5 rounded-full inline-block">
+            HTTP 403 FORBIDDEN
+        </span>
+        <h1 class="text-3xl sm:text-4xl font-heading font-bold text-brand-black">Administrative Access Restricted</h1>
+        <p class="text-brand-neutral-500 text-sm sm:text-base max-w-lg mx-auto leading-relaxed">
+            You do not have staff permissions to access the Bolbash Beauty Spot Administration System. Please sign in with an authorized administrator account.
+        </p>
+    </div>
+
+    <div class="pt-4 flex flex-wrap justify-center gap-4">
+        <a href="{% url 'core:index' %}" class="btn-primary text-xs uppercase tracking-wider font-bold py-3.5 px-8">
+            Return To Home Page
+        </a>
+        <a href="{% url 'academy:login' %}?next=/admin-portal/" class="btn-outline text-xs uppercase tracking-wider font-bold py-3.5 px-8">
+            Sign In As Staff →
+        </a>
+    </div>
+</section>
+{% endblock content %}

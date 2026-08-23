@@ -1,0 +1,218 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-brand-neutral-50 overflow-x-hidden">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Admin Dashboard | Bolbash Beauty Spot{% endblock title %}</title>
+    
+    <!-- Fonts & Tailwind CSS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+    {% block extra_head %}{% endblock extra_head %}
+</head>
+<body class="h-full flex text-brand-black-light font-sans antialiased bg-brand-neutral-50">
+
+    <!-- Desktop Sidebar Navigation -->
+    <aside class="hidden lg:flex flex-col w-72 bg-brand-black text-white border-r border-brand-black-muted flex-shrink-0">
+        
+        <!-- Sidebar Brand Logo Header -->
+        <div class="p-6 border-b border-brand-black-muted flex items-center justify-between">
+            <a href="{% url 'admin_panel:dashboard' %}" class="flex items-center space-x-3">
+                <span class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-pink to-rose-400 flex items-center justify-center font-heading font-bold text-white text-lg shadow-pink-glow">
+                    B
+                </span>
+                <div>
+                    <span class="font-heading font-bold text-lg text-white block leading-none">Bolbash</span>
+                    <span class="text-[10px] text-brand-pink uppercase tracking-widest font-bold block mt-1">Admin Portal</span>
+                </div>
+            </a>
+        </div>
+
+        <!-- Sidebar Navigation Menu -->
+        <nav class="flex-1 p-4 space-y-6 overflow-y-auto">
+            
+            <!-- Dashboard Group -->
+            <div>
+                <span class="text-[10px] uppercase tracking-widest font-bold text-brand-neutral-400 px-3 block mb-2">Overview</span>
+                <a href="{% url 'admin_panel:dashboard' %}" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-colors {% if request.resolver_match.url_name == 'dashboard' %} bg-brand-pink text-white shadow-pink-glow {% else %} text-brand-neutral-300 hover:bg-brand-black-light hover:text-white {% endif %}">
+                    <span>📊</span>
+                    <span>Dashboard Overview</span>
+                </a>
+            </div>
+
+            <!-- Appointments Group -->
+            <div>
+                <span class="text-[10px] uppercase tracking-widest font-bold text-brand-neutral-400 px-3 block mb-2">Appointments</span>
+                <div class="space-y-1">
+                    <a href="{% url 'admin_panel:appointment_list' %}" class="flex items-center space-x-3 px-3 py-2 rounded-xl text-sm font-medium transition-colors {% if 'appointment' in request.resolver_match.url_name %} bg-brand-black-light text-brand-pink font-semibold border-l-2 border-brand-pink {% else %} text-brand-neutral-300 hover:bg-brand-black-light hover:text-white {% endif %}">
+                        <span>📅</span>
+                        <span>All Appointments</span>
+                    </a>
+                    <a href="{% url 'admin_panel:availability' %}" class="flex items-center space-x-3 px-3 py-2 rounded-xl text-sm font-medium transition-colors {% if request.resolver_match.url_name == 'availability' %} bg-brand-black-light text-brand-pink font-semibold border-l-2 border-brand-pink {% else %} text-brand-neutral-300 hover:bg-brand-black-light hover:text-white {% endif %}">
+                        <span>⏰</span>
+                        <span>Operating Hours</span>
+                    </a>
+                    <a href="{% url 'admin_panel:blocked_dates' %}" class="flex items-center space-x-3 px-3 py-2 rounded-xl text-sm font-medium transition-colors {% if request.resolver_match.url_name == 'blocked_dates' %} bg-brand-black-light text-brand-pink font-semibold border-l-2 border-brand-pink {% else %} text-brand-neutral-300 hover:bg-brand-black-light hover:text-white {% endif %}">
+                        <span>🚫</span>
+                        <span>Blocked Dates</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Customers Group -->
+            <div>
+                <span class="text-[10px] uppercase tracking-widest font-bold text-brand-neutral-400 px-3 block mb-2">Customers</span>
+                <a href="{% url 'admin_panel:customer_list' %}" class="flex items-center space-x-3 px-3 py-2 rounded-xl text-sm font-medium transition-colors {% if 'customer' in request.resolver_match.url_name %} bg-brand-black-light text-brand-pink font-semibold border-l-2 border-brand-pink {% else %} text-brand-neutral-300 hover:bg-brand-black-light hover:text-white {% endif %}">
+                    <span>👥</span>
+                    <span>Customer Accounts</span>
+                </a>
+            </div>
+
+            <!-- Academy Group -->
+            <div>
+                <span class="text-[10px] uppercase tracking-widest font-bold text-brand-neutral-400 px-3 block mb-2">Beauty Academy</span>
+                <div class="space-y-1">
+                    <a href="{% url 'admin_panel:academy_course_list' %}" class="flex items-center space-x-3 px-3 py-2 rounded-xl text-sm font-medium transition-colors {% if 'course' in request.resolver_match.url_name %} bg-brand-black-light text-brand-pink font-semibold border-l-2 border-brand-pink {% else %} text-brand-neutral-300 hover:bg-brand-black-light hover:text-white {% endif %}">
+                        <span>🎓</span>
+                        <span>Courses & Syllabus</span>
+                    </a>
+                    <a href="{% url 'admin_panel:academy_module_list' %}" class="flex items-center space-x-3 px-3 py-2 rounded-xl text-sm font-medium transition-colors {% if 'module' in request.resolver_match.url_name %} bg-brand-black-light text-brand-pink font-semibold border-l-2 border-brand-pink {% else %} text-brand-neutral-300 hover:bg-brand-black-light hover:text-white {% endif %}">
+                        <span>📖</span>
+                        <span>Modules & Lessons</span>
+                    </a>
+                    <a href="{% url 'admin_panel:academy_student_list' %}" class="flex items-center space-x-3 px-3 py-2 rounded-xl text-sm font-medium transition-colors {% if 'student' in request.resolver_match.url_name %} bg-brand-black-light text-brand-pink font-semibold border-l-2 border-brand-pink {% else %} text-brand-neutral-300 hover:bg-brand-black-light hover:text-white {% endif %}">
+                        <span>👩‍🎓</span>
+                        <span>Students & Progress</span>
+                    </a>
+                    <a href="{% url 'admin_panel:academy_certificates' %}" class="flex items-center space-x-3 px-3 py-2 rounded-xl text-sm font-medium transition-colors {% if 'certificate' in request.resolver_match.url_name %} bg-brand-black-light text-brand-pink font-semibold border-l-2 border-brand-pink {% else %} text-brand-neutral-300 hover:bg-brand-black-light hover:text-white {% endif %}">
+                        <span>🏆</span>
+                        <span>Graduation Certificates</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Shop Group -->
+            <div>
+                <span class="text-[10px] uppercase tracking-widest font-bold text-brand-neutral-400 px-3 block mb-2">Online Shop</span>
+                <div class="space-y-1">
+                    <a href="{% url 'admin_panel:shop_product_list' %}" class="flex items-center space-x-3 px-3 py-2 rounded-xl text-sm font-medium transition-colors {% if 'product' in request.resolver_match.url_name %} bg-brand-black-light text-brand-pink font-semibold border-l-2 border-brand-pink {% else %} text-brand-neutral-300 hover:bg-brand-black-light hover:text-white {% endif %}">
+                        <span>🛍️</span>
+                        <span>Products & Catalogue</span>
+                    </a>
+                    <a href="{% url 'admin_panel:shop_inventory' %}" class="flex items-center space-x-3 px-3 py-2 rounded-xl text-sm font-medium transition-colors {% if 'inventory' in request.resolver_match.url_name %} bg-brand-black-light text-brand-pink font-semibold border-l-2 border-brand-pink {% else %} text-brand-neutral-300 hover:bg-brand-black-light hover:text-white {% endif %}">
+                        <span>📦</span>
+                        <span>Stock & Inventory</span>
+                    </a>
+                    <a href="{% url 'admin_panel:shop_order_list' %}" class="flex items-center space-x-3 px-3 py-2 rounded-xl text-sm font-medium transition-colors {% if 'order' in request.resolver_match.url_name %} bg-brand-black-light text-brand-pink font-semibold border-l-2 border-brand-pink {% else %} text-brand-neutral-300 hover:bg-brand-black-light hover:text-white {% endif %}">
+                        <span>💳</span>
+                        <span>Customer Orders</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Communications & Audit Group -->
+            <div>
+                <span class="text-[10px] uppercase tracking-widest font-bold text-brand-neutral-400 px-3 block mb-2">Communications</span>
+                <div class="space-y-1">
+                    <a href="{% url 'admin_panel:notification_list' %}" class="flex items-center space-x-3 px-3 py-2 rounded-xl text-sm font-medium transition-colors {% if 'notification' in request.resolver_match.url_name %} bg-brand-black-light text-brand-pink font-semibold border-l-2 border-brand-pink {% else %} text-brand-neutral-300 hover:bg-brand-black-light hover:text-white {% endif %}">
+                        <span>🔔</span>
+                        <span>Notification Audit Log</span>
+                    </a>
+                    <a href="{% url 'admin_panel:enquiry_list' %}" class="flex items-center space-x-3 px-3 py-2 rounded-xl text-sm font-medium transition-colors {% if 'enquiry' in request.resolver_match.url_name %} bg-brand-black-light text-brand-pink font-semibold border-l-2 border-brand-pink {% else %} text-brand-neutral-300 hover:bg-brand-black-light hover:text-white {% endif %}">
+                        <span>📬</span>
+                        <span>Customer Enquiries</span>
+                    </a>
+                    <a href="{% url 'admin_panel:review_list' %}" class="flex items-center space-x-3 px-3 py-2 rounded-xl text-sm font-medium transition-colors {% if 'review' in request.resolver_match.url_name %} bg-brand-black-light text-brand-pink font-semibold border-l-2 border-brand-pink {% else %} text-brand-neutral-300 hover:bg-brand-black-light hover:text-white {% endif %}">
+                        <span>⭐</span>
+                        <span>Customer Reviews</span>
+                    </a>
+                    <a href="{% url 'admin_panel:feedback_list' %}" class="flex items-center space-x-3 px-3 py-2 rounded-xl text-sm font-medium transition-colors {% if 'feedback' in request.resolver_match.url_name %} bg-brand-black-light text-brand-pink font-semibold border-l-2 border-brand-pink {% else %} text-brand-neutral-300 hover:bg-brand-black-light hover:text-white {% endif %}">
+                        <span>💬</span>
+                        <span>Customer Feedback</span>
+                    </a>
+                </div>
+            </div>
+
+        </nav>
+
+        <!-- Sidebar Footer User Card -->
+        <div class="p-4 border-t border-brand-black-muted bg-brand-black-light flex items-center justify-between">
+            <div class="flex items-center space-x-3 overflow-hidden">
+                <div class="w-8 h-8 rounded-full bg-brand-pink/20 text-brand-pink font-bold flex items-center justify-center text-xs flex-shrink-0">
+                    {{ request.user.username|slice:":1"|upper }}
+                </div>
+                <div class="truncate">
+                    <span class="block text-xs font-bold text-white truncate">{{ request.user.username }}</span>
+                    <span class="block text-[10px] text-brand-neutral-400 truncate">Administrator</span>
+                </div>
+            </div>
+            <a href="{% url 'core:index' %}" class="text-xs text-brand-pink hover:underline font-semibold" title="View Public Website">
+                Exit 🌐
+            </a>
+        </div>
+
+    </aside>
+
+    <!-- Main Admin Shell Content Area -->
+    <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+        
+        <!-- Header Bar -->
+        <header class="bg-white border-b border-brand-neutral-200 px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <button type="button" onclick="document.getElementById('mobile-admin-drawer').classList.toggle('hidden')" class="lg:hidden p-2 rounded-lg border border-brand-neutral-200 text-brand-black">
+                    ☰
+                </button>
+                <h1 class="text-lg sm:text-xl font-heading font-bold text-brand-black">
+                    {% block header_title %}Bolbash Administration Portal{% endblock header_title %}
+                </h1>
+            </div>
+
+            <div class="flex items-center space-x-4">
+                <a href="{% url 'core:index' %}" target="_blank" class="hidden sm:inline-flex items-center space-x-1 text-xs font-bold text-brand-pink bg-brand-pink-50 border border-brand-pink-200 px-3 py-1.5 rounded-full hover:bg-brand-pink hover:text-white transition-colors">
+                    <span>🌐 View Public Site</span>
+                </a>
+            </div>
+        </header>
+
+        <!-- Mobile Drawer -->
+        <div id="mobile-admin-drawer" class="hidden lg:hidden bg-brand-black text-white p-4 space-y-4 border-b border-brand-black-muted">
+            <div class="grid grid-cols-2 gap-2 text-xs">
+                <a href="{% url 'admin_panel:dashboard' %}" class="p-2 rounded bg-white/10 text-white font-bold">Dashboard</a>
+                <a href="{% url 'admin_panel:appointment_list' %}" class="p-2 rounded bg-white/10 text-white font-bold">Appointments</a>
+                <a href="{% url 'admin_panel:customer_list' %}" class="p-2 rounded bg-white/10 text-white font-bold">Customers</a>
+                <a href="{% url 'admin_panel:academy_course_list' %}" class="p-2 rounded bg-white/10 text-white font-bold">Academy</a>
+                <a href="{% url 'admin_panel:shop_product_list' %}" class="p-2 rounded bg-white/10 text-white font-bold">Products</a>
+                <a href="{% url 'admin_panel:shop_order_list' %}" class="p-2 rounded bg-white/10 text-white font-bold">Orders</a>
+            </div>
+        </div>
+
+        <!-- Global Flash Messages Notification Banner -->
+        {% if messages %}
+        <div class="px-6 pt-4">
+            {% for message in messages %}
+            <div class="p-4 rounded-xl flex items-center justify-between text-xs sm:text-sm font-medium border shadow-sm
+                {% if message.tags == 'error' %} bg-rose-50 border-rose-200 text-rose-800 {% else %} bg-emerald-50 border-emerald-200 text-emerald-800 {% endif %}">
+                <span>{{ message }}</span>
+                <button type="button" onclick="this.parentElement.remove()" class="pl-4 font-bold">✕</button>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Main Workspace Scrollable Container -->
+        <main class="flex-1 overflow-y-auto p-6 space-y-8">
+            {% block content %}{% endblock content %}
+        </main>
+    </div>
+
+    <!-- Global Page Loader Overlay -->
+    {% include "components/page_loader.html" %}
+
+    <script src="{% static 'js/ui_states.js' %}"></script>
+    {% block extra_js %}{% endblock extra_js %}
+
+</body>
+</html>

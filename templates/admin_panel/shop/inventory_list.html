@@ -1,0 +1,61 @@
+{% extends "admin_panel/base_admin.html" %}
+
+{% block title %}Stock & Inventory | Bolbash Admin{% endblock title %}
+{% block header_title %}Dedicated Stock & Inventory Management{% endblock header_title %}
+
+{% block content %}
+<div class="space-y-6 max-w-5xl">
+
+    <div class="bg-white rounded-2xl border border-brand-neutral-200 shadow-sm overflow-hidden p-6 space-y-4">
+        <div>
+            <h2 class="font-heading font-bold text-xl text-brand-black">Inventory Stock Levels</h2>
+            <p class="text-xs text-brand-neutral-500">Quickly adjust product stock quantities. Server-side validation prevents negative inventory levels.</p>
+        </div>
+
+        {% if products %}
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+                <thead class="bg-brand-neutral-50 border-b border-brand-neutral-200 text-brand-black font-bold uppercase tracking-wider">
+                    <tr>
+                        <th class="py-3.5 px-4">Product Name</th>
+                        <th class="py-3.5 px-4">Current Stock</th>
+                        <th class="py-3.5 px-4">Inventory Status</th>
+                        <th class="py-3.5 px-4 text-right">Update Stock</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-brand-neutral-100">
+                    {% for p in products %}
+                    <tr class="hover:bg-brand-neutral-50">
+                        <td class="py-4 px-4 font-bold text-brand-black">{{ p.name }}</td>
+                        <td class="py-4 px-4 font-bold text-lg text-brand-black">{{ p.stock_quantity }}</td>
+                        <td class="py-4 px-4">
+                            {% if p.stock_quantity > 5 %}
+                            <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">In Stock</span>
+                            {% elif p.stock_quantity > 0 %}
+                            <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200">Low Stock</span>
+                            {% else %}
+                            <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-200">Out of Stock</span>
+                            {% endif %}
+                        </td>
+                        <td class="py-4 px-4 text-right">
+                            <form method="POST" class="inline-flex items-center space-x-2">
+                                {% csrf_token %}
+                                <input type="hidden" name="product_id" value="{{ p.id }}">
+                                <input type="number" name="stock_quantity" value="{{ p.stock_quantity }}" min="0" required class="form-input text-xs py-1 px-3 w-20 text-center">
+                                <button type="submit" class="btn-primary text-[10px] uppercase font-bold py-1.5 px-3">
+                                    Update
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="text-xs text-brand-neutral-400 text-center py-8">No products in inventory.</p>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock content %}

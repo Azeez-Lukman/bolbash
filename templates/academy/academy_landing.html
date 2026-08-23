@@ -1,0 +1,414 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Professional Beauty Training & Academy | Bolbash Beauty Spot Ibadan{% endblock title %}
+
+{% block meta_description %}Master professional hair styling, wig making, wig installation, and beauty techniques at Bolbash Beauty Spot Academy in Ibadan. Hands-on training for aspiring stylists and beauty entrepreneurs.{% endblock meta_description %}
+
+{% block content %}
+
+<!-- ==========================================================================
+     HERO SECTION
+     ========================================================================== -->
+<section class="relative bg-gradient-to-b from-brand-neutral-50 via-white to-brand-neutral-50 py-16 sm:py-20 lg:py-28 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center max-w-3xl mx-auto space-y-6">
+            <span class="eyebrow-text text-brand-pink font-bold">BOLBASH BEAUTY ACADEMY</span>
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-heading font-bold text-brand-black tracking-tight leading-tight">
+                Learn. Create. <br class="hidden sm:inline">Build Your <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-pink to-brand-black">Beauty Career.</span>
+            </h1>
+            <p class="text-brand-neutral-600 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto">
+                Step into professional hair styling, wig craftsmanship, and beauty art. Gain practical, industry-focused skills under personal instruction at Bolbash Beauty Spot Academy.
+            </p>
+
+            <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+                {% if not user.is_authenticated %}
+                <a href="{% url 'academy:course_list' %}" class="btn-primary w-full sm:w-auto text-xs uppercase tracking-wider font-bold shadow-xl shadow-pink-glow py-3.5 px-8">
+                    Browse Course Catalogue →
+                </a>
+                <a href="{% url 'academy:login' %}" class="btn-outline-pink w-full sm:w-auto text-xs uppercase tracking-wider font-bold py-3.5 px-8">
+                    Student Login
+                </a>
+                {% else %}
+                <a href="{% url 'academy:my_learning' %}" class="btn-primary w-full sm:w-auto text-xs uppercase tracking-wider font-bold shadow-xl shadow-pink-glow py-3.5 px-8">
+                    🎓 Go to My Learning Portal →
+                </a>
+                <a href="{% url 'academy:course_list' %}" class="btn-outline-pink w-full sm:w-auto text-xs uppercase tracking-wider font-bold py-3.5 px-8">
+                    Browse Course Catalogue
+                </a>
+                {% endif %}
+            </div>
+
+            {% if not user.is_authenticated %}
+            <p class="text-xs text-brand-neutral-500 pt-1">
+                New to Bolbash Academy? <a href="{% url 'academy:register' %}" class="text-brand-pink font-bold hover:underline">Create a Student Account</a>
+            </p>
+            {% endif %}
+
+            <!-- Value Highlights Badges -->
+            <div class="pt-8 flex flex-wrap justify-center gap-3 sm:gap-4 text-xs font-semibold text-brand-neutral-600">
+                <span class="px-4 py-2 rounded-full bg-white border border-brand-neutral-200 shadow-sm">✨ Hands-on Practical Skill</span>
+                <span class="px-4 py-2 rounded-full bg-white border border-brand-neutral-200 shadow-sm">✂️ Wig & Hair Mastery</span>
+                <span class="px-4 py-2 rounded-full bg-white border border-brand-neutral-200 shadow-sm">📍 Ibadan Salon Studio</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ==========================================================================
+     TARGET STUDENTS SECTION (Who Is This For?)
+     ========================================================================== -->
+<section class="py-16 sm:py-24 bg-white border-y border-brand-neutral-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+        
+        <div class="text-center max-w-2xl mx-auto space-y-3">
+            <span class="section-subtitle">WHO IS THIS FOR?</span>
+            <h2 class="section-title">Designed for Your Growth</h2>
+            <p class="text-brand-neutral-500 text-sm sm:text-base">
+                Whether you are starting from scratch or refining advanced techniques, our training programs empower every student to excel.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <!-- Card 1 -->
+            <div class="p-8 rounded-3xl bg-brand-neutral-50 border border-brand-neutral-200 space-y-4 hover:border-brand-pink transition-colors">
+                <div class="w-12 h-12 rounded-2xl bg-brand-pink/10 text-brand-pink flex items-center justify-center text-2xl">🌱</div>
+                <h3 class="font-heading font-bold text-xl text-brand-black">Beginners & Aspiring Stylists</h3>
+                <p class="text-brand-neutral-600 text-sm leading-relaxed">
+                    Build a solid foundation in professional hair styling, wig construction, and beauty principles with step-by-step guidance.
+                </p>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="p-8 rounded-3xl bg-brand-neutral-50 border border-brand-neutral-200 space-y-4 hover:border-brand-pink transition-colors">
+                <div class="w-12 h-12 rounded-2xl bg-brand-pink/10 text-brand-pink flex items-center justify-center text-2xl">⚡</div>
+                <h3 class="font-heading font-bold text-xl text-brand-black">Practicing Stylists Upgrading Skills</h3>
+                <p class="text-brand-neutral-600 text-sm leading-relaxed">
+                    Refine your technique in lace melting, customized wig fitting, hair revamping, and modern trend execution.
+                </p>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="p-8 rounded-3xl bg-brand-neutral-50 border border-brand-neutral-200 space-y-4 hover:border-brand-pink transition-colors">
+                <div class="w-12 h-12 rounded-2xl bg-brand-pink/10 text-brand-pink flex items-center justify-center text-2xl">👑</div>
+                <h3 class="font-heading font-bold text-xl text-brand-black">Beauty Business Entrepreneurs</h3>
+                <p class="text-brand-neutral-600 text-sm leading-relaxed">
+                    Learn client consultation, service pricing strategies, and standards required to run a premium beauty brand.
+                </p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ==========================================================================
+     WHY LEARN WITH BOLBASH (Value Proposition)
+     ========================================================================== -->
+<section class="py-16 sm:py-24 bg-brand-neutral-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            
+            <div class="space-y-6">
+                <span class="section-subtitle">WHY CHOOSE US</span>
+                <h2 class="section-title">Practical Experience in a Real Studio Environment</h2>
+                <p class="text-brand-neutral-600 text-sm sm:text-base leading-relaxed">
+                    At Bolbash Beauty Spot, education goes beyond theories. Students practice directly with professional hair products, tools, and real-world techniques in our active salon environment.
+                </p>
+
+                <div class="space-y-4 pt-2">
+                    <div class="flex items-start space-x-4">
+                        <div class="w-6 h-6 rounded-full bg-brand-pink text-white flex items-center justify-center text-xs font-bold flex-shrink-0 mt-1">✓</div>
+                        <div>
+                            <h4 class="font-heading font-bold text-brand-black text-base">Hands-on Practical Training</h4>
+                            <p class="text-brand-neutral-500 text-xs sm:text-sm">Direct practice with wig caps, bundles, lace frontals, and professional tools.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-4">
+                        <div class="w-6 h-6 rounded-full bg-brand-pink text-white flex items-center justify-center text-xs font-bold flex-shrink-0 mt-1">✓</div>
+                        <div>
+                            <h4 class="font-heading font-bold text-brand-black text-base">Industry Standard Techniques</h4>
+                            <p class="text-brand-neutral-500 text-xs sm:text-sm">Mastering modern wig installation, bleaching knots, customization, and hair revamping.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-4">
+                        <div class="w-6 h-6 rounded-full bg-brand-pink text-white flex items-center justify-center text-xs font-bold flex-shrink-0 mt-1">✓</div>
+                        <div>
+                            <h4 class="font-heading font-bold text-brand-black text-base">Personalized Instruction</h4>
+                            <p class="text-brand-neutral-500 text-xs sm:text-sm">Small learning batches ensuring dedicated attention and individual progress feedback.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visual Info Card -->
+            <div class="p-8 sm:p-10 rounded-3xl bg-white border border-brand-neutral-200 shadow-xl space-y-6">
+                <div class="p-4 rounded-2xl bg-brand-pink/5 border border-brand-pink/20">
+                    <span class="text-xs uppercase tracking-wider text-brand-pink font-bold block">Training Studio</span>
+                    <span class="font-heading font-bold text-xl text-brand-black block mt-1">Bolbash Studio Academy</span>
+                </div>
+
+                <div class="space-y-3 text-xs text-brand-neutral-600">
+                    <div class="flex justify-between py-2 border-b border-brand-neutral-100">
+                        <span class="font-semibold text-brand-black">Location</span>
+                        <span class="text-right">Sango-Eleyele Road, Ibadan</span>
+                    </div>
+                    <div class="flex justify-between py-2 border-b border-brand-neutral-100">
+                        <span class="font-semibold text-brand-black">Learning Mode</span>
+                        <span>Physical & Interactive</span>
+                    </div>
+                    <div class="flex justify-between py-2 border-b border-brand-neutral-100">
+                        <span class="font-semibold text-brand-black">Focus</span>
+                        <span>Wigs, Hair Styling & Beauty</span>
+                    </div>
+                    <div class="flex justify-between py-2">
+                        <span class="font-semibold text-brand-black">Enquiry</span>
+                        <span class="text-brand-pink font-bold">Open via WhatsApp</span>
+                    </div>
+                </div>
+
+                <a href="https://wa.me/message/UW6FRPKW3STAM1?text=Hello%20Bolbash,%20I%20would%20like%20to%20enquire%20about%20upcoming%20academy%20training" target="_blank" rel="noopener noreferrer" class="btn-primary w-full text-center text-xs uppercase tracking-wider font-bold block">
+                    Speak With an Academy Representative →
+                </a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ==========================================================================
+     TRAINING AREAS / CATEGORIES SECTION
+     ========================================================================== -->
+<section id="training-areas" class="py-16 sm:py-24 bg-white border-t border-brand-neutral-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+        
+        <div class="text-center max-w-2xl mx-auto space-y-3">
+            <span class="section-subtitle">TRAINING AREAS</span>
+            <h2 class="section-title">Key Areas of Instruction</h2>
+            <p class="text-brand-neutral-500 text-sm sm:text-base">
+                Explore the core practical disciplines taught at Bolbash Beauty Spot Academy.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            
+            <!-- Category 1 -->
+            <div class="p-8 rounded-3xl bg-brand-neutral-50 border border-brand-neutral-200 hover:border-brand-pink transition-all space-y-4">
+                <span class="text-3xl block">💇‍♀️</span>
+                <h3 class="font-heading font-bold text-xl text-brand-black">Hair Styling & Braiding</h3>
+                <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed">
+                    Mastering foundational and creative hair styling, parting accuracy, braiding styles, and finishing touches.
+                </p>
+            </div>
+
+            <!-- Category 2 -->
+            <div class="p-8 rounded-3xl bg-brand-neutral-50 border border-brand-neutral-200 hover:border-brand-pink transition-all space-y-4">
+                <span class="text-3xl block">🧵</span>
+                <h3 class="font-heading font-bold text-xl text-brand-black">Wig Making & Customization</h3>
+                <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed">
+                    Wig cap construction, machine and hand sewing methods, knot bleaching, plucking, and hairline customization.
+                </p>
+            </div>
+
+            <!-- Category 3 -->
+            <div class="p-8 rounded-3xl bg-brand-neutral-50 border border-brand-neutral-200 hover:border-brand-pink transition-all space-y-4">
+                <span class="text-3xl block">✨</span>
+                <h3 class="font-heading font-bold text-xl text-brand-black">Wig Installation & Melting</h3>
+                <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed">
+                    Glueless and adhesive wig installations, bald cap method, lace melting techniques, and secure fitting.
+                </p>
+            </div>
+
+            <!-- Category 4 -->
+            <div class="p-8 rounded-3xl bg-brand-neutral-50 border border-brand-neutral-200 hover:border-brand-pink transition-all space-y-4">
+                <span class="text-3xl block">🧴</span>
+                <h3 class="font-heading font-bold text-xl text-brand-black">Hair Revamping & Maintenance</h3>
+                <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed">
+                    Deep conditioning treatments, wig washing, detangling, lace repairs, and restoring human hair bundles.
+                </p>
+            </div>
+
+            <!-- Category 5 -->
+            <div class="p-8 rounded-3xl bg-brand-neutral-50 border border-brand-neutral-200 hover:border-brand-pink transition-all space-y-4">
+                <span class="text-3xl block">💅</span>
+                <h3 class="font-heading font-bold text-xl text-brand-black">Beauty & Nail Artistry</h3>
+                <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed">
+                    Essential nail fixing, gel polishing, press-on applications, and complementary client grooming.
+                </p>
+            </div>
+
+            <!-- Category 6 -->
+            <div class="p-8 rounded-3xl bg-brand-neutral-50 border border-brand-neutral-200 hover:border-brand-pink transition-all space-y-4">
+                <span class="text-3xl block">💼</span>
+                <h3 class="font-heading font-bold text-xl text-brand-black">Salon Management Basics</h3>
+                <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed">
+                    Customer relation skills, hygiene standards, appointment management, and building client loyalty.
+                </p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ==========================================================================
+     FEATURED TRAINING OFFERINGS (Database-Driven or Intentional Placeholder)
+     ========================================================================== -->
+<section class="py-16 sm:py-24 bg-brand-neutral-50 border-t border-brand-neutral-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+        
+        <div class="text-center max-w-2xl mx-auto space-y-3">
+            <span class="section-subtitle">FEATURED PROGRAMS</span>
+            <h2 class="section-title">Training Programs & Courses</h2>
+            <p class="text-brand-neutral-500 text-sm sm:text-base">
+                Discover upcoming and featured training programs offered by Bolbash Beauty Academy.
+            </p>
+        </div>
+
+        {% if all_courses %}
+        <!-- Real Database-Driven Courses Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for course in all_courses %}
+            <div class="bg-white rounded-3xl border border-brand-neutral-200 shadow-lg overflow-hidden flex flex-col justify-between hover:shadow-xl transition-all">
+                <div class="p-6 sm:p-8 space-y-4">
+                    <div class="flex items-center justify-between gap-2">
+                        <span class="badge-pink text-xs font-semibold">{{ course.get_format_type_display }}</span>
+                        {% if course.duration %}
+                        <span class="text-xs text-brand-neutral-400 font-medium">⏱ {{ course.duration }}</span>
+                        {% endif %}
+                    </div>
+
+                    <h3 class="font-heading font-bold text-xl text-brand-black">{{ course.title }}</h3>
+                    <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed">{{ course.short_description }}</p>
+                </div>
+
+                <div class="p-6 sm:p-8 bg-brand-neutral-50 border-t border-brand-neutral-100 flex items-center justify-between">
+                    <div>
+                        <span class="text-xs text-brand-neutral-400 block font-semibold">Tuition</span>
+                        {% if course.price %}
+                        <span class="font-heading font-bold text-brand-pink text-base">₦{{ course.price|floatformat:2 }}</span>
+                        {% else %}
+                        <span class="font-bold text-brand-black text-xs">On Enquiry</span>
+                        {% endif %}
+                    </div>
+
+                    <a href="{% url 'academy:course_detail' course.slug %}" class="btn-outline-pink text-xs uppercase tracking-wider font-bold py-2.5 px-4">
+                        View Details →
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% else %}
+        <!-- Intentional Placeholder State (When no course records exist in DB) -->
+        <div class="max-w-3xl mx-auto p-8 sm:p-12 rounded-3xl bg-white border border-brand-neutral-200 shadow-xl text-center space-y-6">
+            <div class="w-16 h-16 rounded-full bg-brand-pink/10 text-brand-pink flex items-center justify-center text-3xl mx-auto">
+                🎓
+            </div>
+            <div class="space-y-2">
+                <h3 class="font-heading font-bold text-2xl text-brand-black">Upcoming Training Programs — Early Registration Open</h3>
+                <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed max-w-xl mx-auto">
+                    We are finalizing dates for our upcoming physical and specialized training batches. Enquire directly with our academy coordinator on WhatsApp for schedule announcements and early registration.
+                </p>
+            </div>
+
+            <div class="pt-2">
+                <a href="https://wa.me/message/UW6FRPKW3STAM1?text=Hello%20Bolbash,%20I%20would%20like%20to%20register%20my%20interest%20for%20the%20upcoming%20Beauty%20Academy%20batch" target="_blank" rel="noopener noreferrer" class="btn-primary text-xs uppercase tracking-wider font-bold shadow-xl shadow-pink-glow py-3.5 px-8 inline-block">
+                    Register Interest on WhatsApp →
+                </a>
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+</section>
+
+
+<!-- ==========================================================================
+     TRAINING JOURNEY (How Learning Works)
+     ========================================================================== -->
+<section class="py-16 sm:py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+        
+        <div class="text-center max-w-2xl mx-auto space-y-3">
+            <span class="section-subtitle">THE TRAINING JOURNEY</span>
+            <h2 class="section-title">How Learning Works</h2>
+            <p class="text-brand-neutral-500 text-sm sm:text-base">
+                A simple, structured pathway from initial enquiry to practical skill mastery.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            
+            <!-- Step 1 -->
+            <div class="p-6 rounded-2xl bg-brand-neutral-50 border border-brand-neutral-200 space-y-3 relative">
+                <span class="text-3xl font-heading font-bold text-brand-pink/30 block">01</span>
+                <h4 class="font-heading font-bold text-lg text-brand-black">Select Training Area</h4>
+                <p class="text-brand-neutral-500 text-xs leading-relaxed">
+                    Choose the hair or beauty discipline that matches your career goal.
+                </p>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="p-6 rounded-2xl bg-brand-neutral-50 border border-brand-neutral-200 space-y-3 relative">
+                <span class="text-3xl font-heading font-bold text-brand-pink/30 block">02</span>
+                <h4 class="font-heading font-bold text-lg text-brand-black">Enquire & Register</h4>
+                <p class="text-brand-neutral-500 text-xs leading-relaxed">
+                    Contact our academy coordinator via WhatsApp to confirm availability and schedule.
+                </p>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="p-6 rounded-2xl bg-brand-neutral-50 border border-brand-neutral-200 space-y-3 relative">
+                <span class="text-3xl font-heading font-bold text-brand-pink/30 block">03</span>
+                <h4 class="font-heading font-bold text-lg text-brand-black">Hands-On Practice</h4>
+                <p class="text-brand-neutral-500 text-xs leading-relaxed">
+                    Attend practical sessions, receive personal feedback, and refine your techniques.
+                </p>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="p-6 rounded-2xl bg-brand-neutral-50 border border-brand-neutral-200 space-y-3 relative">
+                <span class="text-3xl font-heading font-bold text-brand-pink/30 block">04</span>
+                <h4 class="font-heading font-bold text-lg text-brand-black">Build Your Business</h4>
+                <p class="text-brand-neutral-500 text-xs leading-relaxed">
+                    Apply your new skills with confidence for personal clients or your own beauty brand.
+                </p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ==========================================================================
+     CLOSING CTA BANNER
+     ========================================================================== -->
+<section class="py-16 sm:py-20 bg-brand-black text-white relative overflow-hidden">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6 relative z-10">
+        <span class="text-xs uppercase tracking-widest font-semibold text-brand-pink block">TAKE THE NEXT STEP</span>
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold tracking-tight text-white">
+            Ready to Build Your Career in Beauty?
+        </h2>
+        <p class="text-brand-neutral-400 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
+            Contact Bolbash Beauty Spot Academy to enquire about training schedules, entry requirements, and upcoming batches.
+        </p>
+
+        <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a href="https://wa.me/message/UW6FRPKW3STAM1?text=Hello%20Bolbash,%20I%20want%20to%20enquire%20about%20Beauty%20Academy%20training" target="_blank" rel="noopener noreferrer" class="btn-primary w-full sm:w-auto text-xs uppercase tracking-wider font-bold py-3.5 px-8 shadow-xl shadow-pink-glow">
+                Enquire via WhatsApp →
+            </a>
+            <a href="tel:08168956606" class="btn-dark w-full sm:w-auto text-xs uppercase tracking-wider font-bold py-3.5 px-8">
+                Call: 08168956606
+            </a>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

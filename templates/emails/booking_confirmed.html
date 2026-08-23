@@ -1,0 +1,78 @@
+{% extends "emails/base_email.html" %}
+
+{% block subject %}Your Bolbash Beauty Spot Appointment Is Confirmed — {{ booking.reference }}{% endblock subject %}
+
+{% block content %}
+<div style="text-align: center; margin-bottom: 24px;">
+    <span class="badge-confirmed">CONFIRMED APPOINTMENT</span>
+    <h2 style="margin: 12px 0 4px 0; color: #0F172A; font-size: 22px; font-weight: 700;">
+        Your Appointment Is Confirmed
+    </h2>
+    <p style="margin: 0; color: #64748B; font-size: 14px;">
+        Hello {{ booking.customer_name }}, thank you for choosing Bolbash Beauty Spot! Payment has been received and your appointment slot is secured.
+    </p>
+</div>
+
+<!-- Booking Reference Box -->
+<div class="ref-box">
+    <div style="font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #64748B; font-weight: 700; margin-bottom: 4px;">
+        BOOKING REFERENCE
+    </div>
+    <div class="ref-code">{{ booking.reference }}</div>
+</div>
+
+<!-- Details Table -->
+<table class="table-details">
+    <tr>
+        <td class="label">Service</td>
+        <td class="val">{{ booking.service_name_snapshot }}</td>
+    </tr>
+    <tr>
+        <td class="label">Appointment Date</td>
+        <td class="val">{{ booking.appointment_date|date:"l, d F Y" }}</td>
+    </tr>
+    <tr>
+        <td class="label">Appointment Time</td>
+        <td class="val">{{ booking.appointment_time|time:"h:i A" }}</td>
+    </tr>
+    {% if booking.service_duration_snapshot %}
+    <tr>
+        <td class="label">Estimated Duration</td>
+        <td class="val">{{ booking.service_duration_snapshot }} minutes</td>
+    </tr>
+    {% endif %}
+    <tr>
+        <td class="label">Amount Paid</td>
+        <td class="val" style="color: #DB2777;">
+            {% if booking.amount_due %}NGN {{ booking.amount_due|floatformat:2 }}{% else %}Paid / Verified{% endif %}
+        </td>
+    </tr>
+    <tr>
+        <td class="label">Payment Status</td>
+        <td class="val" style="color: #15803D;">Paid</td>
+    </tr>
+    <tr>
+        <td class="label">Booking Status</td>
+        <td class="val" style="color: #15803D;">Confirmed</td>
+    </tr>
+</table>
+
+<!-- Lookup Info Note -->
+<div style="background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 14px; margin: 20px 0; font-size: 12px; color: #475569; line-height: 1.5;">
+    <strong>Check Your Appointment Later:</strong><br>
+    Need to check your appointment status later? Visit our website and use your booking reference <strong>{{ booking.reference }}</strong> to check your appointment at any time.
+</div>
+
+<!-- Policy Notice -->
+<div style="background-color: #FFF1F2; border: 1px solid #FECDD3; border-radius: 8px; padding: 16px; margin: 24px 0; font-size: 13px; color: #9F1239; line-height: 1.5;">
+    <strong>Salon Policy Reminder:</strong><br>
+    All sessions at Bolbash Beauty Spot are conducted <strong>strictly by appointment</strong> to ensure zero crowding and maximum personal consultation time. Please arrive 10 minutes prior to your scheduled time.
+</div>
+
+<!-- CTAs -->
+<div style="text-align: center; margin-top: 24px;">
+    <a href="https://wa.me/message/UW6FRPKW3STAM1?text=Hello%20Bolbash,%20I%20have%20a%20question%20regarding%20booking%20reference%20{{ booking.reference }}" class="btn-cta">
+        Contact Bolbash On WhatsApp
+    </a>
+</div>
+{% endblock content %}

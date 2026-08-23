@@ -1,0 +1,15 @@
+BOLBASH BEAUTY SPOT — APPOINTMENT CANCELLATION
+
+Hello {{ booking.customer_name }},
+
+Your salon appointment (Reference: {{ booking.reference }}) has been cancelled.
+
+Details:
+- Reference: {{ booking.reference }}
+- Service: {{ booking.service_name_snapshot }}
+- Original Date: {{ booking.appointment_date|date:"l, F d, Y" }}
+- Original Time: {{ booking.appointment_time }}
+- Cancelled By: {{ cancelled_by|default:"Salon Administrator" }}
+
+If you have any questions or wish to schedule a new appointment, please reach out on WhatsApp:
+https://wa.me/message/UW6FRPKW3STAM1

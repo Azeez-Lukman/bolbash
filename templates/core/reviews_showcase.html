@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Customer Reviews & Testimonials | Bolbash Beauty Spot{% endblock %}
+{% block meta_description %}Read authentic client reviews, ratings, and experiences for salon services, wig installations, and bridal styling at Bolbash Beauty Spot Ibadan.{% endblock %}
+
+{% block content %}
+<!-- Hero Header & Rating Overview -->
+<section class="relative bg-brand-black text-white py-16 md:py-24 overflow-hidden">
+    <!-- Ambient Background Glows -->
+    <div class="absolute -top-24 -left-24 w-96 h-96 bg-brand-pink/20 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-pink-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center max-w-3xl mx-auto space-y-4">
+            <span class="inline-block px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest bg-brand-pink/20 text-brand-pink border border-brand-pink/30">
+                Verified Client Feedback
+            </span>
+            <h1 class="font-heading text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white">
+                Client Experiences & Reviews
+            </h1>
+            <p class="text-sm md:text-base text-brand-neutral-300 max-w-2xl mx-auto">
+                Real stories and rating feedback from clients who have experienced our signature wig melts, natural hair care, and luxury bridal transformations.
+            </p>
+
+            <!-- Rating Summary Card -->
+            <div class="pt-6 flex flex-wrap items-center justify-center gap-6 text-left">
+                <div class="bg-white/10 backdrop-blur-md px-6 py-4 rounded-2xl border border-white/15 flex items-center space-x-4">
+                    <div class="text-3xl sm:text-4xl font-bold font-heading text-brand-pink">
+                        {{ avg_rating }}
+                    </div>
+                    <div>
+                        <div class="text-amber-400 font-bold text-base tracking-wide">★★★★★</div>
+                        <div class="text-xs text-brand-neutral-300 font-semibold mt-0.5">Average Client Rating</div>
+                    </div>
+                </div>
+
+                <div class="bg-white/10 backdrop-blur-md px-6 py-4 rounded-2xl border border-white/15 flex items-center space-x-4">
+                    <div class="text-3xl sm:text-4xl font-bold font-heading text-white">
+                        {{ total_count }}
+                    </div>
+                    <div>
+                        <div class="text-xs font-bold text-green-400 uppercase tracking-wider">100% Verified</div>
+                        <div class="text-xs text-brand-neutral-300 font-semibold mt-0.5">Completed Appointments</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Reviews Showcase Grid Section -->
+<section class="py-12 md:py-16 bg-brand-neutral-50 min-h-[60vh]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+
+        <!-- Rating Filter Pills -->
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-brand-neutral-200 pb-6">
+            <div class="flex flex-wrap items-center gap-2">
+                <a href="{% url 'core:reviews_showcase' %}" 
+                   class="px-4 py-2 rounded-xl text-xs font-bold transition-all {% if not selected_rating %}bg-brand-black text-white shadow-md{% else %}bg-white text-brand-neutral-600 hover:bg-brand-neutral-100 border border-brand-neutral-200{% endif %}">
+                    All Approved ({{ total_count }})
+                </a>
+                <a href="{% url 'core:reviews_showcase' %}?rating=5" 
+                   class="px-4 py-2 rounded-xl text-xs font-bold transition-all {% if selected_rating == '5' %}bg-brand-black text-white shadow-md{% else %}bg-white text-brand-neutral-600 hover:bg-brand-neutral-100 border border-brand-neutral-200{% endif %}">
+                    5 Stars ★ ({{ five_star_count }})
+                </a>
+                <a href="{% url 'core:reviews_showcase' %}?rating=4" 
+                   class="px-4 py-2 rounded-xl text-xs font-bold transition-all {% if selected_rating == '4' %}bg-brand-black text-white shadow-md{% else %}bg-white text-brand-neutral-600 hover:bg-brand-neutral-100 border border-brand-neutral-200{% endif %}">
+                    4 Stars ★ ({{ four_star_count }})
+                </a>
+                <a href="{% url 'core:reviews_showcase' %}?rating=3" 
+                   class="px-4 py-2 rounded-xl text-xs font-bold transition-all {% if selected_rating == '3' %}bg-brand-black text-white shadow-md{% else %}bg-white text-brand-neutral-600 hover:bg-brand-neutral-100 border border-brand-neutral-200{% endif %}">
+                    3 Stars ★ ({{ three_star_count }})
+                </a>
+            </div>
+
+            <a href="{% url 'booking:booking_form' %}" class="btn-primary text-xs font-bold py-2.5 px-5 shadow-md shadow-pink-glow">
+                Book Your Experience →
+            </a>
+        </div>
+
+        <!-- Reviews Grid -->
+        {% if reviews %}
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for rev in reviews %}
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-brand-neutral-200 hover:shadow-md transition-all flex flex-col justify-between space-y-4">
+                        <div>
+                            <!-- Header: Customer Avatar & Verified Badge -->
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 rounded-full bg-brand-pink/15 text-brand-pink font-bold flex items-center justify-center text-sm">
+                                        {{ rev.user.get_full_name|default:rev.user.username|slice:":1"|upper }}
+                                    </div>
+                                    <div>
+                                        <h3 class="font-heading font-bold text-sm text-brand-black">
+                                            {{ rev.user.get_full_name|default:rev.user.username }}
+                                        </h3>
+                                        <span class="text-[10px] font-semibold text-green-700 bg-green-50 px-2 py-0.5 rounded border border-green-200">
+                                            ✓ Verified Appointment
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Star Rating -->
+                            <div class="flex items-center space-x-1 mb-2">
+                                <div class="text-amber-400 font-bold text-sm tracking-wide">
+                                    {% if rev.rating == 5 %}★★★★★
+                                    {% elif rev.rating == 4 %}★★★★☆
+                                    {% elif rev.rating == 3 %}★★★☆☆
+                                    {% elif rev.rating == 2 %}★★☆☆☆
+                                    {% else %}★☆☆☆☆{% endif %}
+                                </div>
+                                <span class="text-xs font-bold text-brand-neutral-500">({{ rev.rating }}.0)</span>
+                            </div>
+
+                            <!-- Review Comment -->
+                            <p class="text-xs text-brand-neutral-700 leading-relaxed italic">
+                                "{{ rev.comment }}"
+                            </p>
+                        </div>
+
+                        <!-- Footer: Service Tag & Date -->
+                        <div class="pt-3 border-t border-brand-neutral-100 flex items-center justify-between text-[11px] text-brand-neutral-400">
+                            {% if rev.booking %}
+                                <span class="font-medium text-brand-neutral-600 truncate max-w-[180px]">
+                                    💈 {{ rev.booking.service_name_snapshot }}
+                                </span>
+                            {% elif rev.service %}
+                                <span class="font-medium text-brand-neutral-600 truncate max-w-[180px]">
+                                    💈 {{ rev.service.name }}
+                                </span>
+                            {% else %}
+                                <span>💈 Salon Service</span>
+                            {% endif %}
+                            <span>{{ rev.created_at|date:"M d, Y" }}</span>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <!-- Empty State -->
+            <div class="bg-white rounded-2xl p-12 text-center border border-brand-neutral-200 max-w-lg mx-auto">
+                <div class="w-16 h-16 bg-brand-pink/10 rounded-full flex items-center justify-center mx-auto text-2xl mb-4">
+                    ⭐
+                </div>
+                <h3 class="font-heading text-lg font-bold text-brand-black">No Approved Reviews Found</h3>
+                <p class="text-xs text-brand-neutral-500 mt-2 mb-6">
+                    There are currently no approved customer reviews matching your selected rating filter.
+                </p>
+                <a href="{% url 'core:reviews_showcase' %}" class="btn-secondary text-xs font-semibold py-2.5 px-6">
+                    View All Approved Reviews
+                </a>
+            </div>
+        {% endif %}
+
+    </div>
+</section>
+{% endblock %}

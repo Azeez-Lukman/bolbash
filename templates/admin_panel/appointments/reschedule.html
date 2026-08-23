@@ -1,0 +1,74 @@
+{% extends "admin_panel/base_admin.html" %}
+
+{% block title %}Reschedule Booking #{{ booking.reference }} | Bolbash Admin{% endblock title %}
+{% block header_title %}Reschedule Appointment{% endblock header_title %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto space-y-6">
+
+    <div class="flex items-center justify-between">
+        <a href="{% url 'admin_panel:appointment_detail' booking.reference %}" class="text-xs font-bold text-brand-neutral-500 hover:text-brand-black">
+            ← Cancel & Return to Details
+        </a>
+    </div>
+
+    <!-- Reschedule Form Box -->
+    <div class="bg-white p-6 sm:p-8 rounded-2xl border border-brand-neutral-200 shadow-sm space-y-6">
+        <div>
+            <span class="text-[10px] uppercase tracking-widest font-bold text-brand-pink block">RESCHEDULE WORKFLOW</span>
+            <h2 class="font-heading font-bold text-2xl text-brand-black">Select New Appointment Date & Time</h2>
+            <p class="text-xs text-brand-neutral-500 mt-1">
+                Updating booking #<strong class="font-mono text-brand-black">{{ booking.reference }}</strong> for {{ booking.customer_name }}.
+            </p>
+        </div>
+
+        {% if error_message %}
+        <div class="p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-semibold">
+            ⚠️ {{ error_message }}
+        </div>
+        {% endif %}
+
+        <!-- Current Booking Summary Box -->
+        <div class="p-4 rounded-xl bg-brand-neutral-50 border border-brand-neutral-200 space-y-2 text-xs">
+            <span class="font-bold text-brand-black uppercase text-[10px] tracking-wider block">Current Booking Info</span>
+            <div class="flex justify-between">
+                <span class="text-brand-neutral-500">Service:</span>
+                <span class="font-bold text-brand-black">{{ booking.service_name_snapshot }}</span>
+            </div>
+            <div class="flex justify-between">
+                <span class="text-brand-neutral-500">Current Slot:</span>
+                <span class="font-bold text-brand-pink">{{ booking.appointment_date }} at {{ booking.appointment_time }}</span>
+            </div>
+        </div>
+
+        <form method="POST" class="space-y-6">
+            {% csrf_token %}
+            <div>
+                <label class="form-label">New Appointment Date</label>
+                <input type="date" name="appointment_date" min="{{ today|date:'Y-m-d' }}" value="{{ booking.appointment_date|date:'Y-m-d' }}" required class="form-input text-xs">
+            </div>
+
+            <div>
+                <label class="form-label">New Time Slot</label>
+                <select name="appointment_time" required class="form-select text-xs">
+                    <option value="">-- Select Available Time Slot --</option>
+                    <option value="09:00:00" {% if booking.appointment_time == '09:00:00' %}selected{% endif %}>09:00 AM</option>
+                    <option value="10:00:00" {% if booking.appointment_time == '10:00:00' %}selected{% endif %}>10:00 AM</option>
+                    <option value="11:00:00" {% if booking.appointment_time == '11:00:00' %}selected{% endif %}>11:00 AM</option>
+                    <option value="12:00:00" {% if booking.appointment_time == '12:00:00' %}selected{% endif %}>12:00 PM</option>
+                    <option value="13:00:00" {% if booking.appointment_time == '13:00:00' %}selected{% endif %}>01:00 PM</option>
+                    <option value="14:00:00" {% if booking.appointment_time == '14:00:00' %}selected{% endif %}>02:00 PM</option>
+                    <option value="15:00:00" {% if booking.appointment_time == '15:00:00' %}selected{% endif %}>03:00 PM</option>
+                    <option value="16:00:00" {% if booking.appointment_time == '16:00:00' %}selected{% endif %}>04:00 PM</option>
+                    <option value="17:00:00" {% if booking.appointment_time == '17:00:00' %}selected{% endif %}>05:00 PM</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn-primary w-full text-xs font-bold uppercase tracking-wider py-3.5">
+                Confirm & Reschedule Appointment →
+            </button>
+        </form>
+    </div>
+
+</div>
+{% endblock content %}

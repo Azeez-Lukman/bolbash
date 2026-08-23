@@ -1,0 +1,85 @@
+{% extends "admin_panel/base_admin.html" %}
+
+{% block title %}Blocked Dates | Bolbash Admin{% endblock title %}
+{% block header_title %}Manage Blocked Calendar Dates{% endblock header_title %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto space-y-8">
+
+    <!-- Add Blocked Date Form -->
+    <div class="bg-white p-6 rounded-2xl border border-brand-neutral-200 shadow-sm space-y-4">
+        <div>
+            <span class="text-[10px] uppercase tracking-widest font-bold text-brand-pink block">CALENDAR OVERRIDE</span>
+            <h2 class="font-heading font-bold text-xl text-brand-black">Block a Date From Appointment Booking</h2>
+            <p class="text-xs text-brand-neutral-500">Prevent customers from booking appointments on holidays, maintenance days, or private studio events.</p>
+        </div>
+
+        <form method="POST" class="grid grid-cols-1 sm:grid-cols-12 gap-4 items-end">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="add">
+            
+            <div class="sm:col-span-4">
+                <label class="form-label">Date to Block</label>
+                {{ form.date }}
+            </div>
+
+            <div class="sm:col-span-5">
+                <label class="form-label">Reason / Description</label>
+                {{ form.reason }}
+            </div>
+
+            <div class="sm:col-span-3">
+                <button type="submit" class="btn-primary text-xs font-bold uppercase tracking-wider py-3 px-6 w-full">
+                    + Block Date
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Active Blocked Dates Table -->
+    <div class="bg-white rounded-2xl border border-brand-neutral-200 shadow-sm overflow-hidden space-y-4 p-6">
+        <h3 class="font-heading font-bold text-base text-brand-black pb-2 border-b border-brand-neutral-100">Currently Blocked Dates</h3>
+        
+        {% if blocked_dates %}
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+                <thead class="bg-brand-neutral-50 text-brand-black uppercase tracking-wider font-bold">
+                    <tr>
+                        <th class="py-3 px-4">Blocked Date</th>
+                        <th class="py-3 px-4">Reason</th>
+                        <th class="py-3 px-4">Status</th>
+                        <th class="py-3 px-4 text-right">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-brand-neutral-100">
+                    {% for bd in blocked_dates %}
+                    <tr class="hover:bg-brand-neutral-50">
+                        <td class="py-3.5 px-4 font-bold text-brand-black">{{ bd.date|date:"F d, Y" }}</td>
+                        <td class="py-3.5 px-4 text-brand-neutral-600">{{ bd.reason|default:"No reason specified" }}</td>
+                        <td class="py-3.5 px-4">
+                            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-200">
+                                Active Block
+                            </span>
+                        </td>
+                        <td class="py-3.5 px-4 text-right">
+                            <form method="POST" class="inline">
+                                {% csrf_token %}
+                                <input type="hidden" name="action" value="delete">
+                                <input type="hidden" name="blocked_id" value="{{ bd.id }}">
+                                <button type="submit" onclick="return confirm('Remove block for {{ bd.date }}?')" class="text-xs font-bold text-rose-600 hover:underline">
+                                    Unblock Date ✕
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="text-xs text-brand-neutral-400 text-center py-6">No dates are currently blocked in the calendar.</p>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock content %}

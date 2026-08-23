@@ -1,0 +1,33 @@
+BOLBASH BEAUTY SPOT — APPOINTMENT CONFIRMED
+==================================================
+
+Hello {{ booking.customer_name }},
+
+Thank you for choosing Bolbash Beauty Spot! Payment has been received and your appointment slot is secured.
+
+BOOKING REFERENCE: {{ booking.reference }}
+
+APPOINTMENT DETAILS:
+- Service: {{ booking.service_name_snapshot }}
+- Date: {{ booking.appointment_date|date:"l, d F Y" }}
+- Time: {{ booking.appointment_time|time:"h:i A" }}
+{% if booking.service_duration_snapshot %}- Estimated Duration: {{ booking.service_duration_snapshot }} minutes
+{% endif %}- Amount Paid: {% if booking.amount_due %}NGN {{ booking.amount_due|floatformat:2 }}{% else %}Paid / Verified{% endif %}
+
+- Payment Status: Paid
+- Booking Status: Confirmed
+
+CHECK YOUR APPOINTMENT LATER:
+Need to check your appointment status later? Visit our website and use your booking reference {{ booking.reference }} to check your appointment at any time.
+
+SALON LOCATION:
+No. 40, SIOA Plaza, at the entrance of E Exclusive Hotel, Ore-Ofe Bus Stop, Sango-Eleyele Road, Ibadan, Nigeria.
+Phone: 08168956606
+Policy: Strictly By Appointment
+
+Need help with your appointment? Contact Bolbash on WhatsApp:
+https://wa.me/message/UW6FRPKW3STAM1
+
+==================================================
+Bolbash Beauty Spot • Premium Beauty Salon & Academy
+https://www.instagram.com/hairbybolbash

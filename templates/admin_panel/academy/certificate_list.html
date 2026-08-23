@@ -1,0 +1,73 @@
+{% extends "admin_panel/base_admin.html" %}
+
+{% block title %}Graduation Certificates | Bolbash Admin{% endblock title %}
+{% block header_title %}Certificate Management & Verification{% endblock header_title %}
+
+{% block content %}
+<div class="space-y-6">
+
+    <!-- Search Controls -->
+    <div class="bg-white p-6 rounded-2xl border border-brand-neutral-200 shadow-sm">
+        <form method="GET" class="flex gap-4">
+            <input type="text" name="q" value="{{ q }}" placeholder="Search certificate number, student name, or email..." class="form-input text-xs flex-1">
+            <button type="submit" class="btn-primary text-xs font-bold py-2.5 px-6">Search</button>
+            {% if q %}<a href="{% url 'admin_panel:academy_certificates' %}" class="btn-outline text-xs py-2.5 px-4">Reset</a>{% endif %}
+        </form>
+    </div>
+
+    <!-- Certificates Table -->
+    <div class="bg-white rounded-2xl border border-brand-neutral-200 shadow-sm overflow-hidden p-6 space-y-4">
+        {% if certificates %}
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+                <thead class="bg-brand-neutral-50 border-b border-brand-neutral-200 text-brand-black font-bold uppercase tracking-wider">
+                    <tr>
+                        <th class="py-3.5 px-4">Certificate #</th>
+                        <th class="py-3.5 px-4">Graduate Student</th>
+                        <th class="py-3.5 px-4">Completed Course</th>
+                        <th class="py-3.5 px-4">Issued Date</th>
+                        <th class="py-3.5 px-4">Status</th>
+                        <th class="py-3.5 px-4 text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-brand-neutral-100">
+                    {% for cert in certificates %}
+                    <tr class="hover:bg-brand-neutral-50">
+                        <td class="py-4 px-4 font-mono font-bold text-brand-black">#{{ cert.certificate_id }}</td>
+                        <td class="py-4 px-4 font-bold text-brand-black">{{ cert.user.get_full_name|default:cert.user.username }}</td>
+                        <td class="py-4 px-4 font-medium text-brand-neutral-700">{{ cert.course.title }}</td>
+                        <td class="py-4 px-4 text-brand-neutral-500">{{ cert.issue_date|date:"M d, Y" }}</td>
+                        <td class="py-4 px-4">
+                            <span class="px-2.5 py-1 rounded-full text-[10px] font-bold
+                                {% if cert.is_active %} bg-emerald-50 text-emerald-700 border border-emerald-200
+                                {% else %} bg-rose-50 text-rose-700 border border-rose-200 {% endif %}">
+                                {% if cert.is_active %}Valid & Active{% else %}Revoked / Inactive{% endif %}
+                            </span>
+                        </td>
+                        <td class="py-4 px-4 text-right space-x-2">
+                            <a href="{% url 'academy:verify_certificate' %}?number={{ cert.certificate_id }}" target="_blank" class="btn-outline-pink text-[10px] uppercase py-1 px-3">
+                                Verify 🌐
+                            </a>
+                            <form method="POST" class="inline" onsubmit="return confirm('Toggle status for certificate #{{ cert.certificate_id }}?')">
+                                {% csrf_token %}
+                                <input type="hidden" name="toggle_active" value="1">
+                                <input type="hidden" name="cert_id" value="{{ cert.id }}">
+                                {% if cert.is_active %}
+                                <button type="submit" class="text-xs font-bold text-rose-600 hover:underline">Revoke</button>
+                                {% else %}
+                                <button type="submit" class="text-xs font-bold text-emerald-600 hover:underline">Reactivate</button>
+                                {% endif %}
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="text-xs text-brand-neutral-400 text-center py-8">No certificates found.</p>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock content %}

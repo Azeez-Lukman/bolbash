@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block subject %}Bolbash Beauty Spot{% endblock subject %}</title>
+    <style>
+        /* Email Reset & Base Styling */
+        body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+        table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+        img { -ms-interpolation-mode: bicubic; border: 0; height: auto; line-height: 100%; outline: none; text-decoration: none; }
+        body { height: 100% !important; margin: 0 !important; padding: 0 !important; width: 100% !important; background-color: #F8FAFC; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #1E293B; }
+        
+        .email-container { max-width: 600px; margin: 0 auto; background-color: #FFFFFF; border-radius: 16px; overflow: hidden; border: 1px solid #E2E8F0; }
+        .email-header { background-color: #111111; padding: 32px 24px; text-align: center; border-bottom: 3px solid #E879F9; }
+        .email-header h1 { margin: 0; color: #FFFFFF; font-size: 22px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+        .email-header p { margin: 4px 0 0 0; color: #E879F9; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; }
+        .email-body { padding: 32px 24px; }
+        .email-footer { background-color: #0F172A; padding: 32px 24px; text-align: center; color: #94A3B8; font-size: 12px; line-height: 1.6; }
+        .email-footer a { color: #E879F9; text-decoration: none; font-weight: 600; }
+        .badge-confirmed { display: inline-block; background-color: #DCFCE7; color: #15803D; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px; }
+        .ref-box { background-color: #F1F5F9; border: 2px dashed #CBD5E1; border-radius: 12px; padding: 16px; text-align: center; margin: 20px 0; }
+        .ref-code { font-family: monospace; font-size: 24px; font-weight: 700; color: #DB2777; letter-spacing: 2px; }
+        .table-details { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px; }
+        .table-details td { padding: 12px; border-bottom: 1px solid #E2E8F0; }
+        .table-details td.label { font-weight: 600; color: #64748B; width: 40%; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px; }
+        .table-details td.val { font-weight: 700; color: #0F172A; }
+        .btn-cta { display: inline-block; background-color: #DB2777; color: #FFFFFF !important; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 14px 28px; border-radius: 8px; text-decoration: none; margin-top: 16px; }
+    </style>
+</head>
+<body>
+    <div style="padding: 24px 12px; background-color: #F8FAFC;">
+        <div class="email-container">
+            
+            <!-- Header -->
+            <div class="email-header">
+                <h1>Bolbash Beauty Spot</h1>
+                <p>Premium Beauty Salon & Academy • Ibadan</p>
+            </div>
+
+            <!-- Body Content -->
+            <div class="email-body">
+                {% block content %}{% endblock content %}
+            </div>
+
+            <!-- Footer -->
+            <div class="email-footer">
+                <p style="margin: 0 0 8px 0; color: #FFFFFF; font-weight: 700; font-size: 13px;">
+                    BOLBASH BEAUTY SPOT
+                </p>
+                <p style="margin: 0 0 12px 0;">
+                    Location: No. 40, SIOA Plaza, at the entrance of E Exclusive Hotel, Ore-Ofe Bus Stop, Sango-Eleyele Road, Ibadan, Nigeria.<br>
+                    Phone: 08168956606 | Strictly By Appointment
+                </p>
+                <p style="margin: 0 0 16px 0;">
+                    Connect: 
+                    <a href="https://www.instagram.com/hairbybolbash">Instagram</a> • 
+                    <a href="https://vm.tiktok.com/ZMj3KpSUk/">TikTok</a> • 
+                    <a href="https://wa.me/message/UW6FRPKW3STAM1">WhatsApp</a>
+                </p>
+                <p style="margin: 0; font-size: 11px; color: #64748B;">
+                    &copy; {% now "Y" %} Bolbash Beauty Spot. All rights reserved.
+                </p>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

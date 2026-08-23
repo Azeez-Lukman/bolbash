@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Online Shop | Bolbash Beauty Spot Ibadan{% endblock title %}
+
+{% block meta_description %}Shop luxury hair care products, human wig revamping supplies, skin care essentials, and professional beauty tools at Bolbash Beauty Spot in Ibadan.{% endblock meta_description %}
+
+{% block content %}
+
+<!-- Breadcrumbs Navigation -->
+<div class="bg-brand-neutral-50 border-b border-brand-neutral-200 py-3">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-xs text-brand-neutral-500">
+        <a href="{% url 'core:index' %}" class="hover:text-brand-pink transition-colors">Home</a>
+        <span class="mx-2">/</span>
+        <span class="text-brand-black font-semibold">Online Shop</span>
+    </div>
+</div>
+
+<!-- Shop Hero Section -->
+<section class="relative bg-brand-black text-white py-16 sm:py-24 overflow-hidden border-b border-brand-neutral-800">
+    <div class="absolute inset-0 bg-gradient-to-r from-brand-black via-brand-black/90 to-brand-black/70 z-10"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 space-y-6">
+        <div class="inline-flex items-center space-x-2 bg-brand-pink/20 border border-brand-pink/40 px-3.5 py-1.5 rounded-full text-brand-pink text-xs font-bold uppercase tracking-widest">
+            <span>✨</span>
+            <span>PRO-GRADE BEAUTY STORE</span>
+        </div>
+        <h1 class="font-heading font-extrabold text-3xl sm:text-5xl lg:text-6xl text-white max-w-3xl leading-tight">
+            Premium Hair Care, Wigs & Beauty Essentials.
+        </h1>
+        <p class="text-brand-neutral-300 text-sm sm:text-lg max-w-2xl leading-relaxed">
+            Discover curated salon-quality hair maintenance formulas, customization accessories, and professional beauty tools delivered directly to your doorstep in Ibadan and across Nigeria.
+        </p>
+        <div class="flex flex-wrap items-center gap-4 pt-2">
+            <a href="{% url 'shop:product_catalogue' %}" class="btn-primary text-xs uppercase tracking-wider font-bold py-3.5 px-8 shadow-lg shadow-pink-glow">
+                Explore Full Catalogue →
+            </a>
+            <a href="{% url 'shop:cart_detail' %}" class="btn-outline-pink text-xs uppercase tracking-wider font-bold py-3.5 px-6 border-white/30 text-white hover:bg-white/10">
+                View Shopping Cart ({% if cart %}{{ cart.get_total_items_count }}{% else %}0{% endif %})
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Product Categories Grid -->
+<section class="py-12 sm:py-16 bg-white border-b border-brand-neutral-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        <div class="text-center space-y-2 max-w-xl mx-auto">
+            <span class="badge-pink">CATEGORIES</span>
+            <h2 class="font-heading font-bold text-2xl sm:text-3xl text-brand-black">Browse By Beauty Category</h2>
+            <p class="text-brand-neutral-500 text-xs sm:text-sm">Find specialized products tailored to your hair styling and beauty routine.</p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6">
+            {% for cat in categories %}
+            <a href="{% url 'shop:product_catalogue' %}?category={{ cat.slug }}" 
+               class="bg-brand-neutral-50 border border-brand-neutral-200 hover:border-brand-pink rounded-2xl p-6 text-center space-y-3 transition-all hover:-translate-y-1 hover:shadow-lg group">
+                <div class="w-14 h-14 rounded-2xl bg-brand-pink/10 text-brand-pink flex items-center justify-center text-2xl mx-auto group-hover:scale-110 transition-transform">
+                    {{ cat.icon|default:"🛍️" }}
+                </div>
+                <div>
+                    <h3 class="font-heading font-bold text-sm text-brand-black group-hover:text-brand-pink transition-colors">
+                        {{ cat.name }}
+                    </h3>
+                    <p class="text-[11px] text-brand-neutral-400 font-semibold mt-0.5">
+                        {{ cat.products.all|length }} Item{% if cat.products.all|length != 1 %}s{% endif %}
+                    </p>
+                </div>
+            </a>
+            {% empty %}
+            <div class="col-span-full text-center py-6 text-xs text-brand-neutral-400">
+                Categories are being updated. Explore all products below.
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Featured Products Showcase -->
+<section class="py-12 sm:py-20 bg-brand-neutral-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+        
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-brand-neutral-200 pb-4 gap-4">
+            <div>
+                <span class="badge-gold">FEATURED SELECTION</span>
+                <h2 class="font-heading font-bold text-2xl sm:text-3xl text-brand-black">Popular Beauty Picks</h2>
+            </div>
+            <a href="{% url 'shop:product_catalogue' %}" class="text-xs font-bold uppercase tracking-wider text-brand-pink hover:underline">
+                View All Products →
+            </a>
+        </div>
+
+        {% if featured_products %}
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {% for product in featured_products %}
+            <div class="bg-white border border-brand-neutral-200 rounded-3xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between group hover:border-brand-pink/40">
+                <div>
+                    <!-- Product Image Container -->
+                    <div class="aspect-square bg-brand-neutral-100 relative overflow-hidden">
+                        {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        {% else %}
+                        <div class="w-full h-full flex items-center justify-center text-4xl text-brand-neutral-300">
+                            🛍️
+                        </div>
+                        {% endif %}
+
+                        <div class="absolute top-3 left-3 flex flex-col gap-1">
+                            {% if product.category %}
+                            <span class="badge-pink text-[10px] py-0.5 px-2.5">{{ product.category.name }}</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="absolute top-3 right-3">
+                            {% if product.is_in_stock %}
+                            <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold py-0.5 px-2.5 rounded-full uppercase">In Stock</span>
+                            {% else %}
+                            <span class="bg-rose-100 text-rose-800 text-[10px] font-bold py-0.5 px-2.5 rounded-full uppercase">Out of Stock</span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Product Content -->
+                    <div class="p-5 space-y-2">
+                        <h3 class="font-heading font-bold text-base text-brand-black line-clamp-1">
+                            <a href="{% url 'shop:product_detail' slug=product.slug %}" class="hover:text-brand-pink transition-colors">
+                                {{ product.name }}
+                            </a>
+                        </h3>
+                        <p class="text-brand-neutral-500 text-xs line-clamp-2">
+                            {{ product.short_description }}
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Footer Price & Action -->
+                <div class="p-5 pt-0 space-y-3 border-t border-brand-neutral-100">
+                    <div class="flex items-center justify-between pt-2">
+                        <span class="font-heading font-extrabold text-lg text-brand-pink">
+                            NGN {{ product.price }}
+                        </span>
+                        <span class="text-[11px] text-brand-neutral-400 font-semibold">
+                            Stock: {{ product.stock_quantity }}
+                        </span>
+                    </div>
+
+                    <div class="flex gap-2">
+                        {% if product.is_in_stock %}
+                        <form method="POST" action="{% url 'shop:cart_add' product_id=product.id %}" class="flex-grow">
+                            {% csrf_token %}
+                            <input type="hidden" name="quantity" value="1">
+                            <button type="submit" class="btn-primary text-[11px] uppercase tracking-wider font-bold py-2.5 w-full text-center shadow-md shadow-pink-glow">
+                                Add to Cart 🛒
+                            </button>
+                        </form>
+                        {% endif %}
+                        <a href="{% url 'shop:product_detail' slug=product.slug %}" class="btn-secondary text-[11px] uppercase tracking-wider font-bold py-2.5 px-3">
+                            Details
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="bg-white border border-brand-neutral-200 rounded-3xl p-10 text-center space-y-4">
+            <div class="w-16 h-16 rounded-full bg-brand-pink/10 text-brand-pink flex items-center justify-center text-3xl mx-auto">
+                📦
+            </div>
+            <h3 class="font-heading font-bold text-lg text-brand-black">Catalogue Loading</h3>
+            <p class="text-brand-neutral-500 text-xs sm:text-sm max-w-md mx-auto">
+                Our inventory is being updated with fresh formulas and accessories. Explore available items in the shop catalogue.
+            </p>
+            <a href="{% url 'shop:product_catalogue' %}" class="btn-primary text-xs uppercase font-bold py-3 px-6 inline-block">
+                Browse Full Catalogue →
+            </a>
+        </div>
+        {% endif %}
+
+    </div>
+</section>
+
+{% endblock content %}

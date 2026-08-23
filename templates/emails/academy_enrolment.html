@@ -1,0 +1,51 @@
+{% extends "emails/base_email.html" %}
+
+{% block subject %}Welcome to Bolbash Beauty Academy — {{ enrollment.course.title }}{% endblock subject %}
+
+{% block content %}
+<div style="text-align: center; margin-bottom: 24px;">
+    <span class="badge-confirmed" style="background-color: #E0E7FF; color: #4338CA;">
+        Academy Enrolment Confirmed
+    </span>
+    <h2 style="font-size: 22px; font-weight: 700; color: #0F172A; margin: 16px 0 8px 0;">
+        Welcome to the Academy, {{ student_name }}!
+    </h2>
+    <p style="font-size: 14px; color: #64748B; margin: 0; line-height: 1.5;">
+        Congratulations on taking a step toward professional mastery in beauty & hair styling! You are officially enrolled in <strong>{{ enrollment.course.title }}</strong>.
+    </p>
+</div>
+
+<table class="table-details">
+    <tr>
+        <td class="label">Course Title</td>
+        <td class="val">{{ enrollment.course.title }}</td>
+    </tr>
+    <tr>
+        <td class="label">Category</td>
+        <td class="val">{{ enrollment.course.category.name }}</td>
+    </tr>
+    <tr>
+        <td class="label">Enrolment Date</td>
+        <td class="val">{{ enrollment.created_at|date:"F d, Y" }}</td>
+    </tr>
+    <tr>
+        <td class="label">Access Status</td>
+        <td class="val" style="color: #16A34A;">Full Access Granted</td>
+    </tr>
+</table>
+
+<div style="background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 20px; margin: 24px 0; text-align: left;">
+    <h4 style="margin: 0 0 8px 0; color: #0F172A; font-size: 14px; font-weight: 700;">What to expect:</h4>
+    <ul style="margin: 0; padding-left: 20px; font-size: 13px; color: #475569; line-height: 1.6;">
+        <li>Access step-by-step video tutorials and practical hair styling guides.</li>
+        <li>Track your learning progress through the Student Dashboard.</li>
+        <li>Earn an official Bolbash Beauty Academy Graduation Certificate upon 100% course completion.</li>
+    </ul>
+</div>
+
+<div style="text-align: center; margin-top: 24px;">
+    <a href="http://127.0.0.1:8000/academy/dashboard/" class="btn-cta">
+        Launch Student Dashboard ->
+    </a>
+</div>
+{% endblock content %}

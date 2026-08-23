@@ -1,0 +1,23 @@
+BOLBASH BEAUTY SPOT — SHOP ORDER CONFIRMATION
+
+Hello {{ order.customer_name }},
+
+Thank you for your order! Your payment has been verified and your order is currently being processed.
+
+Order Number: {{ order.order_number }}
+Customer: {{ order.customer_name }}
+Shipping Address: {{ order.shipping_address }}
+
+ORDER ITEMS:
+{% for item in order.items.all %}
+- {{ item.product_name_snapshot }} (Qty: {{ item.quantity }}) — NGN {{ item.subtotal|floatformat:2 }}
+{% endfor %}
+
+Subtotal: NGN {{ order.subtotal|floatformat:2 }}
+Delivery Fee: NGN {{ order.delivery_fee|floatformat:2 }}
+Total Amount Paid: NGN {{ order.total_amount|floatformat:2 }}
+
+View your order online:
+http://127.0.0.1:8000/shop/orders/{{ order.order_number }}/
+
+Thank you for shopping with Bolbash Beauty Spot!

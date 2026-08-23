@@ -1,0 +1,241 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Beauty Services in Ibadan | Bolbash Beauty Spot{% endblock title %}
+
+{% block meta_description %}Explore professional hair styling, 360/frontal wig installations, wig making, bridal hair, nail fixing, manicure, pedicure, and piercings at Bolbash Beauty Spot in Ibadan.{% endblock meta_description %}
+
+{% block content %}
+
+<!-- ==========================================================================
+     1. SERVICES HERO SECTION
+     ========================================================================== -->
+<section class="relative bg-white pt-12 pb-16 sm:pt-16 sm:pb-24 lg:pt-20 lg:pb-28 border-b border-brand-neutral-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div class="max-w-3xl mx-auto space-y-6">
+            <span class="eyebrow-text text-brand-pink font-bold">OUR SERVICES</span>
+            
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-heading font-bold text-brand-black tracking-tight leading-[1.15]">
+                Beauty Crafted <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-pink via-brand-pink-600 to-brand-black">Around You</span>
+            </h1>
+            
+            <p class="text-brand-neutral-500 text-base sm:text-lg lg:text-xl font-normal leading-relaxed">
+                Discover bespoke hair styling, invisible lace wig installations, bridal glamour, manicures, pedicures, and beauty care at Ibadan’s premier appointment-based salon.
+            </p>
+            
+            <!-- Action CTAs -->
+            <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="{% url 'booking:booking_form' %}" class="btn-primary w-full sm:w-auto text-xs uppercase tracking-wider font-bold">
+                    Book Appointment
+                </a>
+                <a href="https://wa.me/message/UW6FRPKW3STAM1" target="_blank" rel="noopener noreferrer" class="btn-outline w-full sm:w-auto text-xs uppercase tracking-wider font-bold">
+                    WhatsApp Enquiry
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================================================
+     2. CATEGORY NAVIGATION / FILTERS
+     ========================================================================== -->
+<section class="py-8 bg-brand-neutral-50 sticky top-20 z-30 border-b border-brand-neutral-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 overflow-x-auto">
+        <div class="flex items-center justify-start sm:justify-center space-x-2 sm:space-x-3 min-w-max pb-2 sm:pb-0" role="tablist" aria-label="Service categories">
+            <button type="button" data-filter="all" role="tab" aria-selected="true"
+                    class="px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all bg-brand-pink text-white shadow-md focus:outline-none focus:ring-2 focus:ring-brand-pink">
+                All Services
+            </button>
+            
+            {% for category in categories %}
+            <button type="button" data-filter="{{ category.slug }}" role="tab" aria-selected="false"
+                    class="px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all bg-white text-brand-neutral-700 hover:bg-brand-neutral-100 border border-brand-neutral-200 focus:outline-none focus:ring-2 focus:ring-brand-pink">
+                {{ category.name }}
+            </button>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================================================
+     3. FEATURED SPOTLIGHT SERVICES
+     ========================================================================== -->
+<section class="py-16 bg-white border-b border-brand-neutral-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+        <div class="text-center max-w-2xl mx-auto space-y-3">
+            <span class="section-subtitle">Signature Specialities</span>
+            <h2 class="section-title">Featured Artistry Services</h2>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {% for service in featured_services %}
+            <div class="bg-brand-black text-white rounded-3xl p-8 sm:p-10 border border-brand-black-muted flex flex-col justify-between space-y-6 relative overflow-hidden group">
+                <div class="space-y-4">
+                    <span class="badge-pink bg-brand-pink text-white border-none">{{ service.category.name }}</span>
+                    <h3 class="font-heading text-2xl sm:text-3xl font-bold text-white group-hover:text-brand-pink transition-colors">
+                        {{ service.name }}
+                    </h3>
+                    <p class="text-brand-neutral-400 text-sm leading-relaxed">
+                        {{ service.description }}
+                    </p>
+                </div>
+
+                <div class="pt-4 border-t border-brand-black-muted flex items-center justify-between">
+                    <div>
+                        {% if service.price %}
+                        <span class="font-heading text-lg font-bold text-brand-pink">₦{{ service.price|floatformat:2 }}</span>
+                        {% else %}
+                        <span class="text-xs text-brand-neutral-400 font-medium">Price available on enquiry</span>
+                        {% endif %}
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <a href="{% url 'core:service_detail' service.slug %}" class="btn-outline-pink text-xs uppercase tracking-wider">
+                            View Details
+                        </a>
+                        <a href="{% url 'booking:booking_form' %}?service={{ service.slug }}" class="btn-primary text-xs uppercase tracking-wider">
+                            Book
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================================================
+     4. ALL SERVICES CARDS GRID
+     ========================================================================== -->
+<section class="py-16 sm:py-24 bg-brand-neutral-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+        <div class="text-center max-w-2xl mx-auto space-y-3">
+            <span class="section-subtitle">Service Catalogue</span>
+            <h2 class="section-title">Explore All Services</h2>
+            <p class="text-brand-neutral-500 text-sm sm:text-base">
+                Click any service card to view complete details, recommendations, and booking instructions.
+            </p>
+        </div>
+
+        <!-- Service Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="services-grid">
+            {% for service in services %}
+            <div class="bg-white rounded-2xl border border-brand-neutral-200 p-6 sm:p-8 flex flex-col justify-between space-y-6 hover:shadow-lg transition-all duration-300 group"
+                 data-category-slug="{{ service.category.slug }}">
+                
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span class="badge-dark text-[10px] uppercase tracking-wider">{{ service.category.name }}</span>
+                        {% if service.featured %}
+                        <span class="badge-pink text-[10px]">Featured</span>
+                        {% endif %}
+                    </div>
+
+                    <h3 class="font-heading text-xl font-bold text-brand-black group-hover:text-brand-pink transition-colors">
+                        <a href="{% url 'core:service_detail' service.slug %}">{{ service.name }}</a>
+                    </h3>
+
+                    <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed">
+                        {{ service.short_description }}
+                    </p>
+                </div>
+
+                <div class="pt-4 border-t border-brand-neutral-100 flex flex-col space-y-4">
+                    <div class="flex items-center justify-between text-xs text-brand-neutral-500">
+                        <span>
+                            {% if service.duration %}
+                            ⏱ {{ service.duration }} mins
+                            {% else %}
+                            ⏱ Duration varies
+                            {% endif %}
+                        </span>
+                        <span class="font-bold text-brand-black">
+                            {% if service.price %}
+                            ₦{{ service.price|floatformat:2 }}
+                            {% else %}
+                            Price on enquiry
+                            {% endif %}
+                        </span>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <a href="{% url 'core:service_detail' service.slug %}" class="btn-outline-pink w-full text-center text-xs uppercase tracking-wider py-2">
+                            Details
+                        </a>
+                        <a href="{% url 'booking:booking_form' %}?service={{ service.slug }}" class="btn-primary w-full text-center text-xs uppercase tracking-wider py-2">
+                            Book
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================================================
+     5. ACADEMY & SHOP CROSS-PROMOTION BANNERS
+     ========================================================================== -->
+<section class="py-16 bg-white border-t border-brand-neutral-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            
+            <!-- Academy Banner -->
+            <div class="bg-brand-neutral-50 p-8 rounded-3xl border border-brand-neutral-200 space-y-4">
+                <span class="text-xs font-bold uppercase tracking-widest text-brand-pink">Beauty Education</span>
+                <h3 class="font-heading text-2xl font-bold text-brand-black">Want to Learn These Skills?</h3>
+                <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed">
+                    Bolbash Beauty Academy provides hands-on masterclasses in wig making, frontal installation, and bridal styling.
+                </p>
+                <div class="pt-2">
+                    <a href="{% url 'academy:academy_landing' %}" class="btn-primary text-xs uppercase tracking-wider">
+                        Explore Academy Courses
+                    </a>
+                </div>
+            </div>
+
+            <!-- Shop Banner -->
+            <div class="bg-brand-neutral-50 p-8 rounded-3xl border border-brand-neutral-200 space-y-4">
+                <span class="text-xs font-bold uppercase tracking-widest text-brand-pink">Hair Care Products</span>
+                <h3 class="font-heading text-2xl font-bold text-brand-black">Maintain Your Hair At Home</h3>
+                <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed">
+                    Discover essential hair oils, lace melt sprays, and restorative hair products curated by Bolbash.
+                </p>
+                <div class="pt-2">
+                    <a href="{% url 'core:index' %}#shop" class="btn-outline-pink text-xs uppercase tracking-wider">
+                        Visit Hair Shop
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================================================
+     6. FINAL CONVERSION BANNER
+     ========================================================================== -->
+<section class="py-16 sm:py-24 bg-brand-black text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold text-white tracking-tight max-w-2xl mx-auto">
+            Ready to Secure Your Service?
+        </h2>
+        <p class="text-brand-neutral-400 text-base max-w-xl mx-auto leading-relaxed">
+            All services are provided strictly by appointment at our Ibadan salon. Secure your dedicated slot today.
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+            <a href="{% url 'booking:booking_form' %}" class="btn-primary w-full sm:w-auto text-xs uppercase tracking-wider font-bold shadow-xl shadow-pink-glow">
+                Book Appointment
+            </a>
+            <a href="https://wa.me/message/UW6FRPKW3STAM1" target="_blank" rel="noopener noreferrer" class="btn-outline-pink w-full sm:w-auto text-xs uppercase tracking-wider">
+                Chat On WhatsApp
+            </a>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}
+
+{% block extra_js %}
+<script src="{% static 'js/services_filter.js' %}"></script>
+{% endblock extra_js %}

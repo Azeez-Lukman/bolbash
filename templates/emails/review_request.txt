@@ -1,0 +1,13 @@
+HOW WAS YOUR EXPERIENCE AT BOLBASH BEAUTY SPOT?
+
+Hello {{ booking.customer_name }},
+
+Thank you for visiting Bolbash Beauty Spot for your {{ booking.service_name_snapshot }} appointment!
+
+Reference Number: {{ booking.reference }}
+Date Attended: {{ booking.appointment_date|date:"F d, Y" }}
+
+We hope you loved your service result! Please take 60 seconds to rate your appointment and share your feedback:
+{{ review_url }}
+
+Thank you for choosing Bolbash Beauty Spot Ibadan!

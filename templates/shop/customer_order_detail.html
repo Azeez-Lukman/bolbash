@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Order Receipt #{{ order.order_number }} | Bolbash Beauty Spot{% endblock title %}
+
+{% block meta_description %}Detailed order receipt and status for order #{{ order.order_number }}.{% endblock meta_description %}
+
+{% block content %}
+
+<!-- Breadcrumbs Navigation -->
+<div class="bg-brand-neutral-50 border-b border-brand-neutral-200 py-3">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-xs text-brand-neutral-500">
+        <a href="{% url 'core:index' %}" class="hover:text-brand-pink transition-colors">Home</a>
+        <span class="mx-2">/</span>
+        <a href="{% url 'shop:shop_landing' %}" class="hover:text-brand-pink transition-colors">Shop</a>
+        <span class="mx-2">/</span>
+        <a href="{% url 'shop:customer_orders' %}" class="hover:text-brand-pink transition-colors">My Orders</a>
+        <span class="mx-2">/</span>
+        <span class="text-brand-black font-semibold">Receipt #{{ order.order_number }}</span>
+    </div>
+</div>
+
+<section class="py-12 sm:py-20 bg-brand-neutral-50 min-h-[85vh]">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-8">
+        
+        <div class="bg-white border border-brand-neutral-200 rounded-3xl p-8 sm:p-10 shadow-xl space-y-6">
+            
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-brand-neutral-100 pb-4 gap-4">
+                <div>
+                    <span class="badge-pink">ORDER RECEIPT</span>
+                    <h1 class="font-heading font-extrabold text-2xl text-brand-black">Order #{{ order.order_number }}</h1>
+                    <p class="text-brand-neutral-400 text-xs mt-0.5">Placed on {{ order.created_at|date:"F d, Y \a\t H:i" }}</p>
+                </div>
+                <div class="flex items-center space-x-2">
+                    {% if order.payment_status == 'PAID' %}
+                    <span class="bg-emerald-100 text-emerald-800 text-xs font-bold py-1 px-3 rounded-full uppercase">Payment Paid</span>
+                    {% else %}
+                    <span class="bg-amber-100 text-amber-800 text-xs font-bold py-1 px-3 rounded-full uppercase">Payment Pending</span>
+                    {% endif %}
+
+                    <span class="bg-brand-neutral-100 text-brand-black text-xs font-bold py-1 px-3 rounded-full uppercase">{{ order.get_order_status_display }}</span>
+                </div>
+            </div>
+
+            <!-- Customer Shipping Info -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 text-xs text-brand-neutral-600 bg-brand-neutral-50 p-6 rounded-2xl border border-brand-neutral-200">
+                <div class="space-y-1">
+                    <h4 class="font-bold text-brand-black uppercase tracking-wider text-[11px] mb-2">Customer Info</h4>
+                    <p><strong class="text-brand-black">Name:</strong> {{ order.customer_name }}</p>
+                    <p><strong class="text-brand-black">Email:</strong> {{ order.customer_email }}</p>
+                    <p><strong class="text-brand-black">Phone:</strong> {{ order.customer_phone }}</p>
+                </div>
+                <div class="space-y-1">
+                    <h4 class="font-bold text-brand-black uppercase tracking-wider text-[11px] mb-2">Delivery Address</h4>
+                    <p><strong class="text-brand-black">Address:</strong> {{ order.shipping_address }}</p>
+                    <p><strong class="text-brand-black">Location:</strong> {{ order.city }}, {{ order.state }}</p>
+                </div>
+            </div>
+
+            <!-- Line Items Table -->
+            <div class="space-y-4">
+                <h3 class="font-heading font-bold text-base text-brand-black border-b border-brand-neutral-100 pb-2">Line Items</h3>
+                <div class="divide-y divide-brand-neutral-100 text-xs">
+                    {% for item in order_items %}
+                    <div class="py-3 flex items-center justify-between">
+                        <div class="space-y-0.5">
+                            <span class="font-bold text-brand-black text-sm">{{ item.product_name_snapshot }}</span>
+                            <span class="text-brand-neutral-400 block">Qty: {{ item.quantity }} × NGN {{ item.product_price_snapshot }}</span>
+                        </div>
+                        <span class="font-bold text-brand-black text-sm">NGN {{ item.subtotal }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Financial Summary Box -->
+            <div class="bg-brand-neutral-50 p-6 rounded-2xl border border-brand-neutral-200 space-y-2 text-xs text-brand-neutral-600">
+                <div class="flex justify-between">
+                    <span>Items Subtotal</span>
+                    <span class="font-bold text-brand-black">NGN {{ order.subtotal }}</span>
+                </div>
+                <div class="flex justify-between">
+                    <span>Delivery Fee</span>
+                    <span class="font-bold text-brand-black">NGN {{ order.delivery_fee }}</span>
+                </div>
+                <div class="border-t border-brand-neutral-200 pt-3 flex justify-between text-base font-bold text-brand-black">
+                    <span>Total Amount</span>
+                    <span class="font-heading font-extrabold text-lg text-brand-pink">NGN {{ order.total_amount }}</span>
+                </div>
+            </div>
+
+            <div class="pt-4 text-center">
+                <a href="{% url 'shop:customer_orders' %}" class="btn-secondary text-xs uppercase font-bold py-3 px-6 inline-block">
+                    ← Back To My Order History
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock content %}

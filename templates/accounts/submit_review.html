@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Submit Appointment Review | Bolbash Beauty Spot{% endblock %}
+{% block meta_description %}Share your feedback and rating for your completed salon appointment at Bolbash Beauty Spot.{% endblock %}
+
+{% block content %}
+<section class="py-8 md:py-12 bg-brand-neutral-50 min-h-screen">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Page Header -->
+        <div class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-brand-neutral-200 mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+                <div class="flex items-center space-x-2 mb-1">
+                    <a href="{% url 'accounts:appointment_history' %}" class="text-xs font-bold text-brand-pink hover:underline">
+                        ← Back to Appointment History
+                    </a>
+                </div>
+                <h1 class="font-heading text-2xl md:text-3xl font-bold text-brand-black tracking-tight">
+                    Submit Salon Experience Review
+                </h1>
+                <p class="text-xs md:text-sm text-brand-neutral-500 mt-1">
+                    Your genuine feedback helps us maintain exceptional beauty standards and craftsmanship.
+                </p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <!-- Appointment Summary Snapshot Card -->
+            <div class="md:col-span-1">
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-brand-neutral-200 sticky top-28 space-y-4">
+                    <span class="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-green-100 text-green-700">
+                        Completed Appointment
+                    </span>
+
+                    <div>
+                        <span class="font-mono text-xs font-bold text-brand-neutral-400 block mb-1">Ref: {{ booking.reference }}</span>
+                        <h2 class="font-heading text-xl font-bold text-brand-black">{{ booking.service_name_snapshot }}</h2>
+                    </div>
+
+                    <div class="space-y-2 text-xs text-brand-neutral-600 border-t border-brand-neutral-100 pt-3">
+                        <div class="flex items-center justify-between">
+                            <span>Date:</span>
+                            <span class="font-bold text-brand-black">{{ booking.appointment_date|date:"D, M d, Y" }}</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span>Time:</span>
+                            <span class="font-bold text-brand-black">{{ booking.appointment_time|time:"h:i A" }}</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span>Client Name:</span>
+                            <span class="font-semibold text-brand-black">{{ booking.customer_name }}</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span>Amount Paid:</span>
+                            <span class="font-bold text-brand-black">₦{{ booking.service_price_snapshot|floatformat:0 }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Review Submission Form -->
+            <div class="md:col-span-2">
+                <div class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-brand-neutral-200">
+                    <form method="POST" action="{% url 'accounts:submit_review' booking.id %}" class="space-y-6">
+                        {% csrf_token %}
+
+                        <!-- Rating Selection -->
+                        <div>
+                            <label for="id_rating" class="block text-xs font-semibold uppercase tracking-wider text-brand-black mb-2">
+                                Overall Rating <span class="text-brand-pink">*</span>
+                            </label>
+                            {{ form.rating }}
+                            {% if form.rating.errors %}
+                                <p class="text-xs text-red-600 mt-1">{{ form.rating.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+
+                        <!-- Review Comment -->
+                        <div>
+                            <label for="id_comment" class="block text-xs font-semibold uppercase tracking-wider text-brand-black mb-2">
+                                Your Feedback & Comments <span class="text-brand-pink">*</span>
+                            </label>
+                            {{ form.comment }}
+                            <p class="text-[11px] text-brand-neutral-400 mt-1">
+                                Tell us about your service, hair transformation, or overall salon stay. (Max 2000 characters).
+                            </p>
+                            {% if form.comment.errors %}
+                                <p class="text-xs text-red-600 mt-1">{{ form.comment.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+
+                        <!-- Submission Notice -->
+                        <div class="p-4 rounded-xl bg-brand-neutral-50 border border-brand-neutral-200 text-xs text-brand-neutral-600">
+                            🛡️ <strong>Note:</strong> All customer reviews undergo brief moderation prior to being featured publicly. Thank you for taking the time to share your feedback!
+                        </div>
+
+                        <!-- Form Actions -->
+                        <div class="pt-4 border-t border-brand-neutral-100 flex items-center justify-between">
+                            <a href="{% url 'accounts:appointment_history' %}" class="text-xs font-bold text-brand-neutral-500 hover:text-brand-black">
+                                Cancel
+                            </a>
+                            <button type="submit" class="btn-primary py-3 px-8 text-xs uppercase tracking-wider font-bold shadow-md shadow-pink-glow">
+                                Submit Review
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,539 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Style & Transformation Gallery | Bolbash Beauty Spot Ibadan{% endblock title %}
+{% block meta_description %}Explore Bolbash Beauty Spot's signature hairstyle gallery, luxury bridal hair transformations, frontal lace melts, natural hair care, and event styling in Ibadan.{% endblock meta_description %}
+
+{% block content %}
+
+<!-- Hero & Introduction Section -->
+<section class="relative bg-brand-black text-white py-16 sm:py-24 overflow-hidden border-b border-brand-black-muted">
+    <div class="absolute inset-0 bg-gradient-to-r from-brand-black via-brand-black/90 to-brand-pink/20 pointer-events-none"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-6">
+        
+        <div class="inline-flex items-center space-x-2 bg-brand-pink/10 border border-brand-pink/30 px-4 py-1.5 rounded-full text-xs font-bold text-brand-pink uppercase tracking-widest">
+            <span>✨ Bolbash Craftsmanship</span>
+        </div>
+
+        <h1 class="font-heading text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
+            Our Masterpiece <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-pink to-rose-300">Portfolio</span>
+        </h1>
+
+        <p class="max-w-2xl mx-auto text-brand-neutral-300 text-sm sm:text-base lg:text-lg font-normal leading-relaxed">
+            Witness the art of beauty. Browse our curated collection of bespoke bridal hair, flawless frontal lace melts, vibrant transformations, natural hair revamping, and event styling.
+        </p>
+
+        <!-- Dynamic Stats & Conversion Bar -->
+        <div class="pt-4 flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-xs sm:text-sm text-brand-neutral-300">
+            <div class="flex items-center space-x-2">
+                <span class="text-brand-pink font-bold text-lg">100%</span>
+                <span>Flawless Melt Guarantee</span>
+            </div>
+            <span class="hidden sm:inline text-brand-neutral-600">•</span>
+            <div class="flex items-center space-x-2">
+                <span class="text-brand-pink font-bold text-lg">Bespoke</span>
+                <span>Bridal & Daily Glam</span>
+            </div>
+            <span class="hidden sm:inline text-brand-neutral-600">•</span>
+            <div class="flex items-center space-x-2">
+                <a href="{% url 'booking:booking_form' %}" class="text-brand-pink hover:underline font-semibold flex items-center space-x-1">
+                    <span>Book Your Look</span>
+                    <span>→</span>
+                </a>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- Main Gallery Filter & Showcase Section -->
+<section class="py-12 sm:py-16 lg:py-20 bg-brand-neutral-50 min-h-[600px]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+
+        <!-- Category Filter Buttons Bar -->
+        <div class="flex items-center justify-center">
+            <nav class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 bg-white p-2 rounded-2xl border border-brand-neutral-200 shadow-sm" aria-label="Gallery Category Filters">
+                
+                <button type="button" 
+                        data-filter="ALL" 
+                        class="gallery-filter-btn active-filter px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 bg-brand-black text-white shadow-md">
+                    All Work
+                    {% if total_images_count > 0 %}
+                        <span class="ml-1 px-2 py-0.5 text-[10px] rounded-full bg-brand-pink text-white font-bold">{{ total_images_count }}</span>
+                    {% endif %}
+                </button>
+
+                {% for cat_code, cat_label in categories %}
+                    <button type="button" 
+                            data-filter="{{ cat_code }}" 
+                            class="gallery-filter-btn px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 text-brand-neutral-700 hover:bg-brand-pink-50 hover:text-brand-pink">
+                        {{ cat_label }}
+                        {% if category_counts %}
+                            {% for c_code, c_count in category_counts.items %}
+                                {% if c_code == cat_code and c_count > 0 %}
+                                    <span class="ml-1 px-2 py-0.5 text-[10px] rounded-full bg-brand-neutral-100 text-brand-neutral-600 font-bold group-hover:bg-brand-pink group-hover:text-white">{{ c_count }}</span>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </button>
+                {% endfor %}
+
+            </nav>
+        </div>
+
+        <!-- Responsive Image Grid Container -->
+        <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
+            
+            {% if gallery_images %}
+                {% for img in gallery_images %}
+                    <div class="gallery-item group relative bg-white rounded-2xl overflow-hidden border border-brand-neutral-200 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col cursor-pointer"
+                         data-category="{{ img.category }}"
+                         data-title="{{ img.title }}"
+                         data-caption="{{ img.caption|default:'' }}"
+                         data-category-label="{{ img.get_category_display }}"
+                         data-image-url="{{ img.image.url }}"
+                         onclick="openLightboxFromElement(this)">
+                        
+                        <!-- Image Container -->
+                        <div class="relative w-full aspect-[4/5] bg-brand-neutral-100 overflow-hidden">
+                            <img src="{{ img.image.url }}" 
+                                 alt="{{ img.title }}" 
+                                 loading="lazy"
+                                 class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out" />
+                            
+                            <!-- Overlay Gradient on Hover -->
+                            <div class="absolute inset-0 bg-gradient-to-t from-brand-black/80 via-brand-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5 text-white">
+                                <span class="text-[10px] uppercase font-bold tracking-widest text-brand-pink bg-brand-black/60 backdrop-blur-md px-2.5 py-1 rounded-full w-max mb-2">
+                                    {{ img.get_category_display }}
+                                </span>
+                                <h3 class="font-heading font-bold text-lg leading-snug text-white">
+                                    {{ img.title }}
+                                </h3>
+                                {% if img.caption %}
+                                    <p class="text-xs text-brand-neutral-200 mt-1 line-clamp-2">
+                                        {{ img.caption }}
+                                    </p>
+                                {% endif %}
+                                <div class="mt-3 flex items-center space-x-2 text-xs font-semibold text-brand-pink">
+                                    <span>🔍 Expand Photo</span>
+                                </div>
+                            </div>
+
+                            <!-- Visible Category Badge Top Right -->
+                            <div class="absolute top-3 right-3 bg-brand-black/70 backdrop-blur-md text-white text-[10px] uppercase font-bold px-2.5 py-1 rounded-full border border-white/20">
+                                {{ img.get_category_display }}
+                            </div>
+                        </div>
+
+                        <!-- Card Content Summary Footer -->
+                        <div class="p-4 bg-white border-t border-brand-neutral-100 flex items-center justify-between">
+                            <div class="truncate">
+                                <h4 class="font-heading font-bold text-sm text-brand-black truncate group-hover:text-brand-pink transition-colors">
+                                    {{ img.title }}
+                                </h4>
+                                {% if img.caption %}
+                                    <p class="text-xs text-brand-neutral-500 truncate">
+                                        {{ img.caption }}
+                                    </p>
+                                {% endif %}
+                            </div>
+                            <span class="text-brand-pink text-sm font-bold flex-shrink-0 ml-2">
+                                ↗
+                            </span>
+                        </div>
+
+                    </div>
+                {% endfor %}
+            {% else %}
+                <!-- Fallback Demonstration Image Cards if database images not yet populated -->
+                
+                <!-- Demo Card 1: Bridal -->
+                <div class="gallery-item group relative bg-white rounded-2xl overflow-hidden border border-brand-neutral-200 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col cursor-pointer"
+                     data-category="BRIDAL"
+                     data-title="Luxury Royal Bridal Crown & Veil"
+                     data-caption="Bespoke bridal styling tailored for traditional and white wedding glam."
+                     data-category-label="Bridal & Wedding"
+                     data-image-url="{% static 'images/bridal_hero.jpg' %}"
+                     onclick="openLightboxFromElement(this)">
+                    <div class="relative w-full aspect-[4/5] bg-brand-neutral-100 overflow-hidden">
+                        <img src="{% static 'images/bridal_hero.jpg' %}" alt="Luxury Royal Bridal Styling" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                        <div class="absolute top-3 right-3 bg-brand-black/70 backdrop-blur-md text-white text-[10px] uppercase font-bold px-2.5 py-1 rounded-full border border-white/20">
+                            Bridal & Wedding
+                        </div>
+                    </div>
+                    <div class="p-4 bg-white border-t border-brand-neutral-100 flex items-center justify-between">
+                        <div>
+                            <h4 class="font-heading font-bold text-sm text-brand-black group-hover:text-brand-pink transition-colors">Luxury Royal Bridal Crown</h4>
+                            <p class="text-xs text-brand-neutral-500">Bespoke bridal hair styling</p>
+                        </div>
+                        <span class="text-brand-pink text-sm font-bold">↗</span>
+                    </div>
+                </div>
+
+                <!-- Demo Card 2: Wig Melt -->
+                <div class="gallery-item group relative bg-white rounded-2xl overflow-hidden border border-brand-neutral-200 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col cursor-pointer"
+                     data-category="WIG_MELT"
+                     data-title="360 HD Frontal Invisible Melt"
+                     data-caption="Seamless skin-like lace melt installation with flawless edge finish."
+                     data-category-label="Wig Installation & Lace Melt"
+                     data-image-url="{% static 'images/frontal_melt_showcase.jpg' %}"
+                     onclick="openLightboxFromElement(this)">
+                    <div class="relative w-full aspect-[4/5] bg-brand-neutral-100 overflow-hidden">
+                        <img src="{% static 'images/frontal_melt_showcase.jpg' %}" alt="360 HD Frontal Invisible Melt" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                        <div class="absolute top-3 right-3 bg-brand-black/70 backdrop-blur-md text-white text-[10px] uppercase font-bold px-2.5 py-1 rounded-full border border-white/20">
+                            Wig Melt
+                        </div>
+                    </div>
+                    <div class="p-4 bg-white border-t border-brand-neutral-100 flex items-center justify-between">
+                        <div>
+                            <h4 class="font-heading font-bold text-sm text-brand-black group-hover:text-brand-pink transition-colors">360 HD Frontal Lace Melt</h4>
+                            <p class="text-xs text-brand-neutral-500">Skin-like invisible melt</p>
+                        </div>
+                        <span class="text-brand-pink text-sm font-bold">↗</span>
+                    </div>
+                </div>
+
+                <!-- Demo Card 3: Traditional Bridal -->
+                <div class="gallery-item group relative bg-white rounded-2xl overflow-hidden border border-brand-neutral-200 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col cursor-pointer"
+                     data-category="BRIDAL"
+                     data-title="Traditional Engagement Glam"
+                     data-caption="Elegantly sculpted traditional bridal updos and headpieces."
+                     data-category-label="Bridal & Wedding"
+                     data-image-url="{% static 'images/bridal_traditional.jpg' %}"
+                     onclick="openLightboxFromElement(this)">
+                    <div class="relative w-full aspect-[4/5] bg-brand-neutral-100 overflow-hidden">
+                        <img src="{% static 'images/bridal_traditional.jpg' %}" alt="Traditional Engagement Glam" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                        <div class="absolute top-3 right-3 bg-brand-black/70 backdrop-blur-md text-white text-[10px] uppercase font-bold px-2.5 py-1 rounded-full border border-white/20">
+                            Bridal & Wedding
+                        </div>
+                    </div>
+                    <div class="p-4 bg-white border-t border-brand-neutral-100 flex items-center justify-between">
+                        <div>
+                            <h4 class="font-heading font-bold text-sm text-brand-black group-hover:text-brand-pink transition-colors">Traditional Engagement Glam</h4>
+                            <p class="text-xs text-brand-neutral-500">Traditional bridal headpiece & hair</p>
+                        </div>
+                        <span class="text-brand-pink text-sm font-bold">↗</span>
+                    </div>
+                </div>
+
+                <!-- Demo Card 4: Salon Styling -->
+                <div class="gallery-item group relative bg-white rounded-2xl overflow-hidden border border-brand-neutral-200 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col cursor-pointer"
+                     data-category="HAIRSTYLES"
+                     data-title="Signature Silk Press & Cut"
+                     data-caption="Ultra-smooth, glossy silk press with health-focused trim."
+                     data-category-label="Hair Styling & Updos"
+                     data-image-url="{% static 'images/salon_hero_showcase.jpg' %}"
+                     onclick="openLightboxFromElement(this)">
+                    <div class="relative w-full aspect-[4/5] bg-brand-neutral-100 overflow-hidden">
+                        <img src="{% static 'images/salon_hero_showcase.jpg' %}" alt="Signature Silk Press & Cut" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                        <div class="absolute top-3 right-3 bg-brand-black/70 backdrop-blur-md text-white text-[10px] uppercase font-bold px-2.5 py-1 rounded-full border border-white/20">
+                            Hair Styling
+                        </div>
+                    </div>
+                    <div class="p-4 bg-white border-t border-brand-neutral-100 flex items-center justify-between">
+                        <div>
+                            <h4 class="font-heading font-bold text-sm text-brand-black group-hover:text-brand-pink transition-colors">Signature Silk Press & Styling</h4>
+                            <p class="text-xs text-brand-neutral-500">Glossy silk press finish</p>
+                        </div>
+                        <span class="text-brand-pink text-sm font-bold">↗</span>
+                    </div>
+                </div>
+
+            {% endif %}
+
+        </div>
+
+        <!-- Dynamic Category Empty State -->
+        <div id="gallery-empty-state" class="hidden text-center py-16 px-4 bg-white rounded-3xl border border-dashed border-brand-neutral-300 space-y-4 max-w-xl mx-auto">
+            <div class="w-16 h-16 rounded-full bg-brand-pink-50 text-brand-pink mx-auto flex items-center justify-center text-3xl">
+                📸
+            </div>
+            <h3 class="font-heading text-xl font-bold text-brand-black">No Photos in This Category Yet</h3>
+            <p class="text-sm text-brand-neutral-500 leading-relaxed">
+                We regularly add new photography to our masterpiece portfolio. Check out our other categories or view all work.
+            </p>
+            <div class="pt-2">
+                <button type="button" 
+                        onclick="resetGalleryFilter()" 
+                        class="btn-secondary text-xs uppercase font-bold px-5 py-2.5">
+                    View All Styles
+                </button>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- Conversion CTA Banner Section -->
+<section class="py-16 sm:py-20 bg-brand-black text-white relative overflow-hidden border-t border-brand-black-muted">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8 relative z-10">
+        
+        <div class="inline-flex items-center space-x-2 bg-brand-pink/20 text-brand-pink px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest border border-brand-pink/30">
+            <span>Ready for Your Transformation?</span>
+        </div>
+
+        <h2 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight">
+            Inspired by Our Craftsmanship? <br class="hidden sm:inline" />
+            <span class="text-brand-pink">Book Your Session Today.</span>
+        </h2>
+
+        <p class="max-w-2xl mx-auto text-brand-neutral-300 text-sm sm:text-base leading-relaxed">
+            Whether you need a breathtaking bridal installation, silk press, or wig revamping, our senior hair artists are ready to elevate your style.
+        </p>
+
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+            <a href="{% url 'booking:booking_form' %}" class="btn-primary text-xs uppercase tracking-wider font-bold py-3.5 px-8 shadow-lg shadow-pink-glow w-full sm:w-auto">
+                Book Salon Appointment 💇‍♀️
+            </a>
+            <a href="{% url 'core:bridal' %}" class="btn-secondary text-xs uppercase tracking-wider font-bold py-3.5 px-8 w-full sm:w-auto">
+                Explore Bridal Packages 👑
+            </a>
+        </div>
+
+    </div>
+</section>
+
+<!-- Interactive Vanilla JS Lightbox Modal -->
+<div id="gallery-lightbox" 
+     class="fixed inset-0 z-50 hidden bg-brand-black/95 backdrop-blur-md flex flex-col justify-between p-4 sm:p-6 transition-opacity duration-300 opacity-0"
+     role="dialog" 
+     aria-modal="true" 
+     aria-label="Image Lightbox Viewer">
+    
+    <!-- Lightbox Top Controls Header -->
+    <div class="flex items-center justify-between text-white max-w-7xl w-full mx-auto pb-4">
+        <div class="flex items-center space-x-3">
+            <span id="lightbox-category" class="text-[10px] uppercase font-bold tracking-widest bg-brand-pink px-3 py-1 rounded-full text-white">
+                Category
+            </span>
+            <span id="lightbox-counter" class="text-xs text-brand-neutral-400 font-medium">
+                Photo 1 of 4
+            </span>
+        </div>
+
+        <button type="button" 
+                onclick="closeLightbox()" 
+                class="p-2.5 rounded-full bg-white/10 hover:bg-brand-pink text-white transition-colors focus:outline-none focus:ring-2 focus:ring-brand-pink text-lg font-bold"
+                aria-label="Close Lightbox Viewer">
+            ✕
+        </button>
+    </div>
+
+    <!-- Lightbox Main Media Container with Nav Arrows -->
+    <div class="relative flex-1 flex items-center justify-center max-w-6xl w-full mx-auto my-auto overflow-hidden">
+        
+        <!-- Previous Arrow Button -->
+        <button type="button" 
+                onclick="navigateLightbox(-1)" 
+                class="absolute left-2 sm:left-4 z-20 p-3 rounded-full bg-brand-black/70 hover:bg-brand-pink text-white text-xl sm:text-2xl font-bold transition-all transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-brand-pink"
+                aria-label="Previous Image">
+            ‹
+        </button>
+
+        <!-- Main Lightbox Image -->
+        <div class="relative flex items-center justify-center w-full h-full max-h-[75vh] sm:max-h-[82vh]">
+            <img id="lightbox-img" 
+                 src="" 
+                 alt="Enlarged Gallery Photo" 
+                 class="max-h-[75vh] sm:max-h-[82vh] max-w-full object-contain rounded-xl shadow-2xl transition-all duration-300 transform scale-95" />
+        </div>
+
+        <!-- Next Arrow Button -->
+        <button type="button" 
+                onclick="navigateLightbox(1)" 
+                class="absolute right-2 sm:right-4 z-20 p-3 rounded-full bg-brand-black/70 hover:bg-brand-pink text-white text-xl sm:text-2xl font-bold transition-all transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-brand-pink"
+                aria-label="Next Image">
+            ›
+        </button>
+
+    </div>
+
+    <!-- Lightbox Bottom Caption & Action Bar -->
+    <div class="max-w-4xl w-full mx-auto pt-4 border-t border-white/10 text-center space-y-2">
+        <h3 id="lightbox-title" class="font-heading text-lg sm:text-xl font-bold text-white">
+            Photo Title
+        </h3>
+        <p id="lightbox-caption" class="text-xs sm:text-sm text-brand-neutral-300 max-w-xl mx-auto line-clamp-2">
+            Photo Caption Description
+        </p>
+        <div class="pt-2">
+            <a href="{% url 'booking:booking_form' %}" class="inline-flex items-center space-x-2 text-xs font-bold text-brand-pink hover:underline">
+                <span>Book This Look</span>
+                <span>→</span>
+            </a>
+        </div>
+    </div>
+
+</div>
+
+{% endblock content %}
+
+{% block extra_js %}
+<script>
+    // Global State for Gallery Filter & Lightbox
+    let currentVisibleItems = [];
+    let currentLightboxIndex = 0;
+
+    document.addEventListener('DOMContentLoaded', function () {
+        initCategoryFilter();
+        initLightboxEvents();
+    });
+
+    function initCategoryFilter() {
+        const filterBtns = document.querySelectorAll('.gallery-filter-btn');
+        const items = document.querySelectorAll('.gallery-item');
+        const emptyState = document.getElementById('gallery-empty-state');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', function () {
+                const targetFilter = this.getAttribute('data-filter');
+
+                // Update Active Button Classes
+                filterBtns.forEach(b => {
+                    b.classList.remove('active-filter', 'bg-brand-black', 'text-white', 'shadow-md');
+                    b.classList.add('text-brand-neutral-700', 'hover:bg-brand-pink-50', 'hover:text-brand-pink');
+                });
+                this.classList.add('active-filter', 'bg-brand-black', 'text-white', 'shadow-md');
+                this.classList.remove('text-brand-neutral-700', 'hover:bg-brand-pink-50', 'hover:text-brand-pink');
+
+                let visibleCount = 0;
+                items.forEach(item => {
+                    const itemCat = item.getAttribute('data-category');
+                    if (targetFilter === 'ALL' || itemCat === targetFilter) {
+                        item.classList.remove('hidden');
+                        item.classList.add('flex');
+                        visibleCount++;
+                    } else {
+                        item.classList.add('hidden');
+                        item.classList.remove('flex');
+                    }
+                });
+
+                if (emptyState) {
+                    if (visibleCount === 0) {
+                        emptyState.classList.remove('hidden');
+                    } else {
+                        emptyState.classList.add('hidden');
+                    }
+                }
+            });
+        });
+    }
+
+    function resetGalleryFilter() {
+        const allBtn = document.querySelector('.gallery-filter-btn[data-filter="ALL"]');
+        if (allBtn) allBtn.click();
+    }
+
+    function openLightboxFromElement(elem) {
+        // Collect currently visible items in grid
+        const allVisible = Array.from(document.querySelectorAll('.gallery-item:not(.hidden)'));
+        currentVisibleItems = allVisible;
+        currentLightboxIndex = allVisible.indexOf(elem);
+        if (currentLightboxIndex === -1) currentLightboxIndex = 0;
+
+        renderLightboxItem();
+
+        const lightbox = document.getElementById('gallery-lightbox');
+        const img = document.getElementById('lightbox-img');
+
+        lightbox.classList.remove('hidden');
+        document.body.classList.add('overflow-hidden');
+
+        setTimeout(() => {
+            lightbox.classList.remove('opacity-0');
+            img.classList.remove('scale-95');
+            img.classList.add('scale-100');
+        }, 20);
+    }
+
+    function renderLightboxItem() {
+        if (!currentVisibleItems.length) return;
+
+        const elem = currentVisibleItems[currentLightboxIndex];
+        const imageUrl = elem.getAttribute('data-image-url');
+        const title = elem.getAttribute('data-title');
+        const caption = elem.getAttribute('data-caption');
+        const catLabel = elem.getAttribute('data-category-label');
+
+        document.getElementById('lightbox-img').src = imageUrl;
+        document.getElementById('lightbox-title').textContent = title || 'Bolbash Beauty Spot Showcase';
+        document.getElementById('lightbox-caption').textContent = caption || '';
+        document.getElementById('lightbox-category').textContent = catLabel || 'Style Gallery';
+        document.getElementById('lightbox-counter').textContent = `Photo ${currentLightboxIndex + 1} of ${currentVisibleItems.length}`;
+    }
+
+    function navigateLightbox(direction) {
+        if (!currentVisibleItems.length) return;
+
+        currentLightboxIndex += direction;
+        if (currentLightboxIndex < 0) {
+            currentLightboxIndex = currentVisibleItems.length - 1;
+        } else if (currentLightboxIndex >= currentVisibleItems.length) {
+            currentLightboxIndex = 0;
+        }
+
+        const img = document.getElementById('lightbox-img');
+        img.classList.add('opacity-50');
+        setTimeout(() => {
+            renderLightboxItem();
+            img.classList.remove('opacity-50');
+        }, 150);
+    }
+
+    function closeLightbox() {
+        const lightbox = document.getElementById('gallery-lightbox');
+        const img = document.getElementById('lightbox-img');
+
+        lightbox.classList.add('opacity-0');
+        img.classList.remove('scale-100');
+        img.classList.add('scale-95');
+
+        setTimeout(() => {
+            lightbox.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }, 300);
+    }
+
+    function initLightboxEvents() {
+        // Keyboard Controls: Escape, Left Arrow, Right Arrow
+        document.addEventListener('keydown', function (e) {
+            const lightbox = document.getElementById('gallery-lightbox');
+            if (lightbox && !lightbox.classList.contains('hidden')) {
+                if (e.key === 'Escape') {
+                    closeLightbox();
+                } else if (e.key === 'ArrowLeft') {
+                    navigateLightbox(-1);
+                } else if (e.key === 'ArrowRight') {
+                    navigateLightbox(1);
+                }
+            }
+        });
+
+        // Touch Swipe Handling for Mobile
+        const lightboxEl = document.getElementById('gallery-lightbox');
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        lightboxEl.addEventListener('touchstart', function (e) {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        lightboxEl.addEventListener('touchend', function (e) {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, { passive: true });
+
+        function handleSwipe() {
+            const diff = touchEndX - touchStartX;
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) {
+                    navigateLightbox(-1); // Swipe Right -> Previous
+                } else {
+                    navigateLightbox(1);  // Swipe Left -> Next
+                }
+            }
+        }
+    }
+</script>
+{% endblock extra_js %}

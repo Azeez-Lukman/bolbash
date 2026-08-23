@@ -1,0 +1,20 @@
+{# Reusable Informative Empty State Component #}
+{# Parameters: icon, title, message, cta_url, cta_text #}
+<div class="max-w-md mx-auto my-8 p-8 text-center bg-white border border-brand-pink-100/60 rounded-3xl shadow-sm space-y-4">
+    <div class="w-16 h-16 mx-auto rounded-full bg-brand-pink-50 border border-brand-pink-100 flex items-center justify-center text-brand-pink-600 text-2xl">
+        {{ icon|default:"✨" }}
+    </div>
+    <h3 class="text-xl font-bold font-serif text-brand-black-dark">
+        {{ title|default:"Nothing Here Yet" }}
+    </h3>
+    <p class="text-brand-neutral-500 text-sm leading-relaxed">
+        {{ message|default:"There is currently no data available to display in this view." }}
+    </p>
+    {% if cta_url %}
+    <div class="pt-2">
+        <a href="{{ cta_url }}" class="inline-flex items-center px-6 py-3 rounded-xl text-xs font-bold uppercase tracking-wider bg-brand-pink-600 text-white hover:bg-brand-pink-700 transition shadow-md shadow-pink-500/10">
+            {{ cta_text|default:"Explore Options" }} →
+        </a>
+    </div>
+    {% endif %}
+</div>

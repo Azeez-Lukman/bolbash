@@ -1,0 +1,17 @@
+{# Reusable Full Page / Container Loading Overlay #}
+<div id="global-page-loader" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-brand-white-off/90 backdrop-blur-sm transition-opacity duration-300 pointer-events-none opacity-0 hidden">
+    <div class="relative flex flex-col items-center space-y-4 p-8 bg-white/80 rounded-3xl border border-brand-pink-100 shadow-xl">
+        <!-- Logo Pulse -->
+        <div class="w-16 h-16 rounded-full bg-gradient-to-tr from-brand-pink-500 to-pink-300 flex items-center justify-center shadow-lg shadow-pink-500/20 animate-pulse">
+            <span class="font-serif font-bold text-white text-2xl tracking-wider">B</span>
+        </div>
+        <!-- Animated Spinner -->
+        <div class="flex items-center space-x-3">
+            <svg class="animate-spin w-5 h-5 text-brand-pink-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <span id="page-loader-text" class="text-xs uppercase tracking-widest font-bold text-brand-black-dark">Processing...</span>
+        </div>
+    </div>
+</div>

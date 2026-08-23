@@ -1,0 +1,18 @@
+BOLBASH BEAUTY ACADEMY — COURSE GRADUATION
+
+Congratulations {{ student_name }}!
+
+You have successfully completed 100% of {{ certificate.course.title }}.
+
+Certificate Summary:
+- Certificate ID: #{{ certificate.certificate_id }}
+- Graduate: {{ student_name }}
+- Course: {{ certificate.course.title }}
+- Issue Date: {{ certificate.issue_date|date:"F d, Y" }}
+- Verification Code: {{ certificate.verification_code }}
+
+View and download your PDF certificate:
+http://127.0.0.1:8000/academy/certificates/{{ certificate.certificate_id }}/
+
+Congratulations on your achievement!
+Bolbash Beauty Academy

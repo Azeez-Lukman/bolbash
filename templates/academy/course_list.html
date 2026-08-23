@@ -1,0 +1,229 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Academy Course Catalogue | Bolbash Beauty Spot Ibadan{% endblock title %}
+
+{% block meta_description %}Explore professional beauty training programs in Ibadan. Master wig making, lace installation, bridal hair styling, and salon business fundamentals at Bolbash Beauty Academy.{% endblock meta_description %}
+
+{% block og_title %}Academy Course Catalogue | Bolbash Beauty Spot Ibadan{% endblock og_title %}
+{% block og_description %}Discover hands-on professional beauty training programs in Ibadan. Master custom wig construction, lace melting, and bridal styling.{% endblock og_description %}
+
+{% block content %}
+
+<!-- ==========================================================================
+     1. BREADCRUMBS NAVIGATION
+     ========================================================================== -->
+<div class="bg-brand-neutral-50 border-b border-brand-neutral-200 py-4">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <nav class="flex items-center space-x-2 text-xs font-medium text-brand-neutral-500" aria-label="Breadcrumb">
+            <a href="{% url 'core:index' %}" class="hover:text-brand-pink transition-colors">Home</a>
+            <span>/</span>
+            <a href="{% url 'academy:academy_landing' %}" class="hover:text-brand-pink transition-colors">Academy</a>
+            <span>/</span>
+            <span class="text-brand-black font-semibold">Courses</span>
+        </nav>
+    </div>
+</div>
+
+<!-- ==========================================================================
+     2. CATALOGUE HERO & HEADER SECTION
+     ========================================================================== -->
+<section class="relative bg-white pt-12 pb-14 sm:pt-16 sm:pb-20 border-b border-brand-neutral-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
+        <span class="eyebrow-text text-brand-pink font-bold uppercase tracking-widest text-xs">
+            BOLBASH BEAUTY ACADEMY CATALOGUE
+        </span>
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold text-brand-black tracking-tight max-w-3xl mx-auto">
+            Learn Beauty Skills. <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-pink to-brand-black">Build Your Craft.</span>
+        </h1>
+        <p class="text-brand-neutral-500 text-sm sm:text-base lg:text-lg max-w-2xl mx-auto leading-relaxed">
+            Explore available Bolbash Beauty Spot training programs. Gain hands-on practical skills in custom wig construction, invisible frontal installation, bridal artistry, and salon business standards.
+        </p>
+    </div>
+</section>
+
+<!-- ==========================================================================
+     3. COURSE CATALOGUE & FILTER BAR
+     ========================================================================== -->
+<section class="py-12 sm:py-16 lg:py-20 bg-brand-neutral-50 min-h-[60vh]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+
+        <!-- Category & Format Filter Control Bar -->
+        <div class="bg-white p-6 rounded-3xl border border-brand-neutral-200 shadow-sm space-y-6">
+            
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                
+                <!-- Category Filter Pills -->
+                <div class="flex flex-wrap items-center gap-2">
+                    <a href="{% url 'academy:course_list' %}{% if selected_format %}?format={{ selected_format }}{% endif %}" 
+                       class="px-4 py-2 rounded-xl text-xs font-semibold transition-all {% if not selected_category %}bg-brand-black text-white shadow-md{% else %}bg-brand-neutral-100 text-brand-neutral-600 hover:bg-brand-pink-50 hover:text-brand-pink{% endif %}">
+                        All Categories
+                    </a>
+                    {% for cat in categories %}
+                    <a href="{% url 'academy:course_list' %}?category={{ cat.slug }}{% if selected_format %}&format={{ selected_format }}{% endif %}" 
+                       class="px-4 py-2 rounded-xl text-xs font-semibold transition-all {% if selected_category == cat.slug %}bg-brand-black text-white shadow-md{% else %}bg-brand-neutral-100 text-brand-neutral-600 hover:bg-brand-pink-50 hover:text-brand-pink{% endif %}">
+                        {{ cat.name }}
+                    </a>
+                    {% endfor %}
+                </div>
+
+                <!-- Format Filter & Search Box -->
+                <form method="GET" action="{% url 'academy:course_list' %}" class="flex flex-wrap items-center gap-3">
+                    {% if selected_category %}
+                    <input type="hidden" name="category" value="{{ selected_category }}">
+                    {% endif %}
+
+                    <!-- Format Select -->
+                    <select name="format" onchange="this.form.submit()" class="form-input text-xs py-2 px-3 bg-brand-neutral-50 rounded-xl border border-brand-neutral-200 font-medium">
+                        <option value="">All Training Formats</option>
+                        <option value="PHYSICAL" {% if selected_format == 'PHYSICAL' %}selected{% endif %}>Physical Training</option>
+                        <option value="ONLINE" {% if selected_format == 'ONLINE' %}selected{% endif %}>Online Class</option>
+                        <option value="HYBRID" {% if selected_format == 'HYBRID' %}selected{% endif %}>Hybrid Program</option>
+                    </select>
+
+                    <!-- Search Input -->
+                    <div class="relative flex-1 min-w-[200px]">
+                        <input type="text" name="q" value="{{ search_query }}" placeholder="Search courses..." 
+                               class="form-input text-xs py-2 pr-8 pl-3 bg-brand-neutral-50 rounded-xl border border-brand-neutral-200">
+                        {% if search_query %}
+                        <a href="{% url 'academy:course_list' %}" class="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-brand-neutral-400 hover:text-brand-pink font-bold">✕</a>
+                        {% endif %}
+                    </div>
+                </form>
+            </div>
+
+            {% if selected_category or selected_format or search_query %}
+            <div class="pt-4 border-t border-brand-neutral-100 flex items-center justify-between text-xs text-brand-neutral-500">
+                <span>Showing filtered results</span>
+                <a href="{% url 'academy:course_list' %}" class="text-brand-pink font-semibold hover:underline">Reset Filters ✕</a>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- ==========================================================================
+             4. COURSE CARDS GRID / EMPTY STATE
+             ========================================================================== -->
+        {% if courses %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for course in courses %}
+            <div class="bg-white rounded-3xl border border-brand-neutral-200 p-6 sm:p-8 flex flex-col justify-between space-y-6 hover:shadow-xl transition-all duration-300 group">
+                
+                <div class="space-y-4">
+                    <!-- Thumbnail / Graphic Fallback -->
+                    <div class="aspect-[16/10] rounded-2xl bg-brand-black text-white p-6 flex flex-col justify-between overflow-hidden relative group-hover:scale-[1.01] transition-transform">
+                        {% if course.thumbnail %}
+                        <img src="{{ course.thumbnail.url }}" alt="{{ course.title }}" loading="lazy" class="absolute inset-0 w-full h-full object-cover rounded-2xl opacity-90 group-hover:opacity-100 transition-opacity">
+                        <div class="absolute inset-0 bg-gradient-to-t from-brand-black via-brand-black/40 to-transparent"></div>
+                        {% endif %}
+
+                        <div class="relative z-10 flex items-center justify-between">
+                            {% if course.category %}
+                            <span class="badge-pink bg-white/90 text-brand-black border-none font-bold text-[10px]">
+                                {{ course.category.name }}
+                            </span>
+                            {% endif %}
+                            
+                            {% if course.featured %}
+                            <span class="badge-pink bg-brand-pink text-white border-none text-[10px]">Featured</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="relative z-10 mt-auto">
+                            <span class="text-[10px] uppercase tracking-wider text-brand-pink font-bold block">
+                                {{ course.get_format_type_display }}
+                            </span>
+                            <h3 class="font-heading text-lg font-bold text-white group-hover:text-brand-pink transition-colors line-clamp-2">
+                                {{ course.title }}
+                            </h3>
+                        </div>
+                    </div>
+
+                    <!-- Short Description -->
+                    <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed line-clamp-3">
+                        {{ course.short_description }}
+                    </p>
+                </div>
+
+                <!-- Meta Box & Action CTA -->
+                <div class="pt-4 border-t border-brand-neutral-100 space-y-4">
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="text-brand-neutral-500 font-medium">
+                            {% if course.duration %}⏱ {{ course.duration }}{% else %}⏱ Duration on enquiry{% endif %}
+                        </span>
+                        <span class="font-heading font-bold text-brand-pink">
+                            {% if course.price %}
+                            ₦{{ course.price|floatformat:2 }}
+                            {% else %}
+                            Contact us for course pricing
+                            {% endif %}
+                        </span>
+                    </div>
+
+                    <a href="{% url 'academy:course_detail' course.slug %}" class="btn-primary w-full text-center text-xs uppercase tracking-wider font-bold py-3 block shadow-md hover:shadow-lg transition-shadow">
+                        View Course Details →
+                    </a>
+                </div>
+
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+
+        <!-- ==========================================================================
+             5. POLISHED EMPTY STATE
+             ========================================================================== -->
+        <div class="bg-white rounded-3xl border border-brand-neutral-200 p-12 sm:p-16 text-center max-w-2xl mx-auto space-y-6 shadow-sm">
+            <div class="w-20 h-20 mx-auto rounded-full bg-brand-pink-50 text-brand-pink flex items-center justify-center font-heading text-3xl font-bold">
+                🎓
+            </div>
+            
+            <div class="space-y-2">
+                <h3 class="font-heading text-2xl font-bold text-brand-black">Training Programs Are Being Prepared</h3>
+                <p class="text-brand-neutral-500 text-sm leading-relaxed max-w-md mx-auto">
+                    Check back soon for upcoming Bolbash Beauty Spot training opportunities and new student cohort schedules.
+                </p>
+            </div>
+
+            <div class="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="https://wa.me/message/UW6FRPKW3STAM1?text=Hello%20Bolbash%20Beauty%20Spot,%20I%20would%20like%20to%20enquire%20about%20upcoming%20beauty%20academy%20training%20courses." 
+                   target="_blank" rel="noopener noreferrer" 
+                   class="btn-primary w-full sm:w-auto text-xs uppercase tracking-wider font-bold py-3.5 px-8">
+                    Enquire About Upcoming Classes
+                </a>
+                {% if selected_category or selected_format or search_query %}
+                <a href="{% url 'academy:course_list' %}" class="btn-outline-pink w-full sm:w-auto text-xs uppercase tracking-wider py-3.5 px-8">
+                    Clear Filter Search
+                </a>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+</section>
+
+<!-- ==========================================================================
+     6. ACADEMY VALUE CLOSING CTA
+     ========================================================================== -->
+<section class="py-16 sm:py-24 bg-brand-black text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
+        <span class="badge-pink bg-brand-pink text-white border-none uppercase tracking-widest text-xs font-bold">
+            PRACTICAL STUDIO INSTRUCTION
+        </span>
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold text-white tracking-tight max-w-3xl mx-auto">
+            Ready to Begin Your Beauty Training?
+        </h2>
+        <p class="text-brand-neutral-400 text-base max-w-xl mx-auto leading-relaxed">
+            Have questions about course schedules, tool kits, or training fees? Speak directly with our lead instructor via WhatsApp.
+        </p>
+        <div class="pt-2 flex justify-center">
+            <a href="https://wa.me/message/UW6FRPKW3STAM1?text=Hello%20Bolbash%20Beauty%20Spot,%20I%20have%20questions%20regarding%20the%20beauty%20academy." 
+               target="_blank" rel="noopener noreferrer" 
+               class="btn-primary w-full sm:w-auto text-xs uppercase tracking-wider font-bold shadow-xl shadow-pink-glow py-3.5 px-8">
+                Speak With An Instructor On WhatsApp →
+            </a>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

@@ -1,0 +1,53 @@
+{% extends "emails/base_email.html" %}
+
+{% block subject %}Appointment Rescheduled — {{ booking.reference }}{% endblock subject %}
+
+{% block content %}
+<div style="text-align: center; margin-bottom: 24px;">
+    <span class="badge-confirmed" style="background-color: #FEF3C7; color: #D97706;">
+        Appointment Rescheduled
+    </span>
+    <h2 style="font-size: 22px; font-weight: 700; color: #0F172A; margin: 16px 0 8px 0;">
+        Updated Schedule Confirmation
+    </h2>
+    <p style="font-size: 14px; color: #64748B; margin: 0; line-height: 1.5;">
+        Dear {{ booking.customer_name }}, your appointment reference <strong>#{{ booking.reference }}</strong> has been successfully rescheduled to a new time slot.
+    </p>
+</div>
+
+<div class="ref-box">
+    <div style="font-size: 11px; text-transform: uppercase; color: #64748B; font-weight: 700; margin-bottom: 4px;">
+        Booking Reference Number
+    </div>
+    <div class="ref-code">{{ booking.reference }}</div>
+</div>
+
+<table class="table-details">
+    <tr>
+        <td class="label">Service</td>
+        <td class="val">{{ booking.service_name_snapshot }}</td>
+    </tr>
+    <tr>
+        <td class="label">Previous Slot</td>
+        <td class="val" style="color: #64748B; text-decoration: line-through;">{{ old_date|default:booking.appointment_date }} at {{ old_time|default:booking.appointment_time }}</td>
+    </tr>
+    <tr>
+        <td class="label">New Date</td>
+        <td class="val" style="color: #DB2777;">{{ booking.appointment_date|date:"l, F d, Y" }}</td>
+    </tr>
+    <tr>
+        <td class="label">New Time Slot</td>
+        <td class="val" style="color: #DB2777;">{{ booking.appointment_time }}</td>
+    </tr>
+    <tr>
+        <td class="label">Location</td>
+        <td class="val">SIOA Plaza, Ore-Ofe Bus Stop, Sango-Eleyele Rd, Ibadan</td>
+    </tr>
+</table>
+
+<div style="text-align: center; margin-top: 24px;">
+    <a href="https://wa.me/message/UW6FRPKW3STAM1?text=Hello%20Bolbash,%20I%20have%20a%20question%20regarding%20rescheduled%20booking%20{{ booking.reference }}" class="btn-cta">
+        Manage Booking On WhatsApp ->
+    </a>
+</div>
+{% endblock content %}

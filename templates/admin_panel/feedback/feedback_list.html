@@ -1,0 +1,212 @@
+{% extends "admin_panel/base_admin.html" %}
+
+{% block title %}Customer Feedback Resolution | Admin Dashboard{% endblock title %}
+{% block page_title %}Customer Feedback & Resolution{% endblock page_title %}
+
+{% block content %}
+<div class="space-y-6">
+
+    <!-- Top Action Bar & Filters -->
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-brand-neutral-200 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="flex items-center space-x-3">
+            <span class="text-2xl">💬</span>
+            <div>
+                <h2 class="text-lg font-bold text-brand-black-dark">Customer Feedback & Suggestions</h2>
+                <p class="text-xs text-brand-neutral-500">Inspect customer feedback across salon, academy, and shop channels with resolution tracking.</p>
+            </div>
+        </div>
+
+        <!-- Search & Filter Form -->
+        <form method="GET" action="{% url 'admin_panel:feedback_list' %}" class="flex flex-wrap items-center gap-3 w-full md:w-auto">
+            <input type="text" 
+                   name="q" 
+                   value="{{ q }}" 
+                   placeholder="Search name, email, subject, notes..." 
+                   class="px-4 py-2 text-xs rounded-xl border border-brand-neutral-200 focus:outline-none focus:ring-2 focus:ring-brand-pink min-w-[220px]">
+
+            <select name="category" class="px-3 py-2 text-xs rounded-xl border border-brand-neutral-200 focus:outline-none focus:ring-2 focus:ring-brand-pink">
+                <option value="">All Categories</option>
+                {% for code, label in category_choices %}
+                <option value="{{ code }}" {% if category_filter == code %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+
+            <select name="status" class="px-3 py-2 text-xs rounded-xl border border-brand-neutral-200 focus:outline-none focus:ring-2 focus:ring-brand-pink">
+                <option value="">All Statuses</option>
+                {% for code, label in status_choices %}
+                <option value="{{ code }}" {% if status_filter == code %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+
+            <button type="submit" class="btn-primary text-xs font-bold py-2 px-4 shadow-sm">
+                Filter
+            </button>
+
+            {% if q or status_filter or category_filter %}
+            <a href="{% url 'admin_panel:feedback_list' %}" class="text-xs text-brand-neutral-500 hover:text-brand-pink py-2">
+                Clear Filters
+            </a>
+            {% endif %}
+        </form>
+    </div>
+
+    <!-- Quick Stats Counter Cards -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <a href="{% url 'admin_panel:feedback_list' %}" class="bg-white p-4 rounded-xl border border-brand-neutral-200 shadow-sm hover:border-brand-pink transition-all">
+            <span class="text-xs text-brand-neutral-500 block font-medium">Total Feedback</span>
+            <span class="text-xl font-bold text-brand-black mt-1 block">{{ all_count }}</span>
+        </a>
+        <a href="{% url 'admin_panel:feedback_list' %}?status=NEW" class="bg-blue-50/60 p-4 rounded-xl border border-blue-200 shadow-sm hover:border-blue-300 transition-all">
+            <span class="text-xs text-blue-700 block font-semibold">New Submissions</span>
+            <span class="text-xl font-bold text-blue-900 mt-1 block">{{ new_count }}</span>
+        </a>
+        <a href="{% url 'admin_panel:feedback_list' %}?status=IN_REVIEW" class="bg-amber-50/60 p-4 rounded-xl border border-amber-200 shadow-sm hover:border-amber-300 transition-all">
+            <span class="text-xs text-amber-700 block font-semibold">Under Staff Review</span>
+            <span class="text-xl font-bold text-amber-900 mt-1 block">{{ in_review_count }}</span>
+        </a>
+        <a href="{% url 'admin_panel:feedback_list' %}?status=RESOLVED" class="bg-green-50/60 p-4 rounded-xl border border-green-200 shadow-sm hover:border-green-300 transition-all">
+            <span class="text-xs text-green-700 block font-semibold">Resolved</span>
+            <span class="text-xl font-bold text-green-900 mt-1 block">{{ resolved_count }}</span>
+        </a>
+    </div>
+
+    <!-- Feedback Data Table -->
+    <div class="bg-white rounded-2xl shadow-sm border border-brand-neutral-200 overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-brand-neutral-50 border-b border-brand-neutral-200 text-[11px] uppercase tracking-wider font-bold text-brand-neutral-600">
+                        <th class="py-3.5 px-4">Customer & Contact</th>
+                        <th class="py-3.5 px-4">Category & Rating</th>
+                        <th class="py-3.5 px-4">Feedback Topic & Message</th>
+                        <th class="py-3.5 px-4">Date</th>
+                        <th class="py-3.5 px-4">Status</th>
+                        <th class="py-3.5 px-4 text-right">Resolution / Update</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-brand-neutral-100 text-xs">
+                    {% for fb in feedbacks %}
+                    <tr class="hover:bg-brand-neutral-50/60 transition-colors">
+                        <!-- Customer Contact -->
+                        <td class="py-3.5 px-4 align-top whitespace-nowrap">
+                            <div class="font-bold text-brand-black">{{ fb.name }}</div>
+                            <div class="text-[11px] text-brand-neutral-400 font-mono">{{ fb.email }}</div>
+                            {% if fb.phone %}
+                                <div class="text-[10px] text-brand-neutral-500 font-mono mt-0.5">📞 {{ fb.phone }}</div>
+                            {% endif %}
+                        </td>
+
+                        <!-- Category & Rating -->
+                        <td class="py-3.5 px-4 align-top whitespace-nowrap">
+                            <span class="inline-block px-2.5 py-0.5 rounded text-[10px] font-bold bg-brand-pink/10 text-brand-pink border border-brand-pink/20">
+                                {{ fb.get_category_display }}
+                            </span>
+                            {% if fb.rating %}
+                                <div class="text-amber-500 font-bold text-xs mt-1">
+                                    {% if fb.rating == 5 %}★★★★★
+                                    {% elif fb.rating == 4 %}★★★★☆
+                                    {% elif fb.rating == 3 %}★★★☆☆
+                                    {% elif fb.rating == 2 %}★★☆☆☆
+                                    {% else %}★☆☆☆☆{% endif %}
+                                </div>
+                            {% endif %}
+                        </td>
+
+                        <!-- Topic & Message -->
+                        <td class="py-3.5 px-4 align-top max-w-xs md:max-w-md">
+                            <div class="font-bold text-brand-black mb-1">{{ fb.subject }}</div>
+                            <div class="text-brand-neutral-600 leading-relaxed whitespace-pre-line">
+                                "{{ fb.message }}"
+                            </div>
+                            {% if fb.admin_notes %}
+                                <div class="mt-2 p-2 rounded bg-amber-50 border border-amber-200 text-[11px] text-amber-900">
+                                    <strong>Staff Resolution Notes:</strong> {{ fb.admin_notes }}
+                                </div>
+                            {% endif %}
+                        </td>
+
+                        <!-- Submission Date -->
+                        <td class="py-3.5 px-4 align-top text-brand-neutral-500 whitespace-nowrap">
+                            {{ fb.created_at|date:"M d, Y" }}
+                            <span class="block text-[10px] text-brand-neutral-400">{{ fb.created_at|time:"h:i A" }}</span>
+                        </td>
+
+                        <!-- Status Badge -->
+                        <td class="py-3.5 px-4 align-top whitespace-nowrap">
+                            {% if fb.status == 'RESOLVED' %}
+                                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold bg-green-100 text-green-800 border border-green-200">
+                                    ✓ Resolved
+                                </span>
+                            {% elif fb.status == 'IN_REVIEW' %}
+                                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-200">
+                                    ⏳ Under Review
+                                </span>
+                            {% elif fb.status == 'CLOSED' %}
+                                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold bg-gray-100 text-gray-800 border border-gray-200">
+                                    Closed
+                                </span>
+                            {% else %}
+                                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold bg-blue-100 text-blue-800 border border-blue-200">
+                                    ● New
+                                </span>
+                            {% endif %}
+                        </td>
+
+                        <!-- Resolution Update Form -->
+                        <td class="py-3.5 px-4 align-top text-right whitespace-nowrap">
+                            <form method="POST" action="{% url 'admin_panel:feedback_update_status' fb.pk %}" class="space-y-2 inline-block text-left">
+                                {% csrf_token %}
+                                <div class="flex items-center space-x-1 justify-end">
+                                    <select name="status" class="px-2 py-1 text-[10px] rounded border border-brand-neutral-300 focus:ring-1 focus:ring-brand-pink">
+                                        {% for code, label in status_choices %}
+                                            <option value="{{ code }}" {% if fb.status == code %}selected{% endif %}>{{ label }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <button type="submit" class="px-2.5 py-1 text-[10px] font-bold bg-brand-black hover:bg-brand-pink text-white rounded transition-colors shadow-sm">
+                                        Update
+                                    </button>
+                                </div>
+                                <input type="text" 
+                                       name="admin_notes" 
+                                       value="{{ fb.admin_notes }}" 
+                                       placeholder="Add resolution notes..." 
+                                       class="w-full px-2 py-1 text-[10px] rounded border border-brand-neutral-200 focus:ring-1 focus:ring-brand-pink">
+                            </form>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="py-12 text-center text-brand-neutral-400">
+                            <span class="text-3xl block mb-2">💬</span>
+                            No customer feedback submissions found matching your filters.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        {% if feedbacks.has_other_pages %}
+        <div class="p-4 border-t border-brand-neutral-200 flex items-center justify-between text-xs text-brand-neutral-500">
+            <div>
+                Showing Page {{ feedbacks.number }} of {{ feedbacks.paginator.num_pages }}
+            </div>
+            <div class="flex items-center space-x-2">
+                {% if feedbacks.has_previous %}
+                <a href="?page={{ feedbacks.previous_page_number }}&q={{ q }}&status={{ status_filter }}&category={{ category_filter }}" class="px-3 py-1 bg-brand-neutral-100 rounded hover:bg-brand-neutral-200 font-semibold text-brand-black">
+                    Previous
+                </a>
+                {% endif %}
+                {% if feedbacks.has_next %}
+                <a href="?page={{ feedbacks.next_page_number }}&q={{ q }}&status={{ status_filter }}&category={{ category_filter }}" class="px-3 py-1 bg-brand-neutral-100 rounded hover:bg-brand-neutral-200 font-semibold text-brand-black">
+                    Next
+                </a>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock content %}

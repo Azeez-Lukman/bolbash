@@ -1,0 +1,57 @@
+{% extends "emails/base_email.html" %}
+
+{% block subject %}Appointment Reminder — {{ booking.reference }}{% endblock subject %}
+
+{% block content %}
+<div style="text-align: center; margin-bottom: 24px;">
+    <span class="badge-confirmed" style="background-color: #FCE7F3; color: #DB2777;">
+        Upcoming Appointment Reminder
+    </span>
+    <h2 style="font-size: 22px; font-weight: 700; color: #0F172A; margin: 16px 0 8px 0;">
+        See You Soon, {{ booking.customer_name }}!
+    </h2>
+    <p style="font-size: 14px; color: #64748B; margin: 0; leading-height: 1.5;">
+        This is a friendly reminder for your scheduled beauty appointment at Bolbash Beauty Spot.
+    </p>
+</div>
+
+<div class="ref-box">
+    <div style="font-size: 11px; text-transform: uppercase; color: #64748B; font-weight: 700; margin-bottom: 4px;">
+        Booking Reference Number
+    </div>
+    <div class="ref-code">{{ booking.reference }}</div>
+</div>
+
+<table class="table-details">
+    <tr>
+        <td class="label">Service</td>
+        <td class="val">{{ booking.service_name_snapshot }}</td>
+    </tr>
+    <tr>
+        <td class="label">Date</td>
+        <td class="val">{{ booking.appointment_date|date:"l, F d, Y" }}</td>
+    </tr>
+    <tr>
+        <td class="label">Time Slot</td>
+        <td class="val" style="color: #DB2777;">{{ booking.appointment_time }}</td>
+    </tr>
+    <tr>
+        <td class="label">Location</td>
+        <td class="val">SIOA Plaza, Ore-Ofe Bus Stop, Sango-Eleyele Rd, Ibadan</td>
+    </tr>
+</table>
+
+<div style="background-color: #FFF1F2; border: 1px solid #FECDD3; border-radius: 12px; padding: 16px; margin: 24px 0; text-align: left; font-size: 13px; color: #9F1239;">
+    <strong>Important Salon Guidelines:</strong>
+    <ul style="margin: 8px 0 0 0; padding-left: 20px;">
+        <li>Please arrive 10 minutes prior to your scheduled time slot.</li>
+        <li>Need to reschedule or cancel? Contact us at least 24 hours in advance via WhatsApp.</li>
+    </ul>
+</div>
+
+<div style="text-align: center; margin-top: 24px;">
+    <a href="https://wa.me/message/UW6FRPKW3STAM1?text=Hello%20Bolbash,%20I%20have%20a%20question%20regarding%20booking%20reference%20{{ booking.reference }}" class="btn-cta">
+        Contact Us On WhatsApp ->
+    </a>
+</div>
+{% endblock content %}

@@ -1,0 +1,44 @@
+{% extends "emails/base_email.html" %}
+
+{% block subject %}How was your appointment at Bolbash Beauty Spot? Leave a Review — {{ booking.reference }}{% endblock subject %}
+
+{% block content %}
+<div style="text-align: center; margin-bottom: 24px;">
+    <span class="badge-confirmed" style="background-color: #FCE7F3; color: #DB2777;">
+        Completed Appointment Review
+    </span>
+    <h2 style="font-size: 22px; font-weight: 700; color: #0F172A; margin: 16px 0 8px 0;">
+        How Was Your Experience, {{ booking.customer_name }}? ✨
+    </h2>
+    <p style="font-size: 14px; color: #64748B; margin: 0; line-height: 1.5;">
+        Thank you for visiting Bolbash Beauty Spot for your {{ booking.service_name_snapshot }} appointment! We hope you loved your result.
+    </p>
+</div>
+
+<div class="ref-box">
+    <div style="font-size: 11px; text-transform: uppercase; color: #64748B; font-weight: 700; margin-bottom: 4px;">
+        Appointment Reference
+    </div>
+    <div class="ref-code">{{ booking.reference }}</div>
+</div>
+
+<table class="table-details">
+    <tr>
+        <td class="label">Service</td>
+        <td class="val">{{ booking.service_name_snapshot }}</td>
+    </tr>
+    <tr>
+        <td class="label">Date Attended</td>
+        <td class="val">{{ booking.appointment_date|date:"l, F d, Y" }}</td>
+    </tr>
+</table>
+
+<div style="background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 20px; margin: 24px 0; text-align: center;">
+    <p style="font-size: 14px; color: #1E293B; margin: 0 0 16px 0; font-weight: 600;">
+        Your feedback helps us maintain continuous excellence in styling, hospitality, and salon comfort.
+    </p>
+    <a href="{{ review_url }}" class="btn-cta" style="background-color: #EC4899; color: #FFFFFF; text-decoration: none; font-weight: bold; padding: 12px 24px; border-radius: 8px; display: inline-block;">
+        Leave a Review & Rate Experience ★★★★★
+    </a>
+</div>
+{% endblock content %}

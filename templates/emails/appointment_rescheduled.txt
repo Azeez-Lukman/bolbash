@@ -1,0 +1,14 @@
+BOLBASH BEAUTY SPOT — APPOINTMENT RESCHEDULED
+
+Hello {{ booking.customer_name }},
+
+Your salon appointment (Reference: {{ booking.reference }}) has been successfully rescheduled.
+
+Service: {{ booking.service_name_snapshot }}
+Previous Slot: {{ old_date|default:booking.appointment_date }} at {{ old_time|default:booking.appointment_time }}
+New Appointment Date: {{ booking.appointment_date|date:"l, F d, Y" }}
+New Time Slot: {{ booking.appointment_time }}
+Location: SIOA Plaza, Ore-Ofe Bus Stop, Sango-Eleyele Rd, Ibadan
+
+If you need further assistance, please contact us on WhatsApp:
+https://wa.me/message/UW6FRPKW3STAM1

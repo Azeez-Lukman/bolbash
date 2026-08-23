@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Checkout | Bolbash Beauty Spot Online Shop{% endblock title %}
+
+{% block meta_description %}Complete your order delivery information and pay securely via Paystack at Bolbash Beauty Spot.{% endblock meta_description %}
+
+{% block content %}
+
+<!-- Breadcrumbs Navigation -->
+<div class="bg-brand-neutral-50 border-b border-brand-neutral-200 py-3">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-xs text-brand-neutral-500">
+        <a href="{% url 'core:index' %}" class="hover:text-brand-pink transition-colors">Home</a>
+        <span class="mx-2">/</span>
+        <a href="{% url 'shop:shop_landing' %}" class="hover:text-brand-pink transition-colors">Shop</a>
+        <span class="mx-2">/</span>
+        <a href="{% url 'shop:cart_detail' %}" class="hover:text-brand-pink transition-colors">Cart</a>
+        <span class="mx-2">/</span>
+        <span class="text-brand-black font-semibold">Checkout</span>
+    </div>
+</div>
+
+<section class="py-12 sm:py-20 bg-brand-neutral-50 min-h-[85vh]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        
+        <div class="space-y-1">
+            <span class="badge-pink">SECURE CHECKOUT</span>
+            <h1 class="font-heading font-bold text-2xl sm:text-3xl text-brand-black">Complete Your Order</h1>
+        </div>
+
+        <form method="POST" action="{% url 'shop:checkout' %}" class="grid grid-cols-1 lg:grid-cols-12 gap-8" novalidate>
+            {% csrf_token %}
+
+            <!-- Left Column: Shipping & Delivery Information -->
+            <div class="lg:col-span-7 space-y-6">
+                <div class="bg-white border border-brand-neutral-200 rounded-3xl p-6 sm:p-8 shadow-md space-y-6">
+                    
+                    <div class="border-b border-brand-neutral-100 pb-3">
+                        <h2 class="font-heading font-bold text-lg text-brand-black">1. Customer & Shipping Address</h2>
+                        <p class="text-brand-neutral-500 text-xs mt-0.5">Please provide accurate contact details for order delivery and notifications.</p>
+                    </div>
+
+                    <!-- Full Name -->
+                    <div class="space-y-1.5">
+                        <label for="id_customer_name" class="form-label text-xs uppercase font-bold text-brand-black block">Full Name <span class="text-brand-pink">*</span></label>
+                        <input type="text" id="id_customer_name" name="customer_name" value="{{ customer_name|default:'' }}" required placeholder="e.g. Mrs. Blessing Adebayo"
+                               class="w-full px-4 py-3 rounded-xl border border-brand-neutral-200 focus:outline-none focus:ring-2 focus:ring-brand-pink focus:border-brand-pink text-xs sm:text-sm">
+                    </div>
+
+                    <!-- Email & Phone Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="space-y-1.5">
+                            <label for="id_customer_email" class="form-label text-xs uppercase font-bold text-brand-black block">Email Address <span class="text-brand-pink">*</span></label>
+                            <input type="email" id="id_customer_email" name="customer_email" value="{{ customer_email|default:'' }}" required placeholder="customer@example.com"
+                                   class="w-full px-4 py-3 rounded-xl border border-brand-neutral-200 focus:outline-none focus:ring-2 focus:ring-brand-pink focus:border-brand-pink text-xs sm:text-sm">
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <label for="id_customer_phone" class="form-label text-xs uppercase font-bold text-brand-black block">Phone Number <span class="text-brand-pink">*</span></label>
+                            <input type="tel" id="id_customer_phone" name="customer_phone" value="{{ customer_phone|default:'' }}" required placeholder="08168956606"
+                                   class="w-full px-4 py-3 rounded-xl border border-brand-neutral-200 focus:outline-none focus:ring-2 focus:ring-brand-pink focus:border-brand-pink text-xs sm:text-sm">
+                        </div>
+                    </div>
+
+                    <!-- Shipping Address -->
+                    <div class="space-y-1.5">
+                        <label for="id_shipping_address" class="form-label text-xs uppercase font-bold text-brand-black block">Street / Delivery Address <span class="text-brand-pink">*</span></label>
+                        <textarea id="id_shipping_address" name="shipping_address" rows="3" required placeholder="House number, street name, landmark..."
+                                  class="w-full px-4 py-3 rounded-xl border border-brand-neutral-200 focus:outline-none focus:ring-2 focus:ring-brand-pink focus:border-brand-pink text-xs sm:text-sm">{{ shipping_address|default:'' }}</textarea>
+                    </div>
+
+                    <!-- City & State Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="space-y-1.5">
+                            <label for="id_city" class="form-label text-xs uppercase font-bold text-brand-black block">City <span class="text-brand-pink">*</span></label>
+                            <input type="text" id="id_city" name="city" value="{{ city|default:'Ibadan' }}" required
+                                   class="w-full px-4 py-3 rounded-xl border border-brand-neutral-200 focus:outline-none focus:ring-2 focus:ring-brand-pink focus:border-brand-pink text-xs sm:text-sm">
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <label for="id_state" class="form-label text-xs uppercase font-bold text-brand-black block">State <span class="text-brand-pink">*</span></label>
+                            <input type="text" id="id_state" name="state" value="{{ state|default:'Oyo State' }}" required
+                                   class="w-full px-4 py-3 rounded-xl border border-brand-neutral-200 focus:outline-none focus:ring-2 focus:ring-brand-pink focus:border-brand-pink text-xs sm:text-sm">
+                        </div>
+                    </div>
+
+                    <!-- Additional Notes -->
+                    <div class="space-y-1.5">
+                        <label for="id_delivery_notes" class="form-label text-xs uppercase font-bold text-brand-black block">Delivery Instructions (Optional)</label>
+                        <input type="text" id="id_delivery_notes" name="delivery_notes" value="{{ delivery_notes|default:'' }}" placeholder="e.g. Call before delivery, drop at reception..."
+                               class="w-full px-4 py-3 rounded-xl border border-brand-neutral-200 focus:outline-none focus:ring-2 focus:ring-brand-pink focus:border-brand-pink text-xs sm:text-sm">
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Right Column: Order Items Review & Pay Button -->
+            <div class="lg:col-span-5 space-y-6">
+                <div class="bg-white border border-brand-neutral-200 rounded-3xl p-6 sm:p-8 shadow-md space-y-6 sticky top-28">
+                    
+                    <div class="border-b border-brand-neutral-100 pb-3">
+                        <h2 class="font-heading font-bold text-lg text-brand-black">2. Order Items Review</h2>
+                    </div>
+
+                    <!-- Items Summary -->
+                    <div class="space-y-3 max-h-60 overflow-y-auto pr-1">
+                        {% for item in cart_items %}
+                        <div class="flex items-center justify-between text-xs border-b border-brand-neutral-100 pb-2.5 last:border-0 last:pb-0">
+                            <div class="space-y-0.5 max-w-[200px]">
+                                <h4 class="font-bold text-brand-black truncate">{{ item.product.name }}</h4>
+                                <span class="text-brand-neutral-400">Qty: {{ item.quantity }} × NGN {{ item.product.price }}</span>
+                            </div>
+                            <span class="font-bold text-brand-black">NGN {{ item.get_subtotal }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Financial Summary -->
+                    <div class="border-t border-brand-neutral-200 pt-4 space-y-2 text-xs">
+                        <div class="flex justify-between text-brand-neutral-600">
+                            <span>Subtotal</span>
+                            <span class="font-bold text-brand-black">NGN {{ subtotal }}</span>
+                        </div>
+                        <div class="flex justify-between text-brand-neutral-600">
+                            <span>Standard Delivery</span>
+                            <span class="font-bold text-brand-black">NGN {{ delivery_fee }}</span>
+                        </div>
+                        <div class="border-t border-brand-neutral-100 pt-3 flex justify-between text-sm font-bold text-brand-black">
+                            <span>Total Payable</span>
+                            <span class="font-heading font-extrabold text-xl text-brand-pink">NGN {{ total_amount }}</span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-primary text-xs uppercase tracking-wider font-bold py-4 w-full text-center shadow-lg shadow-pink-glow">
+                        Pay NGN {{ total_amount }} via Paystack 💳
+                    </button>
+
+                    <div class="text-[11px] text-brand-neutral-400 text-center space-y-1">
+                        <p>🔒 Server-Verified Secure Gateway</p>
+                        <p>Accepts Card, Bank Transfer, USSD & QR</p>
+                    </div>
+
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+</section>
+
+{% endblock content %}

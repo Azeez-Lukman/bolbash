@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Shopping Cart | Bolbash Beauty Spot Online Shop{% endblock title %}
+
+{% block meta_description %}Review your selected beauty items, adjust quantities, and proceed to checkout at Bolbash Beauty Spot.{% endblock meta_description %}
+
+{% block content %}
+
+<!-- Breadcrumbs Navigation -->
+<div class="bg-brand-neutral-50 border-b border-brand-neutral-200 py-3">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-xs text-brand-neutral-500">
+        <a href="{% url 'core:index' %}" class="hover:text-brand-pink transition-colors">Home</a>
+        <span class="mx-2">/</span>
+        <a href="{% url 'shop:shop_landing' %}" class="hover:text-brand-pink transition-colors">Shop</a>
+        <span class="mx-2">/</span>
+        <span class="text-brand-black font-semibold">Shopping Cart</span>
+    </div>
+</div>
+
+<section class="py-12 sm:py-20 bg-brand-neutral-50 min-h-[80vh]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        
+        <div class="space-y-1">
+            <span class="badge-pink">SHOPPING CART</span>
+            <h1 class="font-heading font-bold text-2xl sm:text-3xl text-brand-black">Your Selected Products</h1>
+        </div>
+
+        {% if cart_items %}
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <!-- Left Column: Cart Items List -->
+            <div class="lg:col-span-8 space-y-4">
+                <div class="bg-white border border-brand-neutral-200 rounded-3xl p-6 sm:p-8 shadow-md space-y-6">
+                    <div class="hidden sm:grid grid-cols-12 text-xs font-bold uppercase tracking-wider text-brand-neutral-400 border-b border-brand-neutral-100 pb-3">
+                        <div class="col-span-6">Product</div>
+                        <div class="col-span-3 text-center">Quantity</div>
+                        <div class="col-span-3 text-right">Subtotal</div>
+                    </div>
+
+                    {% for item in cart_items %}
+                    <div class="flex flex-col sm:grid sm:grid-cols-12 items-center gap-4 border-b border-brand-neutral-100 pb-6 last:border-0 last:pb-0">
+                        
+                        <!-- Product thumbnail & title -->
+                        <div class="sm:col-span-6 flex items-center space-x-4 w-full">
+                            <div class="w-20 h-20 bg-brand-neutral-100 rounded-2xl overflow-hidden flex-shrink-0 border border-brand-neutral-200">
+                                {% if item.product.image %}
+                                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" loading="lazy" class="w-full h-full object-cover">
+                                {% else %}
+                                <div class="w-full h-full flex items-center justify-center text-2xl text-brand-neutral-300">
+                                    🛍️
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="space-y-1">
+                                <h3 class="font-heading font-bold text-sm text-brand-black">
+                                    <a href="{% url 'shop:product_detail' slug=item.product.slug %}" class="hover:text-brand-pink transition-colors">
+                                        {{ item.product.name }}
+                                    </a>
+                                </h3>
+                                <p class="text-xs text-brand-pink font-bold">
+                                    NGN {{ item.product.price }} each
+                                </p>
+                                {% if item.product.stock_quantity < item.quantity %}
+                                <span class="text-[10px] text-rose-600 font-bold block">Only {{ item.product.stock_quantity }} in stock</span>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Quantity Modifiers -->
+                        <div class="sm:col-span-3 flex items-center justify-center w-full">
+                            <form method="POST" action="{% url 'shop:cart_update' item_id=item.id %}" class="flex items-center space-x-2">
+                                {% csrf_token %}
+                                <input type="number" name="quantity" value="{{ item.quantity }}" min="1" max="{{ item.product.stock_quantity }}"
+                                       onchange="this.form.submit()" 
+                                       class="w-16 py-1.5 text-center border border-brand-neutral-200 rounded-xl font-bold text-xs text-brand-black focus:ring-2 focus:ring-brand-pink">
+                                <button type="submit" title="Update quantity" class="text-xs text-brand-neutral-400 hover:text-brand-pink font-semibold">
+                                    Update
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Subtotal & Delete button -->
+                        <div class="sm:col-span-3 flex items-center justify-between sm:justify-end space-x-4 w-full">
+                            <span class="font-heading font-extrabold text-sm text-brand-black">
+                                NGN {{ item.get_subtotal }}
+                            </span>
+                            
+                            <form method="POST" action="{% url 'shop:cart_remove' item_id=item.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="text-brand-neutral-400 hover:text-rose-600 transition-colors text-base p-1" title="Remove item">
+                                    🗑️
+                                </button>
+                            </form>
+                        </div>
+
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <div class="flex justify-between items-center pt-2">
+                    <a href="{% url 'shop:product_catalogue' %}" class="text-xs font-bold text-brand-pink hover:underline uppercase tracking-wider">
+                        ← Continue Shopping
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right Column: Financial Summary -->
+            <div class="lg:col-span-4 space-y-6">
+                <div class="bg-white border border-brand-neutral-200 rounded-3xl p-6 sm:p-8 shadow-md space-y-6 sticky top-28">
+                    <h2 class="font-heading font-bold text-lg text-brand-black border-b border-brand-neutral-100 pb-3">Order Summary</h2>
+
+                    <div class="space-y-3 text-xs text-brand-neutral-600">
+                        <div class="flex justify-between">
+                            <span>Subtotal ({{ cart.get_total_items_count }} items)</span>
+                            <span class="font-bold text-brand-black">NGN {{ subtotal }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Standard Shipping / Delivery</span>
+                            <span class="font-bold text-brand-black">NGN {{ delivery_fee }}</span>
+                        </div>
+                        <div class="border-t border-brand-neutral-100 pt-3 flex justify-between text-sm font-bold text-brand-black">
+                            <span>Total Payable</span>
+                            <span class="font-heading font-extrabold text-lg text-brand-pink">NGN {{ total_amount }}</span>
+                        </div>
+                    </div>
+
+                    <a href="{% url 'shop:checkout' %}" class="btn-primary text-xs uppercase tracking-wider font-bold py-4 w-full text-center block shadow-lg shadow-pink-glow">
+                        Proceed To Checkout →
+                    </a>
+
+                    <div class="text-[11px] text-brand-neutral-400 text-center space-y-1">
+                        <p>🔒 256-bit Encrypted Checkout via Paystack</p>
+                        <p>Delivery across Ibadan & Nationwide</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        {% else %}
+        <!-- Empty Cart -->
+        <div class="bg-white border border-brand-neutral-200 rounded-3xl p-12 text-center space-y-4 max-w-lg mx-auto">
+            <div class="w-20 h-20 rounded-full bg-brand-pink/10 text-brand-pink flex items-center justify-center text-4xl mx-auto">
+                🛒
+            </div>
+            <div class="space-y-1">
+                <h3 class="font-heading font-bold text-xl text-brand-black">Your Cart is Empty</h3>
+                <p class="text-brand-neutral-500 text-xs sm:text-sm">
+                    You have no items in your shopping cart yet. Browse our store catalogue to explore products!
+                </p>
+            </div>
+            <a href="{% url 'shop:product_catalogue' %}" class="btn-primary text-xs uppercase tracking-wider font-bold py-3.5 px-8 inline-block shadow-md shadow-pink-glow">
+                Explore Store Catalogue →
+            </a>
+        </div>
+        {% endif %}
+
+    </div>
+</section>
+
+{% endblock content %}

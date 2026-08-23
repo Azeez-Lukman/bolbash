@@ -1,0 +1,17 @@
+WELCOME TO BOLBASH BEAUTY ACADEMY
+
+Hello {{ student_name }},
+
+Congratulations! You are officially enrolled in {{ enrollment.course.title }}.
+
+Enrolment Summary:
+- Course: {{ enrollment.course.title }}
+- Category: {{ enrollment.course.category.name }}
+- Enrolment Date: {{ enrollment.created_at|date:"F d, Y" }}
+- Access: Full Access Granted
+
+You can start learning right away by logging into your Student Dashboard:
+http://127.0.0.1:8000/academy/dashboard/
+
+Welcome aboard!
+Bolbash Beauty Academy Team

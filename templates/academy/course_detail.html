@@ -1,0 +1,374 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ course.title }} | Bolbash Beauty Academy Ibadan{% endblock title %}
+
+{% block meta_description %}{{ course.short_description }} Learn {{ course.title }} at Bolbash Beauty Academy in Ibadan.{% endblock meta_description %}
+
+{% block og_type %}article{% endblock og_type %}
+{% block og_title %}{{ course.title }} | Bolbash Beauty Academy{% endblock og_title %}
+{% block og_description %}{{ course.short_description }}{% endblock og_description %}
+{% block og_image %}{% if course.thumbnail and course.thumbnail.name %}{{ request.scheme }}://{{ request.get_host }}{{ course.thumbnail.url }}{% else %}{{ block.super }}{% endif %}{% endblock og_image %}
+
+{% block json_ld %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Course",
+  "name": "{{ course.title|escapejs }}",
+  "description": "{{ course.short_description|escapejs }}",
+  "provider": {
+    "@type": "EducationalOrganization",
+    "name": "Bolbash Beauty Academy",
+    "sameAs": "{{ request.scheme }}://{{ request.get_host }}"
+  }
+  {% if course.price %},
+  "offers": {
+    "@type": "Offer",
+    "price": "{{ course.price }}",
+    "priceCurrency": "NGN"
+  }
+  {% endif %}
+}
+</script>
+{% endblock json_ld %}
+
+{% block content %}
+
+<!-- ==========================================================================
+     1. BREADCRUMBS NAVIGATION
+     ========================================================================== -->
+<div class="bg-brand-neutral-50 border-b border-brand-neutral-200 py-4">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <nav class="flex items-center space-x-2 text-xs font-medium text-brand-neutral-500" aria-label="Breadcrumb">
+            <a href="{% url 'core:index' %}" class="hover:text-brand-pink transition-colors">Home</a>
+            <span>/</span>
+            <a href="{% url 'academy:academy_landing' %}" class="hover:text-brand-pink transition-colors">Academy</a>
+            <span>/</span>
+            <a href="{% url 'academy:course_list' %}" class="hover:text-brand-pink transition-colors">Courses</a>
+            <span>/</span>
+            <span class="text-brand-black font-semibold truncate max-w-[200px] sm:max-w-none">{{ course.title }}</span>
+        </nav>
+    </div>
+</div>
+
+<!-- ==========================================================================
+     2. COURSE HERO SECTION
+     ========================================================================== -->
+<section class="bg-white py-12 sm:py-16 border-b border-brand-neutral-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-4xl space-y-6">
+            
+            <!-- Badges -->
+            <div class="flex flex-wrap items-center gap-2">
+                {% if course.category %}
+                <span class="badge-pink">{{ course.category.name }}</span>
+                {% endif %}
+                <span class="badge-dark">{{ course.get_format_type_display }}</span>
+                {% if course.featured %}
+                <span class="badge-pink bg-brand-pink text-white border-none">Featured Program</span>
+                {% endif %}
+            </div>
+
+            <!-- Title & Short Description -->
+            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold text-brand-black tracking-tight leading-tight">
+                {{ course.title }}
+            </h1>
+            <p class="text-brand-neutral-500 text-base sm:text-lg leading-relaxed max-w-3xl">
+                {{ course.short_description }}
+            </p>
+
+            <!-- Meta Information Box -->
+            <div class="bg-brand-neutral-50 p-6 rounded-2xl border border-brand-neutral-200 flex flex-wrap items-center justify-between gap-6">
+                <div>
+                    <span class="text-xs uppercase tracking-wider text-brand-neutral-400 block font-semibold">Tuition Fee</span>
+                    {% if course.price %}
+                    <span class="font-heading text-2xl sm:text-3xl font-bold text-brand-pink">₦{{ course.price|floatformat:2 }}</span>
+                    {% else %}
+                    <span class="font-heading text-lg font-bold text-brand-black">Contact us for course pricing</span>
+                    {% endif %}
+                </div>
+
+                <div class="border-l border-brand-neutral-200 pl-6">
+                    <span class="text-xs uppercase tracking-wider text-brand-neutral-400 block font-semibold">Program Duration</span>
+                    {% if course.duration %}
+                    <span class="font-heading text-xl font-bold text-brand-black">⏱ {{ course.duration }}</span>
+                    {% else %}
+                    <span class="font-heading text-base font-semibold text-brand-neutral-700">⏱ Duration on enquiry</span>
+                    {% endif %}
+                </div>
+
+                <div class="border-l border-brand-neutral-200 pl-6 hidden sm:block">
+                    <span class="text-xs uppercase tracking-wider text-brand-neutral-400 block font-semibold">Training Format</span>
+                    <span class="font-heading text-base font-bold text-brand-black">📍 {{ course.get_format_type_display }}</span>
+                </div>
+            </div>
+
+            <!-- Action CTAs -->
+            <div class="pt-4 flex flex-col sm:flex-row items-center gap-4">
+                {% if not user.is_authenticated %}
+                <a href="{% url 'academy:login' %}?next={% url 'academy:course_detail' slug=course.slug %}" 
+                   class="btn-primary w-full sm:w-auto text-xs uppercase tracking-wider font-bold py-3.5 px-8 shadow-xl shadow-pink-glow">
+                    Login to Enroll →
+                </a>
+                <a href="{% url 'academy:register' %}?next={% url 'academy:course_detail' slug=course.slug %}" 
+                   class="btn-outline-pink w-full sm:w-auto text-xs uppercase tracking-wider font-bold py-3.5 px-8">
+                    Register to Enroll
+                </a>
+                {% elif is_enrolled %}
+                <a href="{% url 'academy:enrollment_confirmation' slug=course.slug %}" 
+                   class="btn-secondary w-full sm:w-auto text-xs uppercase tracking-wider font-bold py-3.5 px-8 bg-emerald-700 hover:bg-emerald-800 text-white">
+                    ✓ Already Enrolled — View Details
+                </a>
+                {% else %}
+                <form method="POST" action="{% url 'academy:course_enroll' slug=course.slug %}" class="w-full sm:w-auto">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-primary w-full sm:w-auto text-xs uppercase tracking-wider font-bold py-3.5 px-8 shadow-xl shadow-pink-glow">
+                        Enroll in This Course →
+                    </button>
+                </form>
+                {% endif %}
+
+                <a href="{{ whatsapp_url }}" target="_blank" rel="noopener noreferrer" 
+                   class="btn-outline w-full sm:w-auto text-xs uppercase tracking-wider py-3.5 px-6">
+                    WhatsApp Enquiry
+                </a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================================================
+     3. COURSE DETAILS & CURRICULUM MAIN BODY
+     ========================================================================== -->
+<section class="py-12 sm:py-16 lg:py-20 bg-brand-neutral-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+            
+            <!-- Left Column: Syllabus & Learning Content -->
+            <div class="lg:col-span-8 space-y-10">
+                
+                <!-- Course Visual Image Frame / Graphic Fallback -->
+                <div class="bg-brand-black rounded-3xl p-3 shadow-xl border border-brand-black-muted overflow-hidden">
+                    <div class="aspect-[16/9] rounded-2xl bg-gradient-to-tr from-brand-black via-brand-black-light to-brand-neutral-800 flex flex-col justify-between p-8 text-white relative overflow-hidden">
+                        {% if course.thumbnail %}
+                        <img src="{{ course.thumbnail.url }}" alt="{{ course.title }}" class="absolute inset-0 w-full h-full object-cover rounded-2xl opacity-90">
+                        <div class="absolute inset-0 bg-gradient-to-t from-brand-black via-brand-black/40 to-transparent"></div>
+                        {% endif %}
+
+                        <div class="relative z-10 flex items-center justify-between">
+                            <span class="badge-pink bg-white/90 text-brand-black border-none font-bold">
+                                Bolbash Beauty Academy
+                            </span>
+                            <span class="badge-dark text-xs">Practical Studio Instruction</span>
+                        </div>
+
+                        <div class="relative z-10 my-auto text-center space-y-2">
+                            <div class="w-16 h-16 mx-auto rounded-full bg-brand-pink/20 text-brand-pink flex items-center justify-center font-heading text-2xl font-bold">
+                                ✦
+                            </div>
+                            <h2 class="font-heading text-2xl sm:text-3xl font-bold text-white">{{ course.title }}</h2>
+                            <p class="text-xs text-brand-pink font-semibold">Master Level Hands-on Training</p>
+                        </div>
+
+                        <div class="relative z-10 bg-white/10 backdrop-blur-md rounded-xl p-4 text-center border border-white/15">
+                            <span class="text-xs text-brand-neutral-300 block">Studio Location: Sango-Eleyele Road, Ibadan</span>
+                            <span class="text-xs text-brand-pink font-semibold">Limited Cohort Size • Personalized Attention</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Full Course Overview -->
+                <div class="bg-white p-8 sm:p-10 rounded-3xl border border-brand-neutral-200 space-y-4 shadow-sm">
+                    <h2 class="font-heading text-2xl font-bold text-brand-black">Course Overview</h2>
+                    <div class="text-brand-neutral-600 text-sm sm:text-base leading-relaxed space-y-4">
+                        {{ course.full_description|linebreaks }}
+                    </div>
+                </div>
+
+                <!-- What You Will Learn (Learning Outcomes) -->
+                {% if learning_outcomes %}
+                <div class="bg-white p-8 sm:p-10 rounded-3xl border border-brand-neutral-200 space-y-6 shadow-sm">
+                    <div class="border-b border-brand-neutral-100 pb-3">
+                        <span class="text-xs font-bold uppercase tracking-wider text-brand-pink block">Curriculum Breakdown</span>
+                        <h2 class="font-heading text-2xl font-bold text-brand-black">What You Will Learn</h2>
+                    </div>
+
+                    <ul class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs sm:text-sm text-brand-neutral-700">
+                        {% for outcome in learning_outcomes %}
+                        <li class="flex items-start space-x-3 p-3 rounded-xl bg-brand-neutral-50 border border-brand-neutral-100">
+                            <span class="w-5 h-5 rounded-full bg-brand-pink-50 text-brand-pink flex items-center justify-center font-bold text-xs flex-shrink-0 mt-0.5">✓</span>
+                            <span class="leading-relaxed font-medium">{{ outcome }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+
+                <!-- Who The Course Is For (Target Audience) -->
+                {% if target_audience %}
+                <div class="bg-white p-8 sm:p-10 rounded-3xl border border-brand-neutral-200 space-y-6 shadow-sm">
+                    <div class="border-b border-brand-neutral-100 pb-3">
+                        <span class="text-xs font-bold uppercase tracking-wider text-brand-pink block">Student Profile</span>
+                        <h2 class="font-heading text-2xl font-bold text-brand-black">Who This Course Is For</h2>
+                    </div>
+
+                    <ul class="space-y-3 text-xs sm:text-sm text-brand-neutral-700">
+                        {% for audience in target_audience %}
+                        <li class="flex items-start space-x-3 p-4 rounded-xl bg-brand-neutral-50 border border-brand-neutral-100">
+                            <span class="w-6 h-6 rounded-full bg-brand-black text-white flex items-center justify-center font-bold text-xs flex-shrink-0">✦</span>
+                            <span class="leading-relaxed font-medium pt-0.5">{{ audience }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+
+                <!-- Prerequisites & Recommended Tools -->
+                {% if prerequisites %}
+                <div class="bg-white p-8 sm:p-10 rounded-3xl border border-brand-neutral-200 space-y-4 shadow-sm">
+                    <h2 class="font-heading text-xl font-bold text-brand-black">Prerequisites & Tools Required</h2>
+                    <ul class="space-y-2 text-xs sm:text-sm text-brand-neutral-600">
+                        {% for item in prerequisites %}
+                        <li class="flex items-center space-x-2">
+                            <span class="text-brand-pink font-bold">•</span>
+                            <span>{{ item }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+
+            </div>
+
+            <!-- Right Column: Sticky Sidebar -->
+            <div class="lg:col-span-4 space-y-6 lg:sticky lg:top-24">
+                
+                <!-- Quick Summary Box -->
+                <div class="bg-white p-6 sm:p-8 rounded-3xl border border-brand-neutral-200 space-y-6 shadow-sm">
+                    <h3 class="font-heading text-lg font-bold text-brand-black border-b border-brand-neutral-100 pb-3">
+                        Training Program Summary
+                    </h3>
+
+                    <div class="space-y-4 text-xs">
+                        <div>
+                            <span class="text-brand-neutral-400 uppercase tracking-wider font-semibold block">Training Category</span>
+                            <span class="font-bold text-brand-black text-sm">
+                                {% if course.category %}{{ course.category.name }}{% else %}General Beauty{% endif %}
+                            </span>
+                        </div>
+
+                        <div>
+                            <span class="text-brand-neutral-400 uppercase tracking-wider font-semibold block">Format</span>
+                            <span class="font-bold text-brand-black text-sm">{{ course.get_format_type_display }}</span>
+                        </div>
+
+                        <div>
+                            <span class="text-brand-neutral-400 uppercase tracking-wider font-semibold block">Duration</span>
+                            <span class="font-bold text-brand-black text-sm">
+                                {% if course.duration %}{{ course.duration }}{% else %}Duration on enquiry{% endif %}
+                            </span>
+                        </div>
+
+                        <div>
+                            <span class="text-brand-neutral-400 uppercase tracking-wider font-semibold block">Tuition Fee</span>
+                            <span class="font-bold text-brand-pink text-base">
+                                {% if course.price %}
+                                ₦{{ course.price|floatformat:2 }}
+                                {% else %}
+                                Contact us for course pricing
+                                {% endif %}
+                            </span>
+                        </div>
+
+                        <div>
+                            <span class="text-brand-neutral-400 uppercase tracking-wider font-semibold block">Training Studio</span>
+                            <span class="text-brand-neutral-600 block">No. 40, SIOA Plaza, Sango-Eleyele Road, Ibadan.</span>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 border-t border-brand-neutral-100 space-y-2">
+                        {% if not user.is_authenticated %}
+                        <a href="{% url 'academy:login' %}?next={% url 'academy:course_detail' slug=course.slug %}" 
+                           class="btn-primary w-full text-center text-xs uppercase tracking-wider font-bold py-3.5 block shadow-md shadow-pink-glow">
+                            Login to Enroll →
+                        </a>
+                        {% elif is_enrolled %}
+                        <a href="{% url 'academy:enrollment_confirmation' slug=course.slug %}" 
+                           class="btn-secondary w-full text-center text-xs uppercase tracking-wider font-bold py-3.5 block bg-emerald-700 hover:bg-emerald-800 text-white">
+                            ✓ Already Enrolled
+                        </a>
+                        {% else %}
+                        <form method="POST" action="{% url 'academy:course_enroll' slug=course.slug %}" class="w-full">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-primary w-full text-center text-xs uppercase tracking-wider font-bold py-3.5 block shadow-md shadow-pink-glow">
+                                Enroll in This Course →
+                            </button>
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Instructor Support Box -->
+                <div class="bg-brand-black text-white p-6 sm:p-8 rounded-3xl border border-brand-black-muted space-y-4 text-center">
+                    <span class="badge-pink">Direct Instructor Access</span>
+                    <h4 class="font-heading text-lg font-bold text-white">Have Questions Before Enrolling?</h4>
+                    <p class="text-xs text-brand-neutral-400 leading-relaxed">
+                        Speak directly with Bolbash Beauty Spot instructors regarding cohort start dates, tool kit availability, and practical training details.
+                    </p>
+                    <a href="{{ whatsapp_url }}" target="_blank" rel="noopener noreferrer" 
+                       class="btn-outline-pink w-full text-center text-xs uppercase tracking-wider py-3 block">
+                        Chat On WhatsApp
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================================================
+     4. RELATED COURSES SECTION
+     ========================================================================== -->
+{% if related_courses %}
+<section class="py-16 bg-white border-t border-brand-neutral-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+        <div class="flex items-center justify-between">
+            <h2 class="font-heading text-2xl font-bold text-brand-black">Related Training Programs</h2>
+            <a href="{% url 'academy:course_list' %}" class="text-xs font-bold text-brand-pink hover:underline uppercase tracking-wider">
+                View All Courses →
+            </a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {% for r_course in related_courses %}
+            <div class="bg-brand-neutral-50 rounded-2xl border border-brand-neutral-200 p-6 flex flex-col justify-between space-y-4 hover:shadow-md transition-all">
+                <div class="space-y-2">
+                    {% if r_course.category %}
+                    <span class="badge-dark text-[10px]">{{ r_course.category.name }}</span>
+                    {% endif %}
+                    <h3 class="font-heading text-lg font-bold text-brand-black hover:text-brand-pink transition-colors">
+                        <a href="{% url 'academy:course_detail' r_course.slug %}">{{ r_course.title }}</a>
+                    </h3>
+                    <p class="text-brand-neutral-500 text-xs line-clamp-2">
+                        {{ r_course.short_description }}
+                    </p>
+                </div>
+                <div class="pt-3 border-t border-brand-neutral-200 flex items-center justify-between">
+                    <a href="{% url 'academy:course_detail' r_course.slug %}" class="text-xs font-semibold text-brand-pink hover:underline">
+                        Details →
+                    </a>
+                    <a href="{% url 'academy:course_detail' r_course.slug %}" class="btn-primary text-[10px] uppercase px-3 py-1.5">
+                        View Course
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% endblock content %}

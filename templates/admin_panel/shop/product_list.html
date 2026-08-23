@@ -1,0 +1,101 @@
+{% extends "admin_panel/base_admin.html" %}
+
+{% block title %}Shop Products | Bolbash Admin{% endblock title %}
+{% block header_title %}Shop Product Catalogue Management{% endblock header_title %}
+
+{% block content %}
+<div class="space-y-6">
+
+    <div class="flex items-center justify-between">
+        <div>
+            <h2 class="font-heading font-bold text-xl text-brand-black">Products Catalogue</h2>
+            <p class="text-xs text-brand-neutral-500">Manage physical beauty products, pricing, and stock status.</p>
+        </div>
+        <a href="{% url 'admin_panel:shop_product_create' %}" class="btn-primary text-xs uppercase tracking-wider font-bold py-2.5 px-6">
+            + Add New Product
+        </a>
+    </div>
+
+    <!-- Search & Filters -->
+    <div class="bg-white p-6 rounded-2xl border border-brand-neutral-200 shadow-sm">
+        <form method="GET" class="grid grid-cols-1 sm:grid-cols-12 gap-4 items-center">
+            
+            <div class="sm:col-span-6">
+                <input type="text" name="q" value="{{ q }}" placeholder="Search products by name or summary..." class="form-input text-xs">
+            </div>
+
+            <div class="sm:col-span-4">
+                <select name="stock" class="form-select text-xs">
+                    <option value="">-- All Stock Statuses --</option>
+                    <option value="in_stock" {% if stock_status == 'in_stock' %}selected{% endif %}>In Stock</option>
+                    <option value="out_of_stock" {% if stock_status == 'out_of_stock' %}selected{% endif %}>Out of Stock</option>
+                </select>
+            </div>
+
+            <div class="sm:col-span-2 flex space-x-2">
+                <button type="submit" class="btn-primary text-xs font-bold py-2.5 px-4 w-full">Filter</button>
+                {% if q or stock_status %}
+                <a href="{% url 'admin_panel:shop_product_list' %}" class="btn-outline text-xs py-2.5 px-3">Reset</a>
+                {% endif %}
+            </div>
+
+        </form>
+    </div>
+
+    <!-- Products Table -->
+    <div class="bg-white rounded-2xl border border-brand-neutral-200 shadow-sm overflow-hidden p-6 space-y-4">
+        {% if products %}
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+                <thead class="bg-brand-neutral-50 border-b border-brand-neutral-200 text-brand-black font-bold uppercase tracking-wider">
+                    <tr>
+                        <th class="py-3.5 px-4">Product Name</th>
+                        <th class="py-3.5 px-4">Category</th>
+                        <th class="py-3.5 px-4">Price (NGN)</th>
+                        <th class="py-3.5 px-4">Stock Qty</th>
+                        <th class="py-3.5 px-4">Status</th>
+                        <th class="py-3.5 px-4 text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-brand-neutral-100">
+                    {% for p in products %}
+                    <tr class="hover:bg-brand-neutral-50">
+                        <td class="py-4 px-4 font-bold text-brand-black">
+                            <a href="{% url 'admin_panel:shop_product_edit' p.id %}" class="hover:text-brand-pink">
+                                {{ p.name }}
+                            </a>
+                            {% if p.is_featured %}
+                            <span class="badge-gold text-[9px] px-2 py-0.2 ml-2">Featured</span>
+                            {% endif %}
+                        </td>
+                        <td class="py-4 px-4 font-medium text-brand-neutral-700">{{ p.category.name|default:"Uncategorized" }}</td>
+                        <td class="py-4 px-4 font-bold text-brand-pink">₦{{ p.price }}</td>
+                        <td class="py-4 px-4 font-bold text-brand-black">
+                            {% if p.stock_quantity > 0 %}
+                            <span class="text-emerald-700">{{ p.stock_quantity }} units</span>
+                            {% else %}
+                            <span class="text-rose-600">0 (Out of stock)</span>
+                            {% endif %}
+                        </td>
+                        <td class="py-4 px-4">
+                            <span class="px-2.5 py-1 rounded-full text-[10px] font-bold {% if p.is_active %}bg-emerald-50 text-emerald-700{% else %}bg-gray-200 text-gray-700{% endif %}">
+                                {% if p.is_active %}Active{% else %}Inactive{% endif %}
+                            </span>
+                        </td>
+                        <td class="py-4 px-4 text-right">
+                            <a href="{% url 'admin_panel:shop_product_edit' p.id %}" class="btn-secondary text-[10px] uppercase py-1 px-3">
+                                Edit Product →
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="text-xs text-brand-neutral-400 text-center py-8">No products found matching criteria.</p>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock content %}

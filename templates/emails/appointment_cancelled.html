@@ -1,0 +1,50 @@
+{% extends "emails/base_email.html" %}
+
+{% block subject %}Appointment Cancelled — {{ booking.reference }}{% endblock subject %}
+
+{% block content %}
+<div style="text-align: center; margin-bottom: 24px;">
+    <span class="badge-confirmed" style="background-color: #FFE4E6; color: #E11D48;">
+        Appointment Cancelled
+    </span>
+    <h2 style="font-size: 22px; font-weight: 700; color: #0F172A; margin: 16px 0 8px 0;">
+        Cancellation Notice
+    </h2>
+    <p style="font-size: 14px; color: #64748B; margin: 0; line-height: 1.5;">
+        Dear {{ booking.customer_name }}, your salon appointment reference <strong>#{{ booking.reference }}</strong> has been officially cancelled.
+    </p>
+</div>
+
+<table class="table-details">
+    <tr>
+        <td class="label">Reference</td>
+        <td class="val">{{ booking.reference }}</td>
+    </tr>
+    <tr>
+        <td class="label">Service</td>
+        <td class="val">{{ booking.service_name_snapshot }}</td>
+    </tr>
+    <tr>
+        <td class="label">Original Date</td>
+        <td class="val">{{ booking.appointment_date|date:"l, F d, Y" }}</td>
+    </tr>
+    <tr>
+        <td class="label">Original Time</td>
+        <td class="val">{{ booking.appointment_time }}</td>
+    </tr>
+    <tr>
+        <td class="label">Cancelled By</td>
+        <td class="val" style="color: #E11D48;">{{ cancelled_by|default:"Salon Administrator" }}</td>
+    </tr>
+</table>
+
+<div style="background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 16px; margin: 24px 0; text-align: center; font-size: 13px; color: #475569;">
+    Would you like to book a new appointment at a more convenient time?
+</div>
+
+<div style="text-align: center; margin-top: 24px;">
+    <a href="https://wa.me/message/UW6FRPKW3STAM1?text=Hello%20Bolbash,%20I%20would%20like%20to%20rebook%20my%20cancelled%20appointment%20reference%20{{ booking.reference }}" class="btn-cta">
+        Book New Appointment ->
+    </a>
+</div>
+{% endblock content %}

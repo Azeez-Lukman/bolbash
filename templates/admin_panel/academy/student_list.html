@@ -1,0 +1,70 @@
+{% extends "admin_panel/base_admin.html" %}
+
+{% block title %}Academy Students | Bolbash Admin{% endblock title %}
+{% block header_title %}Academy Students & Enrolment Progress{% endblock header_title %}
+
+{% block content %}
+<div class="space-y-6">
+
+    <div class="bg-white rounded-2xl border border-brand-neutral-200 shadow-sm overflow-hidden p-6 space-y-4">
+        <div>
+            <h2 class="font-heading font-bold text-xl text-brand-black">Enrolled Students Index</h2>
+            <p class="text-xs text-brand-neutral-500">Monitor active student enrolments and course completion progress.</p>
+        </div>
+
+        {% if enrolments %}
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+                <thead class="bg-brand-neutral-50 border-b border-brand-neutral-200 text-brand-black font-bold uppercase tracking-wider">
+                    <tr>
+                        <th class="py-3.5 px-4">Student</th>
+                        <th class="py-3.5 px-4">Enrolled Course</th>
+                        <th class="py-3.5 px-4">Enrolled Date</th>
+                        <th class="py-3.5 px-4">Progress %</th>
+                        <th class="py-3.5 px-4">Status</th>
+                        <th class="py-3.5 px-4 text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-brand-neutral-100">
+                    {% for e in enrolments %}
+                    <tr class="hover:bg-brand-neutral-50">
+                        <td class="py-4 px-4 font-bold text-brand-black">
+                            <a href="{% url 'admin_panel:customer_detail' e.user.id %}" class="hover:text-brand-pink">
+                                {{ e.user.username }}
+                            </a>
+                            <span class="text-[10px] text-brand-neutral-400 font-normal block">{{ e.user.email }}</span>
+                        </td>
+                        <td class="py-4 px-4 font-semibold text-brand-black">{{ e.course.title }}</td>
+                        <td class="py-4 px-4 text-brand-neutral-500">{{ e.enrolled_at|date:"M d, Y" }}</td>
+                        <td class="py-4 px-4">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-24 bg-brand-neutral-200 h-2 rounded-full overflow-hidden">
+                                    <div class="bg-brand-pink h-full rounded-full" style="width: {{ e.progress_percentage }}%;"></div>
+                                </div>
+                                <span class="font-bold text-brand-black text-[10px]">{{ e.progress_percentage }}%</span>
+                            </div>
+                        </td>
+                        <td class="py-4 px-4">
+                            <span class="px-2.5 py-1 rounded-full text-[10px] font-bold
+                                {% if e.status == 'COMPLETED' %} bg-emerald-50 text-emerald-700 border border-emerald-200
+                                {% else %} bg-sky-50 text-sky-700 border border-sky-200 {% endif %}">
+                                {{ e.get_status_display }}
+                            </span>
+                        </td>
+                        <td class="py-4 px-4 text-right">
+                            <a href="{% url 'admin_panel:customer_detail' e.user.id %}" class="btn-secondary text-[10px] uppercase py-1 px-3">
+                                View Profile →
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="text-xs text-brand-neutral-400 text-center py-8">No student enrolments recorded yet.</p>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock content %}

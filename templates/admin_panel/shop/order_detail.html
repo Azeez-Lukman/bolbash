@@ -1,0 +1,159 @@
+{% extends "admin_panel/base_admin.html" %}
+
+{% block title %}Order #{{ order.order_number }} | Bolbash Admin{% endblock title %}
+{% block header_title %}Order Receipt & Fulfilment Manager{% endblock header_title %}
+
+{% block content %}
+<div class="space-y-8 max-w-5xl">
+
+    <div class="flex items-center justify-between">
+        <a href="{% url 'admin_panel:shop_order_list' %}" class="text-xs font-bold text-brand-neutral-500 hover:text-brand-black">
+            ← Back To Shop Orders
+        </a>
+    </div>
+
+    <!-- Main Grid: Order Details & Status Update Form -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <!-- Left: Order Line Items & Customer Shipping Info -->
+        <div class="lg:col-span-7 bg-white p-6 sm:p-8 rounded-2xl border border-brand-neutral-200 shadow-sm space-y-6">
+            
+            <div class="flex items-center justify-between border-b border-brand-neutral-100 pb-4">
+                <div>
+                    <span class="text-[10px] uppercase font-bold text-brand-pink tracking-widest block">Order Reference</span>
+                    <h2 class="font-mono text-xl font-bold text-brand-black">#{{ order.order_number }}</h2>
+                </div>
+                <span class="px-3 py-1 rounded-full text-xs font-bold
+                    {% if order.order_status == 'DELIVERED' %} bg-emerald-50 text-emerald-700 border border-emerald-200
+                    {% elif order.order_status == 'PROCESSING' %} bg-sky-50 text-sky-700 border border-sky-200
+                    {% else %} bg-amber-50 text-amber-700 border border-amber-200 {% endif %}">
+                    {{ order.get_order_status_display }}
+                </span>
+            </div>
+
+            <!-- Customer Shipping Address -->
+            <div class="space-y-3">
+                <h3 class="text-xs uppercase font-bold tracking-wider text-brand-neutral-400">Shipping & Contact Details</h3>
+                <div class="bg-brand-neutral-50 p-4 rounded-xl space-y-2 text-xs">
+                    <div class="flex justify-between">
+                        <span class="text-brand-neutral-500 font-medium">Customer:</span>
+                        <span class="font-bold text-brand-black">{{ order.customer_name }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-brand-neutral-500 font-medium">Phone:</span>
+                        <span class="font-semibold text-brand-black">{{ order.customer_phone }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-brand-neutral-500 font-medium">Email:</span>
+                        <span class="font-semibold text-brand-black">{{ order.customer_email }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-brand-neutral-500 font-medium">Address:</span>
+                        <span class="font-semibold text-brand-black text-right">{{ order.shipping_address }}, {{ order.city }}, {{ order.state }}</span>
+                    </div>
+                    {% if order.delivery_notes %}
+                    <div class="pt-2 border-t border-brand-neutral-200 text-amber-900 font-medium">
+                        Notes: {{ order.delivery_notes }}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Line Items Table -->
+            <div class="space-y-3">
+                <h3 class="text-xs uppercase font-bold tracking-wider text-brand-neutral-400">Order Items</h3>
+                <div class="border border-brand-neutral-200 rounded-xl overflow-hidden text-xs">
+                    <table class="w-full text-left">
+                        <thead class="bg-brand-neutral-50 border-b border-brand-neutral-200 font-bold uppercase text-brand-black">
+                            <tr>
+                                <th class="py-2.5 px-3">Item</th>
+                                <th class="py-2.5 px-3 text-center">Qty</th>
+                                <th class="py-2.5 px-3 text-right">Price</th>
+                                <th class="py-2.5 px-3 text-right">Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-brand-neutral-100">
+                            {% for item in order.items.all %}
+                            <tr>
+                                <td class="py-3 px-3 font-bold text-brand-black">{{ item.product_name_snapshot }}</td>
+                                <td class="py-3 px-3 text-center font-bold">{{ item.quantity }}</td>
+                                <td class="py-3 px-3 text-right text-brand-neutral-600">₦{{ item.product_price_snapshot }}</td>
+                                <td class="py-3 px-3 text-right font-bold text-brand-pink">₦{{ item.subtotal }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot class="bg-brand-neutral-50 border-t border-brand-neutral-200 font-bold">
+                            <tr>
+                                <td colspan="3" class="py-2.5 px-3 text-right">Subtotal:</td>
+                                <td class="py-2.5 px-3 text-right">₦{{ order.subtotal }}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" class="py-2.5 px-3 text-right">Delivery Fee:</td>
+                                <td class="py-2.5 px-3 text-right">₦{{ order.delivery_fee }}</td>
+                            </tr>
+                            <tr class="text-sm text-brand-pink">
+                                <td colspan="3" class="py-3 px-3 text-right">Total Amount:</td>
+                                <td class="py-3 px-3 text-right font-bold">₦{{ order.total_amount }}</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Right: Fulfilment & Payment Status Form -->
+        <div class="lg:col-span-5 space-y-6">
+            <div class="bg-white p-6 rounded-2xl border border-brand-neutral-200 shadow-sm space-y-6">
+                <div class="border-b border-brand-neutral-100 pb-3">
+                    <h3 class="font-heading font-bold text-base text-brand-black">Update Order Fulfilment</h3>
+                    <span class="text-xs text-brand-neutral-400">Manage order & payment status</span>
+                </div>
+
+                <form method="POST" class="space-y-4">
+                    {% csrf_token %}
+                    <div>
+                        <label class="form-label">Order Fulfilment Status</label>
+                        {{ form.order_status }}
+                    </div>
+
+                    <div>
+                        <label class="form-label">Payment Status</label>
+                        {{ form.payment_status }}
+                    </div>
+
+                    <button type="submit" class="btn-primary w-full text-xs font-bold uppercase tracking-wider py-3">
+                        Save Order Status →
+                    </button>
+                </form>
+            </div>
+
+            <!-- Associated Paystack Payments -->
+            <div class="bg-white p-6 rounded-2xl border border-brand-neutral-200 shadow-sm space-y-4">
+                <h3 class="font-heading font-bold text-base text-brand-black pb-2 border-b border-brand-neutral-100">Paystack Transactions</h3>
+                {% if payments %}
+                <div class="space-y-2 text-xs">
+                    {% for p in payments %}
+                    <div class="p-3 rounded-xl border border-brand-neutral-100 bg-brand-neutral-50 flex items-center justify-between">
+                        <div>
+                            <span class="font-bold text-brand-black block">₦{{ p.amount }}</span>
+                            <span class="text-[10px] text-brand-neutral-400 block font-mono">{{ p.reference }}</span>
+                        </div>
+                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold
+                            {% if p.status == 'PAID' %} bg-emerald-50 text-emerald-700
+                            {% else %} bg-rose-50 text-rose-700 {% endif %}">
+                            {{ p.get_status_display }}
+                        </span>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="text-xs text-brand-neutral-400">No payment transaction records.</p>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+
+</div>
+{% endblock content %}

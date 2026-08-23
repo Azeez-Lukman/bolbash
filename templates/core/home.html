@@ -1,0 +1,875 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Bolbash Beauty Spot | Luxury Beauty Salon & Academy Ibadan{% endblock title %}
+
+{% block meta_description %}Bolbash Beauty Spot is Ibadan's premier luxury beauty salon and academy offering expert hair
+styling, wig installation, bridal styling, nail fixing, and professional beauty training.{% endblock meta_description %}
+
+{% block content %}
+
+<!-- ==========================================================================
+     1. HERO SECTION (High-Impact Luxury Showcase)
+     ========================================================================== -->
+<section
+    class="relative bg-gradient-to-b from-brand-black via-brand-black-light to-brand-black text-white pt-12 pb-20 sm:pt-20 sm:pb-28 lg:pt-24 lg:pb-36 overflow-hidden">
+    <!-- Ambient Backdrop Lighting Glows -->
+    <div class="absolute -top-24 -left-24 w-96 h-96 bg-brand-pink/20 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute top-1/2 -right-24 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+
+            <!-- Hero Content Column -->
+            <div class="lg:col-span-7 space-y-8 text-center lg:text-left reveal-slide-left">
+
+                <!-- Eyebrow Badge -->
+                <div
+                    class="inline-flex items-center space-x-2 bg-brand-pink/15 border border-brand-pink/40 px-4 py-2 rounded-full backdrop-blur-md">
+                    <span class="w-2.5 h-2.5 rounded-full bg-brand-pink animate-pulse"></span>
+                    <span class="text-xs uppercase tracking-widest font-bold text-brand-pink">Ibadan's #1 Wig & Bridal
+                        Haven • Strictly By Appointment</span>
+                </div>
+
+                <!-- Hero Headline -->
+                <h1
+                    class="text-4xl sm:text-5xl lg:text-6xl font-heading font-bold text-white tracking-tight leading-[1.12]">
+                    Exquisite Beauty & <br class="hidden sm:inline" />
+                    <span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-brand-pink via-rose-300 to-amber-300">Master
+                        Artistry</span>, Crafted For You.
+                </h1>
+
+                <!-- Supporting Copy -->
+                <p
+                    class="text-brand-neutral-300 text-base sm:text-lg font-normal leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                    Step into Ibadan’s premier destination for luxury hair styling, 100% invisible frontal melts,
+                    bespoke bridal glamour, nail artistry, and professional beauty training.
+                </p>
+
+                <!-- Action Buttons -->
+                <div class="pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                    <a href="{% url 'booking:booking_form' %}"
+                        class="btn-primary w-full sm:w-auto text-xs uppercase tracking-wider font-bold py-4 px-8 shadow-xl shadow-pink-glow hover:scale-[1.02] transition-transform">
+                        Book Appointment →
+                    </a>
+                    <a href="#services"
+                        class="btn-outline-pink w-full sm:w-auto text-xs uppercase tracking-wider font-bold py-4 px-8 hover:bg-white/10 transition-colors">
+                        Explore Services & Catalogue
+                    </a>
+                </div>
+
+                <!-- Trust Badges Bar -->
+                <div class="pt-8 border-t border-white/10 grid grid-cols-3 gap-4 max-w-lg mx-auto lg:mx-0 text-center">
+                    <div class="p-3 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm">
+                        <span class="block text-2xl font-heading font-bold text-white">100%</span>
+                        <span class="text-[10px] text-brand-pink uppercase tracking-wider font-bold">Appointment
+                            Only</span>
+                    </div>
+                    <div class="p-3 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm">
+                        <span class="block text-2xl font-heading font-bold text-brand-pink">Bespoke</span>
+                        <span class="text-[10px] text-brand-neutral-300 uppercase tracking-wider font-semibold">Bridal &
+                            Wigs</span>
+                    </div>
+                    <div class="p-3 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm">
+                        <span class="block text-2xl font-heading font-bold text-white">Academy</span>
+                        <span class="text-[10px] text-brand-pink uppercase tracking-wider font-bold">Master
+                            Skills</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Hero Visual Showcase Container -->
+            <div class="lg:col-span-5 relative reveal-slide-right">
+                <div class="relative mx-auto max-w-md lg:max-w-none">
+
+                    <!-- Main Frame Container -->
+                    <div
+                        class="relative bg-brand-black-light rounded-3xl p-4 shadow-2xl border border-brand-pink/30 overflow-hidden">
+                        <div
+                            class="aspect-[4/5] rounded-2xl bg-gradient-to-tr from-brand-black via-brand-black-muted to-brand-neutral-900 flex flex-col justify-between p-8 text-white relative overflow-hidden">
+
+                            <!-- Top Overlay Badge -->
+                            <div class="flex justify-between items-center z-10">
+                                <span
+                                    class="badge-pink bg-brand-pink text-white font-bold tracking-wider text-xs px-3 py-1.5 rounded-full shadow-lg">
+                                    LUXURY SALON & ACADEMY
+                                </span>
+                                <span
+                                    class="text-xs text-amber-300 font-semibold flex items-center gap-1 bg-white/10 px-2.5 py-1 rounded-full">
+                                    ★ 5.0 Rating
+                                </span>
+                            </div>
+
+                            <!-- Central Artistry Visual Graphic -->
+                            <div class="my-auto text-center space-y-4 z-10">
+                                <div
+                                    class="w-24 h-24 mx-auto rounded-full bg-gradient-to-tr from-brand-pink to-amber-300 p-0.5 shadow-xl shadow-pink-glow">
+                                    <div
+                                        class="w-full h-full rounded-full bg-brand-black flex items-center justify-center text-brand-pink">
+                                        <span class="text-4xl">👑</span>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-1">
+                                    <h3 class="font-heading text-2xl font-bold tracking-wide text-white">Hairbybolbash
+                                    </h3>
+                                    <p class="text-xs text-brand-pink font-semibold uppercase tracking-widest">Where
+                                        Beauty Meets Perfection</p>
+                                </div>
+
+                                <div
+                                    class="flex flex-wrap justify-center gap-2 pt-2 text-[11px] text-brand-neutral-300">
+                                    <span class="px-2.5 py-1 rounded-full bg-white/10 border border-white/15">Frontal
+                                        Melts</span>
+                                    <span class="px-2.5 py-1 rounded-full bg-white/10 border border-white/15">Bridal
+                                        Glam</span>
+                                    <span class="px-2.5 py-1 rounded-full bg-white/10 border border-white/15">Wig
+                                        Revamp</span>
+                                </div>
+                            </div>
+
+                            <!-- Bottom Location & Contact Sub-card -->
+                            <div
+                                class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 flex items-center justify-between z-10">
+                                <div>
+                                    <span
+                                        class="text-[10px] text-brand-pink font-bold uppercase tracking-wider block">Salon
+                                        Studio</span>
+                                    <span class="text-xs text-white font-medium">SIOA Plaza, Sango-Eleyele Rd</span>
+                                </div>
+                                <a href="tel:08168956606"
+                                    class="btn-primary text-[10px] uppercase font-bold py-1.5 px-3 rounded-lg">
+                                    08168956606
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ==========================================================================
+     2. LUXURY STATISTICS COUNTER BAR (Animated Count-Up)
+     ========================================================================== -->
+<section id="stats-counter-bar"
+    class="bg-brand-black border-y border-brand-pink/20 py-8 text-white relative z-20 shadow-2xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+
+            <div class="space-y-1">
+                <span class="stat-number text-3xl sm:text-4xl font-heading font-bold text-brand-pink block"
+                    data-target="500" data-suffix="+">0+</span>
+                <span class="text-xs text-brand-neutral-300 uppercase tracking-widest font-semibold block">Bridal & Hair
+                    Clients</span>
+            </div>
+
+            <div class="space-y-1">
+                <span class="stat-number text-3xl sm:text-4xl font-heading font-bold text-white block" data-target="100"
+                    data-suffix="%">0%</span>
+                <span class="text-xs text-brand-neutral-300 uppercase tracking-widest font-semibold block">Invisible
+                    Frontal Melts</span>
+            </div>
+
+            <div class="space-y-1">
+                <span class="stat-number text-3xl sm:text-4xl font-heading font-bold text-brand-pink block"
+                    data-target="4" data-suffix=" Tracks">0 Tracks</span>
+                <span class="text-xs text-brand-neutral-300 uppercase tracking-widest font-semibold block">Academy
+                    Training Masterclasses</span>
+            </div>
+
+            <div class="space-y-1">
+                <span class="stat-number text-3xl sm:text-4xl font-heading font-bold text-white block" data-target="0"
+                    data-suffix=" Minutes">0 Minutes</span>
+                <span class="text-xs text-brand-pink uppercase tracking-widest font-bold block">Salon Waiting
+                    Time</span>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ==========================================================================
+     3. BRAND STORY SECTION
+     ========================================================================== -->
+<section id="about" class="py-16 sm:py-24 bg-brand-neutral-50 border-b border-brand-neutral-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl mx-auto text-center space-y-6">
+            <span class="section-subtitle">ABOUT BOLBASH BEAUTY SPOT</span>
+            <h2 class="section-title">Beauty. Craft. Confidence.</h2>
+            <p class="text-brand-neutral-600 text-base sm:text-lg leading-relaxed">
+                Bolbash Beauty Spot is Ibadan’s premier beauty destination. Founded on a passion for transformative hair
+                artistry and flawless beauty care, we specialize in high-end bridal hair styling, 360 and frontal lace
+                melting, wig construction, nail artistry, and professional beauty training.
+            </p>
+            <p class="text-brand-neutral-500 text-sm sm:text-base leading-relaxed">
+                Whether you are stepping into our studio for an exclusive appointment or enrolling in Bolbash Beauty
+                Academy to master industry techniques, our standard remains uncompromising excellence.
+            </p>
+            <div class="pt-4">
+                <a href="{% url 'core:about' %}" class="btn-secondary text-xs uppercase tracking-wider font-bold">
+                    Discover Bolbash Experience →
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ==========================================================================
+     4. INTERACTIVE SIGNATURE SERVICES SHOWCASE (Tabbed & Animated)
+     ========================================================================== -->
+<section id="services" class="py-16 sm:py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+
+        <!-- Section Header -->
+        <div class="text-center max-w-2xl mx-auto space-y-3">
+            <span class="section-subtitle">CURATED BEAUTY & HAIR ARTISTRY</span>
+            <h2 class="section-title">Signature Services & Offerings</h2>
+            <p class="text-brand-neutral-500 text-sm sm:text-base">
+                Select a category below to explore our signature treatments and pre-select your service for quick online
+                booking.
+            </p>
+        </div>
+
+        <!-- Filter Tabs Bar (Vanilla JS Controlled) -->
+        <div class="flex flex-wrap justify-center gap-2 sm:gap-3">
+            <button onclick="filterServices('all')"
+                class="tab-btn active px-5 py-2.5 rounded-full text-xs uppercase tracking-wider font-bold transition-all border border-brand-pink bg-brand-pink text-white"
+                id="tab-all">
+                ✨ All Specialties
+            </button>
+            <button onclick="filterServices('wig-frontal')"
+                class="tab-btn px-5 py-2.5 rounded-full text-xs uppercase tracking-wider font-bold transition-all border border-brand-neutral-200 bg-brand-neutral-50 text-brand-neutral-700 hover:border-brand-pink"
+                id="tab-wig-frontal">
+                💇‍♀️ Wig & Frontal
+            </button>
+            <button onclick="filterServices('bridal')"
+                class="tab-btn px-5 py-2.5 rounded-full text-xs uppercase tracking-wider font-bold transition-all border border-brand-neutral-200 bg-brand-neutral-50 text-brand-neutral-700 hover:border-brand-pink"
+                id="tab-bridal">
+                👰 Bridal Glamour
+            </button>
+            <button onclick="filterServices('beauty-nails')"
+                class="tab-btn px-5 py-2.5 rounded-full text-xs uppercase tracking-wider font-bold transition-all border border-brand-neutral-200 bg-brand-neutral-50 text-brand-neutral-700 hover:border-brand-pink"
+                id="tab-beauty-nails">
+                💅 Nails & Beauty
+            </button>
+            <button onclick="filterServices('maintenance')"
+                class="tab-btn px-5 py-2.5 rounded-full text-xs uppercase tracking-wider font-bold transition-all border border-brand-neutral-200 bg-brand-neutral-50 text-brand-neutral-700 hover:border-brand-pink"
+                id="tab-maintenance">
+                🧴 Hair Maintenance
+            </button>
+        </div>
+
+        <!-- Services Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 reveal-stagger" id="services-grid">
+
+            <!-- Service 1: Trending Bridal Hair Styling -->
+            <div class="service-item card-premium card-hover flex flex-col justify-between space-y-6 transition-all duration-300"
+                data-category="bridal">
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span
+                            class="w-10 h-10 rounded-xl bg-brand-pink/10 text-brand-pink flex items-center justify-center font-heading text-lg font-bold">01</span>
+                        <span class="badge-pink">Bespoke Bridal</span>
+                    </div>
+                    <h3 class="text-xl font-heading font-bold text-brand-black">Trending Bridal Hair Styling</h3>
+                    <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed">
+                        Exquisite bridal updos, traditional engagement styling, and glamour arrangements designed to
+                        make your wedding day unforgettable.
+                    </p>
+                </div>
+                <div class="pt-4 border-t border-brand-neutral-100 flex items-center justify-between">
+                    <span class="text-xs font-bold text-brand-pink">Price On Enquiry</span>
+                    <a href="{% url 'booking:booking_form' %}?service=trending-bridal-hair-styling"
+                        class="btn-primary text-[10px] uppercase font-bold py-2 px-4">
+                        Book Service →
+                    </a>
+                </div>
+            </div>
+
+            <!-- Service 2: 360 Installation -->
+            <div class="service-item card-premium card-hover flex flex-col justify-between space-y-6 transition-all duration-300"
+                data-category="wig-frontal">
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span
+                            class="w-10 h-10 rounded-xl bg-brand-pink/10 text-brand-pink flex items-center justify-center font-heading text-lg font-bold">02</span>
+                        <span class="badge-pink">360 Perimeter</span>
+                    </div>
+                    <h3 class="text-xl font-heading font-bold text-brand-black">360 Installation</h3>
+                    <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed">
+                        Flawless 360 lace installation providing a seamless hairline and versatile high-ponytail styling
+                        options.
+                    </p>
+                </div>
+                <div class="pt-4 border-t border-brand-neutral-100 flex items-center justify-between">
+                    <span class="text-xs font-bold text-brand-pink">From ₦15,000.00</span>
+                    <a href="{% url 'booking:booking_form' %}?service=360-installation"
+                        class="btn-primary text-[10px] uppercase font-bold py-2 px-4">
+                        Book Service →
+                    </a>
+                </div>
+            </div>
+
+            <!-- Service 3: Frontal Installation -->
+            <div class="service-item card-premium card-hover flex flex-col justify-between space-y-6 transition-all duration-300"
+                data-category="wig-frontal">
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span
+                            class="w-10 h-10 rounded-xl bg-brand-pink/10 text-brand-pink flex items-center justify-center font-heading text-lg font-bold">03</span>
+                        <span class="badge-pink">Natural Scalp</span>
+                    </div>
+                    <h3 class="text-xl font-heading font-bold text-brand-black">Frontal Installation</h3>
+                    <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed">
+                        Precision customization, knot bleaching, ear-tab fitting, and invisible lace melting for a
+                        scalp-like appearance.
+                    </p>
+                </div>
+                <div class="pt-4 border-t border-brand-neutral-100 flex items-center justify-between">
+                    <span class="text-xs font-bold text-brand-pink">From ₦12,000.00</span>
+                    <a href="{% url 'booking:booking_form' %}?service=frontal-installation"
+                        class="btn-primary text-[10px] uppercase font-bold py-2 px-4">
+                        Book Service →
+                    </a>
+                </div>
+            </div>
+
+            <!-- Service 4: Custom Wig Making -->
+            <div class="service-item card-premium card-hover flex flex-col justify-between space-y-6 transition-all duration-300"
+                data-category="wig-frontal">
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span
+                            class="w-10 h-10 rounded-xl bg-brand-pink/10 text-brand-pink flex items-center justify-center font-heading text-lg font-bold">04</span>
+                        <span class="badge-pink">Custom Fit</span>
+                    </div>
+                    <h3 class="text-xl font-heading font-bold text-brand-black">Custom Wig Making</h3>
+                    <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed">
+                        Bespoke wig construction crafted according to your precise head measurement, cap preference, and
+                        hair density.
+                    </p>
+                </div>
+                <div class="pt-4 border-t border-brand-neutral-100 flex items-center justify-between">
+                    <span class="text-xs font-bold text-brand-pink">From ₦20,000.00</span>
+                    <a href="{% url 'booking:booking_form' %}?service=custom-wig-making"
+                        class="btn-primary text-[10px] uppercase font-bold py-2 px-4">
+                        Book Service →
+                    </a>
+                </div>
+            </div>
+
+            <!-- Service 5: Wig Revamping & Bleaching -->
+            <div class="service-item card-premium card-hover flex flex-col justify-between space-y-6 transition-all duration-300"
+                data-category="maintenance">
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span
+                            class="w-10 h-10 rounded-xl bg-brand-pink/10 text-brand-pink flex items-center justify-center font-heading text-lg font-bold">05</span>
+                        <span class="badge-pink">Restoration</span>
+                    </div>
+                    <h3 class="text-xl font-heading font-bold text-brand-black">Wig Revamping & Bleaching</h3>
+                    <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed">
+                        Restorative treatment for old or matted wig units, deep steam conditioning, bundle bleaching,
+                        and silk pressing.
+                    </p>
+                </div>
+                <div class="pt-4 border-t border-brand-neutral-100 flex items-center justify-between">
+                    <span class="text-xs font-bold text-brand-pink">From ₦10,000.00</span>
+                    <a href="{% url 'booking:booking_form' %}?service=wig-revamping"
+                        class="btn-primary text-[10px] uppercase font-bold py-2 px-4">
+                        Book Service →
+                    </a>
+                </div>
+            </div>
+
+            <!-- Service 6: Acrylic & Gel Nail Artistry -->
+            <div class="service-item card-premium card-hover flex flex-col justify-between space-y-6 transition-all duration-300"
+                data-category="beauty-nails">
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span
+                            class="w-10 h-10 rounded-xl bg-brand-pink/10 text-brand-pink flex items-center justify-center font-heading text-lg font-bold">06</span>
+                        <span class="badge-pink">Nail Art</span>
+                    </div>
+                    <h3 class="text-xl font-heading font-bold text-brand-black">Acrylic & Gel Nail Artistry</h3>
+                    <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed">
+                        Professional nail extension fixing, acrylic powder shaping, gel polish, manicures, and custom
+                        press-on applications.
+                    </p>
+                </div>
+                <div class="pt-4 border-t border-brand-neutral-100 flex items-center justify-between">
+                    <span class="text-xs font-bold text-brand-pink">From ₦7,000.00</span>
+                    <a href="{% url 'booking:booking_form' %}"
+                        class="btn-primary text-[10px] uppercase font-bold py-2 px-4">
+                        Book Service →
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- View Full Catalogue Link -->
+        <div class="text-center pt-4">
+            <a href="{% url 'core:service_list' %}"
+                class="btn-outline-pink text-xs uppercase tracking-wider font-bold py-3.5 px-8 inline-block">
+                View Full Service Catalogue →
+            </a>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- ==========================================================================
+     5. THE BOLBASH STANDARD (Why Choose Us)
+     ========================================================================== -->
+<section class="py-16 sm:py-24 bg-brand-neutral-50 border-t border-brand-neutral-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+
+        <div class="text-center max-w-2xl mx-auto space-y-3">
+            <span class="section-subtitle">THE BOLBASH ADVANTAGE</span>
+            <h2 class="section-title">Why Clients Choose Bolbash</h2>
+            <p class="text-brand-neutral-500 text-sm sm:text-base">
+                We combine technical precision, serene appointment standards, and dedicated educational training.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 reveal-stagger">
+
+            <!-- Pillar 1 -->
+            <div
+                class="bg-white p-8 rounded-3xl border border-brand-neutral-200 space-y-4 hover:border-brand-pink transition-all shadow-sm hover:shadow-md">
+                <div
+                    class="w-12 h-12 rounded-2xl bg-brand-black text-white flex items-center justify-center text-xl font-bold">
+                    ✨</div>
+                <h3 class="font-heading text-lg font-bold text-brand-black">100% Invisible Scalp Melting</h3>
+                <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed">
+                    Custom lace bleaching, skin-tone tint matching, and precision hairline plucking for invisible lace
+                    lines.
+                </p>
+            </div>
+
+            <!-- Pillar 2 -->
+            <div
+                class="bg-white p-8 rounded-3xl border border-brand-neutral-200 space-y-4 hover:border-brand-pink transition-all shadow-sm hover:shadow-md">
+                <div
+                    class="w-12 h-12 rounded-2xl bg-brand-pink text-white flex items-center justify-center text-xl font-bold">
+                    📅</div>
+                <h3 class="font-heading text-lg font-bold text-brand-black">Zero Salon Waiting Time</h3>
+                <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed">
+                    Strictly by appointment to respect your time and provide a serene, private beauty experience.
+                </p>
+            </div>
+
+            <!-- Pillar 3 -->
+            <div
+                class="bg-white p-8 rounded-3xl border border-brand-neutral-200 space-y-4 hover:border-brand-pink transition-all shadow-sm hover:shadow-md">
+                <div
+                    class="w-12 h-12 rounded-2xl bg-brand-black text-white flex items-center justify-center text-xl font-bold">
+                    👑</div>
+                <h3 class="font-heading text-lg font-bold text-brand-black">Bespoke Bridal Expertise</h3>
+                <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed">
+                    Dedicated bridal consultations and wedding-day styling designed to complement your features and
+                    bridal theme.
+                </p>
+            </div>
+
+            <!-- Pillar 4 -->
+            <div
+                class="bg-white p-8 rounded-3xl border border-brand-neutral-200 space-y-4 hover:border-brand-pink transition-all shadow-sm hover:shadow-md">
+                <div
+                    class="w-12 h-12 rounded-2xl bg-brand-pink text-white flex items-center justify-center text-xl font-bold">
+                    🎓</div>
+                <h3 class="font-heading text-lg font-bold text-brand-black">Professional Training Academy</h3>
+                <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed">
+                    A dual hub where clients receive luxury services and aspiring stylists build high-earning beauty
+                    careers.
+                </p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ==========================================================================
+     6. BRIDAL BEAUTY & ACADEMY DUAL PROMOTION
+     ========================================================================== -->
+<section class="py-16 sm:py-24 bg-brand-black text-white relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+
+            <!-- Bridal Feature Card -->
+            <div
+                class="bg-brand-black-light border border-white/10 rounded-3xl p-8 sm:p-10 space-y-6 relative overflow-hidden">
+                <span class="badge-pink bg-brand-pink text-white border-none">BRIDAL COLLECTION</span>
+                <h3 class="text-2xl sm:text-3xl font-heading font-bold text-white tracking-tight">
+                    Your Special Day Deserves Perfection.
+                </h3>
+                <p class="text-brand-neutral-300 text-xs sm:text-sm leading-relaxed">
+                    From white wedding glam updos to traditional engagement hair styling, Bolbash Beauty Spot crafts
+                    timeless bridal looks tailored to your dream aesthetic.
+                </p>
+                <div class="pt-2">
+                    <a href="{% url 'booking:booking_form' %}"
+                        class="btn-primary text-xs uppercase tracking-wider font-bold py-3 px-6 inline-block">
+                        Book Bridal Consultation →
+                    </a>
+                </div>
+            </div>
+
+            <!-- Academy Feature Card -->
+            <div
+                class="bg-brand-black-light border border-brand-pink/30 rounded-3xl p-8 sm:p-10 space-y-6 relative overflow-hidden">
+                <span class="badge-pink bg-white text-brand-black border-none font-bold">BEAUTY ACADEMY</span>
+                <h3 class="text-2xl sm:text-3xl font-heading font-bold text-white tracking-tight">
+                    Learn Professional Beauty Skills.
+                </h3>
+                <p class="text-brand-neutral-300 text-xs sm:text-sm leading-relaxed">
+                    Master wig making, lace installation, bridal hair design, and nail artistry through hands-on
+                    practical studio training at Bolbash Beauty Academy.
+                </p>
+                <div class="pt-2">
+                    <a href="{% url 'academy:course_list' %}"
+                        class="btn-outline-pink text-xs uppercase tracking-wider font-bold py-3 px-6 inline-block">
+                        Explore Academy Courses →
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ==========================================================================
+     7. CLIENT TESTIMONIALS & REVIEWS
+     ========================================================================== -->
+<section class="py-16 sm:py-24 bg-white border-t border-brand-neutral-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+
+        <div class="text-center max-w-2xl mx-auto space-y-3">
+            <span class="section-subtitle">VERIFIED CLIENT FEEDBACK</span>
+            <h2 class="section-title">What Our Clients Say</h2>
+            <p class="text-brand-neutral-500 text-sm sm:text-base">
+                Read real experiences from clients who trust Bolbash Beauty Spot with their beauty transformations.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 reveal-stagger">
+            {% if approved_reviews %}
+                {% for rev in approved_reviews %}
+                    <div class="bg-brand-neutral-50 p-8 rounded-3xl border border-brand-neutral-200 space-y-4 flex flex-col justify-between">
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between">
+                                <div class="text-amber-400 text-sm font-bold">
+                                    {% if rev.rating == 5 %}★★★★★
+                                    {% elif rev.rating == 4 %}★★★★☆
+                                    {% elif rev.rating == 3 %}★★★☆☆
+                                    {% elif rev.rating == 2 %}★★☆☆☆
+                                    {% else %}★☆☆☆☆{% endif %}
+                                </div>
+                                <span class="text-[10px] font-semibold text-green-700 bg-green-50 px-2 py-0.5 rounded border border-green-200">
+                                    ✓ Verified Client
+                                </span>
+                            </div>
+                            <p class="text-brand-neutral-600 text-xs sm:text-sm leading-relaxed italic">
+                                "{{ rev.comment }}"
+                            </p>
+                        </div>
+
+                        <div class="pt-4 border-t border-brand-neutral-200 flex items-center justify-between">
+                            <div>
+                                <span class="font-heading font-bold text-sm text-brand-black block">
+                                    {{ rev.user.get_full_name|default:rev.user.username }}
+                                </span>
+                                <span class="text-[10px] text-brand-neutral-400">{{ rev.created_at|date:"M d, Y" }}</span>
+                            </div>
+                            {% if rev.booking %}
+                                <span class="badge-pink font-semibold truncate max-w-[120px]">{{ rev.booking.service_name_snapshot }}</span>
+                            {% elif rev.service %}
+                                <span class="badge-pink font-semibold truncate max-w-[120px]">{{ rev.service.name }}</span>
+                            {% else %}
+                                <span class="badge-pink">Verified Review</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <!-- Review 1 -->
+                <div class="bg-brand-neutral-50 p-8 rounded-3xl border border-brand-neutral-200 space-y-4">
+                    <div class="flex text-amber-400 text-sm">★★★★★</div>
+                    <p class="text-brand-neutral-600 text-xs sm:text-sm leading-relaxed italic">
+                        "My frontal installation for my wedding was completely seamless! People kept asking if it was my
+                        real scalp. Bolbash is the absolute best hair artist in Ibadan."
+                    </p>
+                    <div class="pt-4 border-t border-brand-neutral-200 flex items-center justify-between">
+                        <div>
+                            <span class="font-heading font-bold text-sm text-brand-black block">Bridal Client</span>
+                            <span class="text-[10px] text-brand-neutral-400">Ibadan, Nigeria</span>
+                        </div>
+                        <span class="badge-pink">Frontal Melt</span>
+                    </div>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="bg-brand-neutral-50 p-8 rounded-3xl border border-brand-neutral-200 space-y-4">
+                    <div class="flex text-amber-400 text-sm">★★★★★</div>
+                    <p class="text-brand-neutral-600 text-xs sm:text-sm leading-relaxed italic">
+                        "Extremely organized appointment system! Zero waiting time when you arrive, and the studio
+                        atmosphere is calm, clean, and truly high-end."
+                    </p>
+                    <div class="pt-4 border-t border-brand-neutral-200 flex items-center justify-between">
+                        <div>
+                            <span class="font-heading font-bold text-sm text-brand-black block">Regular Client</span>
+                            <span class="text-[10px] text-brand-neutral-400">Sango, Ibadan</span>
+                        </div>
+                        <span class="badge-pink">Wig Revamp</span>
+                    </div>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="bg-brand-neutral-50 p-8 rounded-3xl border border-brand-neutral-200 space-y-4">
+                    <div class="flex text-amber-400 text-sm">★★★★★</div>
+                    <p class="text-brand-neutral-600 text-xs sm:text-sm leading-relaxed italic">
+                        "I enrolled in the Wig Making masterclass at Bolbash Beauty Academy. The hands-on practice and
+                        personal corrections helped me start my own wig business immediately!"
+                    </p>
+                    <div class="pt-4 border-t border-brand-neutral-200 flex items-center justify-between">
+                        <div>
+                            <span class="font-heading font-bold text-sm text-brand-black block">Academy Graduate</span>
+                            <span class="text-[10px] text-brand-neutral-400">Wig Masterclass</span>
+                        </div>
+                        <span class="badge-pink">Academy</span>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- View All Reviews Showcase Link -->
+        <div class="text-center pt-6">
+            <a href="{% url 'core:reviews_showcase' %}" class="btn-secondary py-3 px-8 text-xs uppercase tracking-wider font-bold inline-flex items-center space-x-2">
+                <span>View All Client Reviews & Ratings</span>
+                <span>→</span>
+            </a>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- ==========================================================================
+     8. LOCATION & CONTACT SECTION
+     ========================================================================== -->
+<section id="contact" class="py-16 sm:py-24 bg-brand-neutral-50 border-t border-brand-neutral-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+
+            <div class="lg:col-span-6 space-y-6">
+                <span class="section-subtitle">STUDIO LOCATION & CONTACT</span>
+                <h2 class="section-title">Visit Bolbash Beauty Spot</h2>
+                <p class="text-brand-neutral-600 text-base leading-relaxed">
+                    We are conveniently located along Sango-Eleyele Road in Ibadan. We operate strictly by appointment
+                    to ensure every client receives personalized attention.
+                </p>
+
+                <div class="space-y-4 pt-2">
+                    <div class="flex items-start space-x-4">
+                        <div
+                            class="w-10 h-10 rounded-xl bg-brand-pink/10 text-brand-pink flex items-center justify-center font-bold">
+                            📍</div>
+                        <div>
+                            <span class="font-heading font-bold text-brand-black block">Official Location</span>
+                            <span class="text-xs sm:text-sm text-brand-neutral-500">No. 40, SIOA Plaza, at the entrance
+                                of E Exclusive Hotel, Ore-Ofe Bus Stop, Sango-Eleyele Road, Ibadan, Nigeria.</span>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-4">
+                        <div
+                            class="w-10 h-10 rounded-xl bg-brand-pink/10 text-brand-pink flex items-center justify-center font-bold">
+                            📞</div>
+                        <div>
+                            <span class="font-heading font-bold text-brand-black block">Phone / WhatsApp</span>
+                            <a href="tel:08168956606"
+                                class="text-sm font-bold text-brand-pink hover:underline">08168956606</a>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-4">
+                        <div
+                            class="w-10 h-10 rounded-xl bg-brand-pink/10 text-brand-pink flex items-center justify-center font-bold">
+                            📅</div>
+                        <div>
+                            <span class="font-heading font-bold text-brand-black block">Appointment Policy</span>
+                            <span class="text-xs sm:text-sm text-brand-neutral-500">Strictly by appointment. Advance
+                                booking required.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-4 flex flex-wrap gap-3">
+                    <a href="https://wa.me/message/UW6FRPKW3STAM1" target="_blank" rel="noopener noreferrer"
+                        class="btn-primary text-xs uppercase tracking-wider font-bold py-3.5 px-6">
+                        Chat On WhatsApp →
+                    </a>
+                    <a href="{% url 'booking:booking_lookup' %}"
+                        class="btn-outline text-xs uppercase tracking-wider font-bold py-3.5 px-6">
+                        Lookup My Appointment
+                    </a>
+                </div>
+            </div>
+
+            <!-- Map Location Info Card -->
+            <div class="lg:col-span-6">
+                <div class="bg-white border border-brand-neutral-200 rounded-3xl p-8 text-center space-y-6 shadow-xl">
+                    <div
+                        class="w-16 h-16 rounded-full bg-brand-pink/10 text-brand-pink flex items-center justify-center text-3xl mx-auto">
+                        📍
+                    </div>
+                    <div class="space-y-2">
+                        <h3 class="font-heading font-bold text-2xl text-brand-black">Sango-Eleyele Road Studio</h3>
+                        <p class="text-xs sm:text-sm text-brand-neutral-500 max-w-md mx-auto">
+                            Located inside SIOA Plaza right at the entrance of E Exclusive Hotel, Ore-Ofe Bus Stop,
+                            Ibadan.
+                        </p>
+                    </div>
+                    <div class="pt-2">
+                        <a href="https://wa.me/message/UW6FRPKW3STAM1?text=Hello%20Bolbash,%20I%20need%20directions%20to%20your%20salon"
+                            target="_blank" rel="noopener noreferrer"
+                            class="btn-outline-pink text-xs uppercase tracking-wider font-bold py-2.5 px-6 inline-block">
+                            Get Directions via WhatsApp
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ==========================================================================
+     9. HIGH-CONVERSION CLOSING CTA BANNER
+     ========================================================================== -->
+<section id="booking"
+    class="py-20 sm:py-28 bg-gradient-to-r from-brand-black via-brand-black-light to-brand-black text-white relative overflow-hidden">
+    <!-- Background Glow -->
+    <div class="absolute inset-0 bg-brand-pink/10 mix-blend-overlay"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-8">
+        <span
+            class="badge-pink bg-brand-pink text-white border-none uppercase tracking-widest text-xs font-bold px-4 py-1.5 rounded-full inline-block">
+            EXPERIENCE BOLBASH ARTISTRY
+        </span>
+
+        <h2
+            class="text-4xl sm:text-5xl lg:text-6xl font-heading font-bold text-white tracking-tight max-w-3xl mx-auto leading-tight">
+            Ready For Your Next <br class="hidden sm:inline">Beauty Transformation?
+        </h2>
+
+        <p class="text-brand-neutral-300 text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
+            Select your preferred service and secure your dedicated appointment slot with Ibadan’s top hair and beauty
+            specialists today.
+        </p>
+
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+            <a href="{% url 'booking:booking_form' %}"
+                class="btn-primary w-full sm:w-auto text-xs uppercase tracking-wider font-bold py-4 px-10 shadow-xl shadow-pink-glow hover:scale-[1.02] transition-transform">
+                Book Appointment Now →
+            </a>
+            <a href="https://wa.me/message/UW6FRPKW3STAM1" target="_blank" rel="noopener noreferrer"
+                class="btn-outline-pink w-full sm:w-auto text-xs uppercase tracking-wider font-bold py-4 px-10">
+                Chat On WhatsApp
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Vanilla JS Service Category Filtering Script & Count-Up -->
+<script>
+    function filterServices(category) {
+        const tabs = document.querySelectorAll('.tab-btn');
+        tabs.forEach(tab => {
+            tab.classList.remove('bg-brand-pink', 'text-white', 'border-brand-pink');
+            tab.classList.add('bg-brand-neutral-50', 'text-brand-neutral-700', 'border-brand-neutral-200');
+        });
+
+        const activeTab = document.getElementById('tab-' + category);
+        if (activeTab) {
+            activeTab.classList.remove('bg-brand-neutral-50', 'text-brand-neutral-700', 'border-brand-neutral-200');
+            activeTab.classList.add('bg-brand-pink', 'text-white', 'border-brand-pink');
+        }
+
+        const items = document.querySelectorAll('.service-item');
+        items.forEach(item => {
+            if (category === 'all' || item.getAttribute('data-category') === category) {
+                item.style.display = 'flex';
+                item.style.opacity = '1';
+            } else {
+                item.style.display = 'none';
+                item.style.opacity = '0';
+            }
+        });
+    }
+
+    // Animated Statistics Count-Up Functionality
+    document.addEventListener('DOMContentLoaded', function () {
+        const statNumbers = document.querySelectorAll('.stat-number');
+        let animated = false;
+
+        function startCountUp() {
+            statNumbers.forEach(stat => {
+                const target = parseInt(stat.getAttribute('data-target'), 10);
+                const suffix = stat.getAttribute('data-suffix') || '';
+                const duration = 1800; // ms
+                const startTime = performance.now();
+
+                function updateCount(currentTime) {
+                    const elapsed = currentTime - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const easeProgress = 1 - Math.pow(1 - progress, 3);
+                    const currentVal = Math.floor(easeProgress * target);
+
+                    stat.textContent = currentVal + suffix;
+
+                    if (progress < 1) {
+                        requestAnimationFrame(updateCount);
+                    } else {
+                        stat.textContent = target + suffix;
+                    }
+                }
+
+                requestAnimationFrame(updateCount);
+            });
+        }
+
+        const section = document.getElementById('stats-counter-bar');
+        if (section && 'IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !animated) {
+                        animated = true;
+                        startCountUp();
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            observer.observe(section);
+        } else {
+            startCountUp();
+        }
+    });
+</script>
+
+{% endblock content %}

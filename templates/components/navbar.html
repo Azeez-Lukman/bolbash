@@ -1,0 +1,98 @@
+{% load static %}
+<!-- Global Sticky Header & Navigation -->
+<header id="site-header" role="banner" class="w-full bg-white/95 backdrop-blur-md border-b border-brand-neutral-200 sticky top-0 z-50 transition-all duration-300">
+    <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between" aria-label="Main Navigation">
+        
+        <!-- Brand Logo -->
+        <a href="{% url 'core:index' %}" class="flex items-center space-x-3 group focus:outline-none focus:ring-2 focus:ring-brand-pink focus:ring-offset-2 rounded-lg py-1 flex-shrink-0">
+            <img src="{% static 'images/logo.jpg' %}" alt="Bolbash Beauty Spot Logo" class="h-10 sm:h-12 w-auto object-contain rounded-md" />
+            <span class="font-heading text-lg sm:text-xl font-bold tracking-tight text-brand-black group-hover:text-brand-black-light transition-colors hidden sm:inline-block">
+                BOLBASH <span class="text-brand-pink font-normal">BEAUTY SPOT</span>
+            </span>
+        </a>
+
+        <!-- Primary Navigation Links -->
+        <div class="hidden lg:flex items-center space-x-3 xl:space-x-5 text-xs xl:text-sm font-semibold text-brand-neutral-800 whitespace-nowrap">
+            <a href="{% url 'core:index' %}" class="py-2 hover:text-brand-pink transition-colors focus:outline-none focus:text-brand-pink">Home</a>
+            <a href="{% url 'core:about' %}" class="py-2 hover:text-brand-pink transition-colors focus:outline-none focus:text-brand-pink">About</a>
+            <a href="{% url 'core:service_list' %}" class="py-2 hover:text-brand-pink transition-colors focus:outline-none focus:text-brand-pink">Services</a>
+            <a href="{% url 'core:bridal' %}" class="py-2 hover:text-brand-pink transition-colors focus:outline-none focus:text-brand-pink">Bridal</a>
+            <a href="{% url 'core:gallery' %}" class="py-2 hover:text-brand-pink transition-colors focus:outline-none focus:text-brand-pink">Gallery</a>
+            <a href="{% url 'academy:academy_landing' %}" class="py-2 hover:text-brand-pink transition-colors focus:outline-none focus:text-brand-pink">Academy</a>
+            <a href="{% url 'shop:shop_landing' %}" class="py-2 hover:text-brand-pink transition-colors focus:outline-none focus:text-brand-pink">Shop</a>
+            <a href="{% url 'core:contact' %}" class="py-2 hover:text-brand-pink transition-colors focus:outline-none focus:text-brand-pink">Contact</a>
+        </div>
+
+        <!-- Utility Actions & Primary CTA -->
+        <div class="hidden sm:flex items-center space-x-2.5 xl:space-x-3 flex-shrink-0">
+            <!-- Commerce Utility: Cart Icon -->
+            <a href="{% url 'shop:cart_detail' %}" class="p-2 text-brand-black hover:text-brand-pink transition-colors text-lg focus:outline-none focus:text-brand-pink" title="Shopping Cart" aria-label="Shopping Cart">
+                🛒
+            </a>
+
+            {% if user.is_authenticated and user.is_staff %}
+                <a href="{% url 'admin_panel:dashboard' %}" class="px-2.5 py-1.5 rounded-lg text-[11px] font-bold bg-brand-black text-white hover:bg-brand-pink transition-colors">
+                    Admin
+                </a>
+            {% endif %}
+
+            <!-- Primary Business CTA: BOOK APPOINTMENT (Strongest Visual Weight) -->
+            <a href="{% url 'booking:booking_form' %}" class="btn-primary text-xs uppercase tracking-wider font-bold py-2.5 px-4 sm:px-5 whitespace-nowrap shadow-md shadow-pink-glow">
+                BOOK APPOINTMENT
+            </a>
+        </div>
+
+        <!-- Mobile Menu Hamburger Button -->
+        <div class="flex lg:hidden items-center space-x-2">
+            <a href="{% url 'shop:cart_detail' %}" class="p-2 text-brand-black hover:text-brand-pink text-lg" title="Cart">
+                🛒
+            </a>
+            <button id="mobile-menu-button" type="button" 
+                    class="p-2.5 rounded-lg text-brand-black hover:text-brand-pink hover:bg-brand-neutral-100 focus:outline-none focus:ring-2 focus:ring-brand-pink transition-colors"
+                    aria-expanded="false" 
+                    aria-controls="mobile-menu" 
+                    aria-label="Toggle navigation menu">
+                <svg class="h-6 w-6 stroke-2" id="icon-hamburger" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                </svg>
+                <svg class="h-6 w-6 stroke-2 hidden" id="icon-close" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Navigation Drawer Overlay Backdrop -->
+    <div id="mobile-menu-backdrop" class="fixed inset-0 bg-brand-black/60 backdrop-blur-sm z-40 hidden transition-opacity duration-300 opacity-0" aria-hidden="true"></div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobile-menu" 
+         class="fixed top-20 right-0 w-full sm:w-80 h-[calc(100vh-5rem)] bg-white border-l border-brand-neutral-200 z-50 transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col justify-between overflow-y-auto shadow-2xl invisible pointer-events-none"
+         aria-hidden="true" role="dialog" aria-modal="true">
+        
+        <div class="p-4 sm:p-5">
+            <nav class="flex flex-col space-y-1 text-sm font-medium text-brand-black">
+                <a href="{% url 'core:index' %}" class="py-2 px-3 rounded-lg hover:bg-brand-neutral-100 hover:text-brand-pink transition-colors">Home</a>
+                <a href="{% url 'core:about' %}" class="py-2 px-3 rounded-lg hover:bg-brand-neutral-100 hover:text-brand-pink transition-colors">About</a>
+                <a href="{% url 'core:service_list' %}" class="py-2 px-3 rounded-lg hover:bg-brand-neutral-100 hover:text-brand-pink transition-colors">Services</a>
+                <a href="{% url 'core:bridal' %}" class="py-2 px-3 rounded-lg hover:bg-brand-neutral-100 hover:text-brand-pink transition-colors">Bridal</a>
+                <a href="{% url 'core:gallery' %}" class="py-2 px-3 rounded-lg hover:bg-brand-neutral-100 hover:text-brand-pink transition-colors">Gallery</a>
+                <a href="{% url 'academy:academy_landing' %}" class="py-2 px-3 rounded-lg hover:bg-brand-neutral-100 hover:text-brand-pink transition-colors">Academy</a>
+                <a href="{% url 'shop:shop_landing' %}" class="py-2 px-3 rounded-lg hover:bg-brand-neutral-100 hover:text-brand-pink transition-colors">Shop</a>
+                <a href="{% url 'core:contact' %}" class="py-2 px-3 rounded-lg hover:bg-brand-neutral-100 hover:text-brand-pink transition-colors">Contact</a>
+                <a href="{% url 'shop:cart_detail' %}" class="py-2 px-3 rounded-lg hover:bg-brand-neutral-100 hover:text-brand-pink transition-colors flex items-center justify-between">
+                    <span>Shopping Cart 🛒</span>
+                </a>
+            </nav>
+        </div>
+
+        <div class="p-4 border-t border-brand-neutral-100 bg-brand-neutral-50 space-y-3">
+            <a href="{% url 'booking:booking_form' %}" class="btn-primary w-full text-center text-xs uppercase tracking-wider font-bold py-3">
+                BOOK APPOINTMENT
+            </a>
+            <p class="text-xs text-center text-brand-neutral-500">
+                Call: <a href="tel:08168956606" class="font-semibold text-brand-black hover:text-brand-pink">08168956606</a>
+            </p>
+        </div>
+    </div>
+</header>

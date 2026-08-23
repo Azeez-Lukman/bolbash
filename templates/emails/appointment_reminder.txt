@@ -1,0 +1,18 @@
+BOLBASH BEAUTY SPOT — APPOINTMENT REMINDER
+
+Hello {{ booking.customer_name }},
+
+This is a friendly reminder for your upcoming salon appointment at Bolbash Beauty Spot.
+
+Booking Reference: {{ booking.reference }}
+Service: {{ booking.service_name_snapshot }}
+Date: {{ booking.appointment_date|date:"l, F d, Y" }}
+Time: {{ booking.appointment_time }}
+Location: SIOA Plaza, Ore-Ofe Bus Stop, Sango-Eleyele Rd, Ibadan
+
+Guidelines:
+- Please arrive 10 minutes prior to your appointment time.
+- If you need to reschedule, please contact us via WhatsApp at least 24h prior.
+
+Contact Us: https://wa.me/message/UW6FRPKW3STAM1
+Thank you for choosing Bolbash Beauty Spot!

@@ -1,0 +1,259 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Book Appointment | Bolbash Beauty Spot Ibadan{% endblock title %}
+
+{% block meta_description %}Select your service, choose an available date and time slot, and schedule your appointment with Bolbash Beauty Spot in Ibadan.{% endblock meta_description %}
+
+{% block content %}
+
+<!-- ==========================================================================
+     1. BOOKING HERO SECTION
+     ========================================================================== -->
+<section class="relative bg-white pt-10 pb-12 sm:pt-14 sm:pb-16 border-b border-brand-neutral-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
+        <span class="eyebrow-text text-brand-pink font-bold">ONLINE APPOINTMENT BOOKING</span>
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold text-brand-black tracking-tight">
+            Schedule Your <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-pink to-brand-black">Beauty Session</span>
+        </h1>
+        <p class="text-brand-neutral-500 text-sm sm:text-base max-w-xl mx-auto">
+            Book your dedicated appointment in 4 simple steps. All sessions are scheduled strictly by appointment for zero crowding.
+        </p>
+    </div>
+</section>
+
+<!-- ==========================================================================
+     2. MULTI-STEP PROGRESS BAR & WIZARD FORM
+     ========================================================================== -->
+<section class="py-12 sm:py-16 bg-brand-neutral-50">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Messages Display -->
+        {% if messages %}
+        <div class="mb-8 space-y-3">
+            {% for message in messages %}
+            <div class="p-4 rounded-xl border border-red-200 bg-red-50 text-red-700 text-sm flex items-center space-x-3">
+                <span class="font-bold">⚠️</span>
+                <span>{{ message }}</span>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Wizard Progress Bar Header -->
+        <div class="bg-white p-6 rounded-2xl border border-brand-neutral-200 mb-8 shadow-sm">
+            <div class="grid grid-cols-4 gap-2 sm:gap-4 text-center">
+                
+                <div class="flex flex-col items-center space-y-2">
+                    <div id="step-1-indicator" class="w-8 h-8 rounded-full bg-brand-pink text-white flex items-center justify-center font-bold text-xs ring-4 ring-brand-pink/20">1</div>
+                    <span class="text-[11px] font-semibold text-brand-black hidden sm:block">1. Service</span>
+                </div>
+
+                <div class="flex flex-col items-center space-y-2">
+                    <div id="step-2-indicator" class="w-8 h-8 rounded-full bg-brand-neutral-200 text-brand-neutral-500 flex items-center justify-center font-bold text-xs">2</div>
+                    <span class="text-[11px] font-semibold text-brand-neutral-500 hidden sm:block">2. Date & Time</span>
+                </div>
+
+                <div class="flex flex-col items-center space-y-2">
+                    <div id="step-3-indicator" class="w-8 h-8 rounded-full bg-brand-neutral-200 text-brand-neutral-500 flex items-center justify-center font-bold text-xs">3</div>
+                    <span class="text-[11px] font-semibold text-brand-neutral-500 hidden sm:block">3. Your Info</span>
+                </div>
+
+                <div class="flex flex-col items-center space-y-2">
+                    <div id="step-4-indicator" class="w-8 h-8 rounded-full bg-brand-neutral-200 text-brand-neutral-500 flex items-center justify-center font-bold text-xs">4</div>
+                    <span class="text-[11px] font-semibold text-brand-neutral-500 hidden sm:block">4. Review</span>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Form Wrapper -->
+        <form id="booking-form" action="{% url 'booking:booking_submit' %}" method="POST" class="space-y-8">
+            {% csrf_token %}
+            
+            <!-- Hidden inputs -->
+            <input type="hidden" name="service_id" id="id_service_id" value="{% if selected_service %}{{ selected_service.id }}{% endif %}">
+            <input type="hidden" name="appointment_time" id="id_appointment_time" value="">
+
+            <!-- ==========================================================================
+                 STEP 1: SELECT SERVICE
+                 ========================================================================== -->
+            <div id="step-1-content" class="bg-white p-6 sm:p-10 rounded-3xl border border-brand-neutral-200 space-y-6">
+                <div class="border-b border-brand-neutral-100 pb-4">
+                    <span class="text-xs font-bold uppercase tracking-wider text-brand-pink block">Step 1 of 4</span>
+                    <h2 class="text-2xl font-heading font-bold text-brand-black">Select Your Service</h2>
+                    <p class="text-xs text-brand-neutral-500 mt-1">Choose the salon service you would like to book today.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[500px] overflow-y-auto pr-2">
+                    {% for service in services %}
+                    <div class="service-select-card p-5 rounded-2xl border border-brand-neutral-200 hover:border-brand-pink transition-all cursor-pointer flex flex-col justify-between space-y-3"
+                         data-service-id="{{ service.id }}"
+                         data-service-name="{{ service.name }}"
+                         data-service-price="{% if service.price %}{{ service.price|floatformat:2 }}{% endif %}"
+                         data-preselected="{% if selected_service and selected_service.id == service.id %}true{% else %}false{% endif %}">
+                        
+                        <div class="space-y-1">
+                            <span class="badge-dark text-[9px] uppercase tracking-wider">{{ service.category.name }}</span>
+                            <h3 class="font-heading font-bold text-brand-black text-base">{{ service.name }}</h3>
+                            <p class="text-brand-neutral-500 text-xs line-clamp-2">{{ service.short_description }}</p>
+                        </div>
+
+                        <div class="pt-2 border-t border-brand-neutral-100 flex items-center justify-between text-xs">
+                            <span class="text-brand-neutral-400">
+                                {% if service.duration %}⏱ {{ service.duration }} mins{% else %}⏱ Duration varies{% endif %}
+                            </span>
+                            <span class="font-bold text-brand-pink">
+                                {% if service.price %}₦{{ service.price|floatformat:2 }}{% else %}Price on enquiry{% endif %}
+                            </span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- ==========================================================================
+                 STEP 2: SELECT DATE & TIME SLOTS
+                 ========================================================================== -->
+            <div id="step-2-content" class="bg-white p-6 sm:p-10 rounded-3xl border border-brand-neutral-200 space-y-6 hidden">
+                <div class="border-b border-brand-neutral-100 pb-4">
+                    <span class="text-xs font-bold uppercase tracking-wider text-brand-pink block">Step 2 of 4</span>
+                    <h2 class="text-2xl font-heading font-bold text-brand-black">Choose Date & Available Time</h2>
+                    <p class="text-xs text-brand-neutral-500 mt-1">Select an appointment date to fetch real-time available time slots.</p>
+                </div>
+
+                <div class="space-y-6">
+                    <div>
+                        <label for="id_appointment_date" class="form-label">Appointment Date *</label>
+                        <input type="date" name="appointment_date" id="id_appointment_date" class="form-input max-w-sm" required>
+                    </div>
+
+                    <!-- Available Time Slots Container -->
+                    <div class="space-y-3 pt-2">
+                        <label class="form-label">Available Time Slots *</label>
+                        
+                        <!-- Initial Prompt State -->
+                        <div id="slots-empty" class="p-6 rounded-2xl bg-brand-neutral-50 border border-brand-neutral-200 text-center text-xs text-brand-neutral-500">
+                            <span id="slots-message">Please pick a date above to load available salon time slots.</span>
+                        </div>
+
+                        <!-- Loading Spinner -->
+                        <div id="slots-loading" class="p-6 rounded-2xl bg-brand-neutral-50 text-center text-xs text-brand-pink font-semibold hidden">
+                            <span>Loading available time slots...</span>
+                        </div>
+
+                        <!-- Slots Grid -->
+                        <div id="time-slots-container" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                            <!-- Injected dynamically via JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==========================================================================
+                 STEP 3: CUSTOMER INFORMATION
+                 ========================================================================== -->
+            <div id="step-3-content" class="bg-white p-6 sm:p-10 rounded-3xl border border-brand-neutral-200 space-y-6 hidden">
+                <div class="border-b border-brand-neutral-100 pb-4">
+                    <span class="text-xs font-bold uppercase tracking-wider text-brand-pink block">Step 3 of 4</span>
+                    <h2 class="text-2xl font-heading font-bold text-brand-black">Your Contact Information</h2>
+                    <p class="text-xs text-brand-neutral-500 mt-1">Enter your details so we can confirm your reservation.</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div class="sm:col-span-2">
+                        <label for="id_customer_name" class="form-label">Full Name *</label>
+                        <input type="text" name="customer_name" id="id_customer_name" class="form-input" placeholder="e.g. Adewale Chioma" required>
+                    </div>
+
+                    <div>
+                        <label for="id_customer_phone" class="form-label">Phone Number / WhatsApp *</label>
+                        <input type="tel" name="customer_phone" id="id_customer_phone" class="form-input" placeholder="e.g. 08168956606" required>
+                    </div>
+
+                    <div>
+                        <label for="id_customer_email" class="form-label">Email Address *</label>
+                        <input type="email" name="customer_email" id="id_customer_email" class="form-input" placeholder="e.g. client@example.com" required>
+                    </div>
+
+                    <div class="sm:col-span-2">
+                        <label for="id_customer_note" class="form-label">Special Notes / Preferences (Optional)</label>
+                        <textarea name="customer_note" id="id_customer_note" class="form-textarea" placeholder="Mention any specific wig unit preferences or styling notes..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==========================================================================
+                 STEP 4: REVIEW & CONFIRM
+                 ========================================================================== -->
+            <div id="step-4-content" class="bg-white p-6 sm:p-10 rounded-3xl border border-brand-neutral-200 space-y-6 hidden">
+                <div class="border-b border-brand-neutral-100 pb-4">
+                    <span class="text-xs font-bold uppercase tracking-wider text-brand-pink block">Step 4 of 4</span>
+                    <h2 class="text-2xl font-heading font-bold text-brand-black">Review & Submit Appointment</h2>
+                    <p class="text-xs text-brand-neutral-500 mt-1">Please review your appointment summary before submitting.</p>
+                </div>
+
+                <!-- Review Card -->
+                <div class="bg-brand-neutral-50 p-6 sm:p-8 rounded-2xl border border-brand-neutral-200 space-y-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                        <div>
+                            <span class="text-brand-neutral-400 font-semibold block uppercase">Selected Service</span>
+                            <span id="summary-service-name" class="font-heading font-bold text-brand-black text-base">Loading...</span>
+                        </div>
+
+                        <div>
+                            <span class="text-brand-neutral-400 font-semibold block uppercase">Estimated Amount</span>
+                            <span id="summary-price" class="font-heading font-bold text-brand-pink text-base">Loading...</span>
+                        </div>
+
+                        <div>
+                            <span class="text-brand-neutral-400 font-semibold block uppercase">Appointment Date</span>
+                            <span id="summary-date" class="font-bold text-brand-black text-sm">Loading...</span>
+                        </div>
+
+                        <div>
+                            <span class="text-brand-neutral-400 font-semibold block uppercase">Appointment Time</span>
+                            <span id="summary-time" class="font-bold text-brand-black text-sm">Loading...</span>
+                        </div>
+
+                        <div class="sm:col-span-2 pt-2 border-t border-brand-neutral-200">
+                            <span class="text-brand-neutral-400 font-semibold block uppercase">Customer Details</span>
+                            <span id="summary-customer-name" class="font-bold text-brand-black block text-sm">Loading...</span>
+                            <span id="summary-customer-contact" class="text-brand-neutral-500 block">Loading...</span>
+                        </div>
+                    </div>
+
+                    <!-- Payment Preparation Notice -->
+                    <div class="pt-4 border-t border-brand-neutral-200">
+                        <div class="p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-xs space-y-1">
+                            <span class="font-bold block">📌 Payment Requirement Notice:</span>
+                            <p>Payment will be required to secure your appointment. Upon submission, your booking reference will be generated with status <strong class="underline">Pending Payment</strong>.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Controls Footer -->
+            <div class="flex items-center justify-between pt-4">
+                <button type="button" id="prev-step-btn" class="btn-outline text-xs uppercase tracking-wider font-bold hidden">
+                    ← Back
+                </button>
+                <div class="ml-auto">
+                    <button type="button" id="next-step-btn" class="btn-primary text-xs uppercase tracking-wider font-bold">
+                        Continue →
+                    </button>
+                    <button type="submit" id="submit-booking-btn" class="btn-primary text-xs uppercase tracking-wider font-bold shadow-xl shadow-pink-glow hidden">
+                        Submit & Create Booking ✓
+                    </button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</section>
+
+{% endblock content %}
+
+{% block extra_js %}
+<script src="{% static 'js/booking_wizard.js' %}"></script>
+{% endblock extra_js %}

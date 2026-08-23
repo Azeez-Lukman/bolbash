@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Payment Failed | Bolbash Beauty Spot{% endblock title %}
+
+{% block meta_description %}Payment attempt for booking {{ booking.reference }} could not be completed at Bolbash Beauty Spot Ibadan.{% endblock meta_description %}
+
+{% block content %}
+
+<!-- ==========================================================================
+     PAYMENT FAILED SECTION
+     ========================================================================== -->
+<section class="py-12 sm:py-16 lg:py-24 bg-brand-neutral-50 min-h-[80vh] flex items-center">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 w-full space-y-8">
+        
+        <!-- Header Card -->
+        <div class="bg-white p-8 sm:p-12 rounded-3xl border border-brand-neutral-200 text-center space-y-4 shadow-xl">
+            <div class="w-16 h-16 mx-auto rounded-full bg-red-100 text-red-600 flex items-center justify-center font-bold text-2xl">
+                ✕
+            </div>
+            
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-red-50 text-red-700 border border-red-200">
+                Payment Not Completed
+            </span>
+            
+            <h1 class="text-3xl sm:text-4xl font-heading font-bold text-brand-black tracking-tight">
+                Payment Was Not Completed
+            </h1>
+
+            <p class="text-brand-neutral-500 text-sm sm:text-base max-w-md mx-auto leading-relaxed">
+                We couldn't complete your payment with Paystack. Your appointment reference <strong>{{ booking.reference }}</strong> has not been secured yet.
+            </p>
+        </div>
+
+        <!-- Appointment Details & Retry Box -->
+        <div class="bg-white p-8 rounded-3xl border border-brand-neutral-200 space-y-6">
+            <h2 class="font-heading text-lg font-bold text-brand-black border-b border-brand-neutral-100 pb-3">
+                Booking Information
+            </h2>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                <div>
+                    <span class="text-brand-neutral-400 font-semibold block uppercase">Booking Reference</span>
+                    <span class="font-bold text-brand-black text-sm">{{ booking.reference }}</span>
+                </div>
+
+                <div>
+                    <span class="text-brand-neutral-400 font-semibold block uppercase">Service</span>
+                    <span class="font-bold text-brand-black text-sm">{{ booking.service_name_snapshot }}</span>
+                </div>
+
+                <div>
+                    <span class="text-brand-neutral-400 font-semibold block uppercase">Date</span>
+                    <span class="font-bold text-brand-black text-sm">{{ booking.appointment_date|date:"F d, Y" }}</span>
+                </div>
+
+                <div>
+                    <span class="text-brand-neutral-400 font-semibold block uppercase">Time</span>
+                    <span class="font-bold text-brand-black text-sm">⏱ {{ booking.appointment_time|time:"h:i A" }}</span>
+                </div>
+            </div>
+
+            <!-- Retry Notice Box -->
+            <div class="p-6 rounded-2xl bg-brand-neutral-50 border border-brand-neutral-200 space-y-3">
+                <span class="text-xs font-bold text-brand-pink uppercase tracking-wider block">What happens now?</span>
+                <p class="text-xs text-brand-neutral-600 leading-relaxed">
+                    Your appointment slot remains saved under status <strong>Pending Payment</strong>. You can safely try your payment again below using a different card or payment method.
+                </p>
+            </div>
+
+            <!-- Actions -->
+            <div class="flex flex-col sm:flex-row items-center gap-4 pt-2">
+                <a href="{% url 'payments:initiate_payment' booking.reference %}" class="btn-primary w-full text-center text-xs uppercase tracking-wider font-bold shadow-xl shadow-pink-glow py-3.5">
+                    Try Payment Again via Paystack →
+                </a>
+                <a href="https://wa.me/message/UW6FRPKW3STAM1?text=Hello%20Bolbash,%20I%20had%20an%20issue%20with%20payment%20for%20reference%20{{ booking.reference }}" target="_blank" rel="noopener noreferrer" class="btn-outline-pink w-full text-center text-xs uppercase tracking-wider py-3.5">
+                    Contact Support on WhatsApp
+                </a>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+{% endblock content %}

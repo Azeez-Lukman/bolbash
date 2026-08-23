@@ -1,0 +1,156 @@
+{% extends "admin_panel/base_admin.html" %}
+
+{% block title %}Appointment #{{ booking.reference }} | Bolbash Admin{% endblock title %}
+{% block header_title %}Appointment Details & Management{% endblock header_title %}
+
+{% block content %}
+<div class="space-y-8 max-w-5xl">
+
+    <!-- Top Navigation Header -->
+    <div class="flex items-center justify-between">
+        <a href="{% url 'admin_panel:appointment_list' %}" class="text-xs font-bold text-brand-neutral-500 hover:text-brand-black">
+            ← Back To Appointments
+        </a>
+        <a href="{% url 'admin_panel:appointment_reschedule' booking.reference %}" class="btn-outline-pink text-xs uppercase tracking-wider font-bold py-2 px-4">
+            Reschedule Appointment →
+        </a>
+    </div>
+
+    <!-- Main Grid: Booking Details & Status Update Form -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <!-- Left Column: Appointment Information Breakdown -->
+        <div class="lg:col-span-7 bg-white p-6 sm:p-8 rounded-2xl border border-brand-neutral-200 shadow-sm space-y-6">
+            
+            <div class="flex items-center justify-between border-b border-brand-neutral-100 pb-4">
+                <div>
+                    <span class="text-[10px] uppercase font-bold text-brand-pink tracking-widest block">Reference Number</span>
+                    <h2 class="font-mono text-xl font-bold text-brand-black">#{{ booking.reference }}</h2>
+                </div>
+                <span class="px-3 py-1 rounded-full text-xs font-bold
+                    {% if booking.status == 'CONFIRMED' %} bg-emerald-50 text-emerald-700 border border-emerald-200
+                    {% elif booking.status == 'PENDING_PAYMENT' %} bg-amber-50 text-amber-700 border border-amber-200
+                    {% elif booking.status == 'COMPLETED' %} bg-sky-50 text-sky-700 border border-sky-200
+                    {% else %} bg-rose-50 text-rose-700 border border-rose-200 {% endif %}">
+                    {{ booking.get_status_display }}
+                </span>
+            </div>
+
+            <!-- Customer Details -->
+            <div class="space-y-3">
+                <h3 class="text-xs uppercase font-bold tracking-wider text-brand-neutral-400">Customer Information</h3>
+                <div class="bg-brand-neutral-50 p-4 rounded-xl space-y-2 text-xs">
+                    <div class="flex justify-between">
+                        <span class="text-brand-neutral-500 font-medium">Name:</span>
+                        <span class="font-bold text-brand-black">{{ booking.customer_name }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-brand-neutral-500 font-medium">Email:</span>
+                        <span class="font-semibold text-brand-black">{{ booking.customer_email }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-brand-neutral-500 font-medium">Phone:</span>
+                        <span class="font-semibold text-brand-black">{{ booking.customer_phone }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service & Slot Details -->
+            <div class="space-y-3">
+                <h3 class="text-xs uppercase font-bold tracking-wider text-brand-neutral-400">Service & Time Details</h3>
+                <div class="bg-brand-neutral-50 p-4 rounded-xl space-y-2 text-xs">
+                    <div class="flex justify-between">
+                        <span class="text-brand-neutral-500 font-medium">Service Booked:</span>
+                        <span class="font-bold text-brand-black">{{ booking.service_name_snapshot }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-brand-neutral-500 font-medium">Appointment Date:</span>
+                        <span class="font-bold text-brand-black">{{ booking.appointment_date|date:"F d, Y" }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-brand-neutral-500 font-medium">Time Slot:</span>
+                        <span class="font-bold text-brand-pink">{{ booking.appointment_time }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-brand-neutral-500 font-medium">Deposit Required:</span>
+                        <span class="font-bold text-brand-black">₦{{ booking.deposit_amount_snapshot|floatformat:2 }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-brand-neutral-500 font-medium">Total Price:</span>
+                        <span class="font-bold text-brand-black">₦{{ booking.total_price_snapshot|floatformat:2 }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Customer Notes -->
+            {% if booking.customer_note %}
+            <div class="space-y-2">
+                <h3 class="text-xs uppercase font-bold tracking-wider text-brand-neutral-400">Special Notes</h3>
+                <div class="p-4 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-900 leading-relaxed">
+                    {{ booking.customer_note }}
+                </div>
+            </div>
+            {% endif %}
+
+        </div>
+
+        <!-- Right Column: Admin Status Update Form -->
+        <div class="lg:col-span-5 space-y-6">
+            <div class="bg-white p-6 rounded-2xl border border-brand-neutral-200 shadow-sm space-y-6">
+                <div class="border-b border-brand-neutral-100 pb-3">
+                    <h3 class="font-heading font-bold text-base text-brand-black">Update Status</h3>
+                    <span class="text-xs text-brand-neutral-400">Change appointment or payment status</span>
+                </div>
+
+                <form method="POST" class="space-y-4">
+                    {% csrf_token %}
+                    <div>
+                        <label class="form-label">Booking Status</label>
+                        {{ form.status }}
+                    </div>
+
+                    <div>
+                        <label class="form-label">Payment Status</label>
+                        {{ form.payment_status }}
+                    </div>
+
+                    <div>
+                        <label class="form-label">Administrative Notes</label>
+                        {{ form.notes }}
+                    </div>
+
+                    <button type="submit" class="btn-primary w-full text-xs font-bold uppercase tracking-wider py-3">
+                        Save Status Changes
+                    </button>
+                </form>
+            </div>
+
+            <!-- Related Payments -->
+            <div class="bg-white p-6 rounded-2xl border border-brand-neutral-200 shadow-sm space-y-4">
+                <h3 class="font-heading font-bold text-base text-brand-black pb-2 border-b border-brand-neutral-100">Associated Payments</h3>
+                {% if payments %}
+                <div class="space-y-2 text-xs">
+                    {% for p in payments %}
+                    <div class="p-3 rounded-xl border border-brand-neutral-100 bg-brand-neutral-50 flex items-center justify-between">
+                        <div>
+                            <span class="font-bold text-brand-black block">₦{{ p.amount }}</span>
+                            <span class="text-[10px] text-brand-neutral-400 block font-mono">{{ p.reference }}</span>
+                        </div>
+                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold
+                            {% if p.status == 'PAID' %} bg-emerald-50 text-emerald-700
+                            {% else %} bg-rose-50 text-rose-700 {% endif %}">
+                            {{ p.get_status_display }}
+                        </span>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="text-xs text-brand-neutral-400">No payment transaction attempts recorded.</p>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+
+</div>
+{% endblock content %}

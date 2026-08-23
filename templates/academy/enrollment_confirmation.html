@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Enrollment Confirmation | {{ course.title }} | Bolbash Beauty Academy{% endblock title %}
+
+{% block meta_description %}Enrollment confirmation for {{ course.title }} at Bolbash Beauty Academy in Ibadan.{% endblock meta_description %}
+
+{% block content %}
+
+<!-- Breadcrumbs Navigation -->
+<div class="bg-brand-neutral-50 border-b border-brand-neutral-200 py-3">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-xs text-brand-neutral-500">
+        <a href="{% url 'core:index' %}" class="hover:text-brand-pink transition-colors">Home</a>
+        <span class="mx-2">/</span>
+        <a href="{% url 'academy:academy_landing' %}" class="hover:text-brand-pink transition-colors">Academy</a>
+        <span class="mx-2">/</span>
+        <a href="{% url 'academy:course_detail' slug=course.slug %}" class="hover:text-brand-pink transition-colors">{{ course.title }}</a>
+        <span class="mx-2">/</span>
+        <span class="text-brand-black font-semibold">Confirmation</span>
+    </div>
+</div>
+
+<section class="py-12 sm:py-20 bg-brand-neutral-50 min-h-[75vh]">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        
+        <!-- Confirmation Card -->
+        <div class="bg-white border border-brand-neutral-200 rounded-3xl p-8 sm:p-12 shadow-xl space-y-8">
+            
+            <!-- Header Icon & Title -->
+            <div class="text-center space-y-3">
+                <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-700 border border-emerald-200 flex items-center justify-center text-3xl mx-auto">
+                    ✓
+                </div>
+                <span class="badge-pink">BOLBASH BEAUTY ACADEMY</span>
+                <h1 class="font-heading font-bold text-2xl sm:text-4xl text-brand-black tracking-tight">
+                    Enrollment Initiated
+                </h1>
+                <p class="text-brand-neutral-500 text-xs sm:text-sm max-w-lg mx-auto">
+                    You have successfully created an enrollment record for <strong class="text-brand-black">{{ course.title }}</strong>.
+                </p>
+            </div>
+
+            <!-- Enrollment Record Details Grid -->
+            <div class="bg-brand-neutral-50 rounded-2xl p-6 border border-brand-neutral-200 space-y-4 text-xs sm:text-sm">
+                <div class="flex flex-col sm:flex-row justify-between border-b border-brand-neutral-200 pb-3 gap-1">
+                    <span class="text-brand-neutral-500 font-semibold uppercase tracking-wider text-xs">Student Name</span>
+                    <span class="font-bold text-brand-black">{{ user.get_full_name|default:user.username }}</span>
+                </div>
+
+                <div class="flex flex-col sm:flex-row justify-between border-b border-brand-neutral-200 pb-3 gap-1">
+                    <span class="text-brand-neutral-500 font-semibold uppercase tracking-wider text-xs">Student Email</span>
+                    <span class="font-bold text-brand-black">{{ user.email }}</span>
+                </div>
+
+                <div class="flex flex-col sm:flex-row justify-between border-b border-brand-neutral-200 pb-3 gap-1">
+                    <span class="text-brand-neutral-500 font-semibold uppercase tracking-wider text-xs">Course Name</span>
+                    <span class="font-bold text-brand-pink">{{ course.title }}</span>
+                </div>
+
+                <div class="flex flex-col sm:flex-row justify-between border-b border-brand-neutral-200 pb-3 gap-1">
+                    <span class="text-brand-neutral-500 font-semibold uppercase tracking-wider text-xs">Training Format</span>
+                    <span class="font-semibold text-brand-black">{{ course.get_format_type_display }}</span>
+                </div>
+
+                <div class="flex flex-col sm:flex-row justify-between border-b border-brand-neutral-200 pb-3 gap-1">
+                    <span class="text-brand-neutral-500 font-semibold uppercase tracking-wider text-xs">Enrollment Status</span>
+                    {% if enrollment.enrollment_status == 'ACTIVE' %}
+                    <span class="badge-pink bg-emerald-100 text-emerald-800 border-emerald-300 font-bold">Active & Verified</span>
+                    {% else %}
+                    <span class="badge-gold font-bold">{{ enrollment.get_enrollment_status_display }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="flex flex-col sm:flex-row justify-between border-b border-brand-neutral-200 pb-3 gap-1">
+                    <span class="text-brand-neutral-500 font-semibold uppercase tracking-wider text-xs">Payment Status</span>
+                    {% if enrollment.payment_status == 'PAID' %}
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 border border-emerald-300">
+                        ✓ {{ enrollment.get_payment_status_display }}
+                    </span>
+                    {% else %}
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-rose-50 text-rose-800 border border-rose-200">
+                        {{ enrollment.get_payment_status_display }}
+                    </span>
+                    {% endif %}
+                </div>
+
+                <div class="flex flex-col sm:flex-row justify-between gap-1 pt-1">
+                    <span class="text-brand-neutral-500 font-semibold uppercase tracking-wider text-xs">Date Enrolled</span>
+                    <span class="text-brand-neutral-600 font-medium">{{ enrollment.created_at|date:"F j, Y, g:i a" }}</span>
+                </div>
+            </div>
+
+            <!-- Payment Boundary Notice Card -->
+            {% if enrollment.payment_status == 'PAID' %}
+            <div class="p-4 sm:p-5 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs sm:text-sm space-y-2">
+                <div class="flex items-center space-x-2 font-bold text-emerald-950">
+                    <span class="text-base">🎉</span>
+                    <span>Tuition Fee Verified & Paid</span>
+                </div>
+                <p class="leading-relaxed text-emerald-900 text-xs">
+                    Your course tuition payment has been verified via Paystack. Your enrollment is <strong class="text-emerald-950 font-bold">ACTIVE</strong>.
+                </p>
+            </div>
+            {% else %}
+            <div class="p-4 sm:p-5 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs sm:text-sm space-y-2">
+                <div class="flex items-center space-x-2 font-bold text-amber-950">
+                    <span class="text-base">💳</span>
+                    <span>Course Tuition Payment Required</span>
+                </div>
+                <p class="leading-relaxed text-amber-900 text-xs">
+                    Your enrollment status is currently <strong class="text-amber-950 font-bold">Pending / Unpaid</strong>. Click below to securely process your tuition fee via Paystack.
+                </p>
+            </div>
+            {% endif %}
+
+            <!-- Action CTAs -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+                {% if enrollment.payment_status != 'PAID' %}
+                <form method="POST" action="{% url 'academy:course_pay_initiate' slug=course.slug %}" class="w-full sm:w-auto">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-primary w-full sm:w-auto text-center text-xs uppercase tracking-wider font-bold py-3.5 px-8 shadow-lg shadow-pink-glow">
+                        Pay Tuition Fee Now ({% if course.price %}₦{{ course.price|floatformat:2 }}{% else %}₦50,000.00{% endif %}) →
+                    </button>
+                </form>
+                {% endif %}
+                <a href="{% url 'academy:my_learning' %}" class="btn-outline-pink w-full sm:w-auto text-center text-xs uppercase tracking-wider font-bold py-3.5 px-6">
+                    View My Learning Area
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock content %}

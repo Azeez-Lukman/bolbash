@@ -1,0 +1,201 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Student Dashboard | Bolbash Beauty Academy Ibadan{% endblock title %}
+
+{% block meta_description %}Student learning portal for Bolbash Beauty Academy. Manage your enrolled courses, track real-time training progress, and access official graduation certificates.{% endblock meta_description %}
+
+{% block content %}
+
+<!-- Breadcrumbs Navigation -->
+<div class="bg-brand-neutral-50 border-b border-brand-neutral-200 py-3">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-xs text-brand-neutral-500">
+        <a href="{% url 'core:index' %}" class="hover:text-brand-pink transition-colors">Home</a>
+        <span class="mx-2">/</span>
+        <a href="{% url 'academy:academy_landing' %}" class="hover:text-brand-pink transition-colors">Academy</a>
+        <span class="mx-2">/</span>
+        <span class="text-brand-black font-semibold">Student Dashboard</span>
+    </div>
+</div>
+
+<section class="py-10 sm:py-16 bg-brand-neutral-50 min-h-[80vh]">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        
+        <!-- Header Profile Identity Card -->
+        <div class="bg-white border border-brand-neutral-200 rounded-3xl p-6 sm:p-10 shadow-xl flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+            <div class="flex items-center space-x-5">
+                <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-brand-pink to-brand-gold text-white flex items-center justify-center text-2xl sm:text-3xl font-heading font-bold shadow-lg shadow-pink-glow flex-shrink-0">
+                    🎓
+                </div>
+                <div class="space-y-1">
+                    <div class="flex items-center gap-2">
+                        <span class="badge-pink text-[10px]">AUTHENTICATED STUDENT</span>
+                        <span class="badge-gold text-[10px]">ACADEMY PORTAL</span>
+                    </div>
+                    <h1 class="font-heading font-bold text-2xl sm:text-3xl text-brand-black">
+                        Welcome back, {{ user.get_full_name|default:user.username }}!
+                    </h1>
+                    <p class="text-brand-neutral-500 text-xs sm:text-sm">
+                        {{ user.email }} {% if profile.phone_number %} • {{ profile.phone_number }}{% endif %}
+                    </p>
+                </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row items-center gap-3 w-full lg:w-auto">
+                <a href="{% url 'shop:customer_orders' %}" class="btn-secondary w-full sm:w-auto text-center text-xs uppercase tracking-wider font-bold py-3 px-5">
+                    My Shop Orders 📦
+                </a>
+                <a href="{% url 'academy:course_list' %}" class="btn-primary w-full sm:w-auto text-center text-xs uppercase tracking-wider font-bold py-3 px-6 shadow-md shadow-pink-glow">
+                    Browse Courses →
+                </a>
+                
+                <form method="POST" action="{% url 'academy:logout' %}" class="w-full sm:w-auto">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-outline-pink w-full text-center text-xs uppercase tracking-wider font-bold py-3 px-5">
+                        Log Out
+                    </button>
+                </form>
+            </div>
+
+        </div>
+
+        <!-- Student Statistics Overview Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
+            <div class="bg-white border border-brand-neutral-200 rounded-2xl p-5 shadow-sm space-y-1">
+                <p class="text-xs uppercase tracking-wider font-bold text-brand-neutral-400">Total Enrolled</p>
+                <p class="font-heading font-bold text-3xl text-brand-black">{{ total_enrolled }}</p>
+            </div>
+            <div class="bg-white border border-brand-neutral-200 rounded-2xl p-5 shadow-sm space-y-1">
+                <p class="text-xs uppercase tracking-wider font-bold text-brand-neutral-400">In Progress</p>
+                <p class="font-heading font-bold text-3xl text-amber-600">{{ in_progress_count }}</p>
+            </div>
+            <div class="bg-white border border-brand-neutral-200 rounded-2xl p-5 shadow-sm space-y-1">
+                <p class="text-xs uppercase tracking-wider font-bold text-brand-neutral-400">Completed</p>
+                <p class="font-heading font-bold text-3xl text-emerald-600">{{ completed_count }}</p>
+            </div>
+            <div class="bg-white border border-brand-neutral-200 rounded-2xl p-5 shadow-sm space-y-1">
+                <p class="text-xs uppercase tracking-wider font-bold text-brand-neutral-400">Certificates</p>
+                <p class="font-heading font-bold text-3xl text-brand-pink">{{ certificates_count }}</p>
+            </div>
+        </div>
+
+        <!-- Enrolled Courses Section with Tabs -->
+        <div class="bg-white border border-brand-neutral-200 rounded-3xl p-6 sm:p-10 shadow-lg space-y-6">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-brand-neutral-100 pb-4 gap-4">
+                <div>
+                    <h2 class="font-heading font-bold text-xl sm:text-2xl text-brand-black">My Courses & Learning Progress</h2>
+                    <p class="text-brand-neutral-500 text-xs sm:text-sm">Track your progress percentage, complete lessons, and claim certificates.</p>
+                </div>
+                <span class="badge-gold font-bold text-xs">{{ enrollments|length }} Program{% if enrollments|length != 1 %}s{% endif %}</span>
+            </div>
+
+            {% if enrollments %}
+            <div class="space-y-6">
+                {% for enrollment in enrollments %}
+                {% with pct=enrollment.get_progress_percentage status=enrollment.get_progress_status_badge %}
+                <div class="p-6 rounded-2xl bg-white border border-brand-neutral-200 shadow-sm flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 hover:border-brand-pink/40 transition-all">
+                    
+                    <div class="space-y-3 flex-grow w-full">
+                        <div class="flex flex-wrap items-center gap-2">
+                            {% if enrollment.course.category %}
+                            <span class="badge-pink text-[10px] py-0.5 px-2.5">{{ enrollment.course.category.name }}</span>
+                            {% endif %}
+                            <span class="badge-dark text-[10px] py-0.5 px-2.5">{{ enrollment.course.get_format_type_display }}</span>
+                            
+                            {% if enrollment.enrollment_status == 'COMPLETED' %}
+                            <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold py-0.5 px-2.5 rounded-full uppercase tracking-wider">
+                                ✓ Completed
+                            </span>
+                            {% elif pct > 0 %}
+                            <span class="bg-amber-100 text-amber-800 text-[10px] font-bold py-0.5 px-2.5 rounded-full uppercase tracking-wider">
+                                ⏱ In Progress
+                            </span>
+                            {% else %}
+                            <span class="bg-brand-neutral-100 text-brand-neutral-600 text-[10px] font-bold py-0.5 px-2.5 rounded-full uppercase tracking-wider">
+                                Not Started
+                            </span>
+                            {% endif %}
+                        </div>
+
+                        <h3 class="font-heading font-bold text-xl text-brand-black">
+                            <a href="{% url 'academy:course_detail' slug=enrollment.course.slug %}" class="hover:text-brand-pink transition-colors">
+                                {{ enrollment.course.title }}
+                            </a>
+                        </h3>
+                        <p class="text-brand-neutral-500 text-xs sm:text-sm line-clamp-2">
+                            {{ enrollment.course.short_description }}
+                        </p>
+
+                        <!-- Progress Bar Container -->
+                        <div class="space-y-1.5 pt-1">
+                            <div class="flex items-center justify-between text-xs font-semibold">
+                                <span class="text-brand-neutral-600">Course Progress</span>
+                                <span class="text-brand-pink font-bold">{{ pct }}%</span>
+                            </div>
+                            <div class="w-full bg-brand-neutral-100 rounded-full h-2.5 overflow-hidden border border-brand-neutral-200">
+                                <div class="bg-gradient-to-r from-brand-pink to-brand-gold h-2.5 rounded-full transition-all duration-500" style="width: {{ pct }}%;"></div>
+                            </div>
+                            <div class="flex items-center justify-between text-[11px] text-brand-neutral-400 pt-0.5">
+                                <span>{{ enrollment.get_completed_lessons_count }} of {{ enrollment.get_total_lessons_count }} lessons completed</span>
+                                <span>Payment: <strong class="text-emerald-700 font-semibold">{{ enrollment.get_payment_status_display }}</strong></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex flex-col sm:flex-row lg:flex-col gap-2.5 w-full lg:w-48 flex-shrink-0 pt-2 lg:pt-0">
+                        {% if enrollment.course.price and enrollment.course.price > 0 and enrollment.payment_status != 'PAID' and enrollment.enrollment_status != 'ACTIVE' and enrollment.enrollment_status != 'COMPLETED' %}
+                            <a href="{% url 'academy:enrollment_confirmation' slug=enrollment.course.slug %}" class="btn-primary text-xs uppercase tracking-wider font-bold py-3 px-4 w-full text-center shadow-md shadow-pink-glow">
+                                Pay Tuition Fee
+                            </a>
+                        {% elif enrollment.certificate %}
+                            <a href="{% url 'academy:view_certificate' certificate_id=enrollment.certificate.certificate_id %}" class="btn-primary text-xs uppercase tracking-wider font-bold py-3 px-4 w-full text-center bg-gradient-to-r from-amber-500 to-yellow-600 shadow-md">
+                                Graduation Certificate 🎓
+                            </a>
+                            <a href="{% url 'academy:course_learn' slug=enrollment.course.slug %}" class="btn-outline-pink text-xs uppercase tracking-wider font-bold py-2.5 px-4 w-full text-center">
+                                Review Lessons
+                            </a>
+                        {% elif pct > 0 %}
+                            <a href="{% url 'academy:course_learn' slug=enrollment.course.slug %}" class="btn-primary text-xs uppercase tracking-wider font-bold py-3 px-4 w-full text-center shadow-md shadow-pink-glow">
+                                Continue Learning →
+                            </a>
+                        {% else %}
+                            <a href="{% url 'academy:course_learn' slug=enrollment.course.slug %}" class="btn-primary text-xs uppercase tracking-wider font-bold py-3 px-4 w-full text-center shadow-md shadow-pink-glow">
+                                Start Course →
+                            </a>
+                        {% endif %}
+
+                        <a href="{% url 'academy:course_detail' slug=enrollment.course.slug %}" class="btn-secondary text-xs uppercase tracking-wider font-bold py-2.5 px-4 w-full text-center">
+                            Course Details
+                        </a>
+                    </div>
+
+                </div>
+                {% endwith %}
+                {% endfor %}
+            </div>
+            {% else %}
+            <!-- Empty State -->
+            <div class="text-center py-12 space-y-4">
+                <div class="w-20 h-20 rounded-full bg-brand-pink/10 text-brand-pink flex items-center justify-center text-4xl mx-auto border border-brand-pink/20">
+                    📚
+                </div>
+                <div class="space-y-1">
+                    <h3 class="font-heading font-bold text-xl text-brand-black">No Course Enrollments Found</h3>
+                    <p class="text-brand-neutral-500 text-xs sm:text-sm max-w-md mx-auto">
+                        You have not enrolled in any training programs yet. Explore our masterclass catalogue to begin your beauty training journey.
+                    </p>
+                </div>
+                <a href="{% url 'academy:course_list' %}" class="btn-primary text-xs uppercase tracking-wider font-bold py-3.5 px-8 inline-block shadow-lg shadow-pink-glow">
+                    Explore Course Catalogue →
+                </a>
+            </div>
+            {% endif %}
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock content %}
+

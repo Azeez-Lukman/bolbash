@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Customer Feedback & Suggestions | Bolbash Beauty Spot{% endblock %}
+{% block meta_description %}Share your direct feedback, suggestions, or service experience with the management team at Bolbash Beauty Spot Ibadan.{% endblock %}
+
+{% block content %}
+<section class="py-12 md:py-16 bg-brand-neutral-50 min-h-screen">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Header Card -->
+        <div class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-brand-neutral-200 mb-8 text-center space-y-2">
+            <span class="inline-block px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-brand-pink/15 text-brand-pink">
+                Continuous Improvement
+            </span>
+            <h1 class="font-heading text-2xl md:text-4xl font-bold text-brand-black tracking-tight">
+                Customer Feedback & Suggestions
+            </h1>
+            <p class="text-xs md:text-sm text-brand-neutral-500 max-w-xl mx-auto">
+                We value your voice! Share your thoughts regarding our salon appointments, academy masterclasses, or product orders so we can elevate your experience.
+            </p>
+        </div>
+
+        {% if success_submission %}
+            <!-- Success Confirmation Banner -->
+            <div class="bg-white rounded-2xl p-8 shadow-sm border border-green-200 text-center space-y-4 max-w-lg mx-auto">
+                <div class="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-3xl mx-auto">
+                    ✓
+                </div>
+                <h2 class="font-heading text-xl font-bold text-brand-black">Feedback Received!</h2>
+                <p class="text-xs text-brand-neutral-600 leading-relaxed">
+                    Thank you for taking the time to share your feedback with us. Our management team will review your message promptly.
+                </p>
+                <div class="pt-4 flex justify-center space-x-3">
+                    <a href="{% url 'core:index' %}" class="btn-primary text-xs font-bold py-2.5 px-6">
+                        Return Home
+                    </a>
+                    <a href="{% url 'core:feedback' %}" class="btn-secondary text-xs font-semibold py-2.5 px-6">
+                        Submit Another
+                    </a>
+                </div>
+            </div>
+        {% else %}
+            <!-- Feedback Form Card -->
+            <div class="bg-white rounded-2xl p-6 md:p-10 shadow-sm border border-brand-neutral-200">
+                <form method="POST" action="{% url 'core:feedback' %}" class="space-y-6">
+                    {% csrf_token %}
+
+                    <!-- Honeypot Anti-Spam Field (Hidden) -->
+                    <div style="display:none;" aria-hidden="true">
+                        <label for="website_url">Do not fill this field</label>
+                        <input type="text" id="website_url" name="website_url" tabindex="-1" autocomplete="off" />
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Category -->
+                        <div>
+                            <label for="id_category" class="block text-xs font-semibold uppercase tracking-wider text-brand-black mb-2">
+                                Feedback Category <span class="text-brand-pink">*</span>
+                            </label>
+                            {{ form.category }}
+                            {% if form.category.errors %}
+                                <p class="text-xs text-red-600 mt-1">{{ form.category.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+
+                        <!-- Optional Rating -->
+                        <div>
+                            <label for="id_rating" class="block text-xs font-semibold uppercase tracking-wider text-brand-black mb-2">
+                                Rating Score (Optional)
+                            </label>
+                            {{ form.rating }}
+                            {% if form.rating.errors %}
+                                <p class="text-xs text-red-600 mt-1">{{ form.rating.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Name -->
+                        <div>
+                            <label for="id_name" class="block text-xs font-semibold uppercase tracking-wider text-brand-black mb-2">
+                                Your Full Name <span class="text-brand-pink">*</span>
+                            </label>
+                            {{ form.name }}
+                            {% if form.name.errors %}
+                                <p class="text-xs text-red-600 mt-1">{{ form.name.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+
+                        <!-- Email -->
+                        <div>
+                            <label for="id_email" class="block text-xs font-semibold uppercase tracking-wider text-brand-black mb-2">
+                                Email Address <span class="text-brand-pink">*</span>
+                            </label>
+                            {{ form.email }}
+                            {% if form.email.errors %}
+                                <p class="text-xs text-red-600 mt-1">{{ form.email.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+
+                        <!-- Phone -->
+                        <div>
+                            <label for="id_phone" class="block text-xs font-semibold uppercase tracking-wider text-brand-black mb-2">
+                                Phone Number
+                            </label>
+                            {{ form.phone }}
+                            {% if form.phone.errors %}
+                                <p class="text-xs text-red-600 mt-1">{{ form.phone.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Subject -->
+                    <div>
+                        <label for="id_subject" class="block text-xs font-semibold uppercase tracking-wider text-brand-black mb-2">
+                            Feedback Topic / Subject <span class="text-brand-pink">*</span>
+                        </label>
+                        {{ form.subject }}
+                        {% if form.subject.errors %}
+                            <p class="text-xs text-red-600 mt-1">{{ form.subject.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- Message -->
+                    <div>
+                        <label for="id_message" class="block text-xs font-semibold uppercase tracking-wider text-brand-black mb-2">
+                            Detailed Feedback Message <span class="text-brand-pink">*</span>
+                        </label>
+                        {{ form.message }}
+                        {% if form.message.errors %}
+                            <p class="text-xs text-red-600 mt-1">{{ form.message.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- Submit Actions -->
+                    <div class="pt-4 border-t border-brand-neutral-100 flex items-center justify-between">
+                        <a href="{% url 'core:index' %}" class="text-xs font-bold text-brand-neutral-500 hover:text-brand-black">
+                            Cancel
+                        </a>
+                        <button type="submit" class="btn-primary py-3.5 px-8 text-xs uppercase tracking-wider font-bold shadow-md shadow-pink-glow">
+                            Submit Feedback
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        {% endif %}
+
+    </div>
+</section>
+{% endblock %}

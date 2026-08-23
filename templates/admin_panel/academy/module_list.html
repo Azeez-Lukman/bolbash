@@ -1,0 +1,81 @@
+{% extends "admin_panel/base_admin.html" %}
+
+{% block title %}Course Modules | Bolbash Admin{% endblock title %}
+{% block header_title %}Module Management{% endblock header_title %}
+
+{% block content %}
+<div class="space-y-8 max-w-5xl">
+
+    <!-- Course Selector Tabs -->
+    <div class="bg-white p-4 rounded-2xl border border-brand-neutral-200 shadow-sm flex flex-wrap gap-2 text-xs">
+        <a href="{% url 'admin_panel:academy_module_list' %}" class="px-4 py-2 rounded-xl font-bold transition-all {% if not selected_course %} bg-brand-pink text-white {% else %} bg-brand-neutral-50 text-brand-neutral-700 hover:bg-brand-neutral-100 {% endif %}">
+            All Courses
+        </a>
+        {% for c in courses %}
+        <a href="{% url 'admin_panel:academy_module_list_by_course' c.id %}" class="px-4 py-2 rounded-xl font-bold transition-all {% if selected_course and selected_course.id == c.id %} bg-brand-pink text-white {% else %} bg-brand-neutral-50 text-brand-neutral-700 hover:bg-brand-neutral-100 {% endif %}">
+            {{ c.title }}
+        </a>
+        {% endfor %}
+    </div>
+
+    <!-- Create Module Form & List Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <!-- Module Creation Form -->
+        <div class="lg:col-span-5 bg-white p-6 rounded-2xl border border-brand-neutral-200 shadow-sm space-y-4">
+            <h3 class="font-heading font-bold text-base text-brand-black pb-2 border-b border-brand-neutral-100">Add New Module</h3>
+            
+            <form method="POST" class="space-y-4">
+                {% csrf_token %}
+                <div>
+                    <label class="form-label">Associated Course</label>
+                    {{ form.course }}
+                </div>
+                <div>
+                    <label class="form-label">Module Title</label>
+                    {{ form.title }}
+                </div>
+                <div>
+                    <label class="form-label">Description</label>
+                    {{ form.description }}
+                </div>
+                <div>
+                    <label class="form-label">Display Order Weight</label>
+                    {{ form.order }}
+                </div>
+                <button type="submit" class="btn-primary w-full text-xs font-bold uppercase tracking-wider py-3">
+                    + Create Module
+                </button>
+            </form>
+        </div>
+
+        <!-- Modules Table -->
+        <div class="lg:col-span-7 bg-white p-6 rounded-2xl border border-brand-neutral-200 shadow-sm space-y-4">
+            <h3 class="font-heading font-bold text-base text-brand-black pb-2 border-b border-brand-neutral-100">
+                {% if selected_course %}Modules for: {{ selected_course.title }}{% else %}All Course Modules{% endif %}
+            </h3>
+
+            {% if modules %}
+            <div class="space-y-3">
+                {% for m in modules %}
+                <div class="p-4 rounded-xl border border-brand-neutral-100 bg-brand-neutral-50 flex items-center justify-between">
+                    <div>
+                        <span class="text-[10px] font-bold uppercase tracking-widest text-brand-pink block">Order #{{ m.order }} • {{ m.course.title }}</span>
+                        <h4 class="font-heading font-bold text-sm text-brand-black">{{ m.title }}</h4>
+                        <p class="text-xs text-brand-neutral-500 line-clamp-1 mt-0.5">{{ m.description }}</p>
+                    </div>
+                    <a href="{% url 'admin_panel:academy_lesson_list_by_module' m.id %}" class="btn-secondary text-[10px] uppercase py-1.5 px-3 flex-shrink-0">
+                        Lessons ({{ m.lessons.count }}) →
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="text-xs text-brand-neutral-400 py-6 text-center">No modules configured for this course yet.</p>
+            {% endif %}
+        </div>
+
+    </div>
+
+</div>
+{% endblock content %}

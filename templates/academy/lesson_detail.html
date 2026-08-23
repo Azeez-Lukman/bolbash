@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ current_lesson.title }} — {{ course.title }} | Bolbash Beauty Academy{% endblock title %}
+
+{% block meta_description %}{{ current_lesson.summary|default:current_lesson.title }} — Bolbash Beauty Academy interactive student learning lesson.{% endblock meta_description %}
+
+{% block content %}
+
+<!-- Top Progress Navigation Bar -->
+<div class="bg-brand-black text-white border-b border-brand-neutral-800 sticky top-16 z-30 shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="flex items-center space-x-3 w-full md:w-auto">
+            <a href="{% url 'academy:my_learning' %}" class="text-xs text-brand-neutral-400 hover:text-brand-pink transition-colors font-semibold flex items-center gap-1.5">
+                ← Dashboard
+            </a>
+            <span class="text-brand-neutral-700">|</span>
+            <h1 class="text-sm font-heading font-bold text-white truncate max-w-md">
+                {{ course.title }}
+            </h1>
+        </div>
+
+        <div class="flex items-center space-x-4 w-full md:w-auto justify-between md:justify-end">
+            <!-- Progress Bar -->
+            <div class="flex items-center space-x-3">
+                <span class="text-xs text-brand-neutral-400 font-semibold">Course Progress:</span>
+                <div class="w-32 bg-brand-neutral-800 rounded-full h-2 overflow-hidden border border-brand-neutral-700">
+                    <div class="bg-gradient-to-r from-brand-pink to-brand-gold h-2 rounded-full transition-all duration-300" style="width: {{ progress_percentage }}%;"></div>
+                </div>
+                <span class="text-xs font-bold text-brand-pink">{{ progress_percentage }}%</span>
+            </div>
+
+            {% if certificate %}
+            <a href="{% url 'academy:view_certificate' certificate_id=certificate.certificate_id %}" class="btn-primary text-[11px] uppercase tracking-wider py-1.5 px-3 bg-gradient-to-r from-amber-500 to-yellow-600">
+                🎓 Certificate
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<section class="bg-brand-neutral-50 min-h-[85vh] py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <!-- Sidebar: Course Curriculum Navigation -->
+            <div class="lg:col-span-4 order-2 lg:order-1">
+                <div class="bg-white border border-brand-neutral-200 rounded-3xl p-6 shadow-md sticky top-36 space-y-6 max-h-[80vh] overflow-y-auto">
+                    
+                    <div class="flex items-center justify-between border-b border-brand-neutral-100 pb-3">
+                        <h2 class="font-heading font-bold text-lg text-brand-black">Course Curriculum</h2>
+                        <span class="badge-gold text-[10px]">{{ modules|length }} Module{% if modules|length != 1 %}s{% endif %}</span>
+                    </div>
+
+                    <div class="space-y-4">
+                        {% for module in modules %}
+                        <div class="space-y-2">
+                            <div class="bg-brand-neutral-50 px-3.5 py-2.5 rounded-xl border border-brand-neutral-200 flex items-center justify-between">
+                                <span class="font-heading font-bold text-xs text-brand-black">
+                                    Module {{ module.order }}: {{ module.title }}
+                                </span>
+                                <span class="text-[10px] text-brand-neutral-400 font-semibold">{{ module.lessons.all|length }} Lessons</span>
+                            </div>
+
+                            <div class="space-y-1 pl-2">
+                                {% for lesson in module.lessons.all %}
+                                <a href="{% url 'academy:lesson_detail' course_slug=course.slug lesson_slug=lesson.slug %}" 
+                                   class="flex items-center justify-between px-3 py-2 rounded-xl text-xs transition-all border
+                                          {% if lesson.id == current_lesson.id %}
+                                              bg-brand-pink/10 border-brand-pink/40 text-brand-pink font-bold shadow-sm
+                                          {% elif lesson.id in completed_lesson_ids %}
+                                              bg-emerald-50 border-emerald-200/60 text-emerald-800 font-medium hover:bg-emerald-100/60
+                                          {% else %}
+                                              bg-white border-transparent text-brand-neutral-600 hover:bg-brand-neutral-50 hover:text-brand-black
+                                          {% endif %}">
+                                    
+                                    <div class="flex items-center space-x-2.5 truncate pr-2">
+                                        {% if lesson.id in completed_lesson_ids %}
+                                        <span class="w-4 h-4 rounded-full bg-emerald-500 text-white flex items-center justify-center text-[9px] font-bold flex-shrink-0">✓</span>
+                                        {% else %}
+                                        <span class="w-4 h-4 rounded-full bg-brand-neutral-200 text-brand-neutral-600 flex items-center justify-center text-[10px] font-bold flex-shrink-0">{{ lesson.order }}</span>
+                                        {% endif %}
+                                        <span class="truncate">{{ lesson.title }}</span>
+                                    </div>
+
+                                    <span class="text-[10px] text-brand-neutral-400 flex-shrink-0 font-medium">{{ lesson.duration_minutes }}m</span>
+                                </a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% empty %}
+                        <p class="text-xs text-brand-neutral-500 py-4 text-center">No modules configured for this course yet.</p>
+                        {% endfor %}
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Main Content Area: Lesson Player -->
+            <div class="lg:col-span-8 order-1 lg:order-2 space-y-6">
+                
+                <div class="bg-white border border-brand-neutral-200 rounded-3xl p-6 sm:p-10 shadow-lg space-y-6">
+                    
+                    <!-- Lesson Header & Metadata -->
+                    <div class="space-y-2 border-b border-brand-neutral-100 pb-6">
+                        <div class="flex flex-wrap items-center gap-2 text-xs text-brand-neutral-500">
+                            <span class="badge-pink text-[10px]">Module {{ current_lesson.module.order }}: {{ current_lesson.module.title }}</span>
+                            <span>•</span>
+                            <span>⏱ {{ current_lesson.duration_minutes }} Minutes</span>
+                            <span>•</span>
+                            {% if is_completed %}
+                            <span class="badge-emerald text-[10px] py-0.5 px-2 font-bold bg-emerald-100 text-emerald-800 rounded-full">✓ Completed</span>
+                            {% else %}
+                            <span class="text-amber-600 font-semibold">In Progress</span>
+                            {% endif %}
+                        </div>
+
+                        <h1 class="font-heading font-bold text-2xl sm:text-3xl text-brand-black">
+                            {{ current_lesson.title }}
+                        </h1>
+
+                        {% if current_lesson.summary %}
+                        <p class="text-brand-neutral-500 text-sm italic">
+                            {{ current_lesson.summary }}
+                        </p>
+                        {% endif %}
+                    </div>
+
+                    <!-- Video Tutorial Section (if present) -->
+                    {% if current_lesson.video_url %}
+                    <div class="rounded-2xl overflow-hidden bg-black border border-brand-neutral-800 shadow-xl aspect-video relative">
+                        {% if 'youtube.com' in current_lesson.video_url or 'youtu.be' in current_lesson.video_url %}
+                        <iframe class="w-full h-full" src="{{ current_lesson.video_url }}" title="{{ current_lesson.title }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        {% else %}
+                        <div class="w-full h-full flex flex-col items-center justify-center text-white p-6 text-center space-y-3 bg-gradient-to-br from-slate-900 to-black">
+                            <div class="w-16 h-16 rounded-full bg-brand-pink/20 text-brand-pink flex items-center justify-center text-3xl">▶</div>
+                            <h3 class="font-heading font-bold text-lg">Interactive Video Class</h3>
+                            <a href="{{ current_lesson.video_url }}" target="_blank" rel="noopener noreferrer" class="btn-primary text-xs uppercase tracking-wider font-bold py-2.5 px-5 shadow-md shadow-pink-glow">
+                                Open Video Tutorial Link ↗
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+
+                    <!-- Lesson Text Content / Step-by-Step Curriculum -->
+                    <div class="prose prose-slate max-w-none text-brand-black leading-relaxed space-y-4 text-sm sm:text-base py-2">
+                        {{ current_lesson.content|linebreaks }}
+                    </div>
+
+                    <!-- Lesson Completion Control Box -->
+                    <div class="bg-brand-neutral-50 border border-brand-neutral-200 rounded-2xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4 mt-8">
+                        <div class="space-y-0.5 text-center sm:text-left">
+                            <h4 class="font-heading font-bold text-sm text-brand-black">Finished reviewing this lesson?</h4>
+                            <p class="text-brand-neutral-500 text-xs">Marking lessons complete updates your overall course completion status in real time.</p>
+                        </div>
+
+                        <form method="POST" action="{% url 'academy:lesson_toggle_complete' lesson_id=current_lesson.id %}" class="w-full sm:w-auto">
+                            {% csrf_token %}
+                            {% if is_completed %}
+                            <button type="submit" class="w-full sm:w-auto btn-outline-pink text-xs uppercase tracking-wider font-bold py-3 px-6 flex items-center justify-center gap-2">
+                                <span>✓ Completed</span>
+                                <span class="text-[10px] text-brand-neutral-400 font-normal">(Click to undo)</span>
+                            </button>
+                            {% else %}
+                            <button type="submit" class="w-full sm:w-auto btn-primary text-xs uppercase tracking-wider font-bold py-3 px-6 shadow-md shadow-pink-glow">
+                                Mark as Complete & Continue →
+                            </button>
+                            {% endif %}
+                        </form>
+                    </div>
+
+                    <!-- Previous & Next Lesson Navigation Footer -->
+                    <div class="flex items-center justify-between border-t border-brand-neutral-100 pt-6 gap-4">
+                        {% if prev_lesson %}
+                        <a href="{% url 'academy:lesson_detail' course_slug=course.slug lesson_slug=prev_lesson.slug %}" class="btn-secondary text-xs uppercase tracking-wider font-bold py-3 px-5 flex items-center gap-2">
+                            ← Prev Lesson
+                        </a>
+                        {% else %}
+                        <div></div>
+                        {% endif %}
+
+                        {% if next_lesson %}
+                        <a href="{% url 'academy:lesson_detail' course_slug=course.slug lesson_slug=next_lesson.slug %}" class="btn-primary text-xs uppercase tracking-wider font-bold py-3 px-6 shadow-md shadow-pink-glow flex items-center gap-2">
+                            Next Lesson →
+                        </a>
+                        {% elif progress_percentage == 100 %}
+                        <a href="{% url 'academy:my_learning' %}" class="btn-primary text-xs uppercase tracking-wider font-bold py-3 px-6 bg-emerald-600 hover:bg-emerald-700 shadow-md flex items-center gap-2">
+                            🎓 Course Completed!
+                        </a>
+                        {% endif %}
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock content %}

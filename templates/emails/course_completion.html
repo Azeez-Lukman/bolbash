@@ -1,0 +1,49 @@
+{% extends "emails/base_email.html" %}
+
+{% block subject %}Course Graduation Certificate — {{ certificate.course.title }}{% endblock subject %}
+
+{% block content %}
+<div style="text-align: center; margin-bottom: 24px;">
+    <span class="badge-confirmed" style="background-color: #FEF3C7; color: #B45309;">
+        Graduation Certificate Earned
+    </span>
+    <h2 style="font-size: 22px; font-weight: 700; color: #0F172A; margin: 16px 0 8px 0;">
+        Congratulations, {{ student_name }}!
+    </h2>
+    <p style="font-size: 14px; color: #64748B; margin: 0; line-height: 1.5;">
+        You have successfully completed 100% of the lessons in <strong>{{ certificate.course.title }}</strong>! Your official Bolbash Beauty Academy Certificate of Completion is ready.
+    </p>
+</div>
+
+<div class="ref-box">
+    <div style="font-size: 11px; text-transform: uppercase; color: #64748B; font-weight: 700; margin-bottom: 4px;">
+        Official Certificate ID
+    </div>
+    <div class="ref-code">#{{ certificate.certificate_id }}</div>
+</div>
+
+<table class="table-details">
+    <tr>
+        <td class="label">Graduate</td>
+        <td class="val">{{ student_name }}</td>
+    </tr>
+    <tr>
+        <td class="label">Course Title</td>
+        <td class="val">{{ certificate.course.title }}</td>
+    </tr>
+    <tr>
+        <td class="label">Issued Date</td>
+        <td class="val">{{ certificate.issue_date|date:"F d, Y" }}</td>
+    </tr>
+    <tr>
+        <td class="label">Verification Code</td>
+        <td class="val" style="font-family: monospace;">{{ certificate.verification_code }}</td>
+    </tr>
+</table>
+
+<div style="text-align: center; margin-top: 24px;">
+    <a href="http://127.0.0.1:8000/academy/certificates/{{ certificate.certificate_id }}/" class="btn-cta">
+        View & Download Certificate ->
+    </a>
+</div>
+{% endblock content %}
