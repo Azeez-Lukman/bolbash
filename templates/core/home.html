@@ -84,65 +84,44 @@ styling, wig installation, bridal styling, nail fixing, and professional beauty 
             <div class="lg:col-span-5 relative reveal-slide-right">
                 <div class="relative mx-auto max-w-md lg:max-w-none">
 
-                    <!-- Main Frame Container -->
-                    <div
-                        class="relative bg-brand-black-light rounded-3xl p-4 shadow-2xl border border-brand-pink/30 overflow-hidden">
-                        <div
-                            class="aspect-[4/5] rounded-2xl bg-gradient-to-tr from-brand-black via-brand-black-muted to-brand-neutral-900 flex flex-col justify-between p-8 text-white relative overflow-hidden">
+                    <!-- Luxury Image Showcase Frame -->
+                    <div class="relative bg-brand-black-light rounded-3xl p-3 sm:p-4 shadow-2xl border border-brand-pink/40 shadow-pink-glow/20 overflow-hidden group">
+                        <div class="aspect-[3/4] sm:aspect-[4/5] rounded-2xl relative overflow-hidden bg-brand-black">
+                            
+                            <!-- High Resolution Glamour Model Image -->
+                            <img src="{% static 'images/bolbash_hero_glam_model.jpg' %}" 
+                                 alt="Hairbybolbash Luxury Frontal Melt & Styling Showcase" 
+                                 class="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-700 ease-out" />
 
-                            <!-- Top Overlay Badge -->
-                            <div class="flex justify-between items-center z-10">
-                                <span
-                                    class="badge-pink bg-brand-pink text-white font-bold tracking-wider text-xs px-3 py-1.5 rounded-full shadow-lg">
+                            <!-- Ambient Gradient Overlays for Elegance -->
+                            <div class="absolute inset-0 bg-gradient-to-t from-brand-black via-brand-black/20 to-brand-black/40 pointer-events-none"></div>
+
+                            <!-- Top Floating Badges -->
+                            <div class="absolute top-4 left-4 right-4 flex justify-between items-center z-10">
+                                <span class="badge-pink bg-brand-pink/90 backdrop-blur-md text-white font-bold tracking-wider text-[11px] px-3.5 py-1.5 rounded-full shadow-lg border border-white/20">
                                     LUXURY SALON & ACADEMY
                                 </span>
-                                <span
-                                    class="text-xs text-amber-300 font-semibold flex items-center gap-1 bg-white/10 px-2.5 py-1 rounded-full">
-                                    ★ 5.0 Rating
+                                <span class="text-[11px] text-amber-300 font-bold flex items-center gap-1.5 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-full border border-amber-400/30 shadow-md">
+                                    ★ 5.0 Rated Artistry
                                 </span>
                             </div>
 
-                            <!-- Central Artistry Visual Graphic -->
-                            <div class="my-auto text-center space-y-4 z-10">
-                                <div
-                                    class="w-24 h-24 mx-auto rounded-full bg-gradient-to-tr from-brand-pink to-amber-300 p-0.5 shadow-xl shadow-pink-glow">
-                                    <div
-                                        class="w-full h-full rounded-full bg-brand-black flex items-center justify-center text-brand-pink">
-                                        <span class="text-4xl">👑</span>
+                            <!-- Bottom Glassmorphic Branding Banner -->
+                            <div class="absolute bottom-4 left-4 right-4 bg-brand-black/75 backdrop-blur-xl border border-white/15 rounded-2xl p-4 text-white shadow-2xl z-10">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <div class="flex items-center space-x-2">
+                                            <span class="text-amber-400 text-sm">👑</span>
+                                            <h3 class="font-heading text-lg font-bold tracking-wide text-white">Hairbybolbash</h3>
+                                        </div>
+                                        <p class="text-[10px] text-brand-pink font-semibold uppercase tracking-widest mt-0.5">Where Beauty Meets Perfection</p>
+                                    </div>
+                                    <div class="hidden sm:block text-right">
+                                        <span class="inline-flex items-center space-x-1 px-2.5 py-1 rounded-full bg-brand-pink/20 border border-brand-pink/40 text-[10px] text-brand-pink font-bold uppercase tracking-wider">
+                                            ✨ Invisible Melts
+                                        </span>
                                     </div>
                                 </div>
-
-                                <div class="space-y-1">
-                                    <h3 class="font-heading text-2xl font-bold tracking-wide text-white">Hairbybolbash
-                                    </h3>
-                                    <p class="text-xs text-brand-pink font-semibold uppercase tracking-widest">Where
-                                        Beauty Meets Perfection</p>
-                                </div>
-
-                                <div
-                                    class="flex flex-wrap justify-center gap-2 pt-2 text-[11px] text-brand-neutral-300">
-                                    <span class="px-2.5 py-1 rounded-full bg-white/10 border border-white/15">Frontal
-                                        Melts</span>
-                                    <span class="px-2.5 py-1 rounded-full bg-white/10 border border-white/15">Bridal
-                                        Glam</span>
-                                    <span class="px-2.5 py-1 rounded-full bg-white/10 border border-white/15">Wig
-                                        Revamp</span>
-                                </div>
-                            </div>
-
-                            <!-- Bottom Location & Contact Sub-card -->
-                            <div
-                                class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 flex items-center justify-between z-10">
-                                <div>
-                                    <span
-                                        class="text-[10px] text-brand-pink font-bold uppercase tracking-wider block">Salon
-                                        Studio</span>
-                                    <span class="text-xs text-white font-medium">SIOA Plaza, Sango-Eleyele Rd</span>
-                                </div>
-                                <a href="tel:08168956606"
-                                    class="btn-primary text-[10px] uppercase font-bold py-1.5 px-3 rounded-lg">
-                                    08168956606
-                                </a>
                             </div>
 
                         </div>
