@@ -127,4 +127,18 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    // Dynamic Sticky Navbar Scroll Elevation Shadow
+    const siteHeader = document.getElementById('site-header');
+    if (siteHeader) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 20) {
+                siteHeader.classList.add('shadow-md', 'bg-white/98');
+                siteHeader.classList.remove('shadow-sm', 'bg-white/95');
+            } else {
+                siteHeader.classList.remove('shadow-md', 'bg-white/98');
+                siteHeader.classList.add('shadow-sm', 'bg-white/95');
+            }
+        }, { passive: true });
+    }
 });
