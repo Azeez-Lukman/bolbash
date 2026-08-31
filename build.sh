@@ -9,5 +9,6 @@ pip install -r requirements.txt
 # Collect static files with Whitenoise compression
 python manage.py collectstatic --no-input
 
-# Run database migrations
-python manage.py migrate --no-input
+# Run database migrations if database is available
+python manage.py migrate --no-input || echo "[WARNING] Database migration failed or skipped. Please verify your cloud DATABASE_URL environment variable."
+
