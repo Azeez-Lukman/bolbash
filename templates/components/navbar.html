@@ -12,41 +12,40 @@
         </a>
 
         <!-- Primary Navigation Links -->
+        {% with url_name=request.resolver_match.url_name app_name=request.resolver_match.app_name %}
         <div class="hidden lg:flex items-center space-x-3 xl:space-x-5 text-xs xl:text-sm font-semibold text-brand-neutral-800 whitespace-nowrap">
-            <a href="{% url 'core:index' %}" class="py-2 hover:text-brand-pink transition-colors focus:outline-none focus:text-brand-pink">Home</a>
-            <a href="{% url 'core:about' %}" class="py-2 hover:text-brand-pink transition-colors focus:outline-none focus:text-brand-pink">About</a>
-            <a href="{% url 'core:service_list' %}" class="py-2 hover:text-brand-pink transition-colors focus:outline-none focus:text-brand-pink">Services</a>
-            <a href="{% url 'core:bridal' %}" class="py-2 hover:text-brand-pink transition-colors focus:outline-none focus:text-brand-pink">Bridal</a>
-            <a href="{% url 'core:gallery' %}" class="py-2 hover:text-brand-pink transition-colors focus:outline-none focus:text-brand-pink">Gallery</a>
-            <a href="{% url 'academy:academy_landing' %}" class="py-2 hover:text-brand-pink transition-colors focus:outline-none focus:text-brand-pink">Academy</a>
-            <a href="{% url 'shop:shop_landing' %}" class="py-2 hover:text-brand-pink transition-colors focus:outline-none focus:text-brand-pink">Shop</a>
-            <a href="{% url 'core:contact' %}" class="py-2 hover:text-brand-pink transition-colors focus:outline-none focus:text-brand-pink">Contact</a>
+            <a href="{% url 'core:index' %}" class="py-2 border-b-2 transition-colors focus:outline-none {% if url_name == 'index' %}text-brand-pink border-brand-pink font-bold{% else %}border-transparent hover:text-brand-pink focus:text-brand-pink{% endif %}">Home</a>
+            <a href="{% url 'core:about' %}" class="py-2 border-b-2 transition-colors focus:outline-none {% if url_name == 'about' %}text-brand-pink border-brand-pink font-bold{% else %}border-transparent hover:text-brand-pink focus:text-brand-pink{% endif %}">About</a>
+            <a href="{% url 'core:service_list' %}" class="py-2 border-b-2 transition-colors focus:outline-none {% if url_name == 'service_list' or url_name == 'service_detail' %}text-brand-pink border-brand-pink font-bold{% else %}border-transparent hover:text-brand-pink focus:text-brand-pink{% endif %}">Services</a>
+            <a href="{% url 'core:bridal' %}" class="py-2 border-b-2 transition-colors focus:outline-none {% if url_name == 'bridal' %}text-brand-pink border-brand-pink font-bold{% else %}border-transparent hover:text-brand-pink focus:text-brand-pink{% endif %}">Bridal</a>
+            <a href="{% url 'core:gallery' %}" class="py-2 border-b-2 transition-colors focus:outline-none {% if url_name == 'gallery' %}text-brand-pink border-brand-pink font-bold{% else %}border-transparent hover:text-brand-pink focus:text-brand-pink{% endif %}">Gallery</a>
+            <a href="{% url 'blog:post_list' %}" class="py-2 border-b-2 transition-colors focus:outline-none {% if app_name == 'blog' %}text-brand-pink border-brand-pink font-bold{% else %}border-transparent hover:text-brand-pink focus:text-brand-pink{% endif %}">Blog</a>
+            <a href="{% url 'shop:shop_landing' %}" class="py-2 border-b-2 transition-colors focus:outline-none {% if app_name == 'shop' and url_name != 'cart_detail' and url_name != 'checkout' and url_name != 'order_detail' %}text-brand-pink border-brand-pink font-bold{% else %}border-transparent hover:text-brand-pink focus:text-brand-pink{% endif %}">Shop</a>
+            <a href="{% url 'core:contact' %}" class="py-2 border-b-2 transition-colors focus:outline-none {% if url_name == 'contact' %}text-brand-pink border-brand-pink font-bold{% else %}border-transparent hover:text-brand-pink focus:text-brand-pink{% endif %}">Contact</a>
         </div>
+        {% endwith %}
 
-        <!-- Utility Actions & Primary CTA -->
-        <div class="hidden sm:flex items-center space-x-2.5 xl:space-x-3 flex-shrink-0">
-            <!-- Commerce Utility: Cart Icon -->
-            <a href="{% url 'shop:cart_detail' %}" class="p-2 text-brand-black hover:text-brand-pink transition-colors text-lg focus:outline-none focus:text-brand-pink" title="Shopping Cart" aria-label="Shopping Cart">
+        <!-- Utility Actions & Primary CTA (Desktop) -->
+        <div class="hidden lg:flex items-center space-x-3 xl:space-x-4 flex-shrink-0">
+            <!-- Shopping Cart Icon -->
+            <a href="{% url 'shop:cart_detail' %}" class="p-2 text-brand-black hover:text-brand-pink transition-colors text-lg focus:outline-none focus:text-brand-pink {% if request.resolver_match.url_name == 'cart_detail' %}text-brand-pink{% endif %}" title="Shopping Cart" aria-label="Shopping Cart">
                 🛒
             </a>
 
             {% if user.is_authenticated and user.is_staff %}
-                <a href="{% url 'admin_panel:dashboard' %}" class="px-2.5 py-1.5 rounded-lg text-[11px] font-bold bg-brand-black text-white hover:bg-brand-pink transition-colors">
+                <a href="{% url 'admin_panel:dashboard' %}" class="px-2.5 py-1.5 rounded-lg text-xs font-bold bg-brand-black text-white hover:bg-brand-pink transition-colors">
                     Admin
                 </a>
             {% endif %}
 
-            <!-- Primary Business CTA: BOOK APPOINTMENT (Strongest Visual Weight) -->
+            <!-- Primary Business CTA: BOOK APPOINTMENT -->
             <a href="{% url 'booking:booking_form' %}" class="btn-primary text-xs uppercase tracking-wider font-bold py-2.5 px-4 sm:px-5 whitespace-nowrap shadow-md shadow-pink-glow">
                 BOOK APPOINTMENT
             </a>
         </div>
 
-        <!-- Mobile Menu Hamburger Button -->
-        <div class="flex lg:hidden items-center space-x-2">
-            <a href="{% url 'shop:cart_detail' %}" class="p-2 text-brand-black hover:text-brand-pink text-lg" title="Cart">
-                🛒
-            </a>
+        <!-- Mobile Header Bar Actions (< 1024px) -->
+        <div class="flex lg:hidden items-center">
             <button id="mobile-menu-button" type="button" 
                     class="p-2.5 rounded-lg text-brand-black hover:text-brand-pink hover:bg-brand-neutral-100 focus:outline-none focus:ring-2 focus:ring-brand-pink transition-colors"
                     aria-expanded="false" 
@@ -71,19 +70,21 @@
          aria-hidden="true" role="dialog" aria-modal="true">
         
         <div class="p-4 sm:p-5">
+            {% with url_name=request.resolver_match.url_name app_name=request.resolver_match.app_name %}
             <nav class="flex flex-col space-y-1 text-sm font-medium text-brand-black">
-                <a href="{% url 'core:index' %}" class="py-2 px-3 rounded-lg hover:bg-brand-neutral-100 hover:text-brand-pink transition-colors">Home</a>
-                <a href="{% url 'core:about' %}" class="py-2 px-3 rounded-lg hover:bg-brand-neutral-100 hover:text-brand-pink transition-colors">About</a>
-                <a href="{% url 'core:service_list' %}" class="py-2 px-3 rounded-lg hover:bg-brand-neutral-100 hover:text-brand-pink transition-colors">Services</a>
-                <a href="{% url 'core:bridal' %}" class="py-2 px-3 rounded-lg hover:bg-brand-neutral-100 hover:text-brand-pink transition-colors">Bridal</a>
-                <a href="{% url 'core:gallery' %}" class="py-2 px-3 rounded-lg hover:bg-brand-neutral-100 hover:text-brand-pink transition-colors">Gallery</a>
-                <a href="{% url 'academy:academy_landing' %}" class="py-2 px-3 rounded-lg hover:bg-brand-neutral-100 hover:text-brand-pink transition-colors">Academy</a>
-                <a href="{% url 'shop:shop_landing' %}" class="py-2 px-3 rounded-lg hover:bg-brand-neutral-100 hover:text-brand-pink transition-colors">Shop</a>
-                <a href="{% url 'core:contact' %}" class="py-2 px-3 rounded-lg hover:bg-brand-neutral-100 hover:text-brand-pink transition-colors">Contact</a>
-                <a href="{% url 'shop:cart_detail' %}" class="py-2 px-3 rounded-lg hover:bg-brand-neutral-100 hover:text-brand-pink transition-colors flex items-center justify-between">
+                <a href="{% url 'core:index' %}" class="py-2 px-3 rounded-lg transition-colors {% if url_name == 'index' %}bg-brand-pink/10 text-brand-pink font-bold{% else %}hover:bg-brand-neutral-100 hover:text-brand-pink{% endif %}">Home</a>
+                <a href="{% url 'core:about' %}" class="py-2 px-3 rounded-lg transition-colors {% if url_name == 'about' %}bg-brand-pink/10 text-brand-pink font-bold{% else %}hover:bg-brand-neutral-100 hover:text-brand-pink{% endif %}">About</a>
+                <a href="{% url 'core:service_list' %}" class="py-2 px-3 rounded-lg transition-colors {% if url_name == 'service_list' or url_name == 'service_detail' %}bg-brand-pink/10 text-brand-pink font-bold{% else %}hover:bg-brand-neutral-100 hover:text-brand-pink{% endif %}">Services</a>
+                <a href="{% url 'core:bridal' %}" class="py-2 px-3 rounded-lg transition-colors {% if url_name == 'bridal' %}bg-brand-pink/10 text-brand-pink font-bold{% else %}hover:bg-brand-neutral-100 hover:text-brand-pink{% endif %}">Bridal</a>
+                <a href="{% url 'core:gallery' %}" class="py-2 px-3 rounded-lg transition-colors {% if url_name == 'gallery' %}bg-brand-pink/10 text-brand-pink font-bold{% else %}hover:bg-brand-neutral-100 hover:text-brand-pink{% endif %}">Gallery</a>
+                <a href="{% url 'blog:post_list' %}" class="py-2 px-3 rounded-lg transition-colors {% if app_name == 'blog' %}bg-brand-pink/10 text-brand-pink font-bold{% else %}hover:bg-brand-neutral-100 hover:text-brand-pink{% endif %}">Blog</a>
+                <a href="{% url 'shop:shop_landing' %}" class="py-2 px-3 rounded-lg transition-colors {% if app_name == 'shop' and url_name != 'cart_detail' and url_name != 'checkout' and url_name != 'order_detail' %}bg-brand-pink/10 text-brand-pink font-bold{% else %}hover:bg-brand-neutral-100 hover:text-brand-pink{% endif %}">Shop</a>
+                <a href="{% url 'core:contact' %}" class="py-2 px-3 rounded-lg transition-colors {% if url_name == 'contact' %}bg-brand-pink/10 text-brand-pink font-bold{% else %}hover:bg-brand-neutral-100 hover:text-brand-pink{% endif %}">Contact</a>
+                <a href="{% url 'shop:cart_detail' %}" class="py-2 px-3 rounded-lg transition-colors flex items-center justify-between {% if url_name == 'cart_detail' %}bg-brand-pink/10 text-brand-pink font-bold{% else %}hover:bg-brand-neutral-100 hover:text-brand-pink{% endif %}">
                     <span>Shopping Cart 🛒</span>
                 </a>
             </nav>
+            {% endwith %}
         </div>
 
         <div class="p-4 border-t border-brand-neutral-100 bg-brand-neutral-50 space-y-3">

@@ -1,0 +1,289 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ post.seo_title }} | Bolbash Beauty Spot{% endblock title %}
+{% block meta_description %}{{ post.seo_description }}{% endblock meta_description %}
+
+<!-- Open Graph Overrides -->
+{% block og_type %}article{% endblock og_type %}
+{% block og_title %}{{ post.seo_title }}{% endblock og_title %}
+{% block og_description %}{{ post.seo_description }}{% endblock og_description %}
+{% block og_image %}{% if post.featured_image %}{{ request.scheme }}://{{ request.get_host }}{{ post.featured_image.url }}{% else %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/hairbybolbash/bridal_hair_1.jpg' %}{% endif %}{% endblock og_image %}
+{% block twitter_title %}{{ post.seo_title }}{% endblock twitter_title %}
+{% block twitter_description %}{{ post.seo_description }}{% endblock twitter_description %}
+{% block twitter_image %}{% if post.featured_image %}{{ request.scheme }}://{{ request.get_host }}{{ post.featured_image.url }}{% else %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/hairbybolbash/bridal_hair_1.jpg' %}{% endif %}{% endblock twitter_image %}
+
+{% block json_ld %}
+<!-- Schema.org BlogPosting Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{{ request.build_absolute_uri }}"
+  },
+  "headline": "{{ post.title|escapejs }}",
+  "description": "{{ post.seo_description|escapejs }}",
+  {% if post.featured_image %}
+  "image": ["{{ request.scheme }}://{{ request.get_host }}{{ post.featured_image.url }}"],
+  {% endif %}
+  "datePublished": "{{ post.published_at|date:'c'|default:post.created_at|date:'c' }}",
+  "dateModified": "{{ post.updated_at|date:'c' }}",
+  "author": {
+    "@type": "Person",
+    "name": "{{ post.author_name|escapejs }}"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Bolbash Beauty Spot",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.jpg' %}"
+    }
+  }
+}
+</script>
+{% endblock json_ld %}
+
+{% block content %}
+<main class="min-h-screen bg-brand-white-off">
+
+    <!-- Staff Draft Preview Banner -->
+    {% if post.status == 'DRAFT' %}
+    <div class="bg-amber-500 text-white text-xs font-bold py-2.5 px-4 text-center sticky top-20 z-40 shadow-md">
+        ⚠️ PREVIEW MODE: This article is currently a <strong>DRAFT</strong> and is not visible to public visitors.
+    </div>
+    {% endif %}
+
+    <!-- ======================================================================
+         1. BREADCRUMBS & ARTICLE HEADER
+         ====================================================================== -->
+    <article class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-12 pb-16">
+        
+        <!-- Breadcrumb Navigation -->
+        <nav class="flex items-center space-x-2 text-xs text-brand-neutral-500 pb-6" aria-label="Breadcrumb">
+            <a href="{% url 'core:index' %}" class="hover:text-brand-pink transition-colors">Home</a>
+            <span>/</span>
+            <a href="{% url 'blog:post_list' %}" class="hover:text-brand-pink transition-colors">Blog</a>
+            <span>/</span>
+            <a href="{% url 'blog:category_detail' post.category.slug %}" class="hover:text-brand-pink transition-colors">{{ post.category.name }}</a>
+            <span>/</span>
+            <span class="text-brand-neutral-800 font-semibold truncate max-w-[180px] sm:max-w-xs">{{ post.title }}</span>
+        </nav>
+
+        <!-- Header Information -->
+        <header class="space-y-5 pb-8 border-b border-brand-neutral-200">
+            <div class="flex flex-wrap items-center gap-3">
+                <a href="{% url 'blog:category_detail' post.category.slug %}" class="badge-pink bg-brand-pink text-white font-bold text-xs uppercase px-3.5 py-1.5 rounded-full border-none shadow-sm hover:bg-brand-pink-700 transition-colors">
+                    {{ post.category.name }}
+                </a>
+                <span class="text-xs text-brand-neutral-400">•</span>
+                <span class="text-xs font-semibold text-brand-neutral-600 flex items-center">
+                    ⏱ {{ post.reading_time_minutes }} min read
+                </span>
+                <span class="text-xs text-brand-neutral-400">•</span>
+                <span class="text-xs text-brand-neutral-500">
+                    {{ post.published_at|date:"F d, Y"|default:post.created_at|date:"F d, Y" }}
+                </span>
+            </div>
+
+            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold text-brand-black tracking-tight leading-tight">
+                {{ post.title }}
+            </h1>
+
+            <p class="text-base sm:text-lg text-brand-neutral-700 leading-relaxed italic border-l-4 border-brand-pink pl-4 py-1">
+                {{ post.excerpt }}
+            </p>
+
+            <!-- Author & Sharing Meta Bar -->
+            <div class="pt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div class="flex items-center space-x-3.5">
+                    <div class="w-11 h-11 rounded-full bg-brand-pink-50 border border-brand-pink-200 flex items-center justify-center text-lg font-bold text-brand-pink flex-shrink-0 shadow-sm">
+                        ✂️
+                    </div>
+                    <div>
+                        <span class="text-sm font-bold text-brand-black block">
+                            By {{ post.author_name }}
+                        </span>
+                        <span class="text-xs text-brand-neutral-500">Master Stylist & Beauty Educator</span>
+                    </div>
+                </div>
+
+                <!-- Interactive Social Sharing Bar -->
+                <div class="flex items-center space-x-2.5">
+                    <span class="text-xs font-bold text-brand-neutral-500 uppercase tracking-wider mr-1">Share:</span>
+                    
+                    <!-- WhatsApp Share -->
+                    <a href="https://wa.me/?text={{ post.title|urlencode }}%20{{ request.build_absolute_uri|urlencode }}" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       class="w-10 h-10 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-300 flex items-center justify-center hover:bg-emerald-600 hover:text-white transition-all shadow-sm"
+                       title="Share on WhatsApp" aria-label="Share on WhatsApp">
+                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-1.146 4.188 4.29-1.121z"/></svg>
+                    </a>
+
+                    <!-- Copy Link -->
+                    <button type="button" 
+                            id="copy-link-btn"
+                            onclick="copyArticleLink()"
+                            class="h-10 px-4 rounded-full bg-white text-brand-neutral-700 border border-brand-neutral-300 text-xs font-bold hover:border-brand-pink hover:text-brand-pink transition-all flex items-center space-x-1.5 shadow-sm active:scale-95"
+                            title="Copy link to clipboard">
+                        <span>🔗 Copy Link</span>
+                    </button>
+                    <span id="copy-toast" class="text-xs text-emerald-600 font-bold hidden transition-opacity">Copied!</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- ======================================================================
+             2. COVER IMAGE
+             ====================================================================== -->
+        <div class="my-8 rounded-3xl overflow-hidden shadow-xl border border-brand-neutral-200 bg-brand-neutral-100 max-h-[500px]">
+            {% if post.featured_image %}
+                <img src="{{ post.featured_image.url }}" 
+                     alt="{{ post.title }}" 
+                     class="w-full h-full object-cover object-center max-h-[500px]" />
+            {% else %}
+                <img src="{% static 'images/hairbybolbash/bridal_hair_1.jpg' %}" 
+                     alt="{{ post.title }}" 
+                     class="w-full h-full object-cover object-center max-h-[500px]" />
+            {% endif %}
+        </div>
+
+        <!-- ======================================================================
+             3. RICH ARTICLE BODY CONTENT
+             ====================================================================== -->
+        <div class="article-body-wrapper space-y-6 text-brand-neutral-800 text-base sm:text-lg leading-relaxed pt-2">
+            {{ post.content|safe|linebreaks }}
+        </div>
+
+        <!-- ======================================================================
+             4. IN-ARTICLE CONVERSION CTA BOX
+             ====================================================================== -->
+        <div class="my-12 p-8 sm:p-10 rounded-3xl bg-brand-black text-white space-y-5 border border-brand-pink/30 shadow-2xl relative overflow-hidden">
+            <div class="absolute -top-12 -right-12 w-48 h-48 bg-brand-pink/20 rounded-full blur-2xl pointer-events-none"></div>
+            
+            <div class="relative z-10 space-y-3">
+                <span class="text-xs font-bold uppercase tracking-widest text-brand-pink">Bolbash Beauty Experience</span>
+                <h3 class="text-2xl sm:text-3xl font-heading font-bold text-white tracking-tight">
+                    Ready to Transform Your Look?
+                </h3>
+                <p class="text-brand-neutral-300 text-xs sm:text-sm max-w-xl leading-relaxed">
+                    Whether you need flawless frontal melting, luxury bridal styling, or custom wig revamping, our Ibadan salon is ready to give you the royal treatment.
+                </p>
+            </div>
+
+            <div class="relative z-10 pt-2 flex flex-wrap gap-4">
+                <a href="{% url 'booking:booking_form' %}" class="btn-primary text-xs uppercase tracking-wider font-bold py-3 px-6 shadow-md">
+                    Book Salon Appointment →
+                </a>
+                <a href="{% url 'shop:shop_landing' %}" class="btn-outline-pink text-xs uppercase tracking-wider font-bold py-3 px-6">
+                    Shop Maintenance Essentials
+                </a>
+            </div>
+        </div>
+
+        <!-- ======================================================================
+             5. AUTHOR BIO CARD
+             ====================================================================== -->
+        <div class="card-premium bg-white border border-brand-neutral-200 rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-center sm:items-start gap-5 shadow-sm">
+            <div class="w-16 h-16 rounded-2xl bg-brand-pink-50 text-brand-pink border border-brand-pink-200 flex items-center justify-center text-2xl font-bold flex-shrink-0 shadow-sm">
+                ✂️
+            </div>
+            <div class="space-y-2 text-center sm:text-left">
+                <h4 class="font-heading font-bold text-lg text-brand-black">Bolbash Beauty Editorial Team</h4>
+                <p class="text-xs sm:text-sm text-brand-neutral-600 leading-relaxed">
+                    Written by master stylists and beauty educators at Bolbash Beauty Spot, Ibadan. We are committed to helping every woman achieve effortless elegance through professional hair artistry and genuine hair care guidance.
+                </p>
+                <div class="pt-1 flex items-center justify-center sm:justify-start space-x-4 text-xs font-bold text-brand-pink">
+                    <a href="{% url 'core:service_list' %}" class="hover:underline">Explore Services</a>
+                    <span>•</span>
+                    <a href="{% url 'core:bridal' %}" class="hover:underline">Bridal Packages</a>
+                    <span>•</span>
+                    <a href="{% url 'core:contact' %}" class="hover:underline">Contact Studio</a>
+                </div>
+            </div>
+        </div>
+
+    </article>
+
+    <!-- ======================================================================
+         6. RELATED ARTICLES SECTION
+         ====================================================================== -->
+    {% if related_posts %}
+    <section class="py-16 bg-brand-neutral-50 border-t border-brand-neutral-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+            <div class="flex items-center justify-between">
+                <div>
+                    <span class="text-xs uppercase tracking-widest font-bold text-brand-pink">Keep Reading</span>
+                    <h2 class="text-2xl sm:text-3xl font-heading font-bold text-brand-black">Related Beauty Guides</h2>
+                </div>
+                <a href="{% url 'blog:post_list' %}" class="text-xs font-bold text-brand-black hover:text-brand-pink transition-colors">
+                    View All Articles →
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+                {% for related in related_posts %}
+                <article class="card-premium card-hover bg-white border border-brand-neutral-200 rounded-3xl overflow-hidden flex flex-col justify-between group shadow-sm hover:shadow-lg transition-all">
+                    <div class="relative h-48 w-full overflow-hidden bg-brand-neutral-100">
+                        <a href="{% url 'blog:post_detail' related.slug %}" class="block w-full h-full">
+                            {% if related.featured_image %}
+                                <img src="{{ related.featured_image.url }}" 
+                                     alt="{{ related.title }}" 
+                                     class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                            {% else %}
+                                <img src="{% static 'images/hairbybolbash/bridal_hair_1.jpg' %}" 
+                                     alt="{{ related.title }}" 
+                                     class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                            {% endif %}
+                        </a>
+                        <div class="absolute top-3 left-3">
+                            <span class="badge-pink bg-white/95 text-[10px] font-bold text-brand-pink shadow-md border-none px-2.5 py-0.5">
+                                {{ related.category.name }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="p-5 space-y-2 flex-grow flex flex-col justify-between">
+                        <div class="space-y-1.5">
+                            <span class="text-[10px] text-brand-neutral-400 block">{{ related.published_at|date:"M d, Y" }}</span>
+                            <h3 class="text-base font-heading font-bold text-brand-black group-hover:text-brand-pink transition-colors line-clamp-2">
+                                <a href="{% url 'blog:post_detail' related.slug %}">
+                                    {{ related.title }}
+                                </a>
+                            </h3>
+                        </div>
+                        <div class="pt-3 border-t border-brand-neutral-100 flex items-center justify-between text-xs font-bold text-brand-black group-hover:text-brand-pink">
+                            <span>Read Story →</span>
+                            <span class="text-[10px] font-normal text-brand-neutral-400">⏱ {{ related.reading_time_minutes }}m</span>
+                        </div>
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+</main>
+
+<!-- Copy Link Script -->
+<script>
+function copyArticleLink() {
+    const url = window.location.href;
+    navigator.clipboard.writeText(url).then(() => {
+        const toast = document.getElementById('copy-toast');
+        if (toast) {
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+    }).catch(err => {
+        console.error('Failed to copy: ', err);
+    });
+}
+</script>
+{% endblock content %}

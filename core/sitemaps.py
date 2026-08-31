@@ -4,6 +4,7 @@ from django.urls import reverse
 from booking.models import Service
 from academy.models import Course
 from shop.models import Product
+from blog.models import BlogPost, BlogCategory
 
 
 class StaticViewSitemap(Sitemap):
@@ -19,10 +20,9 @@ class StaticViewSitemap(Sitemap):
             'core:service_list',
             'core:bridal',
             'core:gallery',
+            'blog:post_list',
             'core:reviews_showcase',
             'core:contact',
-            'academy:academy_landing',
-            'academy:course_list',
             'shop:shop_landing',
             'shop:product_catalogue',
         ]
@@ -33,7 +33,7 @@ class StaticViewSitemap(Sitemap):
     def priority(self, item):
         if item in ['core:index']:
             return 1.0
-        elif item in ['core:service_list', 'core:bridal', 'academy:academy_landing', 'shop:shop_landing']:
+        elif item in ['core:service_list', 'core:bridal', 'blog:post_list', 'shop:shop_landing']:
             return 0.9
         return 0.8
 
@@ -52,12 +52,40 @@ class ServiceSitemap(Sitemap):
         return obj.updated_at
 
 
-class CourseSitemap(Sitemap):
+class BlogSitemap(Sitemap):
     """
-    Sitemap class for individual beauty academy courses.
+    Sitemap class for published beauty editorial articles.
     """
     changefreq = 'weekly'
-    priority = 0.8
+    priority = 0.9
+
+    def items(self):
+        return BlogPost.objects.published()
+
+    def lastmod(self, obj):
+        return obj.updated_at
+
+
+class BlogCategorySitemap(Sitemap):
+    """
+    Sitemap class for blog categories.
+    """
+    changefreq = 'weekly'
+    priority = 0.7
+
+    def items(self):
+        return BlogCategory.objects.all()
+
+    def lastmod(self, obj):
+        return obj.updated_at
+
+
+class CourseSitemap(Sitemap):
+    """
+    Sitemap class for individual beauty academy courses (preserved).
+    """
+    changefreq = 'monthly'
+    priority = 0.5
 
     def items(self):
         return Course.objects.filter(active=True)
@@ -83,6 +111,8 @@ class ProductSitemap(Sitemap):
 sitemaps = {
     'static': StaticViewSitemap,
     'services': ServiceSitemap,
+    'blog': BlogSitemap,
+    'blog_categories': BlogCategorySitemap,
     'courses': CourseSitemap,
     'products': ProductSitemap,
 }

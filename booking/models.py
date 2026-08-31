@@ -178,6 +178,29 @@ class Booking(models.Model):
         random_suffix = ''.join(random.choices(string.ascii_uppercase + string.digits, k=4))
         return f"BBS-{date_str}-{random_suffix}"
 
+    @property
+    def is_expired(self):
+        """Returns True if booking is pending payment and created over 15 minutes ago."""
+        from django.utils import timezone
+        import datetime
+        if self.status == self.STATUS_CONFIRMED or self.payment_status == self.PAYMENT_PAID:
+            return False
+        if self.status == self.STATUS_CANCELLED:
+            return True
+        fifteen_mins = datetime.timedelta(minutes=15)
+        return (timezone.now() - self.created_at) > fifteen_mins
+
+    @property
+    def seconds_remaining(self):
+        """Returns remaining seconds for the 15-minute payment hold window."""
+        from django.utils import timezone
+        import datetime
+        if self.status != self.STATUS_PENDING_PAYMENT or self.payment_status == self.PAYMENT_PAID:
+            return 0
+        expiry_time = self.created_at + datetime.timedelta(minutes=15)
+        diff = (expiry_time - timezone.now()).total_seconds()
+        return max(0, int(diff))
+
     def save(self, *args, **kwargs):
         if not self.reference:
             ref = self.generate_reference()

@@ -15,6 +15,65 @@ from .models import Payment
 from .services import PaystackService
 
 
+def paystack_sandbox_checkout(request, payment_reference):
+    """
+    Renders an interactive Paystack Test Checkout Sandbox in development mode.
+    Allows testing successful vs cancelled/failed payments without auto-confirming.
+    """
+    payment = get_object_or_404(Payment, reference=payment_reference)
+    booking = payment.booking
+    
+    if request.method == 'POST':
+        action = request.POST.get('action', 'success')
+        if action == 'cancel':
+            payment.status = Payment.STATUS_FAILED
+            payment.gateway_response = "User cancelled test payment"
+            payment.save()
+            return redirect('payments:payment_failed', booking_reference=booking.reference if booking else 'NO_REF')
+
+        # Direct, atomic mock payment completion for dev sandbox mode
+        with transaction.atomic():
+            payment.status = Payment.STATUS_PAID
+            payment.paystack_reference = f"MOCK-PAY-{payment.reference}"
+            payment.gateway_response = "Successful Mock Test Payment"
+            payment.channel = "card"
+            payment.paid_at = timezone.now()
+            payment.save()
+
+            if booking:
+                booking.status = Booking.STATUS_CONFIRMED
+                booking.payment_status = Booking.PAYMENT_PAID
+                booking.save()
+                NotificationDispatcher.send_booking_confirmation(booking)
+                messages.success(request, "Payment verified successfully! Your appointment is now confirmed.")
+                return redirect('booking:booking_confirmation', reference=booking.reference)
+            elif payment.order:
+                order = payment.order
+                order.payment_status = 'PAID'
+                order.order_status = 'PROCESSING'
+                order.save()
+                NotificationDispatcher.send_order_confirmation(order)
+                messages.success(request, f"Payment verified successfully! Order #{order.order_number} is confirmed.")
+                return redirect('shop:order_confirmation', order_number=order.order_number)
+            elif payment.enrollment:
+                enrollment = payment.enrollment
+                enrollment.payment_status = 'PAID'
+                enrollment.enrollment_status = 'ACTIVE'
+                enrollment.save()
+                NotificationDispatcher.send_academy_enrolment(enrollment)
+                messages.success(request, f"Payment verified successfully! You are enrolled in {enrollment.course.title}.")
+                return redirect('academy:enrollment_confirmation', slug=enrollment.course.slug)
+
+        callback_url = reverse('payments:verify_payment') + f"?payment_ref={payment.reference}&trxref={payment.reference}"
+        return redirect(callback_url)
+
+    context = {
+        'payment': payment,
+        'booking': booking,
+    }
+    return render(request, 'payments/sandbox_checkout.html', context)
+
+
 def initiate_payment(request, booking_reference):
     """
     Initializes a Paystack payment session for a given booking.
@@ -84,14 +143,19 @@ def verify_payment(request):
     Independently verifies transaction with Paystack API server-side before confirming booking.
     Dispatches booking confirmation email upon successful verification.
     """
-    payment_ref = request.GET.get('payment_ref')
-    trxref = request.GET.get('trxref') or request.GET.get('reference')
+    raw_payment_ref = request.GET.get('payment_ref', '').split('?')[0].strip()
+    raw_trxref = (request.GET.get('trxref') or request.GET.get('reference') or '').split('?')[0].strip()
+
+    payment_ref = raw_payment_ref if raw_payment_ref else None
+    trxref = raw_trxref if raw_trxref else None
 
     if not payment_ref and not trxref:
         messages.error(request, "Invalid payment callback request.")
         return redirect('core:index')
 
-    payment = Payment.objects.filter(reference=payment_ref).first() if payment_ref else Payment.objects.filter(paystack_reference=trxref).first()
+    payment = Payment.objects.filter(reference=payment_ref).first() if payment_ref else None
+    if not payment and trxref:
+        payment = Payment.objects.filter(paystack_reference=trxref).first() or Payment.objects.filter(reference=trxref).first()
 
     if not payment:
         messages.error(request, "Payment record not found.")

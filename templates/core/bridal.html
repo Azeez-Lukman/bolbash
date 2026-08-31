@@ -6,88 +6,506 @@
 
 {% block content %}
 
-<!-- 1. BRIDAL HERO SECTION -->
-<section class="relative bg-gradient-to-b from-slate-950 via-slate-900 to-black text-white py-20 lg:py-28 overflow-hidden">
-    <!-- Ambient Background Glows -->
-    <div class="absolute -top-40 -left-40 w-96 h-96 bg-brand-pink-600/20 rounded-full blur-3xl pointer-events-none"></div>
-    <div class="absolute bottom-0 right-0 w-[500px] h-[500px] bg-pink-500/10 rounded-full blur-3xl pointer-events-none"></div>
+<!-- ==========================================================================
+     1. BRIDAL HERO SECTION (Cinematic Video Background with Luxury Overlay)
+     ========================================================================== -->
+<section class="relative bg-brand-black min-h-[calc(100vh-5rem)] flex flex-col justify-center text-white py-16 sm:py-20 lg:py-24 overflow-hidden z-10">
+    
+    <!-- ======================================================================
+         FULL-WIDTH VIDEO BACKGROUND (Direct Clean MP4 Stream)
+         ====================================================================== -->
+    <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        <video id="bridal-hero-bg-video"
+               autoplay 
+               muted 
+               loop 
+               playsinline 
+               poster="{% static 'images/bridal_hero.jpg' %}"
+               class="w-full h-full object-cover object-center scale-105 transform transition-opacity duration-1000">
+            <source src="{% static 'videos/bridal_hero_bg.mp4' %}" type="video/mp4">
+            <source src="{% static 'videos/bridal_lace_melt.mp4' %}" type="video/mp4">
+        </video>
+        
+        <!-- ==================================================================
+             LUXURY ATMOSPHERIC OVERLAYS (Ensures 100% Crisp Contrast & Brand Glow)
+             ================================================================== -->
+        <!-- Primary Dark Radial & Vertical Gradients -->
+        <div class="absolute inset-0 bg-gradient-to-b from-brand-black/80 via-brand-black/75 to-brand-black"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-brand-black/80 via-brand-black/65 to-brand-black/90"></div>
+        
+        <!-- Ambient Brand Glow Orbs -->
+        <div class="absolute -top-24 -left-24 w-96 h-96 bg-brand-pink/25 rounded-full blur-3xl"></div>
+        <div class="absolute top-1/2 -right-24 w-96 h-96 bg-rose-500/20 rounded-full blur-3xl"></div>
+        <div class="absolute -bottom-24 left-1/3 w-96 h-96 bg-amber-500/15 rounded-full blur-3xl"></div>
+    </div>
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-            
-            <!-- Left Column: Copy & Actions -->
-            <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
-                <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-pink-500/10 border border-pink-500/30 text-pink-300 text-xs uppercase tracking-widest font-bold">
-                    <span>👑</span>
-                    <span>Exclusive Bridal Sanctuary</span>
-                </div>
+    <!-- Centered Cinematic Hero Content on Top of Video with Generous Top Padding -->
+    <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6 sm:space-y-8 my-auto pt-8 sm:pt-12 pb-6">
+        
+        <!-- Crown Luxury Eyebrow Badge -->
+        <div class="inline-flex items-center space-x-2 px-5 py-2 rounded-full bg-brand-pink/20 border border-brand-pink/40 text-brand-pink text-xs uppercase tracking-widest font-bold backdrop-blur-md shadow-lg">
+            <span>👑</span>
+            <span>EXCLUSIVE BRIDAL SANCTUARY</span>
+        </div>
 
-                <h1 class="text-4xl sm:text-6xl font-serif font-bold text-white leading-tight tracking-tight">
-                    Exquisite Elegance for Your <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-300 via-pink-400 to-pink-600">Unforgettable Day</span>
-                </h1>
+        <!-- Main Headline -->
+        <h1 class="text-4xl sm:text-6xl lg:text-7xl font-heading font-bold text-white leading-[1.15] tracking-tight max-w-4xl mx-auto drop-shadow-2xl">
+            Exquisite Elegance for Your <br class="hidden sm:inline" />
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-pink via-rose-300 to-amber-300">
+                Unforgettable Day
+            </span>
+        </h1>
 
-                <p class="text-slate-300 text-base sm:text-lg font-normal leading-relaxed max-w-2xl mx-auto lg:mx-0">
-                    Step into an enchanting bridal journey tailored for the modern and traditional bride. From flawless frontal wig melts and intricate hair styling to royal Aso-Oke glam, we craft bridal looks that radiate timeless beauty, grace, and confidence.
+        <!-- Subtitle Description -->
+        <p class="text-brand-neutral-200 text-base sm:text-lg lg:text-xl font-normal leading-relaxed max-w-3xl mx-auto drop-shadow-md">
+            Step into an enchanting bridal journey tailored for the modern and traditional bride. From flawless frontal wig melts and intricate hair styling to royal Aso-Oke glam, we craft bridal looks that radiate timeless beauty, grace, and confidence.
+        </p>
+
+        <!-- Trust Value Badges -->
+        <div class="py-2 flex flex-wrap justify-center items-center gap-3 sm:gap-4 text-xs font-semibold text-brand-neutral-200">
+            <div class="flex items-center space-x-2 bg-white/10 backdrop-blur-md px-4 py-2.5 rounded-full border border-white/15 shadow-sm">
+                <span class="text-brand-pink font-bold">✓</span>
+                <span>Private Bridal Consultation</span>
+            </div>
+            <div class="flex items-center space-x-2 bg-white/10 backdrop-blur-md px-4 py-2.5 rounded-full border border-white/15 shadow-sm">
+                <span class="text-brand-pink font-bold">✓</span>
+                <span>Pre-Wedding Hair Trial</span>
+            </div>
+            <div class="flex items-center space-x-2 bg-white/10 backdrop-blur-md px-4 py-2.5 rounded-full border border-white/15 shadow-sm">
+                <span class="text-brand-pink font-bold">✓</span>
+                <span>On-Time Wedding Delivery</span>
+            </div>
+        </div>
+
+        <!-- High-Impact Action CTAs -->
+        <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a href="{% url 'booking:booking_form' %}" 
+               class="btn-primary w-full sm:w-auto text-xs uppercase tracking-wider font-bold py-4 px-9 shadow-2xl shadow-pink-glow hover:scale-[1.03] transition-transform text-center">
+                Book Bridal Consultation →
+            </a>
+            <a href="#bridal-reels" 
+               class="btn-outline-pink w-full sm:w-auto text-xs uppercase tracking-wider font-bold py-4 px-9 backdrop-blur-md text-center flex items-center justify-center space-x-2 hover:bg-white/15 transition-colors">
+                <span>Explore Full Showcase</span>
+                <span>🎬</span>
+            </a>
+        </div>
+
+    </div>
+
+    <!-- Video Audio & Switcher Floating Quick Control -->
+    <div class="absolute bottom-6 right-6 z-20 hidden sm:flex items-center space-x-2 bg-brand-neutral-950/80 backdrop-blur-md border border-white/15 px-3.5 py-1.5 rounded-full text-xs text-white shadow-xl">
+        <button type="button" 
+                id="hero-sound-toggle-btn"
+                onclick="toggleHeroVideoSound()" 
+                class="hover:text-brand-pink flex items-center space-x-1.5 transition font-semibold"
+                title="Toggle background audio">
+            <span id="hero-sound-icon">🔇</span>
+            <span id="hero-sound-text">Sound</span>
+        </button>
+        <span class="text-brand-neutral-600">|</span>
+        <button type="button" 
+                onclick="switchHeroBgVideo('{% static 'videos/bridal_hero_bg.mp4' %}')" 
+                class="hover:text-brand-pink text-[11px] text-brand-neutral-300 transition">
+            Video 1
+        </button>
+        <span class="text-brand-neutral-600">·</span>
+        <button type="button" 
+                onclick="switchHeroBgVideo('{% static 'videos/bridal_lace_melt.mp4' %}')" 
+                class="hover:text-brand-pink text-[11px] text-brand-neutral-300 transition">
+            Video 2
+        </button>
+    </div>
+
+</section>
+
+<!-- ==========================================================================
+     2. 100% REAL BRIDAL VIDEO SHOWCASE (TikTok Videos + Instagram Reels)
+     ========================================================================== -->
+<section id="bridal-reels" class="py-20 sm:py-28 bg-brand-black text-white relative overflow-hidden border-b border-brand-neutral-800">
+    <!-- Atmospheric Ambient Glows -->
+    <div class="absolute top-1/4 -left-32 w-96 h-96 bg-brand-pink/15 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute bottom-1/4 -right-32 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-10">
+        
+        <!-- Section Header with Category Filters & Carousel Navigation -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-brand-neutral-800">
+            <div class="space-y-3">
+                <span class="badge-pink bg-brand-pink text-white font-bold text-[10px] uppercase px-3.5 py-1 rounded-full border-none shadow-md inline-block">
+                    ★ 100% REAL BRIDAL ARTISTRY
+                </span>
+                <h2 class="text-3xl sm:text-5xl font-heading font-bold text-white tracking-tight">
+                    Bridal Video <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-pink to-rose-300">Showcase</span>
+                </h2>
+                <p class="text-brand-neutral-400 text-xs sm:text-sm max-w-xl">
+                    Watch real bridal lace melts, crown styling, and transformations captured live at Bolbash Beauty Spot.
                 </p>
-
-                <!-- Key Value Badges -->
-                <div class="py-2 flex flex-wrap justify-center lg:justify-start gap-4 text-xs font-semibold text-slate-300">
-                    <div class="flex items-center space-x-2 bg-slate-900/80 px-3.5 py-2 rounded-xl border border-slate-800">
-                        <span class="text-pink-400">✓</span>
-                        <span>Private Bridal Consultation</span>
-                    </div>
-                    <div class="flex items-center space-x-2 bg-slate-900/80 px-3.5 py-2 rounded-xl border border-slate-800">
-                        <span class="text-pink-400">✓</span>
-                        <span>Pre-Wedding Hair Trial</span>
-                    </div>
-                    <div class="flex items-center space-x-2 bg-slate-900/80 px-3.5 py-2 rounded-xl border border-slate-800">
-                        <span class="text-pink-400">✓</span>
-                        <span>On-Time Wedding Delivery</span>
-                    </div>
-                </div>
-
-                <!-- Action CTAs -->
-                <div class="pt-4 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
-                    <a href="{% url 'booking:booking_form' %}" data-loading-text="Opening Booking..." class="btn-primary w-full sm:w-auto text-xs uppercase tracking-wider font-bold py-4 px-8 shadow-xl shadow-pink-600/30">
-                        Book Bridal Consultation →
-                    </a>
-                    <a href="#bridal-gallery" class="btn-outline border-slate-700 text-slate-200 hover:bg-slate-800 w-full sm:w-auto text-xs uppercase tracking-wider font-bold py-4 px-8">
-                        Explore Bridal Gallery 📸
-                    </a>
-                </div>
             </div>
 
-            <!-- Right Column: Featured Bridal Showcase Image -->
-            <div class="lg:col-span-5 relative">
-                <div class="relative mx-auto max-w-md lg:max-w-none">
-                    <!-- Subtle Frame Backdrop -->
-                    <div class="absolute -inset-2 rounded-3xl bg-gradient-to-tr from-pink-500 to-amber-300 opacity-30 blur-xl"></div>
-                    <div class="relative bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl">
-                        <img src="{% static 'images/bridal_hero.jpg' %}" alt="Bolbash Luxury Bride Styling" class="w-full h-auto object-cover transform hover:scale-105 transition duration-700">
-                        <!-- Image Overlay Card -->
-                        <div class="absolute bottom-4 left-4 right-4 bg-slate-950/90 backdrop-blur-md p-4 rounded-2xl border border-slate-800 flex items-center justify-between">
-                            <div>
-                                <span class="text-[10px] uppercase font-bold text-pink-400 tracking-wider block">Signature Look</span>
-                                <span class="text-xs font-bold text-white block">White Wedding Regal Glam</span>
-                            </div>
-                            <span class="text-xs font-bold text-slate-400 bg-slate-800/80 px-2.5 py-1 rounded-lg">Ibadan, Nigeria</span>
+            <!-- Carousel Nav Controls -->
+            <div class="flex items-center space-x-3">
+                <button type="button" 
+                        onclick="scrollReels('left')" 
+                        class="w-12 h-12 rounded-full border border-brand-neutral-700 bg-brand-neutral-900/80 hover:bg-brand-pink hover:border-brand-pink text-white flex items-center justify-center transition-all shadow-lg active:scale-95"
+                        aria-label="Scroll Previous Reels">
+                    ←
+                </button>
+                <button type="button" 
+                        onclick="scrollReels('right')" 
+                        class="w-12 h-12 rounded-full border border-brand-neutral-700 bg-brand-neutral-900/80 hover:bg-brand-pink hover:border-brand-pink text-white flex items-center justify-center transition-all shadow-lg active:scale-95"
+                        aria-label="Scroll Next Reels">
+                    →
+                </button>
+            </div>
+        </div>
+
+        <!-- Filter Category Tabs -->
+        <div class="flex flex-wrap items-center gap-2 sm:gap-3" id="video-filter-bar">
+            <button type="button" onclick="filterVideos('all')" class="video-filter-pill active-pill px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition bg-brand-pink text-white shadow-md">
+                All Bridal Videos (10)
+            </button>
+            <button type="button" onclick="filterVideos('tiktok')" class="video-filter-pill px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition bg-brand-neutral-900 text-brand-neutral-400 hover:text-white border border-brand-neutral-800">
+                🎵 TikTok Videos (3)
+            </button>
+            <button type="button" onclick="filterVideos('instagram')" class="video-filter-pill px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition bg-brand-neutral-900 text-brand-neutral-400 hover:text-white border border-brand-neutral-800">
+                📸 Instagram Reels (7)
+            </button>
+            <button type="button" onclick="filterVideos('white-wedding')" class="video-filter-pill px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition bg-brand-neutral-900 text-brand-neutral-400 hover:text-white border border-brand-neutral-800">
+                White Wedding
+            </button>
+            <button type="button" onclick="filterVideos('traditional')" class="video-filter-pill px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition bg-brand-neutral-900 text-brand-neutral-400 hover:text-white border border-brand-neutral-800">
+                Traditional Glam
+            </button>
+        </div>
+
+        <!-- Professional Horizontal Reel Slider Container -->
+        <div class="relative">
+            <div id="bridal-reels-slider" class="flex gap-6 overflow-x-auto scroll-smooth pb-6 pt-2 no-scrollbar scrollbar-none snap-x snap-mandatory">
+                
+                <!-- ==========================================================
+                     TIKTOK 1: Flawless Bridal Lace Meltdown (7677539491195768082)
+                     ========================================================== -->
+                <div class="bridal-video-item tiktok lace-melt white-wedding flex-shrink-0 w-[270px] sm:w-[300px] snap-start group relative rounded-3xl overflow-hidden bg-brand-neutral-900 border border-brand-neutral-800 hover:border-cyan-400 transition-all duration-500 shadow-2xl flex flex-col justify-between aspect-[9/15]">
+                    <div class="absolute inset-0 z-0 overflow-hidden">
+                        <video autoplay muted loop playsinline 
+                               poster="{% static 'images/hairbybolbash/wig_making_custom_2.jpg' %}"
+                               class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 opacity-90">
+                            <source src="{% static 'videos/bridal_lace_melt.mp4' %}" type="video/mp4">
+                        </video>
+                        <div class="absolute inset-0 bg-gradient-to-t from-brand-black via-brand-black/30 to-transparent"></div>
+                    </div>
+                    <div class="relative z-10 p-4 flex items-center justify-between">
+                        <span class="badge-pink bg-cyan-500 text-black font-bold text-[10px] uppercase px-3 py-1 rounded-full shadow-md">Bridal Meltdown</span>
+                        <span class="text-[11px] font-bold text-cyan-300 bg-cyan-950/80 backdrop-blur-md px-2.5 py-1 rounded-lg border border-cyan-500/30">🎵 TikTok</span>
+                    </div>
+                    <div class="relative z-10 flex items-center justify-center">
+                        <button type="button" onclick="openVideoModal('local', '{% static 'videos/bridal_lace_melt.mp4' %}', 'https://www.tiktok.com/@officialbolbash/video/7677539491195768082', 'Flawless Bridal Lace Meltdown')" class="w-16 h-16 rounded-full bg-cyan-500 text-black flex items-center justify-center shadow-2xl group-hover:scale-110 transition-all border-2 border-white/40" aria-label="Play Video">
+                            <svg class="w-7 h-7 fill-current ml-1" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        </button>
+                    </div>
+                    <div class="relative z-10 p-5 space-y-2">
+                        <h3 class="font-heading font-bold text-lg text-white group-hover:text-cyan-400 transition-colors truncate">Bridal Lace Meltdown</h3>
+                        <p class="text-xs text-brand-neutral-300 line-clamp-2">Precision melt technique delivering a seamless natural hairline finish.</p>
+                        <div class="pt-2 flex items-center justify-between border-t border-white/10">
+                            <button type="button" onclick="openVideoModal('local', '{% static 'videos/bridal_lace_melt.mp4' %}', 'https://www.tiktok.com/@officialbolbash/video/7677539491195768082', 'Flawless Bridal Lace Meltdown')" class="text-xs font-bold text-cyan-400 hover:underline flex items-center space-x-1">
+                                <span>Watch Full HD Video</span>
+                                <span>▶</span>
+                            </button>
+                            <span class="text-[11px] text-brand-neutral-400">@officialbolbash</span>
                         </div>
                     </div>
                 </div>
-            </div>
 
+                <!-- ==========================================================
+                     TIKTOK 2: Luxury Bridal Hair Transformation (7676997677673975047)
+                     ========================================================== -->
+                <div class="bridal-video-item tiktok white-wedding ponytail flex-shrink-0 w-[270px] sm:w-[300px] snap-start group relative rounded-3xl overflow-hidden bg-brand-neutral-900 border border-brand-neutral-800 hover:border-cyan-400 transition-all duration-500 shadow-2xl flex flex-col justify-between aspect-[9/15]">
+                    <div class="absolute inset-0 z-0 overflow-hidden">
+                        <video autoplay muted loop playsinline 
+                               poster="{% static 'images/hairbybolbash/ponytail_updo_1.jpg' %}"
+                               class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 opacity-90">
+                            <source src="{% static 'videos/bridal_hero_bg.mp4' %}" type="video/mp4">
+                        </video>
+                        <div class="absolute inset-0 bg-gradient-to-t from-brand-black via-brand-black/30 to-transparent"></div>
+                    </div>
+                    <div class="relative z-10 p-4 flex items-center justify-between">
+                        <span class="badge-pink bg-cyan-500 text-black font-bold text-[10px] uppercase px-3 py-1 rounded-full shadow-md">Bridal Styling</span>
+                        <span class="text-[11px] font-bold text-cyan-300 bg-cyan-950/80 backdrop-blur-md px-2.5 py-1 rounded-lg border border-cyan-500/30">🎵 TikTok</span>
+                    </div>
+                    <div class="relative z-10 flex items-center justify-center">
+                        <button type="button" onclick="openVideoModal('local', '{% static 'videos/bridal_hero_bg.mp4' %}', 'https://www.tiktok.com/@officialbolbash/video/7676997677673975047', 'Luxury Bridal Hair Transformation')" class="w-16 h-16 rounded-full bg-cyan-500 text-black flex items-center justify-center shadow-2xl group-hover:scale-110 transition-all border-2 border-white/40" aria-label="Play Video">
+                            <svg class="w-7 h-7 fill-current ml-1" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        </button>
+                    </div>
+                    <div class="relative z-10 p-5 space-y-2">
+                        <h3 class="font-heading font-bold text-lg text-white group-hover:text-cyan-400 transition-colors truncate">Luxury Bridal Hair Prep</h3>
+                        <p class="text-xs text-brand-neutral-300 line-clamp-2">Complete bridal hair sculpting with long-lasting all-day wedding hold.</p>
+                        <div class="pt-2 flex items-center justify-between border-t border-white/10">
+                            <button type="button" onclick="openVideoModal('local', '{% static 'videos/bridal_hero_bg.mp4' %}', 'https://www.tiktok.com/@officialbolbash/video/7676997677673975047', 'Luxury Bridal Hair Transformation')" class="text-xs font-bold text-cyan-400 hover:underline flex items-center space-x-1">
+                                <span>Watch Full HD Video</span>
+                                <span>▶</span>
+                            </button>
+                            <span class="text-[11px] text-brand-neutral-400">@officialbolbash</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==========================================================
+                     TIKTOK 3: Regal Bridal Frontal Installation
+                     ========================================================== -->
+                <div class="bridal-video-item tiktok lace-melt white-wedding flex-shrink-0 w-[270px] sm:w-[300px] snap-start group relative rounded-3xl overflow-hidden bg-brand-neutral-900 border border-brand-neutral-800 hover:border-cyan-400 transition-all duration-500 shadow-2xl flex flex-col justify-between aspect-[9/15]">
+                    <div class="absolute inset-0 z-0">
+                        <img src="{% static 'images/hairbybolbash/wig_installation_1.jpg' %}" alt="Regal Bridal Frontal Installation" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 opacity-90" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-brand-black via-brand-black/40 to-transparent"></div>
+                    </div>
+                    <div class="relative z-10 p-4 flex items-center justify-between">
+                        <span class="badge-pink bg-cyan-500 text-black font-bold text-[10px] uppercase px-3 py-1 rounded-full shadow-md">Bridal Installation</span>
+                        <span class="text-[11px] font-bold text-cyan-300 bg-cyan-950/80 backdrop-blur-md px-2.5 py-1 rounded-lg border border-cyan-500/30">🎵 TikTok</span>
+                    </div>
+                    <div class="relative z-10 flex items-center justify-center">
+                        <button type="button" onclick="openVideoModal('tiktok', '7659150056422903048', 'https://www.tiktok.com/@officialbolbash/video/7659150056422903048', 'Regal Bridal Frontal Installation')" class="w-16 h-16 rounded-full bg-cyan-500 text-black flex items-center justify-center shadow-2xl group-hover:scale-110 transition-all border-2 border-white/40" aria-label="Play Video">
+                            <svg class="w-7 h-7 fill-current ml-1" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        </button>
+                    </div>
+                    <div class="relative z-10 p-5 space-y-2">
+                        <h3 class="font-heading font-bold text-lg text-white group-hover:text-cyan-400 transition-colors truncate">Regal Frontal Install</h3>
+                        <p class="text-xs text-brand-neutral-300 line-clamp-2">Bespoke bridal installation and hairline customization for your big day.</p>
+                        <div class="pt-2 flex items-center justify-between border-t border-white/10">
+                            <button type="button" onclick="openVideoModal('tiktok', '7659150056422903048', 'https://www.tiktok.com/@officialbolbash/video/7659150056422903048', 'Regal Bridal Frontal Installation')" class="text-xs font-bold text-cyan-400 hover:underline flex items-center space-x-1">
+                                <span>Watch Video</span>
+                                <span>▶</span>
+                            </button>
+                            <span class="text-[11px] text-brand-neutral-400">@officialbolbash</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==========================================================
+                     INSTAGRAM 1: White Wedding Hair Melt
+                     ========================================================== -->
+                <div class="bridal-video-item instagram white-wedding lace-melt flex-shrink-0 w-[270px] sm:w-[300px] snap-start group relative rounded-3xl overflow-hidden bg-brand-neutral-900 border border-brand-neutral-800 hover:border-brand-pink transition-all duration-500 shadow-2xl flex flex-col justify-between aspect-[9/15]">
+                    <div class="absolute inset-0 z-0">
+                        <img src="{% static 'images/hairbybolbash/bridal_hair_1.jpg' %}" alt="Royal White Wedding Hair Melt" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 opacity-90" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-brand-black via-brand-black/40 to-transparent"></div>
+                    </div>
+                    <div class="relative z-10 p-4 flex items-center justify-between">
+                        <span class="badge-pink bg-brand-pink/90 text-white font-bold text-[10px] uppercase px-3 py-1 rounded-full shadow-md">White Wedding</span>
+                        <span class="text-[11px] font-bold text-white/90 bg-pink-950/80 backdrop-blur-md px-2.5 py-1 rounded-lg border border-pink-500/30">📸 Instagram</span>
+                    </div>
+                    <div class="relative z-10 flex items-center justify-center">
+                        <button type="button" onclick="openVideoModal('instagram', 'DNOXOlONzEx', 'https://www.instagram.com/reel/DNOXOlONzEx/', 'Royal White Wedding Hair Melt')" class="w-16 h-16 rounded-full bg-brand-pink text-white flex items-center justify-center shadow-2xl group-hover:scale-110 transition-all border-2 border-white/40" aria-label="Play Video">
+                            <svg class="w-7 h-7 fill-current ml-1" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        </button>
+                    </div>
+                    <div class="relative z-10 p-5 space-y-2">
+                        <h3 class="font-heading font-bold text-lg text-white group-hover:text-brand-pink transition-colors truncate">Royal White Wedding Melt</h3>
+                        <p class="text-xs text-brand-neutral-300 line-clamp-2">Flawless frontal lace melt with cascading Hollywood waves and tiara placement.</p>
+                        <div class="pt-2 flex items-center justify-between border-t border-white/10">
+                            <button type="button" onclick="openVideoModal('instagram', 'DNOXOlONzEx', 'https://www.instagram.com/reel/DNOXOlONzEx/', 'Royal White Wedding Hair Melt')" class="text-xs font-bold text-brand-pink hover:underline flex items-center space-x-1">
+                                <span>Watch Reel</span>
+                                <span>▶</span>
+                            </button>
+                            <span class="text-[11px] text-brand-neutral-400">@hairbybolbash</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==========================================================
+                     INSTAGRAM 2: Sleek Bridal Ponytail & Curls
+                     ========================================================== -->
+                <div class="bridal-video-item instagram ponytail flex-shrink-0 w-[270px] sm:w-[300px] snap-start group relative rounded-3xl overflow-hidden bg-brand-neutral-900 border border-brand-neutral-800 hover:border-brand-pink transition-all duration-500 shadow-2xl flex flex-col justify-between aspect-[9/15]">
+                    <div class="absolute inset-0 z-0">
+                        <img src="{% static 'images/hairbybolbash/bridal_hair_2.jpg' %}" alt="Bridal Ponytail & Curls" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 opacity-90" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-brand-black via-brand-black/40 to-transparent"></div>
+                    </div>
+                    <div class="relative z-10 p-4 flex items-center justify-between">
+                        <span class="badge-pink bg-brand-pink/90 text-white font-bold text-[10px] uppercase px-3 py-1 rounded-full shadow-md">Bridal Ponytail</span>
+                        <span class="text-[11px] font-bold text-white/90 bg-pink-950/80 backdrop-blur-md px-2.5 py-1 rounded-lg border border-pink-500/30">📸 Instagram</span>
+                    </div>
+                    <div class="relative z-10 flex items-center justify-center">
+                        <button type="button" onclick="openVideoModal('instagram', 'DI-5FLNtDRH', 'https://www.instagram.com/reel/DI-5FLNtDRH/', 'Sleek Bridal Ponytail & Curls')" class="w-16 h-16 rounded-full bg-brand-pink text-white flex items-center justify-center shadow-2xl group-hover:scale-110 transition-all border-2 border-white/40" aria-label="Play Video">
+                            <svg class="w-7 h-7 fill-current ml-1" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        </button>
+                    </div>
+                    <div class="relative z-10 p-5 space-y-2">
+                        <h3 class="font-heading font-bold text-lg text-white group-hover:text-brand-pink transition-colors truncate">Sleek Ponytail & Curls</h3>
+                        <p class="text-xs text-brand-neutral-300 line-clamp-2">High-sheen sleek bridal ponytail with defined structured bouncy curls.</p>
+                        <div class="pt-2 flex items-center justify-between border-t border-white/10">
+                            <button type="button" onclick="openVideoModal('instagram', 'DI-5FLNtDRH', 'https://www.instagram.com/reel/DI-5FLNtDRH/', 'Sleek Bridal Ponytail & Curls')" class="text-xs font-bold text-brand-pink hover:underline flex items-center space-x-1">
+                                <span>Watch Reel</span>
+                                <span>▶</span>
+                            </button>
+                            <span class="text-[11px] text-brand-neutral-400">@hairbybolbash</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==========================================================
+                     INSTAGRAM 3: Traditional Bridal Glamour
+                     ========================================================== -->
+                <!-- <div class="bridal-video-item instagram traditional flex-shrink-0 w-[270px] sm:w-[300px] snap-start group relative rounded-3xl overflow-hidden bg-brand-neutral-900 border border-brand-neutral-800 hover:border-amber-400 transition-all duration-500 shadow-2xl flex flex-col justify-between aspect-[9/15]">
+                    <div class="absolute inset-0 z-0">
+                        <img src="{% static 'images/bridal_traditional.jpg' %}" alt="Regal Traditional Engagement Glam" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700 opacity-90" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-brand-black via-brand-black/40 to-transparent"></div>
+                    </div>
+                    <div class="relative z-10 p-4 flex items-center justify-between">
+                        <span class="badge-gold bg-amber-500 text-brand-black font-bold text-[10px] uppercase px-3 py-1 rounded-full shadow-md">Traditional Glam</span>
+                        <span class="text-[11px] font-bold text-white/90 bg-amber-950/80 backdrop-blur-md px-2.5 py-1 rounded-lg border border-amber-500/30">📸 Instagram</span>
+                    </div>
+                    <div class="relative z-10 flex items-center justify-center">
+                        <button type="button" onclick="openVideoModal('instagram', 'DNYD6HRsK0H', 'https://www.instagram.com/reel/DNYD6HRsK0H/', 'Regal Traditional Engagement Glam')" class="w-16 h-16 rounded-full bg-amber-500 text-brand-black flex items-center justify-center shadow-2xl group-hover:scale-110 transition-all border-2 border-white/40" aria-label="Play Video">
+                            <svg class="w-7 h-7 fill-current ml-1" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        </button>
+                    </div>
+                    <div class="relative z-10 p-5 space-y-2">
+                        <h3 class="font-heading font-bold text-lg text-white group-hover:text-amber-400 transition-colors truncate">Regal Traditional Glam</h3>
+                        <p class="text-xs text-brand-neutral-300 line-clamp-2">Royal traditional wedding hair preparation crafted for Gele and coral crown elegance.</p>
+                        <div class="pt-2 flex items-center justify-between border-t border-white/10">
+                            <button type="button" onclick="openVideoModal('instagram', 'DNYD6HRsK0H', 'https://www.instagram.com/reel/DNYD6HRsK0H/', 'Regal Traditional Engagement Glam')" class="text-xs font-bold text-amber-400 hover:underline flex items-center space-x-1">
+                                <span>Watch Reel</span>
+                                <span>▶</span>
+                            </button>
+                            <span class="text-[11px] text-brand-neutral-400">@hairbybolbash</span>
+                        </div>
+                    </div>
+                </div> -->
+
+                <!-- ==========================================================
+                     INSTAGRAM 4: Frontal Lace Melt & Styling
+                     ========================================================== -->
+                <div class="bridal-video-item instagram lace-melt white-wedding flex-shrink-0 w-[270px] sm:w-[300px] snap-start group relative rounded-3xl overflow-hidden bg-brand-neutral-900 border border-brand-neutral-800 hover:border-brand-pink transition-all duration-500 shadow-2xl flex flex-col justify-between aspect-[9/15]">
+                    <div class="absolute inset-0 z-0">
+                        <img src="{% static 'images/hairbybolbash/frontal_melt_1.jpg' %}" alt="Flawless Frontal Melt & Styling" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 opacity-90" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-brand-black via-brand-black/40 to-transparent"></div>
+                    </div>
+                    <div class="relative z-10 p-4 flex items-center justify-between">
+                        <span class="badge-pink bg-brand-pink/90 text-white font-bold text-[10px] uppercase px-3 py-1 rounded-full shadow-md">Lace Artistry</span>
+                        <span class="text-[11px] font-bold text-white/90 bg-pink-950/80 backdrop-blur-md px-2.5 py-1 rounded-lg border border-pink-500/30">📸 Instagram</span>
+                    </div>
+                    <div class="relative z-10 flex items-center justify-center">
+                        <button type="button" onclick="openVideoModal('instagram', 'DNTbA9hMptP', 'https://www.instagram.com/reel/DNTbA9hMptP/', 'Flawless Frontal Melt & Styling')" class="w-16 h-16 rounded-full bg-brand-pink text-white flex items-center justify-center shadow-2xl group-hover:scale-110 transition-all border-2 border-white/40" aria-label="Play Video">
+                            <svg class="w-7 h-7 fill-current ml-1" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        </button>
+                    </div>
+                    <div class="relative z-10 p-5 space-y-2">
+                        <h3 class="font-heading font-bold text-lg text-white group-hover:text-brand-pink transition-colors truncate">Frontal Melt & Styling</h3>
+                        <p class="text-xs text-brand-neutral-300 line-clamp-2">Master hairline plucking, scalp tinting, and seamless HD lace melt.</p>
+                        <div class="pt-2 flex items-center justify-between border-t border-white/10">
+                            <button type="button" onclick="openVideoModal('instagram', 'DNTbA9hMptP', 'https://www.instagram.com/reel/DNTbA9hMptP/', 'Flawless Frontal Melt & Styling')" class="text-xs font-bold text-brand-pink hover:underline flex items-center space-x-1">
+                                <span>Watch Reel</span>
+                                <span>▶</span>
+                            </button>
+                            <span class="text-[11px] text-brand-neutral-400">@hairbybolbash</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==========================================================
+                     INSTAGRAM 5: Bespoke Bridal Wig Installation
+                     ========================================================== -->
+                <div class="bridal-video-item instagram lace-melt white-wedding flex-shrink-0 w-[270px] sm:w-[300px] snap-start group relative rounded-3xl overflow-hidden bg-brand-neutral-900 border border-brand-neutral-800 hover:border-brand-pink transition-all duration-500 shadow-2xl flex flex-col justify-between aspect-[9/15]">
+                    <div class="absolute inset-0 z-0">
+                        <img src="{% static 'images/hairbybolbash/wig_installation_2.jpg' %}" alt="Bespoke Bridal Wig Installation" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 opacity-90" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-brand-black via-brand-black/40 to-transparent"></div>
+                    </div>
+                    <div class="relative z-10 p-4 flex items-center justify-between">
+                        <span class="badge-pink bg-brand-pink/90 text-white font-bold text-[10px] uppercase px-3 py-1 rounded-full shadow-md">Luxury Bride</span>
+                        <span class="text-[11px] font-bold text-white/90 bg-pink-950/80 backdrop-blur-md px-2.5 py-1 rounded-lg border border-pink-500/30">📸 Instagram</span>
+                    </div>
+                    <div class="relative z-10 flex items-center justify-center">
+                        <button type="button" onclick="openVideoModal('instagram', 'DNJKO0oMUe-', 'https://www.instagram.com/reel/DNJKO0oMUe-/', 'Bespoke Bridal Wig Installation')" class="w-16 h-16 rounded-full bg-brand-pink text-white flex items-center justify-center shadow-2xl group-hover:scale-110 transition-all border-2 border-white/40" aria-label="Play Video">
+                            <svg class="w-7 h-7 fill-current ml-1" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        </button>
+                    </div>
+                    <div class="relative z-10 p-5 space-y-2">
+                        <h3 class="font-heading font-bold text-lg text-white group-hover:text-brand-pink transition-colors truncate">Bridal Wig Installation</h3>
+                        <p class="text-xs text-brand-neutral-300 line-clamp-2">100% glue-free security and natural movement for your special day.</p>
+                        <div class="pt-2 flex items-center justify-between border-t border-white/10">
+                            <button type="button" onclick="openVideoModal('instagram', 'DNJKO0oMUe-', 'https://www.instagram.com/reel/DNJKO0oMUe-/', 'Bespoke Bridal Wig Installation')" class="text-xs font-bold text-brand-pink hover:underline flex items-center space-x-1">
+                                <span>Watch Reel</span>
+                                <span>▶</span>
+                            </button>
+                            <span class="text-[11px] text-brand-neutral-400">@hairbybolbash</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==========================================================
+                     INSTAGRAM 6: Reception Second Look Glamour
+                     ========================================================== -->
+                <div class="bridal-video-item instagram ponytail white-wedding flex-shrink-0 w-[270px] sm:w-[300px] snap-start group relative rounded-3xl overflow-hidden bg-brand-neutral-900 border border-brand-neutral-800 hover:border-brand-pink transition-all duration-500 shadow-2xl flex flex-col justify-between aspect-[9/15]">
+                    <div class="absolute inset-0 z-0">
+                        <img src="{% static 'images/hairbybolbash/ponytail_updo_2.jpg' %}" alt="Reception Second Look Glamour" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 opacity-90" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-brand-black via-brand-black/40 to-transparent"></div>
+                    </div>
+                    <div class="relative z-10 p-4 flex items-center justify-between">
+                        <span class="badge-pink bg-brand-pink/90 text-white font-bold text-[10px] uppercase px-3 py-1 rounded-full shadow-md">Reception Look</span>
+                        <span class="text-[11px] font-bold text-white/90 bg-pink-950/80 backdrop-blur-md px-2.5 py-1 rounded-lg border border-pink-500/30">📸 Instagram</span>
+                    </div>
+                    <div class="relative z-10 flex items-center justify-center">
+                        <button type="button" onclick="openVideoModal('instagram', 'DNLsm-KN4Z0', 'https://www.instagram.com/reel/DNLsm-KN4Z0/', 'Reception Second Look Glamour')" class="w-16 h-16 rounded-full bg-brand-pink text-white flex items-center justify-center shadow-2xl group-hover:scale-110 transition-all border-2 border-white/40" aria-label="Play Video">
+                            <svg class="w-7 h-7 fill-current ml-1" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        </button>
+                    </div>
+                    <div class="relative z-10 p-5 space-y-2">
+                        <h3 class="font-heading font-bold text-lg text-white group-hover:text-brand-pink transition-colors truncate">Reception Hair Glamour</h3>
+                        <p class="text-xs text-brand-neutral-300 line-clamp-2">Quick-change reception styling designed to turn heads on the dance floor.</p>
+                        <div class="pt-2 flex items-center justify-between border-t border-white/10">
+                            <button type="button" onclick="openVideoModal('instagram', 'DNLsm-KN4Z0', 'https://www.instagram.com/reel/DNLsm-KN4Z0/', 'Reception Second Look Glamour')" class="text-xs font-bold text-brand-pink hover:underline flex items-center space-x-1">
+                                <span>Watch Reel</span>
+                                <span>▶</span>
+                            </button>
+                            <span class="text-[11px] text-brand-neutral-400">@hairbybolbash</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==========================================================
+                     INSTAGRAM 7: Complete Bridal Transformation Session
+                     ========================================================== -->
+                <!-- <div class="bridal-video-item instagram white-wedding lace-melt flex-shrink-0 w-[270px] sm:w-[300px] snap-start group relative rounded-3xl overflow-hidden bg-brand-neutral-900 border border-brand-neutral-800 hover:border-brand-pink transition-all duration-500 shadow-2xl flex flex-col justify-between aspect-[9/15]">
+                    <div class="absolute inset-0 z-0">
+                        <img src="{% static 'images/bridal_hero.jpg' %}" alt="Complete Bridal Transformation Reel" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700 opacity-90" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-brand-black via-brand-black/40 to-transparent"></div>
+                    </div>
+                    <div class="relative z-10 p-4 flex items-center justify-between">
+                        <span class="badge-pink bg-brand-pink/90 text-white font-bold text-[10px] uppercase px-3 py-1 rounded-full shadow-md">Master Artistry</span>
+                        <span class="text-[11px] font-bold text-white/90 bg-pink-950/80 backdrop-blur-md px-2.5 py-1 rounded-lg border border-pink-500/30">📸 Instagram</span>
+                    </div>
+                    <div class="relative z-10 flex items-center justify-center">
+                        <button type="button" onclick="openVideoModal('instagram', 'DMpq8S_tEqh', 'https://www.instagram.com/reel/DMpq8S_tEqh/', 'Complete Bridal Transformation Reel')" class="w-16 h-16 rounded-full bg-brand-pink text-white flex items-center justify-center shadow-2xl group-hover:scale-110 transition-all border-2 border-white/40" aria-label="Play Video">
+                            <svg class="w-7 h-7 fill-current ml-1" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        </button>
+                    </div>
+                    <div class="relative z-10 p-5 space-y-2">
+                        <h3 class="font-heading font-bold text-lg text-white group-hover:text-brand-pink transition-colors truncate">Full Transformation</h3>
+                        <p class="text-xs text-brand-neutral-300 line-clamp-2">From hair prep to veil fixing — the complete Bolbash bridal experience.</p>
+                        <div class="pt-2 flex items-center justify-between border-t border-white/10">
+                            <button type="button" onclick="openVideoModal('instagram', 'DMpq8S_tEqh', 'https://www.instagram.com/reel/DMpq8S_tEqh/', 'Complete Bridal Transformation Reel')" class="text-xs font-bold text-brand-pink hover:underline flex items-center space-x-1">
+                                <span>Watch Reel</span>
+                                <span>▶</span>
+                            </button>
+                            <span class="text-[11px] text-brand-neutral-400">@hairbybolbash</span>
+                        </div>
+                    </div>
+                </div> -->
+
+            </div>
         </div>
+
     </div>
 </section>
 
-<!-- 2. BRIDAL SERVICES SHOWCASE -->
-<section id="bridal-services" class="py-20 bg-brand-white-off">
+<!-- ==========================================================================
+     3. BRIDAL SERVICES SHOWCASE
+     ========================================================================== -->
+<section id="bridal-services" class="py-20 bg-brand-neutral-50 border-b border-brand-neutral-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <!-- Section Header -->
         <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
-            <span class="section-subtitle">Tailored For Your Big Day</span>
-            <h2 class="section-title">Bridal Hair & Styling Collections</h2>
+            <span class="badge-pink font-bold text-xs uppercase px-4 py-1 rounded-full">Tailored For Your Big Day</span>
+            <h2 class="text-3xl sm:text-4xl font-heading font-bold text-brand-black">Bridal Hair & Styling Collections</h2>
             <p class="text-brand-neutral-500 text-sm sm:text-base leading-relaxed">
                 Whether you envision classic white wedding elegance, regal traditional Aso-Oke hair styling, or flawless bridal wig customization, our master stylists ensure perfection down to the finest detail.
             </p>
@@ -97,14 +515,14 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             
             <!-- Service Card 1: White Wedding Hair Styling -->
-            <div class="bg-white rounded-3xl border border-brand-pink-100/80 p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300 flex flex-col justify-between">
+            <div class="bg-white rounded-3xl border border-brand-neutral-200 p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300 flex flex-col justify-between">
                 <div class="space-y-4">
-                    <div class="w-12 h-12 rounded-2xl bg-brand-pink-50 border border-brand-pink-100 flex items-center justify-center text-brand-pink-600 text-xl font-bold">
+                    <div class="w-12 h-12 rounded-2xl bg-brand-pink-50 border border-brand-pink-100 flex items-center justify-center text-brand-pink text-xl font-bold">
                         👰‍♀️
                     </div>
                     <div>
                         <span class="badge-pink text-[10px] uppercase tracking-wider mb-2">White Wedding</span>
-                        <h3 class="text-xl font-serif font-bold text-brand-black-dark">White Wedding Bridal Hair</h3>
+                        <h3 class="text-xl font-heading font-bold text-brand-black">White Wedding Bridal Hair</h3>
                     </div>
                     <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed">
                         Complete bridal hair prep, intricate updo or sleek waves, veil & tiara attachment, and long-lasting hold for the entire ceremony.
@@ -113,7 +531,7 @@
                 <div class="pt-6 border-t border-brand-neutral-100 mt-6 flex items-center justify-between">
                     <div>
                         <span class="text-[10px] text-brand-neutral-400 uppercase font-bold block">Consultation Included</span>
-                        <span class="text-lg font-bold text-brand-pink-600">NGN 45,000.00</span>
+                        <span class="text-lg font-bold text-brand-pink">NGN 45,000.00</span>
                     </div>
                     <a href="{% url 'booking:booking_form' %}" class="btn-primary text-xs uppercase tracking-wider font-bold py-2.5 px-4 shadow-sm">
                         Book Now →
@@ -122,14 +540,14 @@
             </div>
 
             <!-- Service Card 2: Traditional Regal Styling -->
-            <div class="bg-white rounded-3xl border border-brand-pink-100/80 p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300 flex flex-col justify-between">
+            <div class="bg-white rounded-3xl border border-brand-neutral-200 p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300 flex flex-col justify-between">
                 <div class="space-y-4">
                     <div class="w-12 h-12 rounded-2xl bg-amber-50 border border-amber-100 flex items-center justify-center text-amber-600 text-xl font-bold">
                         👑
                     </div>
                     <div>
                         <span class="badge-gold text-[10px] uppercase tracking-wider mb-2">Traditional Ceremony</span>
-                        <h3 class="text-xl font-serif font-bold text-brand-black-dark">Traditional & Engagement Styling</h3>
+                        <h3 class="text-xl font-heading font-bold text-brand-black">Traditional & Engagement Styling</h3>
                     </div>
                     <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed">
                         Royal hair styling crafted to complement Gele, Okuku, or coral bead crowns. Designed for security, comfort, and breathtaking photography.
@@ -138,7 +556,7 @@
                 <div class="pt-6 border-t border-brand-neutral-100 mt-6 flex items-center justify-between">
                     <div>
                         <span class="text-[10px] text-brand-neutral-400 uppercase font-bold block">Custom Accessories</span>
-                        <span class="text-lg font-bold text-brand-pink-600">NGN 40,000.00</span>
+                        <span class="text-lg font-bold text-brand-pink">NGN 40,000.00</span>
                     </div>
                     <a href="{% url 'booking:booking_form' %}" class="btn-primary text-xs uppercase tracking-wider font-bold py-2.5 px-4 shadow-sm">
                         Book Now →
@@ -147,14 +565,14 @@
             </div>
 
             <!-- Service Card 3: Custom Bridal Wig Melt -->
-            <div class="bg-white rounded-3xl border border-brand-pink-100/80 p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300 flex flex-col justify-between">
+            <div class="bg-white rounded-3xl border border-brand-neutral-200 p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300 flex flex-col justify-between">
                 <div class="space-y-4">
                     <div class="w-12 h-12 rounded-2xl bg-purple-50 border border-purple-100 flex items-center justify-center text-purple-600 text-xl font-bold">
                         ✨
                     </div>
                     <div>
                         <span class="badge-dark text-[10px] uppercase tracking-wider mb-2">Custom Wig Installation</span>
-                        <h3 class="text-xl font-serif font-bold text-brand-black-dark">Bridal Frontal Wig Melt</h3>
+                        <h3 class="text-xl font-heading font-bold text-brand-black">Bridal Frontal Wig Melt</h3>
                     </div>
                     <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed">
                         Precision lace bleaching, custom hairline plucking, scalp matching, and seamless invisible melt for an undetectable, natural finish.
@@ -163,7 +581,7 @@
                 <div class="pt-6 border-t border-brand-neutral-100 mt-6 flex items-center justify-between">
                     <div>
                         <span class="text-[10px] text-brand-neutral-400 uppercase font-bold block">Flawless Lace Melt</span>
-                        <span class="text-lg font-bold text-brand-pink-600">NGN 35,000.00</span>
+                        <span class="text-lg font-bold text-brand-pink">NGN 35,000.00</span>
                     </div>
                     <a href="{% url 'booking:booking_form' %}" class="btn-primary text-xs uppercase tracking-wider font-bold py-2.5 px-4 shadow-sm">
                         Book Now →
@@ -171,142 +589,19 @@
                 </div>
             </div>
 
-            <!-- Dynamic Catalogue Bridal Services (if present in Database) -->
-            {% for service in bridal_services %}
-            <div class="bg-white rounded-3xl border border-brand-pink-100/80 p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300 flex flex-col justify-between">
-                <div class="space-y-4">
-                    <div class="w-12 h-12 rounded-2xl bg-brand-pink-50 border border-brand-pink-100 flex items-center justify-center text-brand-pink-600 text-xl font-bold">
-                        💎
-                    </div>
-                    <div>
-                        <span class="badge-pink text-[10px] uppercase tracking-wider mb-2">{{ service.category.name }}</span>
-                        <h3 class="text-xl font-serif font-bold text-brand-black-dark">{{ service.name }}</h3>
-                    </div>
-                    <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed">
-                        {{ service.short_description|default:service.description|truncatewords:20 }}
-                    </p>
-                </div>
-                <div class="pt-6 border-t border-brand-neutral-100 mt-6 flex items-center justify-between">
-                    <div>
-                        <span class="text-[10px] text-brand-neutral-400 uppercase font-bold block">
-                            {% if service.duration %}{{ service.duration }} mins{% else %}Custom Session{% endif %}
-                        </span>
-                        <span class="text-lg font-bold text-brand-pink-600">
-                            {% if service.price %}NGN {{ service.price|floatformat:2 }}{% else %}Price On Enquiry{% endif %}
-                        </span>
-                    </div>
-                    <a href="{% url 'booking:booking_form' %}?service={{ service.slug }}" class="btn-primary text-xs uppercase tracking-wider font-bold py-2.5 px-4 shadow-sm">
-                        Select Service →
-                    </a>
-                </div>
-            </div>
-            {% endfor %}
-
         </div>
     </div>
 </section>
 
-<!-- 3. BRIDAL GALLERY SECTION -->
-<section id="bridal-gallery" class="py-20 bg-slate-950 text-white relative">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <!-- Gallery Header & Filter Pills -->
-        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-            <div class="space-y-3">
-                <span class="text-xs font-bold uppercase tracking-widest text-pink-400 block">Portfolio of Perfection</span>
-                <h2 class="text-3xl sm:text-4xl font-serif font-bold text-white">Bridal Transformation Gallery</h2>
-            </div>
-
-            <!-- Filter Pills -->
-            <div class="flex flex-wrap gap-2" id="gallery-filters">
-                <button type="button" onclick="filterGallery('all')" class="gallery-filter-btn active-filter px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition bg-pink-600 text-white">
-                    All Looks
-                </button>
-                <button type="button" onclick="filterGallery('white')" class="gallery-filter-btn px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition bg-slate-900 text-slate-400 hover:text-white border border-slate-800">
-                    White Wedding
-                </button>
-                <button type="button" onclick="filterGallery('traditional')" class="gallery-filter-btn px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition bg-slate-900 text-slate-400 hover:text-white border border-slate-800">
-                    Traditional Glam
-                </button>
-                <button type="button" onclick="filterGallery('wig')" class="gallery-filter-btn px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition bg-slate-900 text-slate-400 hover:text-white border border-slate-800">
-                    Wig Installation
-                </button>
-            </div>
-        </div>
-
-        <!-- Gallery Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="bridal-gallery-grid">
-            
-            <!-- Gallery Item 1: White Wedding -->
-            <div class="gallery-item white relative group overflow-hidden rounded-3xl border border-slate-800 bg-slate-900 aspect-4/3 cursor-pointer" onclick="openLightbox('{% static 'images/bridal_hero.jpg' %}', 'Luxury White Wedding Updo & Veil Styling')">
-                <img src="{% static 'images/bridal_hero.jpg' %}" alt="White Wedding Bridal Hair" loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 p-6 flex flex-col justify-end">
-                    <span class="text-pink-400 text-[10px] uppercase font-bold tracking-widest block">White Wedding Collection</span>
-                    <h4 class="text-white text-base font-bold">Luxury White Wedding Updo & Veil Styling</h4>
-                    <span class="text-slate-300 text-xs mt-1 block">Click to view full photo 🔍</span>
-                </div>
-            </div>
-
-            <!-- Gallery Item 2: Traditional Regal -->
-            <div class="gallery-item traditional relative group overflow-hidden rounded-3xl border border-slate-800 bg-slate-900 aspect-4/3 cursor-pointer" onclick="openLightbox('{% static 'images/bridal_traditional.jpg' %}', 'Royal Traditional Nigerian Bride Styling')">
-                <img src="{% static 'images/bridal_traditional.jpg' %}" alt="Traditional Nigerian Bride" loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 p-6 flex flex-col justify-end">
-                    <span class="text-amber-400 text-[10px] uppercase font-bold tracking-widest block">Traditional Collection</span>
-                    <h4 class="text-white text-base font-bold">Royal Traditional Nigerian Bride Styling</h4>
-                    <span class="text-slate-300 text-xs mt-1 block">Click to view full photo 🔍</span>
-                </div>
-            </div>
-
-            <!-- Gallery Item 3: Frontal Melt -->
-            <div class="gallery-item wig relative group overflow-hidden rounded-3xl border border-slate-800 bg-slate-900 aspect-4/3 cursor-pointer" onclick="openLightbox('{% static 'images/frontal_melt_showcase.jpg' %}', 'Custom Frontal Wig Installation & Scalp Melt')">
-                <img src="{% static 'images/frontal_melt_showcase.jpg' %}" alt="Custom Frontal Melt" loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 p-6 flex flex-col justify-end">
-                    <span class="text-purple-400 text-[10px] uppercase font-bold tracking-widest block">Wig Installation</span>
-                    <h4 class="text-white text-base font-bold">Custom Frontal Wig Installation & Scalp Melt</h4>
-                    <span class="text-slate-300 text-xs mt-1 block">Click to view full photo 🔍</span>
-                </div>
-            </div>
-
-            <!-- Gallery Item 4: Salon Perfection -->
-            <div class="gallery-item white relative group overflow-hidden rounded-3xl border border-slate-800 bg-slate-900 aspect-4/3 cursor-pointer" onclick="openLightbox('{% static 'images/salon_hero_showcase.jpg' %}', 'Bolbash Luxury Salon Consultation Suite')">
-                <img src="{% static 'images/salon_hero_showcase.jpg' %}" alt="Salon Consultation Suite" loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 p-6 flex flex-col justify-end">
-                    <span class="text-pink-400 text-[10px] uppercase font-bold tracking-widest block">Bridal Suite</span>
-                    <h4 class="text-white text-base font-bold">Bolbash Luxury Salon Consultation Suite</h4>
-                    <span class="text-slate-300 text-xs mt-1 block">Click to view full photo 🔍</span>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</section>
-
-<!-- LIGHTBOX MODAL CONTAINER -->
-<div id="lightbox-modal" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-md hidden items-center justify-center p-4" onclick="closeLightbox(event)">
-    <div class="relative max-w-4xl w-full bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl" onclick="event.stopPropagation()">
-        <button type="button" onclick="closeLightbox(event)" class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-black/70 text-white font-bold text-lg hover:bg-pink-600 transition flex items-center justify-center">
-            ✕
-        </button>
-        <img id="lightbox-img" src="" alt="" class="w-full max-h-[75vh] object-contain bg-black">
-        <div class="p-6 bg-slate-900 text-white flex items-center justify-between border-t border-slate-800">
-            <div>
-                <h4 id="lightbox-title" class="font-serif font-bold text-lg"></h4>
-                <p class="text-slate-400 text-xs">Bolbash Beauty Spot Bridal Collection</p>
-            </div>
-            <a href="{% url 'booking:booking_form' %}" class="btn-primary text-xs font-bold py-2.5 px-5 uppercase">
-                Book This Look →
-            </a>
-        </div>
-    </div>
-</div>
-
-<!-- 4. BRIDAL EXPERIENCE TIMELINE & TRUST -->
-<section class="py-20 bg-white">
+<!-- ==========================================================================
+     4. BRIDAL EXPERIENCE TIMELINE & ROADMAP
+     ========================================================================== -->
+<section class="py-20 bg-white border-b border-brand-neutral-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
-            <span class="section-subtitle">A Seamless Bridal Journey</span>
-            <h2 class="section-title">The Bolbash Bridal Experience</h2>
+            <span class="badge-pink font-bold text-xs uppercase px-4 py-1 rounded-full">A Seamless Bridal Journey</span>
+            <h2 class="text-3xl sm:text-4xl font-heading font-bold text-brand-black">The Bolbash Bridal Experience</h2>
             <p class="text-brand-neutral-500 text-sm sm:text-base leading-relaxed">
                 We believe your wedding morning should be peaceful, luxurious, and completely stress-free. Here is how we ensure your perfection.
             </p>
@@ -315,44 +610,44 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             
             <!-- Step 1 -->
-            <div class="bg-brand-white-off p-6 rounded-3xl border border-brand-pink-100 relative space-y-4">
-                <div class="w-10 h-10 rounded-xl bg-brand-pink text-white font-bold text-sm flex items-center justify-center">
+            <div class="bg-brand-neutral-50 p-6 sm:p-8 rounded-3xl border border-brand-neutral-200 relative space-y-4 hover:border-brand-pink transition-colors">
+                <div class="w-10 h-10 rounded-2xl bg-brand-pink text-white font-bold text-sm flex items-center justify-center shadow-md">
                     01
                 </div>
-                <h3 class="text-lg font-bold font-serif text-brand-black-dark">1. Personalized Consultation</h3>
+                <h3 class="text-lg font-bold font-heading text-brand-black">1. Private Consultation</h3>
                 <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed">
                     We discuss your wedding dress style, veil placement, accessories, and hair goals to create a customized bridal plan.
                 </p>
             </div>
 
             <!-- Step 2 -->
-            <div class="bg-brand-white-off p-6 rounded-3xl border border-brand-pink-100 relative space-y-4">
-                <div class="w-10 h-10 rounded-xl bg-brand-pink text-white font-bold text-sm flex items-center justify-center">
+            <div class="bg-brand-neutral-50 p-6 sm:p-8 rounded-3xl border border-brand-neutral-200 relative space-y-4 hover:border-brand-pink transition-colors">
+                <div class="w-10 h-10 rounded-2xl bg-brand-pink text-white font-bold text-sm flex items-center justify-center shadow-md">
                     02
                 </div>
-                <h3 class="text-lg font-bold font-serif text-brand-black-dark">2. Pre-Wedding Hair Trial</h3>
+                <h3 class="text-lg font-bold font-heading text-brand-black">2. Pre-Wedding Hair Trial</h3>
                 <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed">
                     Test and perfect your bridal look weeks in advance. We refine every wave, pin, and accessory until you are 100% in love.
                 </p>
             </div>
 
             <!-- Step 3 -->
-            <div class="bg-brand-white-off p-6 rounded-3xl border border-brand-pink-100 relative space-y-4">
-                <div class="w-10 h-10 rounded-xl bg-brand-pink text-white font-bold text-sm flex items-center justify-center">
+            <div class="bg-brand-neutral-50 p-6 sm:p-8 rounded-3xl border border-brand-neutral-200 relative space-y-4 hover:border-brand-pink transition-colors">
+                <div class="w-10 h-10 rounded-2xl bg-brand-pink text-white font-bold text-sm flex items-center justify-center shadow-md">
                     03
                 </div>
-                <h3 class="text-lg font-bold font-serif text-brand-black-dark">3. Custom Wig & Extension Prep</h3>
+                <h3 class="text-lg font-bold font-heading text-brand-black">3. Wig & Extension Prep</h3>
                 <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed">
                     Custom wig construction, lace bleaching, hair revamping, and color matching done beforehand to save time on the big day.
                 </p>
             </div>
 
             <!-- Step 4 -->
-            <div class="bg-brand-white-off p-6 rounded-3xl border border-brand-pink-100 relative space-y-4">
-                <div class="w-10 h-10 rounded-xl bg-brand-pink text-white font-bold text-sm flex items-center justify-center">
+            <div class="bg-brand-neutral-50 p-6 sm:p-8 rounded-3xl border border-brand-neutral-200 relative space-y-4 hover:border-brand-pink transition-colors">
+                <div class="w-10 h-10 rounded-2xl bg-brand-pink text-white font-bold text-sm flex items-center justify-center shadow-md">
                     04
                 </div>
-                <h3 class="text-lg font-bold font-serif text-brand-black-dark">4. Wedding Day Perfection</h3>
+                <h3 class="text-lg font-bold font-heading text-brand-black">4. Wedding Day Perfection</h3>
                 <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed">
                     Flawless execution on your wedding morning with zero delay guarantee so you walk down the aisle feeling radiant and calm.
                 </p>
@@ -362,44 +657,53 @@
     </div>
 </section>
 
-<!-- 5. BRIDAL FAQ ACCORDION -->
-<section class="py-16 bg-brand-white-off">
+<!-- ==========================================================================
+     5. BRIDAL FAQ ACCORDION
+     ========================================================================== -->
+<section class="py-16 sm:py-24 bg-brand-neutral-50 border-b border-brand-neutral-200">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center space-y-3 mb-12">
-            <span class="section-subtitle">Bridal Information</span>
-            <h2 class="section-title">Frequently Asked Questions</h2>
+            <span class="badge-pink font-bold text-xs uppercase px-4 py-1 rounded-full">Bridal Guidance</span>
+            <h2 class="text-3xl sm:text-4xl font-heading font-bold text-brand-black">Frequently Asked Questions</h2>
         </div>
 
         <div class="space-y-4">
             
-            <details class="group bg-white rounded-2xl border border-brand-pink-100 p-6 [&_summary::-webkit-details-marker]:hidden">
-                <summary class="flex items-center justify-between font-serif font-bold text-brand-black cursor-pointer text-base">
+            <details class="group bg-white rounded-2xl border border-brand-neutral-200 p-6 [&_summary::-webkit-details-marker]:hidden shadow-sm">
+                <summary class="flex items-center justify-between font-heading font-bold text-brand-black cursor-pointer text-base">
                     <span>How far in advance should I book my bridal appointment?</span>
-                    <span class="transition group-open:rotate-180 text-brand-pink">▼</span>
+                    <span class="transition-transform group-open:rotate-180 text-brand-pink">▼</span>
                 </summary>
-
                 <p class="mt-4 text-xs sm:text-sm text-brand-neutral-500 leading-relaxed">
                     We recommend booking your bridal consultation at least 4 to 8 weeks before your wedding date to secure your preferred appointment date and allow ample time for pre-wedding trials and custom wig preparations.
                 </p>
             </details>
 
-            <details class="group bg-white rounded-2xl border border-brand-pink-100 p-6 [&_summary::-webkit-details-marker]:hidden">
-                <summary class="flex items-center justify-between font-serif font-bold text-brand-black cursor-pointer text-base">
+            <details class="group bg-white rounded-2xl border border-brand-neutral-200 p-6 [&_summary::-webkit-details-marker]:hidden shadow-sm">
+                <summary class="flex items-center justify-between font-heading font-bold text-brand-black cursor-pointer text-base">
                     <span>Do you offer pre-wedding hair trial sessions?</span>
-                    <span class="transition group-open:rotate-180 text-brand-pink">▼</span>
+                    <span class="transition-transform group-open:rotate-180 text-brand-pink">▼</span>
                 </summary>
-
                 <p class="mt-4 text-xs sm:text-sm text-brand-neutral-500 leading-relaxed">
                     Yes! Pre-wedding hair trials are highly recommended. During the trial, we test different hair styles, veil placements, and accessory fittings to finalize your exact wedding day look.
                 </p>
             </details>
 
-            <details class="group bg-white rounded-2xl border border-brand-pink-100 p-6 [&_summary::-webkit-details-marker]:hidden">
-                <summary class="flex items-center justify-between font-serif font-bold text-brand-black cursor-pointer text-base">
-                    <span>Can Bolbash style my bridal party as well?</span>
-                    <span class="transition group-open:rotate-180 text-brand-pink">▼</span>
+            <details class="group bg-white rounded-2xl border border-brand-neutral-200 p-6 [&_summary::-webkit-details-marker]:hidden shadow-sm">
+                <summary class="flex items-center justify-between font-heading font-bold text-brand-black cursor-pointer text-base">
+                    <span>Do you travel for destination or out-of-state weddings?</span>
+                    <span class="transition-transform group-open:rotate-180 text-brand-pink">▼</span>
                 </summary>
+                <p class="mt-4 text-xs sm:text-sm text-brand-neutral-500 leading-relaxed">
+                    Yes! Our lead stylists travel across Nigeria (Lagos, Abuja, Ogun, Osun, and beyond) and for international destination weddings. Travel and accommodation terms are arranged during consultation.
+                </p>
+            </details>
 
+            <details class="group bg-white rounded-2xl border border-brand-neutral-200 p-6 [&_summary::-webkit-details-marker]:hidden shadow-sm">
+                <summary class="flex items-center justify-between font-heading font-bold text-brand-black cursor-pointer text-base">
+                    <span>Can Bolbash style my bridal party as well?</span>
+                    <span class="transition-transform group-open:rotate-180 text-brand-pink">▼</span>
+                </summary>
                 <p class="mt-4 text-xs sm:text-sm text-brand-neutral-500 leading-relaxed">
                     Absolutely. We offer complete bridal party packages for mother of the bride, maid of honor, and bridesmaids. Please mention your party size during booking so we allocate sufficient time and stylists.
                 </p>
@@ -409,28 +713,32 @@
     </div>
 </section>
 
-<!-- 6. HIGH-IMPACT BOTTOM BRIDAL CTA BANNER -->
-<section class="py-16 bg-gradient-to-r from-slate-950 via-slate-900 to-black text-white text-center relative overflow-hidden">
+<!-- ==========================================================================
+     6. HIGH-IMPACT BOTTOM BRIDAL CTA BANNER
+     ========================================================================== -->
+<section class="py-16 sm:py-24 bg-brand-black text-white text-center relative overflow-hidden">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 relative z-10">
-        <span class="text-pink-400 text-xs font-bold uppercase tracking-widest block">Begin Your Bridal Journey</span>
-        <h2 class="text-3xl sm:text-5xl font-serif font-bold text-white leading-tight">
+        <span class="text-brand-pink text-xs font-bold uppercase tracking-widest block">Begin Your Bridal Journey</span>
+        <h2 class="text-3xl sm:text-5xl font-heading font-bold text-white leading-tight">
             Ready to Create Your Dream Bridal Look?
         </h2>
-        <p class="text-slate-300 text-sm sm:text-base max-w-xl mx-auto">
+        <p class="text-brand-neutral-300 text-sm sm:text-base max-w-xl mx-auto">
             Book your private bridal consultation with Bolbash Beauty Spot today and let us bring your vision to life.
         </p>
-        <div class="pt-4">
-            <a href="{% url 'booking:booking_form' %}" data-loading-text="Opening Booking Engine..." class="btn-primary text-xs uppercase tracking-wider font-bold py-4 px-10 shadow-xl shadow-pink-600/40 inline-block">
+        <div class="pt-4 flex items-center justify-center">
+            <a href="{% url 'booking:booking_form' %}" class="btn-primary text-xs uppercase tracking-wider font-bold py-4 px-10 shadow-xl shadow-pink-glow">
                 Book Your Appointment Now →
             </a>
         </div>
     </div>
 </section>
 
-<!-- MOBILE STICKY BRIDAL BOOKING BAR -->
-<div class="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-950/95 backdrop-blur-md border-t border-slate-800 p-3 flex items-center justify-between">
+<!-- ==========================================================================
+     7. MOBILE STICKY BRIDAL BOOKING BAR
+     ========================================================================== -->
+<div class="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-brand-black/95 backdrop-blur-md border-t border-brand-neutral-800 p-3 flex items-center justify-between">
     <div>
-        <span class="text-[10px] text-pink-400 font-bold uppercase tracking-wider block">Bolbash Bridal</span>
+        <span class="text-[10px] text-brand-pink font-bold uppercase tracking-wider block">Bolbash Bridal</span>
         <span class="text-xs font-bold text-white block">Reserve Your Date</span>
     </div>
     <a href="{% url 'booking:booking_form' %}" class="btn-primary text-[10px] uppercase font-bold py-2.5 px-4">
@@ -438,48 +746,182 @@
     </a>
 </div>
 
+<!-- ==========================================================================
+     INTERACTIVE BRIDAL VIDEO LIGHTBOX MODAL (TikTok & Instagram)
+     ========================================================================== -->
+<div id="video-modal" 
+     class="fixed inset-0 z-50 bg-brand-black/90 backdrop-blur-lg hidden items-center justify-center p-4 transition-opacity duration-300" 
+     role="dialog" 
+     aria-modal="true" 
+     aria-hidden="true">
+    
+    <div class="relative w-full max-w-md bg-brand-black border border-brand-neutral-800 rounded-3xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
+        
+        <!-- Modal Header -->
+        <div class="p-4 border-b border-brand-neutral-800 flex items-center justify-between bg-brand-neutral-900">
+            <div class="flex items-center space-x-2">
+                <span class="text-brand-pink font-bold">🎬</span>
+                <h4 id="video-modal-title" class="font-heading font-bold text-sm text-white truncate max-w-[240px]">Bridal Video</h4>
+            </div>
+            <button type="button" 
+                    onclick="closeVideoModal()" 
+                    class="w-8 h-8 rounded-full bg-brand-neutral-800 text-brand-neutral-300 hover:text-white hover:bg-brand-pink flex items-center justify-center transition-colors"
+                    aria-label="Close Video Modal">
+                ✕
+            </button>
+        </div>
+
+        <!-- Modal Embed Frame Container -->
+        <div class="relative w-full aspect-[9/16] bg-black flex items-center justify-center overflow-hidden" id="video-iframe-container">
+            <!-- Iframe injected dynamically via JS -->
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="p-4 bg-brand-neutral-900 border-t border-brand-neutral-800 flex items-center justify-between text-xs">
+            <a id="video-direct-link" href="#" target="_blank" rel="noopener noreferrer" class="text-brand-pink font-bold hover:underline">
+                Open in App ↗
+            </a>
+            <a href="{% url 'booking:booking_form' %}" class="btn-primary text-[10px] uppercase font-bold py-1.5 px-3">
+                Book Consultation
+            </a>
+        </div>
+    </div>
+</div>
+
 {% endblock content %}
 
 {% block extra_js %}
 <script>
-    // Bridal Gallery Filter Function
-    function filterGallery(category) {
-        const buttons = document.querySelectorAll('.gallery-filter-btn');
-        buttons.forEach(btn => {
-            btn.classList.remove('bg-pink-600', 'text-white');
-            btn.classList.add('bg-slate-900', 'text-slate-400');
-        });
-        event.currentTarget.classList.remove('bg-slate-900', 'text-slate-400');
-        event.currentTarget.classList.add('bg-pink-600', 'text-white');
+    // Bridal Video Horizontal Scrolling
+    function scrollReels(direction) {
+        const slider = document.getElementById('bridal-reels-slider');
+        if (slider) {
+            const scrollAmount = direction === 'left' ? -340 : 340;
+            slider.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        }
+    }
 
-        const items = document.querySelectorAll('.gallery-item');
+    // Bridal Video Category & Platform Filtering
+    function filterVideos(category) {
+        const pills = document.querySelectorAll('.video-filter-pill');
+        pills.forEach(pill => {
+            pill.classList.remove('bg-brand-pink', 'text-white', 'shadow-md');
+            pill.classList.add('bg-brand-neutral-900', 'text-brand-neutral-400', 'border', 'border-brand-neutral-800');
+        });
+        
+        event.currentTarget.classList.remove('bg-brand-neutral-900', 'text-brand-neutral-400', 'border', 'border-brand-neutral-800');
+        event.currentTarget.classList.add('bg-brand-pink', 'text-white', 'shadow-md');
+
+        const items = document.querySelectorAll('.bridal-video-item');
         items.forEach(item => {
             if (category === 'all' || item.classList.contains(category)) {
-                item.style.display = 'block';
+                item.style.display = 'flex';
             } else {
                 item.style.display = 'none';
             }
         });
+
+        // Reset scroll position
+        const slider = document.getElementById('bridal-reels-slider');
+        if (slider) slider.scrollTo({ left: 0, behavior: 'smooth' });
     }
 
-    // Lightbox Modal Functions
-    function openLightbox(imageSrc, title) {
-        const modal = document.getElementById('lightbox-modal');
-        const img = document.getElementById('lightbox-img');
-        const titleEl = document.getElementById('lightbox-title');
+    // Video Modal Player for TikTok, Instagram & Direct HD Video
+    function openVideoModal(platform, videoId, directUrl, title) {
+        const modal = document.getElementById('video-modal');
+        const modalTitle = document.getElementById('video-modal-title');
+        const container = document.getElementById('video-iframe-container');
+        const directLink = document.getElementById('video-direct-link');
 
-        img.src = imageSrc;
-        titleEl.textContent = title;
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
+        if (modalTitle) modalTitle.textContent = title;
+        if (directLink) {
+            directLink.href = directUrl;
+            directLink.textContent = platform === 'instagram' ? 'Watch on Instagram @hairbybolbash ↗' : 'Watch on TikTok @officialbolbash ↗';
+        }
+
+        if (container) {
+            if (platform === 'local') {
+                container.innerHTML = `
+                    <video src="${videoId}" 
+                           autoplay 
+                           controls 
+                           playsinline 
+                           class="w-full h-full object-contain bg-black"></video>
+                `;
+            } else if (platform === 'tiktok') {
+                container.innerHTML = `
+                    <iframe src="https://www.tiktok.com/embed/v2/${videoId}" 
+                            class="w-full h-full border-0" 
+                            frameborder="0" 
+                            scrolling="no" 
+                            allowtransparency="true" 
+                            allow="encrypted-media;"></iframe>
+                `;
+            } else if (platform === 'instagram') {
+                container.innerHTML = `
+                    <iframe src="https://www.instagram.com/reel/${videoId}/embed/" 
+                            class="w-full h-full border-0" 
+                            frameborder="0" 
+                            scrolling="no" 
+                            allowtransparency="true" 
+                            allow="encrypted-media;"></iframe>
+                `;
+            }
+        }
+
+        if (modal) {
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
         document.body.style.overflow = 'hidden';
     }
 
-    function closeLightbox(event) {
-        const modal = document.getElementById('lightbox-modal');
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
-        document.body.style.overflow = 'auto';
+    function closeVideoModal() {
+        const modal = document.getElementById('video-modal');
+        const container = document.getElementById('video-iframe-container');
+
+        if (container) container.innerHTML = '';
+        if (modal) {
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }
+        document.body.style.overflow = '';
+    }
+
+    // Close modal on Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeVideoModal();
+    });
+
+    // Background Video Audio Toggle
+    function toggleHeroVideoSound() {
+        const video = document.getElementById('bridal-hero-bg-video');
+        const icon = document.getElementById('hero-sound-icon');
+        const text = document.getElementById('hero-sound-text');
+        if (!video) return;
+
+        if (video.muted) {
+            video.muted = false;
+            if (icon) icon.textContent = '🔊';
+            if (text) text.textContent = 'Mute';
+        } else {
+            video.muted = true;
+            if (icon) icon.textContent = '🔇';
+            if (text) text.textContent = 'Sound';
+        }
+    }
+
+    // Background Video Switcher
+    function switchHeroBgVideo(videoSrc) {
+        const video = document.getElementById('bridal-hero-bg-video');
+        if (!video) return;
+        
+        video.style.opacity = '0.4';
+        setTimeout(() => {
+            video.src = videoSrc;
+            video.play().catch(() => {});
+            video.style.opacity = '1';
+        }, 300);
     }
 </script>
 {% endblock extra_js %}

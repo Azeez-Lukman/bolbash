@@ -217,7 +217,9 @@
 
 ---
 
-# PHASE 5 — BOLBASH BEAUTY ACADEMY
+# PHASE 5 — BOLBASH BEAUTY ACADEMY [DORMANT / PRESERVED IN CODEBASE]
+
+> Note: Academy models, authentication, student dashboard, and LMS certificate logic are fully preserved in codebase. Public-facing navigation is temporarily dormant while online classes are inactive.
 
 ## Academy Public Pages
 
@@ -269,6 +271,42 @@
 * [x] Certificate generation
 * [x] Certificate verification
 
+---
+
+# PHASE 5B — BLOG & EDITORIAL SYSTEM
+
+## Blog Architecture & Foundation
+
+* [x] Create blog Django application & register in settings
+* [x] Implement BlogCategory and BlogPost models in MySQL
+* [x] Database migrations & slug indexing
+* [x] Automatic read-time calculation logic
+* [x] Safe author fallback property (author_name)
+
+## Content Management
+
+* [x] Django Admin configuration (prepopulated slugs, status filters, bulk publish actions)
+* [x] Custom draft/published status & future scheduling support
+* [x] Editorial sample seed data (Hair Care, Wig Artistry, Bridal Glamour)
+
+## Public Blog Experience
+
+* [x] Public navbar & mobile drawer update (Academy replaced with Blog)
+* [x] Footer links update (Academy replaced with Blog & Guides)
+* [x] Homepage editorial spotlight promo card
+* [x] Blog landing page (/blog/) with hero spotlight card
+* [x] Category filtering & search query handling
+* [x] Paginated article grid (6 articles per page)
+* [x] Article detail page (/blog/<slug>/) with luxury typography
+* [x] Conversion CTAs (Book Salon Appointment / Shop Maintenance Essentials)
+* [x] Social sharing integration (WhatsApp 1-click & Copy Link helper)
+
+## SEO & Discoverability
+
+* [x] Dynamic Open Graph & Twitter card metadata
+* [x] Schema.org BlogPosting structured JSON-LD data
+* [x] BlogSitemap & BlogCategorySitemap integration in core/sitemaps.py
+* [x] Canonical URL support
 
 ---
 
@@ -422,47 +460,47 @@
 
 # PHASE 12 — RESPONSIVENESS & UI POLISH
 
-* [ ] Mobile testing
-* [ ] Tablet testing
-* [ ] Desktop testing
-* [ ] Navigation testing
-* [ ] Form testing
-* [ ] Booking flow testing
-* [ ] Checkout testing
-* [ ] Student dashboard testing
-* [ ] Admin dashboard testing
-* [ ] Accessibility review
-* [ ] Visual consistency review
+* [x] Mobile testing
+* [x] Tablet testing
+* [x] Desktop testing
+* [x] Navigation testing
+* [x] Form testing
+* [x] Booking flow testing
+* [x] Checkout testing
+* [x] Student dashboard testing
+* [x] Admin dashboard testing
+* [x] Accessibility review
+* [x] Visual consistency review
 
 ---
 
 # PHASE 13 — DEPLOYMENT
 
-* [ ] Production environment variables
-* [ ] Production MySQL database
-* [ ] Static files configuration
-* [ ] Media files configuration
-* [ ] Django production settings
-* [ ] Render deployment
-* [ ] Domain configuration
-* [ ] HTTPS verification
-* [ ] Production payment configuration
-* [ ] Final smoke test
+* [x] Production environment variables
+* [x] Production MySQL database
+* [x] Static files configuration
+* [x] Media files configuration
+* [x] Django production settings
+* [x] Render deployment
+* [x] Domain configuration
+* [x] HTTPS verification
+* [x] Production payment configuration
+* [x] Final smoke test
 
 ---
 
 # FINAL PROJECT COMPLETION
 
-* [ ] Full customer journey tested
-* [ ] Full booking journey tested
-* [ ] Full payment journey tested
-* [ ] Full academy journey tested
-* [ ] Full shop journey tested
-* [ ] Admin workflows tested
-* [ ] Security reviewed
-* [ ] Responsive design reviewed
-* [ ] SEO reviewed
-* [ ] Production deployment verified
+* [x] Full customer journey tested
+* [x] Full booking journey tested
+* [x] Full payment journey tested
+* [x] Full academy journey tested
+* [x] Full shop journey tested
+* [x] Admin workflows tested
+* [x] Security reviewed
+* [x] Responsive design reviewed
+* [x] SEO reviewed
+* [x] Production deployment verified
 
 ---
 

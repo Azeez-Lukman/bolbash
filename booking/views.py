@@ -5,6 +5,7 @@ from django.db import transaction
 from django.db.models import Q
 from django.utils import timezone
 from django.contrib import messages
+from django.conf import settings
 from .models import ServiceCategory, Service, BusinessHours, BlockedDate, Booking
 
 
@@ -72,11 +73,13 @@ def api_available_slots(request):
     current_time = datetime.datetime.combine(selected_date, opening)
     end_time_boundary = datetime.datetime.combine(selected_date, closing)
 
+    fifteen_mins_ago = timezone.now() - datetime.timedelta(minutes=15)
     booked_times = set(
         Booking.objects.filter(
             appointment_date=selected_date
-        ).exclude(
-            status=Booking.STATUS_CANCELLED
+        ).filter(
+            Q(status=Booking.STATUS_CONFIRMED) |
+            (Q(status=Booking.STATUS_PENDING_PAYMENT) & Q(created_at__gte=fifteen_mins_ago))
         ).values_list('appointment_time', flat=True)
     )
 
@@ -102,6 +105,7 @@ def booking_submit(request):
     """
     Handles form submission for new appointment creation.
     Performs server-side validation, double-booking prevention, and snapshot recording.
+    Only confirmed bookings or active 15-minute pending holds create a slot conflict.
     """
     if request.method != 'POST':
         return redirect('booking:booking_form')
@@ -127,14 +131,18 @@ def booking_submit(request):
         messages.error(request, "Invalid date or time selection.")
         return redirect('booking:booking_form')
 
+    fifteen_mins_ago = timezone.now() - datetime.timedelta(minutes=15)
     with transaction.atomic():
         existing_conflict = Booking.objects.select_for_update().filter(
             appointment_date=appointment_date,
             appointment_time=appointment_time
-        ).exclude(status=Booking.STATUS_CANCELLED).exists()
+        ).filter(
+            Q(status=Booking.STATUS_CONFIRMED) |
+            (Q(status=Booking.STATUS_PENDING_PAYMENT) & Q(created_at__gte=fifteen_mins_ago))
+        ).exists()
 
         if existing_conflict:
-            messages.error(request, "That appointment time was just taken. Please choose another available time.")
+            messages.error(request, "That appointment time is currently held or confirmed by another client. Please choose another available time.")
             return redirect(f"{request.META.get('HTTP_REFERER', '/booking/')}?service={service.slug}")
 
         duration_mins = service.duration or 60
@@ -157,7 +165,7 @@ def booking_submit(request):
             service_duration_snapshot=service.duration,
             status=Booking.STATUS_PENDING_PAYMENT,
             payment_status=Booking.PAYMENT_UNPAID,
-            amount_due=service.price,
+            amount_due=getattr(settings, 'BOOKING_DEPOSIT_AMOUNT', 100.00),
         )
 
     return redirect('booking:booking_confirmation', reference=booking.reference)

@@ -17,6 +17,7 @@ class PaystackService:
         return {
             'Authorization': f'Bearer {settings.PAYSTACK_SECRET_KEY}',
             'Content-Type': 'application/json',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
         }
 
     @classmethod
@@ -46,13 +47,13 @@ class PaystackService:
                 return res_data
         except Exception as e:
             # When in test mode without real API key, return mock data for local testing
-            if 'placeholder' in settings.PAYSTACK_SECRET_KEY:
+            if not settings.PAYSTACK_SECRET_KEY or 'placeholder' in settings.PAYSTACK_SECRET_KEY or not settings.PAYSTACK_SECRET_KEY.startswith('sk_'):
                 return {
                     'status': True,
-                    'message': 'Mock Paystack Authorization (Development Mode)',
+                    'message': 'Development Sandbox Paystack Simulation',
                     'data': {
-                        'authorization_url': f"{callback_url}?trxref={reference}&reference={reference}",
-                        'access_code': 'mock_access_code_dev',
+                        'authorization_url': f"/payments/sandbox/{reference}/",
+                        'access_code': 'sandbox_access_code_dev',
                         'reference': reference
                     }
                 }
@@ -73,15 +74,15 @@ class PaystackService:
                 res_data = json.loads(response.read().decode('utf-8'))
                 return res_data
         except Exception as e:
-            # When in test mode without real API key, return mock verified response
-            if 'placeholder' in settings.PAYSTACK_SECRET_KEY:
+            # When in test mode without real API key, return mock data for local testing
+            if not settings.PAYSTACK_SECRET_KEY or 'placeholder' in settings.PAYSTACK_SECRET_KEY or not settings.PAYSTACK_SECRET_KEY.startswith('sk_'):
                 return {
                     'status': True,
                     'message': 'Verification successful (Development Mock)',
                     'data': {
                         'status': 'success',
                         'reference': paystack_reference,
-                        'amount': None,  # Will be verified against server expected
+                        'amount': None,
                         'currency': 'NGN',
                         'gateway_response': 'Successful Mock Test Payment',
                         'channel': 'card'

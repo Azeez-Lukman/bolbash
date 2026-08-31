@@ -1,0 +1,54 @@
+services:
+  - type: web
+    name: bolbash-beautyspot
+    runtime: python
+    region: frankfurt
+    plan: starter
+    buildCommand: bash build.sh
+    startCommand: gunicorn config.wsgi:application --bind 0.0.0.0:$PORT --workers 3 --timeout 120
+    healthCheckPath: /
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.0
+      - key: DEBUG
+        value: "False"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ALLOWED_HOSTS
+        value: bolbash-beautyspot.onrender.com,www.bolbashbeautyspot.com,bolbashbeautyspot.com
+      - key: SECURE_SSL_REDIRECT
+        value: "True"
+      - key: SESSION_COOKIE_SECURE
+        value: "True"
+      - key: CSRF_COOKIE_SECURE
+        value: "True"
+      - key: DATABASE_URL
+        sync: false
+      - key: PAYSTACK_PUBLIC_KEY
+        sync: false
+      - key: PAYSTACK_SECRET_KEY
+        sync: false
+      - key: PAYSTACK_PAYMENT_URL
+        value: https://api.paystack.co
+      - key: PAYSTACK_BANK_NAME
+        value: OPay
+      - key: PAYSTACK_ACCOUNT_NUMBER
+        value: "8148281423"
+      - key: PAYSTACK_ACCOUNT_NAME
+        value: "Lukexx Business And Technology"
+      - key: BOOKING_DEPOSIT_AMOUNT
+        value: "100.00"
+      - key: EMAIL_BACKEND
+        value: django.core.mail.backends.smtp.EmailBackend
+      - key: EMAIL_HOST
+        value: smtp.gmail.com
+      - key: EMAIL_PORT
+        value: "587"
+      - key: EMAIL_HOST_USER
+        sync: false
+      - key: EMAIL_HOST_PASSWORD
+        sync: false
+      - key: EMAIL_USE_TLS
+        value: "True"
+      - key: DEFAULT_FROM_EMAIL
+        value: Bolbash Beauty Spot <no-reply@bolbashbeautyspot.com>

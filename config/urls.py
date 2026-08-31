@@ -14,6 +14,7 @@ urlpatterns = [
     path('payments/', include('payments.urls')),
     path('accounts/', include('accounts.urls', namespace='accounts')),
     path('academy/', include('academy.urls', namespace='academy')),
+    path('blog/', include('blog.urls', namespace='blog')),
     path('shop/', include('shop.urls', namespace='shop')),
     path('admin-portal/', include('admin_panel.urls', namespace='admin_panel')),
     path('', include('core.urls')),

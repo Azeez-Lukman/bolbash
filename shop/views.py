@@ -53,17 +53,46 @@ def _get_or_create_cart(request):
 def shop_landing(request):
     """
     Renders public Bolbash Shop landing page at /shop/.
-    Displays shop hero, category cards, featured products grid, and new arrivals.
+    Displays shop hero, category cards, and full searchable/filterable product catalogue directly on the page.
     """
     categories = ProductCategory.objects.filter(active=True).prefetch_related('products')
-    featured_products = Product.objects.filter(is_active=True, is_featured=True).select_related('category')
-    all_products = Product.objects.filter(is_active=True).select_related('category')[:8]
+    products = Product.objects.filter(is_active=True).select_related('category')
+
+    selected_category = request.GET.get('category', '').strip()
+    selected_price = request.GET.get('price', '').strip()
+    in_stock_only = request.GET.get('in_stock', '').strip()
+    search_query = request.GET.get('q', '').strip()
+
+    if selected_category:
+        products = products.filter(category__slug=selected_category)
+
+    if in_stock_only == 'true':
+        products = products.filter(stock_quantity__gt=0)
+
+    if selected_price == 'under_10k':
+        products = products.filter(price__lt=10000)
+    elif selected_price == '10k_25k':
+        products = products.filter(price__gte=10000, price__lte=25000)
+    elif selected_price == 'over_25k':
+        products = products.filter(price__gt=25000)
+
+    if search_query:
+        products = products.filter(
+            Q(name__icontains=search_query) |
+            Q(short_description__icontains=search_query) |
+            Q(full_description__icontains=search_query)
+        )
+
     cart = _get_or_create_cart(request)
 
     context = {
         'categories': categories,
-        'featured_products': featured_products,
-        'all_products': all_products,
+        'products': products,
+        'total_products_count': Product.objects.filter(is_active=True).count(),
+        'selected_category': selected_category,
+        'selected_price': selected_price,
+        'in_stock_only': in_stock_only,
+        'search_query': search_query,
         'cart': cart,
     }
     return render(request, 'shop/shop_landing.html', context)
@@ -148,14 +177,14 @@ def product_detail(request, slug):
 def cart_detail(request):
     """
     Renders shopping cart page at /shop/cart/.
-    Displays cart line items, quantity modification controls, subtotal, delivery fee calculation, and total.
+    Displays cart line items, quantity modification controls, subtotal, and total.
     """
     cart = _get_or_create_cart(request)
     cart_items = cart.items.select_related('product', 'product__category').all()
 
     subtotal = cart.get_total_price()
-    delivery_fee = Decimal('2000.00') if cart_items.exists() else Decimal('0.00')
-    total_amount = subtotal + delivery_fee
+    delivery_fee = Decimal('0.00')
+    total_amount = subtotal
 
     context = {
         'cart': cart,
@@ -286,8 +315,8 @@ def checkout(request):
         return redirect('shop:cart_detail')
 
     subtotal = cart.get_total_price()
-    delivery_fee = Decimal('2000.00')  # Standard delivery fee within Ibadan / Nigeria
-    total_amount = subtotal + delivery_fee
+    delivery_fee = Decimal('0.00')
+    total_amount = subtotal
 
     if request.method == 'POST':
         customer_name = request.POST.get('customer_name', '').strip()

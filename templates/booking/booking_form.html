@@ -25,7 +25,7 @@
 <!-- ==========================================================================
      2. MULTI-STEP PROGRESS BAR & WIZARD FORM
      ========================================================================== -->
-<section class="py-12 sm:py-16 bg-brand-neutral-50">
+<section class="py-12 sm:py-16 bg-brand-neutral-50 min-h-[70vh]">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <!-- Messages Display -->
@@ -78,16 +78,22 @@
             <!-- ==========================================================================
                  STEP 1: SELECT SERVICE
                  ========================================================================== -->
-            <div id="step-1-content" class="bg-white p-6 sm:p-10 rounded-3xl border border-brand-neutral-200 space-y-6">
+            <div id="step-1-content" class="bg-white p-6 sm:p-10 rounded-3xl border border-brand-neutral-200 space-y-6 shadow-sm">
                 <div class="border-b border-brand-neutral-100 pb-4">
                     <span class="text-xs font-bold uppercase tracking-wider text-brand-pink block">Step 1 of 4</span>
                     <h2 class="text-2xl font-heading font-bold text-brand-black">Select Your Service</h2>
                     <p class="text-xs text-brand-neutral-500 mt-1">Choose the salon service you would like to book today.</p>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[500px] overflow-y-auto pr-2">
+                <!-- Step 1 Inline Warning -->
+                <div id="service-selection-warning" class="hidden p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-semibold flex items-center space-x-2.5 transition-all">
+                    <span class="w-5 h-5 rounded-full bg-rose-600 text-white flex items-center justify-center text-xs flex-shrink-0 font-bold">!</span>
+                    <span>Please click to select one of the services below before continuing.</span>
+                </div>
+
+                <div id="service-cards-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[500px] overflow-y-auto pr-2 p-1">
                     {% for service in services %}
-                    <div class="service-select-card p-5 rounded-2xl border border-brand-neutral-200 hover:border-brand-pink transition-all cursor-pointer flex flex-col justify-between space-y-3"
+                    <div class="service-select-card p-5 rounded-2xl border border-brand-neutral-200 hover:border-brand-pink transition-all cursor-pointer flex flex-col justify-between space-y-3 group"
                          data-service-id="{{ service.id }}"
                          data-service-name="{{ service.name }}"
                          data-service-price="{% if service.price %}{{ service.price|floatformat:2 }}{% endif %}"
@@ -95,7 +101,7 @@
                         
                         <div class="space-y-1">
                             <span class="badge-dark text-[9px] uppercase tracking-wider">{{ service.category.name }}</span>
-                            <h3 class="font-heading font-bold text-brand-black text-base">{{ service.name }}</h3>
+                            <h3 class="font-heading font-bold text-brand-black text-base group-hover:text-brand-pink transition-colors">{{ service.name }}</h3>
                             <p class="text-brand-neutral-500 text-xs line-clamp-2">{{ service.short_description }}</p>
                         </div>
 
@@ -115,11 +121,17 @@
             <!-- ==========================================================================
                  STEP 2: SELECT DATE & TIME SLOTS
                  ========================================================================== -->
-            <div id="step-2-content" class="bg-white p-6 sm:p-10 rounded-3xl border border-brand-neutral-200 space-y-6 hidden">
+            <div id="step-2-content" class="bg-white p-6 sm:p-10 rounded-3xl border border-brand-neutral-200 space-y-6 hidden shadow-sm">
                 <div class="border-b border-brand-neutral-100 pb-4">
                     <span class="text-xs font-bold uppercase tracking-wider text-brand-pink block">Step 2 of 4</span>
                     <h2 class="text-2xl font-heading font-bold text-brand-black">Choose Date & Available Time</h2>
                     <p class="text-xs text-brand-neutral-500 mt-1">Select an appointment date to fetch real-time available time slots.</p>
+                </div>
+
+                <!-- Step 2 Inline Warning -->
+                <div id="datetime-selection-warning" class="hidden p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-semibold flex items-center space-x-2.5 transition-all">
+                    <span class="w-5 h-5 rounded-full bg-rose-600 text-white flex items-center justify-center text-xs flex-shrink-0 font-bold">!</span>
+                    <span id="datetime-warning-text">Please choose an appointment date and time slot.</span>
                 </div>
 
                 <div class="space-y-6">
@@ -153,11 +165,17 @@
             <!-- ==========================================================================
                  STEP 3: CUSTOMER INFORMATION
                  ========================================================================== -->
-            <div id="step-3-content" class="bg-white p-6 sm:p-10 rounded-3xl border border-brand-neutral-200 space-y-6 hidden">
+            <div id="step-3-content" class="bg-white p-6 sm:p-10 rounded-3xl border border-brand-neutral-200 space-y-6 hidden shadow-sm">
                 <div class="border-b border-brand-neutral-100 pb-4">
                     <span class="text-xs font-bold uppercase tracking-wider text-brand-pink block">Step 3 of 4</span>
                     <h2 class="text-2xl font-heading font-bold text-brand-black">Your Contact Information</h2>
                     <p class="text-xs text-brand-neutral-500 mt-1">Enter your details so we can confirm your reservation.</p>
+                </div>
+
+                <!-- Step 3 Inline Warning -->
+                <div id="contact-selection-warning" class="hidden p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-semibold flex items-center space-x-2.5 transition-all">
+                    <span class="w-5 h-5 rounded-full bg-rose-600 text-white flex items-center justify-center text-xs flex-shrink-0 font-bold">!</span>
+                    <span id="contact-warning-text">Please fill in all required contact details.</span>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -186,7 +204,7 @@
             <!-- ==========================================================================
                  STEP 4: REVIEW & CONFIRM
                  ========================================================================== -->
-            <div id="step-4-content" class="bg-white p-6 sm:p-10 rounded-3xl border border-brand-neutral-200 space-y-6 hidden">
+            <div id="step-4-content" class="bg-white p-6 sm:p-10 rounded-3xl border border-brand-neutral-200 space-y-6 hidden shadow-sm">
                 <div class="border-b border-brand-neutral-100 pb-4">
                     <span class="text-xs font-bold uppercase tracking-wider text-brand-pink block">Step 4 of 4</span>
                     <h2 class="text-2xl font-heading font-bold text-brand-black">Review & Submit Appointment</h2>
@@ -239,10 +257,10 @@
                     ← Back
                 </button>
                 <div class="ml-auto">
-                    <button type="button" id="next-step-btn" class="btn-primary text-xs uppercase tracking-wider font-bold">
+                    <button type="button" id="next-step-btn" class="btn-primary text-xs uppercase tracking-wider font-bold py-3 px-8 shadow-md">
                         Continue →
                     </button>
-                    <button type="submit" id="submit-booking-btn" class="btn-primary text-xs uppercase tracking-wider font-bold shadow-xl shadow-pink-glow hidden">
+                    <button type="submit" id="submit-booking-btn" class="btn-primary text-xs uppercase tracking-wider font-bold py-3 px-8 shadow-xl shadow-pink-glow hidden">
                         Submit & Create Booking ✓
                     </button>
                 </div>

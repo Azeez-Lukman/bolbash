@@ -25,11 +25,8 @@
             
             <!-- Action CTAs -->
             <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
-                <a href="{% url 'booking:booking_form' %}" class="btn-primary w-full sm:w-auto text-xs uppercase tracking-wider font-bold">
+                <a href="{% url 'booking:booking_form' %}" class="btn-primary w-full sm:w-auto text-xs uppercase tracking-wider font-bold py-3.5 px-8">
                     Book Appointment
-                </a>
-                <a href="https://wa.me/message/UW6FRPKW3STAM1" target="_blank" rel="noopener noreferrer" class="btn-outline w-full sm:w-auto text-xs uppercase tracking-wider font-bold">
-                    WhatsApp Enquiry
                 </a>
             </div>
         </div>
@@ -119,16 +116,32 @@
         <!-- Service Cards Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="services-grid">
             {% for service in services %}
-            <div class="bg-white rounded-2xl border border-brand-neutral-200 p-6 sm:p-8 flex flex-col justify-between space-y-6 hover:shadow-lg transition-all duration-300 group"
+            <div class="bg-white rounded-2xl border border-brand-neutral-200 p-5 sm:p-6 flex flex-col justify-between transition-all duration-300 group hover:shadow-xl overflow-hidden"
                  data-category-slug="{{ service.category.slug }}">
                 
-                <div class="space-y-4">
+                {% if service.image %}
+                <div class="relative h-48 sm:h-52 w-full rounded-xl overflow-hidden mb-4 bg-brand-neutral-100 border border-brand-neutral-200">
+                    <img src="{{ service.image.url }}" alt="{{ service.name }}" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                    <div class="absolute top-3 left-3">
+                        <span class="badge-dark text-[10px] uppercase tracking-wider shadow-sm">{{ service.category.name }}</span>
+                    </div>
+                    {% if service.featured %}
+                    <div class="absolute top-3 right-3">
+                        <span class="badge-pink bg-white/95 text-brand-pink text-[10px] shadow-sm font-bold border-none">Featured</span>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endif %}
+
+                <div class="space-y-3">
+                    {% if not service.image %}
                     <div class="flex items-center justify-between">
                         <span class="badge-dark text-[10px] uppercase tracking-wider">{{ service.category.name }}</span>
                         {% if service.featured %}
                         <span class="badge-pink text-[10px]">Featured</span>
                         {% endif %}
                     </div>
+                    {% endif %}
 
                     <h3 class="font-heading text-xl font-bold text-brand-black group-hover:text-brand-pink transition-colors">
                         <a href="{% url 'core:service_detail' service.slug %}">{{ service.name }}</a>
@@ -174,22 +187,22 @@
 </section>
 
 <!-- ==========================================================================
-     5. ACADEMY & SHOP CROSS-PROMOTION BANNERS
+     5. EDITORIAL & SHOP CROSS-PROMOTION BANNERS
      ========================================================================== -->
 <section class="py-16 bg-white border-t border-brand-neutral-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             
-            <!-- Academy Banner -->
+            <!-- Blog Editorial Banner -->
             <div class="bg-brand-neutral-50 p-8 rounded-3xl border border-brand-neutral-200 space-y-4">
-                <span class="text-xs font-bold uppercase tracking-widest text-brand-pink">Beauty Education</span>
-                <h3 class="font-heading text-2xl font-bold text-brand-black">Want to Learn These Skills?</h3>
+                <span class="text-xs font-bold uppercase tracking-widest text-brand-pink">Beauty Insights</span>
+                <h3 class="font-heading text-2xl font-bold text-brand-black">Hair Care & Maintenance Guides</h3>
                 <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed">
-                    Bolbash Beauty Academy provides hands-on masterclasses in wig making, frontal installation, and bridal styling.
+                    Discover master tips on lace frontal longevity, nighttime satin wrapping, and human hair bundle revamping on our blog.
                 </p>
                 <div class="pt-2">
-                    <a href="{% url 'academy:academy_landing' %}" class="btn-primary text-xs uppercase tracking-wider">
-                        Explore Academy Courses
+                    <a href="{% url 'blog:post_list' %}" class="btn-primary text-xs uppercase tracking-wider">
+                        Read Beauty Blog →
                     </a>
                 </div>
             </div>
@@ -202,7 +215,7 @@
                     Discover essential hair oils, lace melt sprays, and restorative hair products curated by Bolbash.
                 </p>
                 <div class="pt-2">
-                    <a href="{% url 'core:index' %}#shop" class="btn-outline-pink text-xs uppercase tracking-wider">
+                    <a href="{% url 'shop:shop_landing' %}" class="btn-outline-pink text-xs uppercase tracking-wider">
                         Visit Hair Shop
                     </a>
                 </div>
@@ -223,12 +236,9 @@
         <p class="text-brand-neutral-400 text-base max-w-xl mx-auto leading-relaxed">
             All services are provided strictly by appointment at our Ibadan salon. Secure your dedicated slot today.
         </p>
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
-            <a href="{% url 'booking:booking_form' %}" class="btn-primary w-full sm:w-auto text-xs uppercase tracking-wider font-bold shadow-xl shadow-pink-glow">
+        <div class="flex items-center justify-center pt-2">
+            <a href="{% url 'booking:booking_form' %}" class="btn-primary w-full sm:w-auto text-xs uppercase tracking-wider font-bold shadow-xl shadow-pink-glow text-center">
                 Book Appointment
-            </a>
-            <a href="https://wa.me/message/UW6FRPKW3STAM1" target="_blank" rel="noopener noreferrer" class="btn-outline-pink w-full sm:w-auto text-xs uppercase tracking-wider">
-                Chat On WhatsApp
             </a>
         </div>
     </div>

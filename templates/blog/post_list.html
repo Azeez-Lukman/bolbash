@@ -1,0 +1,306 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Beauty Blog & Hair Care Editorial | Bolbash Beauty Spot Ibadan{% endblock title %}
+{% block meta_description %}Discover expert hair care advice, wig maintenance tips, bridal preparation guides, and beauty trends from the master stylists at Bolbash Beauty Spot.{% endblock meta_description %}
+
+{% block content %}
+<main class="min-h-screen bg-brand-white-off">
+
+    <!-- ======================================================================
+         1. EDITORIAL HERO HEADER
+         ====================================================================== -->
+    <section class="relative bg-brand-black text-white py-16 sm:py-20 lg:py-24 overflow-hidden border-b border-brand-black-muted">
+        <!-- Ambient Glow Elements -->
+        <div class="absolute -top-24 -right-24 w-96 h-96 bg-brand-pink/15 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-brand-pink/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-4">
+            <span class="inline-block text-xs uppercase tracking-widest font-bold text-brand-pink px-4 py-1.5 rounded-full bg-brand-pink/10 border border-brand-pink/20">
+                ✨ The Bolbash Editorial
+            </span>
+            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold text-white tracking-tight">
+                Beauty Insights, Hair Care & Style Trends
+            </h1>
+            <p class="max-w-2xl mx-auto text-brand-neutral-300 text-sm sm:text-base leading-relaxed">
+                Expert maintenance advice, frontal installation tutorials, bridal preparation guides, and product tips from Ibadan's leading hair artists.
+            </p>
+
+            <!-- Search Bar -->
+            <div class="pt-6 max-w-xl mx-auto">
+                <form method="GET" action="{% url 'blog:post_list' %}" class="relative flex items-center shadow-2xl">
+                    <input 
+                        type="text" 
+                        name="q" 
+                        value="{{ search_query }}" 
+                        placeholder="Search hair care, frontal maintenance, bridal tips..." 
+                        class="w-full pl-5 pr-28 py-3.5 sm:py-4 bg-brand-black-light text-white rounded-full border border-brand-neutral-700 placeholder-brand-neutral-500 focus:outline-none focus:ring-2 focus:ring-brand-pink focus:border-brand-pink text-xs sm:text-sm"
+                    />
+                    <button 
+                        type="submit" 
+                        class="absolute right-1.5 top-1.5 bottom-1.5 px-5 sm:px-6 rounded-full bg-brand-pink text-white font-bold text-xs uppercase tracking-wider hover:bg-brand-pink-700 transition-colors flex items-center space-x-1.5 shadow-md">
+                        <span>Search</span>
+                    </button>
+                </form>
+                {% if search_query %}
+                <div class="pt-3 flex items-center justify-center space-x-2 text-xs text-brand-neutral-400">
+                    <span>Showing results for: <strong class="text-white">"{{ search_query }}"</strong></span>
+                    <span>•</span>
+                    <a href="{% url 'blog:post_list' %}" class="text-brand-pink hover:underline font-semibold">Clear Search</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <!-- ======================================================================
+         2. CATEGORY PILL FILTER NAVIGATION
+         ====================================================================== -->
+    <section class="py-5 bg-white border-b border-brand-neutral-200 sticky top-20 z-30 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-start sm:justify-center overflow-x-auto no-scrollbar gap-2.5 py-1">
+                <a href="{% url 'blog:post_list' %}" 
+                   class="px-5 py-2.5 rounded-full text-xs font-bold whitespace-nowrap transition-all {% if not selected_category %}bg-brand-black text-white shadow-md{% else %}bg-brand-neutral-50 border border-brand-neutral-200 text-brand-neutral-700 hover:border-brand-pink hover:text-brand-pink{% endif %}">
+                    ✨ All Articles ({{ total_posts_count }})
+                </a>
+                {% for cat in categories %}
+                <a href="{% url 'blog:category_detail' cat.slug %}" 
+                   class="px-5 py-2.5 rounded-full text-xs font-bold whitespace-nowrap transition-all {% if selected_category.slug == cat.slug %}bg-brand-pink text-white shadow-md{% else %}bg-brand-neutral-50 border border-brand-neutral-200 text-brand-neutral-700 hover:border-brand-pink hover:text-brand-pink{% endif %}">
+                    {{ cat.name }} ({{ cat.published_posts_count }})
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- ======================================================================
+         3. FEATURED SPOTLIGHT ARTICLE (When applicable)
+         ====================================================================== -->
+    {% if featured_post and not selected_category and not search_query and page_obj.number == 1 %}
+    <section class="py-8 sm:py-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-brand-black text-white rounded-3xl overflow-hidden shadow-2xl border border-brand-black-muted grid grid-cols-1 lg:grid-cols-12 group transition-all duration-300 hover:border-brand-pink/40 lg:max-h-[380px]">
+            
+            <!-- Image Side (50% Width, Compact Aspect Ratio) -->
+            <div class="lg:col-span-6 relative h-64 sm:h-72 lg:h-[380px] overflow-hidden bg-brand-black-light">
+                {% if featured_post.featured_image %}
+                    <img src="{{ featured_post.featured_image.url }}" 
+                         alt="{{ featured_post.title }}" 
+                         class="w-full h-full object-cover object-top sm:object-center group-hover:scale-105 transition-transform duration-700" loading="eager" />
+                {% else %}
+                    <img src="{% static 'images/bolbash_editorial_model.jpg' %}" 
+                         alt="{{ featured_post.title }}" 
+                         class="w-full h-full object-cover object-top sm:object-center group-hover:scale-105 transition-transform duration-700" loading="eager" />
+                {% endif %}
+                <div class="absolute inset-0 bg-gradient-to-t from-brand-black via-brand-black/20 to-transparent lg:hidden"></div>
+                <div class="absolute top-4 left-4">
+                    <span class="badge-pink bg-brand-pink text-white font-bold text-xs uppercase px-3.5 py-1.5 shadow-lg border-none">
+                        ★ Featured Story
+                    </span>
+                </div>
+            </div>
+
+            <!-- Content Side (50% Width, Balanced Padding) -->
+            <div class="lg:col-span-6 p-6 sm:p-8 lg:p-9 flex flex-col justify-between space-y-4">
+                <div class="space-y-3">
+                    <div class="flex flex-wrap items-center gap-2 text-xs text-brand-neutral-400">
+                        <span class="text-brand-pink font-bold uppercase tracking-wider">{{ featured_post.category.name }}</span>
+                        <span>•</span>
+                        <span>⏱ {{ featured_post.reading_time_minutes }} min read</span>
+                        <span>•</span>
+                        <span>{{ featured_post.published_at|date:"M d, Y" }}</span>
+                    </div>
+
+                    <h2 class="text-xl sm:text-2xl lg:text-3xl font-heading font-bold text-white tracking-tight leading-snug group-hover:text-brand-pink transition-colors">
+                        <a href="{% url 'blog:post_detail' featured_post.slug %}">
+                            {{ featured_post.title }}
+                        </a>
+                    </h2>
+
+                    <p class="text-brand-neutral-300 text-xs sm:text-sm leading-relaxed line-clamp-3">
+                        {{ featured_post.excerpt }}
+                    </p>
+                </div>
+
+                <div class="pt-4 border-t border-brand-black-muted flex items-center justify-between gap-3">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-9 h-9 rounded-full bg-brand-pink/20 text-brand-pink font-bold flex items-center justify-center text-xs flex-shrink-0">
+                            ✂️
+                        </div>
+                        <div>
+                            <span class="text-xs font-bold text-white block">{{ featured_post.author_name }}</span>
+                            <span class="text-[10px] text-brand-neutral-400">Verified Stylist</span>
+                        </div>
+                    </div>
+                    <a href="{% url 'blog:post_detail' featured_post.slug %}" 
+                       class="btn-primary text-xs uppercase tracking-wider font-bold py-2 px-5 rounded-full shadow-md whitespace-nowrap">
+                        Read Story →
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- ======================================================================
+         4. ARTICLES GRID & PAGINATION
+         ====================================================================== -->
+    <section class="py-8 sm:py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+
+        {% if selected_category %}
+        <div class="space-y-1 bg-white p-6 sm:p-8 rounded-3xl border border-brand-neutral-200 shadow-sm">
+            <span class="text-xs uppercase tracking-widest font-bold text-brand-pink">Category Archive</span>
+            <h2 class="text-2xl sm:text-3xl font-heading font-bold text-brand-black">{{ selected_category.name }}</h2>
+            {% if selected_category.description %}
+                <p class="text-sm text-brand-neutral-600 max-w-2xl pt-1">{{ selected_category.description }}</p>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        {% if posts %}
+        <!-- Card Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for post in posts %}
+            <article class="card-premium card-hover bg-white border border-brand-neutral-200 rounded-3xl overflow-hidden flex flex-col justify-between group transition-all duration-300 shadow-sm hover:shadow-xl">
+                
+                <!-- Cover Image -->
+                <div class="relative h-56 sm:h-60 w-full overflow-hidden bg-brand-neutral-100">
+                    <a href="{% url 'blog:post_detail' post.slug %}" class="block w-full h-full">
+                        {% if post.featured_image %}
+                            <img src="{{ post.featured_image.url }}" 
+                                 alt="{{ post.title }}" 
+                                 class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                        {% else %}
+                            <img src="{% static 'images/hairbybolbash/bridal_hair_1.jpg' %}" 
+                                 alt="{{ post.title }}" 
+                                 class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                        {% endif %}
+                    </a>
+                    <div class="absolute top-3 left-3">
+                        <span class="badge-pink bg-white/95 backdrop-blur-md text-[10px] font-bold text-brand-pink shadow-md border-none px-3 py-1">
+                            {{ post.category.name }}
+                        </span>
+                    </div>
+                    <div class="absolute bottom-3 right-3 bg-brand-black/85 backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow">
+                        ⏱ {{ post.reading_time_minutes }} min read
+                    </div>
+                </div>
+
+                <!-- Article Body -->
+                <div class="p-6 sm:p-7 space-y-3.5 flex-grow flex flex-col justify-between">
+                    <div class="space-y-2.5">
+                        <div class="flex items-center space-x-2 text-[11px] text-brand-neutral-500 font-medium">
+                            <span>{{ post.published_at|date:"M d, Y" }}</span>
+                            <span>•</span>
+                            <span>{{ post.views_count }} views</span>
+                        </div>
+                        <h3 class="text-lg sm:text-xl font-heading font-bold text-brand-black group-hover:text-brand-pink transition-colors line-clamp-2 leading-snug">
+                            <a href="{% url 'blog:post_detail' post.slug %}">
+                                {{ post.title }}
+                            </a>
+                        </h3>
+                        <p class="text-brand-neutral-600 text-xs sm:text-sm leading-relaxed line-clamp-3">
+                            {{ post.excerpt }}
+                        </p>
+                    </div>
+
+                    <!-- Read Link -->
+                    <div class="pt-4 border-t border-brand-neutral-100 flex items-center justify-between mt-4">
+                        <a href="{% url 'blog:post_detail' post.slug %}" class="text-xs font-bold text-brand-pink group-hover:underline flex items-center space-x-1">
+                            <span>Read Guide</span>
+                            <span>→</span>
+                        </a>
+                        <span class="text-[11px] font-medium text-brand-neutral-500">
+                            By {{ post.author_name }}
+                        </span>
+                    </div>
+                </div>
+
+            </article>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination Bar -->
+        {% if page_obj.has_other_pages %}
+        <nav class="pt-10 flex items-center justify-center space-x-2" aria-label="Blog Pagination">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}{% if selected_category %}&category={{ selected_category.slug }}{% endif %}" 
+                   class="px-4 py-2.5 rounded-xl border border-brand-neutral-200 text-xs font-bold text-brand-black bg-white hover:bg-brand-neutral-100 transition-colors shadow-sm">
+                    ← Previous
+                </a>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                    <span class="w-10 h-10 rounded-xl bg-brand-pink text-white flex items-center justify-center text-xs font-bold shadow-md">
+                        {{ num }}
+                    </span>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <a href="?page={{ num }}{% if search_query %}&q={{ search_query }}{% endif %}{% if selected_category %}&category={{ selected_category.slug }}{% endif %}" 
+                       class="w-10 h-10 rounded-xl border border-brand-neutral-200 bg-white text-brand-neutral-700 hover:border-brand-pink hover:text-brand-pink flex items-center justify-center text-xs font-bold transition-colors shadow-sm">
+                        {{ num }}
+                    </a>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}{% if selected_category %}&category={{ selected_category.slug }}{% endif %}" 
+                   class="px-4 py-2.5 rounded-xl border border-brand-neutral-200 text-xs font-bold text-brand-black bg-white hover:bg-brand-neutral-100 transition-colors shadow-sm">
+                    Next →
+                </a>
+            {% endif %}
+        </nav>
+        {% endif %}
+
+        {% else %}
+        <!-- Empty State -->
+        <div class="py-16 text-center max-w-md mx-auto space-y-4 bg-white rounded-3xl p-8 border border-brand-neutral-200 shadow-sm">
+            <div class="w-16 h-16 rounded-full bg-brand-pink/10 text-brand-pink text-2xl flex items-center justify-center mx-auto">
+                📖
+            </div>
+            <h3 class="text-lg font-heading font-bold text-brand-black">No Articles Found</h3>
+            <p class="text-xs text-brand-neutral-600 leading-relaxed">
+                {% if search_query %}
+                    No articles matched your search query "{{ search_query }}". Try searching for different keywords or explore our salon services.
+                {% else %}
+                    We are currently preparing fresh beauty articles for this category. Check back shortly!
+                {% endif %}
+            </p>
+            <div class="pt-2">
+                <a href="{% url 'blog:post_list' %}" class="btn-primary text-xs uppercase tracking-wider font-bold py-2.5 px-6">
+                    View All Articles
+                </a>
+            </div>
+        </div>
+        {% endif %}
+
+    </section>
+
+    <!-- ======================================================================
+         5. CONVERSION CALLOUT: SALON APPOINTMENT & CONSULTATION
+         ====================================================================== -->
+    <section class="py-16 sm:py-20 bg-brand-black text-white relative overflow-hidden border-t border-brand-black-muted">
+        <div class="absolute -top-20 -right-20 w-80 h-80 bg-brand-pink/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-6">
+            <span class="badge-pink bg-brand-pink text-white border-none font-bold text-xs uppercase px-4 py-1.5">
+                Ready for a Transformation?
+            </span>
+            <h2 class="text-2xl sm:text-4xl font-heading font-bold text-white tracking-tight max-w-2xl mx-auto leading-tight">
+                Put Our Hair Artistry & Styling Expertise to Work for You
+            </h2>
+            <p class="max-w-xl mx-auto text-brand-neutral-300 text-xs sm:text-sm leading-relaxed">
+                Book your bespoke bridal styling, flawless frontal melt, or luxury hair revamping appointment with our master stylists at our Ibadan studio.
+            </p>
+            <div class="pt-2 flex flex-wrap items-center justify-center gap-4">
+                <a href="{% url 'booking:booking_form' %}" class="btn-primary text-xs uppercase tracking-wider font-bold py-3.5 px-8 shadow-xl shadow-pink-glow">
+                    BOOK SALON APPOINTMENT
+                </a>
+                <a href="{% url 'shop:shop_landing' %}" class="btn-outline-pink text-xs uppercase tracking-wider font-bold py-3.5 px-8">
+                    Shop Hair Care Products
+                </a>
+            </div>
+        </div>
+    </section>
+
+</main>
+{% endblock content %}

@@ -38,23 +38,11 @@
             <p class="text-brand-neutral-500 text-sm sm:text-base max-w-lg mx-auto">
                 Payment received via Paystack. A confirmation email has been dispatched to <strong>{{ booking.customer_email }}</strong>.
             </p>
-            {% else %}
-            <div class="w-16 h-16 mx-auto rounded-full bg-amber-100 text-amber-600 flex items-center justify-center font-bold text-2xl">
-                💳
-            </div>
-            <span class="badge-gold">Awaiting Payment</span>
-            <h1 class="text-3xl sm:text-4xl font-heading font-bold text-brand-black tracking-tight">
-                Your Appointment Request Has Been Received
-            </h1>
-            <p class="text-brand-neutral-500 text-sm sm:text-base max-w-lg mx-auto">
-                Thank you for choosing Bolbash Beauty Spot. Please complete your deposit payment via Paystack below to secure your appointment.
-            </p>
-            {% endif %}
 
-            <!-- Reference Badge & Copy Action -->
+            <!-- Confirmed Reference Ticket Badge & Copy Action -->
             <div class="pt-2 flex flex-col items-center space-y-2">
                 <div class="inline-block bg-brand-black text-white px-6 py-3 rounded-2xl border border-brand-black-muted text-center relative group">
-                    <span class="text-[10px] uppercase tracking-widest text-brand-neutral-400 block font-semibold">Booking Reference</span>
+                    <span class="text-[10px] uppercase tracking-widest text-brand-neutral-400 block font-semibold">Official Booking Reference Ticket</span>
                     <span id="booking-ref-text" class="font-heading text-2xl font-bold tracking-widest text-brand-pink">{{ booking.reference }}</span>
                 </div>
 
@@ -66,7 +54,46 @@
                     <span id="copy-btn-text">Copy Reference</span>
                 </button>
             </div>
+            {% else %}
+            <div class="w-16 h-16 mx-auto rounded-full bg-amber-100 text-amber-600 flex items-center justify-center font-bold text-2xl">
+                ⏳
+            </div>
+            <span class="badge-gold">Temporary Hold (Awaiting Deposit Payment)</span>
+            <h1 class="text-3xl sm:text-4xl font-heading font-bold text-brand-black tracking-tight">
+                Complete Upfront Payment to Issue Reservation
+            </h1>
+            <p class="text-brand-neutral-500 text-sm sm:text-base max-w-lg mx-auto">
+                No official appointment reservation is issued until deposit payment is verified. Your time slot is temporarily held for <strong><span id="countdown-display" data-seconds="{{ booking.seconds_remaining }}">15:00</span></strong>.
+            </p>
+            {% endif %}
         </div>
+
+        <!-- Primary Payment Actions Card (Paystack Instant Multi-Channel Payment) -->
+        {% if booking.payment_status != 'PAID' %}
+        <div class="bg-brand-black text-white p-6 sm:p-8 rounded-3xl border border-brand-black-muted space-y-6 shadow-2xl">
+            <div class="space-y-4">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs uppercase tracking-widest text-brand-pink font-bold">Secure Online Payment</span>
+                    <span class="badge-pink bg-white/10 text-white border-none text-[10px]">Powered by Paystack</span>
+                </div>
+                <h3 class="font-heading text-2xl font-bold text-white">Pay Upfront Deposit</h3>
+                <p class="text-xs text-brand-neutral-300 leading-relaxed">
+                    Pay securely via Paystack. Your appointment reservation will be verified and confirmed instantly.
+                </p>
+
+                <div class="pt-2">
+                    <a href="{% url 'payments:initiate_payment' booking.reference %}" class="btn-primary w-full text-center text-xs sm:text-sm uppercase tracking-wider font-bold shadow-xl shadow-pink-glow py-4 block">
+                        PAY ₦{{ booking.amount_due|floatformat:2 }} DEPOSIT VIA PAYSTACK →
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="p-6 rounded-3xl bg-emerald-50 text-emerald-900 border border-emerald-200 space-y-2 text-xs">
+            <span class="font-bold block text-emerald-800 text-sm">✅ Payment Received & Reservation Issued</span>
+            <p>Your payment has been verified by Bolbash Beauty Spot backend and your appointment is officially confirmed! A receipt has been sent to {{ booking.customer_email }}. Please arrive 10 minutes before your scheduled time.</p>
+        </div>
+        {% endif %}
 
         <!-- Appointment Details Box -->
         <div class="bg-white p-8 rounded-3xl border border-brand-neutral-200 space-y-6">
@@ -104,7 +131,7 @@
                     {% if booking.status == 'CONFIRMED' %}
                     <span class="badge-pink bg-emerald-50 text-emerald-700 border-emerald-200 font-bold">Confirmed</span>
                     {% else %}
-                    <span class="badge-gold">{{ booking.get_status_display }}</span>
+                    <span class="badge-gold">Hold Active (Awaiting Payment)</span>
                     {% endif %}
                 </div>
 
@@ -129,36 +156,12 @@
 
             <!-- Salon Location & Policy Box -->
             <div class="p-6 rounded-2xl bg-brand-neutral-50 border border-brand-neutral-200 space-y-3 text-xs">
-                <span class="font-bold text-brand-black block text-sm">📍 Salon Location & Information</span>
+                <span class="font-bold text-brand-black block text-sm">📍 Salon Location & Policy</span>
                 <p class="text-brand-neutral-600 leading-relaxed">
                     No. 40, SIOA Plaza, at the entrance of E Exclusive Hotel, Ore-Ofe Bus Stop, Sango-Eleyele Road, Ibadan, Nigeria.<br>
-                    <strong>Phone:</strong> <a href="tel:08168956606" class="underline text-brand-black">08168956606</a> | <strong>Policy:</strong> Strictly by appointment.
+                    <strong>Phone:</strong> <a href="tel:08168956606" class="underline text-brand-black">08168956606</a> | <strong>Policy:</strong> No reservation issued without upfront payment.
                 </p>
             </div>
-
-            <!-- Paystack Payment Box -->
-            {% if booking.payment_status != 'PAID' %}
-            <div class="p-6 rounded-2xl bg-brand-black text-white border border-brand-black-muted space-y-4">
-                <div class="flex items-center justify-between">
-                    <span class="text-xs uppercase tracking-widest text-brand-pink font-semibold">Secure Payment</span>
-                    <span class="badge-pink bg-white/10 text-white border-none">Powered by Paystack</span>
-                </div>
-                <h3 class="font-heading text-xl font-bold text-white">Complete Your Booking Deposit</h3>
-                <p class="text-xs text-brand-neutral-400 leading-relaxed">
-                    Pay securely using card, bank transfer, or USSD via Paystack. Your appointment will be confirmed immediately after server-side verification.
-                </p>
-                <div class="pt-2">
-                    <a href="{% url 'payments:initiate_payment' booking.reference %}" class="btn-primary w-full text-center text-xs uppercase tracking-wider font-bold shadow-xl shadow-pink-glow py-3.5 block">
-                        Pay Deposit Now via Paystack →
-                    </a>
-                </div>
-            </div>
-            {% else %}
-            <div class="p-6 rounded-2xl bg-emerald-50 text-emerald-900 border border-emerald-200 space-y-2 text-xs">
-                <span class="font-bold block text-emerald-800">✅ Payment Received & Verified</span>
-                <p>Your payment has been verified by the Bolbash Beauty Spot backend. A confirmation email has been sent to {{ booking.customer_email }}. Please arrive 10 minutes before your scheduled appointment time.</p>
-            </div>
-            {% endif %}
         </div>
 
         <!-- Action Links -->
@@ -179,6 +182,7 @@
 {% block extra_js %}
 <script>
     document.addEventListener('DOMContentLoaded', () => {
+        // Copy Booking Reference
         const copyBtn = document.getElementById('copy-ref-btn');
         const copyBtnText = document.getElementById('copy-btn-text');
 
@@ -212,6 +216,41 @@
                     }, 2500);
                 }
             });
+        }
+
+        // Copy Account Number
+        const copyAccBtn = document.getElementById('copy-acc-btn');
+        if (copyAccBtn) {
+            copyAccBtn.addEventListener('click', () => {
+                const acc = copyAccBtn.getAttribute('data-acc');
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(acc).then(() => {
+                        copyAccBtn.textContent = 'Copied! ✓';
+                        setTimeout(() => copyAccBtn.textContent = 'Copy', 2000);
+                    });
+                }
+            });
+        }
+
+        // 15-Minute Countdown Timer for Unpaid Booking Hold
+        const countdownEl = document.getElementById('countdown-display');
+        if (countdownEl) {
+            let totalSeconds = parseInt(countdownEl.getAttribute('data-seconds') || '900', 10);
+
+            function updateTimer() {
+                if (totalSeconds <= 0) {
+                    countdownEl.textContent = 'Expired (Hold Released)';
+                    countdownEl.classList.add('text-rose-600');
+                    return;
+                }
+                const mins = Math.floor(totalSeconds / 60);
+                const secs = totalSeconds % 60;
+                countdownEl.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+                totalSeconds--;
+            }
+
+            updateTimer();
+            setInterval(updateTimer, 1000);
         }
     });
 </script>

@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Paystack Secure Test Checkout | Bolbash Beauty Spot{% endblock title %}
+
+{% block content %}
+<section class="py-12 sm:py-16 lg:py-24 bg-brand-black min-h-[85vh] flex items-center justify-center">
+    <div class="max-w-md mx-auto px-4 w-full space-y-6">
+        
+        <!-- Paystack Sandbox Container Card -->
+        <div class="bg-white rounded-3xl overflow-hidden shadow-2xl border border-brand-neutral-200">
+            
+            <!-- Paystack Header Bar -->
+            <div class="bg-brand-black text-white p-6 flex items-center justify-between border-b border-brand-neutral-800">
+                <div class="flex items-center space-x-3">
+                    <img src="{% static 'images/logo.jpg' %}" alt="Bolbash Logo" class="h-8 w-auto rounded-md" />
+                    <div>
+                        <span class="font-bold text-sm block tracking-tight">Bolbash Beauty Spot</span>
+                        <span class="text-[10px] text-brand-pink font-semibold uppercase tracking-wider">Paystack Test Sandbox</span>
+                    </div>
+                </div>
+                <span class="badge-pink bg-white/10 text-white border-none text-[10px]">TEST MODE</span>
+            </div>
+
+            <!-- Transaction Summary -->
+            <div class="p-6 bg-brand-neutral-50 border-b border-brand-neutral-200 text-center space-y-2">
+                <span class="text-xs uppercase tracking-widest text-brand-neutral-400 font-semibold block">Deposit Amount Due</span>
+                <span class="text-3xl font-heading font-bold text-brand-pink block">₦{{ payment.amount|floatformat:2 }}</span>
+                <div class="text-xs text-brand-neutral-600 space-y-0.5 pt-1">
+                    <p><strong>Booking Ref:</strong> {{ booking.reference }}</p>
+                    <p><strong>Service:</strong> {{ booking.service_name_snapshot }}</p>
+                    <p><strong>Customer:</strong> {{ booking.customer_name }} ({{ booking.customer_email }})</p>
+                </div>
+            </div>
+
+            <!-- Payment Simulation Form -->
+            <div class="p-6 space-y-6">
+                <!-- Channel Selector Options -->
+                <div class="space-y-3">
+                    <span class="text-xs uppercase tracking-wider text-brand-neutral-400 block font-semibold">Select Payment Option</span>
+                    
+                    <div class="grid grid-cols-3 gap-2 text-center text-xs">
+                        <button type="button" id="tab-card" class="channel-tab p-2.5 rounded-xl border border-brand-pink bg-brand-pink/10 text-brand-pink font-bold focus:outline-none transition-all">
+                            💳 Card (ATM)
+                        </button>
+                        <button type="button" id="tab-transfer" class="channel-tab p-2.5 rounded-xl border border-brand-neutral-200 bg-brand-neutral-50 text-brand-neutral-700 font-semibold focus:outline-none hover:bg-brand-neutral-100 transition-all">
+                            🏦 Bank Transfer
+                        </button>
+                        <button type="button" id="tab-ussd" class="channel-tab p-2.5 rounded-xl border border-brand-neutral-200 bg-brand-neutral-50 text-brand-neutral-700 font-semibold focus:outline-none hover:bg-brand-neutral-100 transition-all">
+                            📱 USSD
+                        </button>
+                    </div>
+
+                    <!-- Channel Detail Views -->
+                    <!-- 1. Card View -->
+                    <div id="channel-view-card" class="p-4 rounded-2xl border border-brand-pink/30 bg-brand-pink/5 space-y-2 text-xs">
+                        <div class="flex items-center justify-between">
+                            <span class="font-bold text-brand-black">Debit / Credit Card</span>
+                            <span class="text-brand-pink font-bold text-[10px]">Selected ✓</span>
+                        </div>
+                        <div class="space-y-1 font-mono text-brand-neutral-700">
+                            <p class="font-bold text-sm text-brand-black">4084 0840 8408 4081</p>
+                            <p class="text-[11px]">Expiry: 12/30 • CVV: 123</p>
+                        </div>
+                    </div>
+
+                    <!-- 2. Transfer View -->
+                    <div id="channel-view-transfer" class="hidden p-4 rounded-2xl border border-brand-neutral-200 bg-brand-neutral-50 space-y-2 text-xs">
+                        <div class="flex items-center justify-between">
+                            <span class="font-bold text-brand-black">Paystack Dynamic Bank Transfer</span>
+                            <span class="text-brand-pink font-bold text-[10px]">Selected ✓</span>
+                        </div>
+                        <div class="space-y-1">
+                            <p class="text-brand-neutral-500 text-[11px]">Transfer to the Paystack settlement account:</p>
+                            <div class="p-3 rounded-xl bg-white border border-brand-neutral-200 space-y-1 font-mono">
+                                <p><span class="text-brand-neutral-400">Bank:</span> <strong>{{ BANK_NAME }}</strong></p>
+                                <p><span class="text-brand-neutral-400">Account:</span> <strong class="text-brand-pink text-sm">{{ ACCOUNT_NUMBER }}</strong></p>
+                                <p class="text-[11px]"><span class="text-brand-neutral-400">Name:</span> <strong>{{ ACCOUNT_NAME }}</strong></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. USSD View -->
+                    <div id="channel-view-ussd" class="hidden p-4 rounded-2xl border border-brand-neutral-200 bg-brand-neutral-50 space-y-2 text-xs">
+                        <div class="flex items-center justify-between">
+                            <span class="font-bold text-brand-black">USSD Code</span>
+                            <span class="text-brand-pink font-bold text-[10px]">Selected ✓</span>
+                        </div>
+                        <div class="p-3 rounded-xl bg-white border border-brand-neutral-200 text-center font-mono space-y-1">
+                            <span class="text-brand-neutral-400 text-[10px] block uppercase">Dial Code on Your Phone</span>
+                            <span class="font-bold text-brand-pink text-base block">*737*000*4084#</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Simulation Form POST -->
+                <form method="POST" action="" class="space-y-3 pt-2">
+                    {% csrf_token %}
+                    
+                    <button type="submit" name="action" value="success" 
+                            class="btn-primary w-full text-center text-xs sm:text-sm uppercase tracking-wider font-bold py-4 shadow-xl shadow-pink-glow block">
+                        MAKE PAYMENT (₦{{ payment.amount|floatformat:2 }}) →
+                    </button>
+
+                    <button type="submit" name="action" value="cancel" 
+                            class="w-full text-center text-xs uppercase tracking-wider font-bold py-3.5 rounded-xl border border-brand-neutral-300 text-brand-neutral-600 hover:bg-brand-neutral-100 transition-colors block">
+                        CANCEL PAYMENT ✕
+                    </button>
+                </form>
+            </div>
+
+            <!-- Footer Note -->
+            <div class="p-4 bg-brand-neutral-100 text-center border-t border-brand-neutral-200 text-[10px] text-brand-neutral-500">
+                🔒 Paystack Development Sandbox • Click <strong>MAKE PAYMENT</strong> to test successful deposit verification or <strong>CANCEL PAYMENT</strong> to test cancellation.
+            </div>
+
+        </div>
+
+    </div>
+</section>
+{% endblock content %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const tabCard = document.getElementById('tab-card');
+        const tabTransfer = document.getElementById('tab-transfer');
+        const tabUssd = document.getElementById('tab-ussd');
+
+        const viewCard = document.getElementById('channel-view-card');
+        const viewTransfer = document.getElementById('channel-view-transfer');
+        const viewUssd = document.getElementById('channel-view-ussd');
+
+        const tabs = [
+            { btn: tabCard, view: viewCard },
+            { btn: tabTransfer, view: viewTransfer },
+            { btn: tabUssd, view: viewUssd }
+        ];
+
+        tabs.forEach(item => {
+            if (item.btn) {
+                item.btn.addEventListener('click', () => {
+                    tabs.forEach(t => {
+                        t.view.classList.add('hidden');
+                        t.btn.className = 'channel-tab p-2.5 rounded-xl border border-brand-neutral-200 bg-brand-neutral-50 text-brand-neutral-700 font-semibold focus:outline-none hover:bg-brand-neutral-100 transition-all';
+                    });
+                    item.view.classList.remove('hidden');
+                    item.btn.className = 'channel-tab p-2.5 rounded-xl border border-brand-pink bg-brand-pink/10 text-brand-pink font-bold focus:outline-none transition-all';
+                });
+            }
+        });
+    });
+</script>
+{% endblock extra_js %}

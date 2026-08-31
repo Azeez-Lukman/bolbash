@@ -1,71 +1,139 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}About Bolbash Beauty Spot | Luxury Beauty Salon & Academy in Ibadan{% endblock title %}
+{% block title %}About Bolbash Beauty Spot | Luxury Beauty Salon in Ibadan{% endblock title %}
 
-{% block meta_description %}Learn about Bolbash Beauty Spot, Ibadan's premier destination for luxury hair styling, wig artistry, bridal beauty, nail care, and professional beauty training.{% endblock meta_description %}
+{% block meta_description %}Learn about Bolbash Beauty Spot, Ibadan's premier destination for luxury hair styling, wig artistry, bridal beauty, nail care, and expert hair maintenance guidance.{% endblock meta_description %}
 
 {% block content %}
 
 <!-- ==========================================================================
      1. ABOUT HERO SECTION
      ========================================================================== -->
-<section class="relative bg-white pt-12 pb-16 sm:pt-16 sm:pb-24 lg:pt-20 lg:pb-28">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+<!-- ==========================================================================
+     1. ABOUT HERO SECTION (Full-Width Animated Background Transition)
+     ========================================================================== -->
+<section class="relative bg-brand-black min-h-[85vh] flex items-center justify-center overflow-hidden text-white relative z-10" id="about-hero-slider">
+    
+    <!-- Background Media Slides Container -->
+    <div class="absolute inset-0 z-0">
+        <!-- Slide 1: High-Res Editorial Model -->
+        <div class="about-bg-slide absolute inset-0 opacity-100 transition-opacity duration-1000 ease-in-out">
+            <img src="{% static 'images/bolbash_editorial_model.jpg' %}" alt="Bolbash Luxury Beauty Artistry" class="w-full h-full object-cover object-center" />
+        </div>
+        <!-- Slide 2: High-Res Traditional Bridal -->
+        <div class="about-bg-slide absolute inset-0 opacity-0 transition-opacity duration-1000 ease-in-out">
+            <img src="{% static 'images/bridal_traditional.jpg' %}" alt="Bespoke Bridal Glamour" class="w-full h-full object-cover object-top" />
+        </div>
+        <!-- Slide 3: High-Res Salon Showcase -->
+        <div class="about-bg-slide absolute inset-0 opacity-0 transition-opacity duration-1000 ease-in-out">
+            <img src="{% static 'images/salon_hero_showcase.jpg' %}" alt="Frontal Wig Melt Installation" class="w-full h-full object-cover object-center" />
+        </div>
+        <!-- Slide 4: High-Res Bridal Hero -->
+        <div class="about-bg-slide absolute inset-0 opacity-0 transition-opacity duration-1000 ease-in-out">
+            <img src="{% static 'images/bridal_hero.jpg' %}" alt="Bolbash Beauty Spot Sanctuary" class="w-full h-full object-cover object-top" />
+        </div>
+
+        <!-- Extra Dark Luxury Overlay for Maximum Text Contrast & Crispness -->
+        <div class="absolute inset-0 bg-gradient-to-r from-brand-black via-brand-black/90 to-brand-black/75"></div>
+        <div class="absolute inset-0 bg-brand-black/40"></div>
+    </div>
+
+    <!-- Hero Content Overlay Container (Clean Expanded Layout) -->
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28 text-center lg:text-left w-full">
+        <div class="max-w-3xl space-y-6">
+            <span class="inline-flex items-center space-x-2 bg-brand-pink/20 text-brand-pink border border-brand-pink/40 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest backdrop-blur-md">
+                <span>✦ ABOUT BOLBASH BEAUTY SPOT</span>
+            </span>
             
-            <!-- Hero Text Column -->
-            <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
-                <span class="eyebrow-text text-brand-pink font-bold">ABOUT BOLBASH BEAUTY SPOT</span>
-                
-                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-heading font-bold text-brand-black tracking-tight leading-[1.15]">
-                    Where Beauty Artistry Meets <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-pink via-brand-pink-600 to-brand-black">Master Skill</span>
-                </h1>
-                
-                <p class="text-brand-neutral-500 text-base sm:text-lg lg:text-xl font-normal leading-relaxed max-w-2xl mx-auto lg:mx-0">
-                    Bolbash Beauty Spot is Ibadan’s luxury beauty sanctuary and training academy — dedicated to flawless hair styling, invisible wig installations, bridal glamour, nail care, and practical beauty education.
-                </p>
-                
-                <!-- Action CTAs -->
-                <div class="pt-4 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
-                    <a href="{% url 'core:index' %}#services" class="btn-primary w-full sm:w-auto text-xs uppercase tracking-wider font-bold">
-                        Explore Services
-                    </a>
-                    <a href="{% url 'booking:booking_form' %}" class="btn-outline w-full sm:w-auto text-xs uppercase tracking-wider font-bold">
-                        Book Appointment
-                    </a>
-                </div>
+            <h1 class="text-4xl sm:text-6xl lg:text-7xl font-heading font-bold text-white tracking-tight leading-[1.1]">
+                Where Beauty Artistry Meets <br class="hidden sm:inline">
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-pink via-pink-400 to-white">Master Skill</span>
+            </h1>
+            
+            <p class="text-brand-neutral-200 text-base sm:text-lg lg:text-xl font-normal leading-relaxed max-w-2xl mx-auto lg:mx-0 drop-shadow-md">
+                Bolbash Beauty Spot is Ibadan’s luxury beauty sanctuary and hair studio — dedicated to flawless hair styling, invisible wig installations, bridal glamour, nail care, and bespoke beauty transformations.
+            </p>
+            
+            <!-- Action CTAs -->
+            <div class="pt-4 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                <a href="{% url 'core:service_list' %}" class="btn-primary w-full sm:w-auto text-xs uppercase tracking-wider font-bold py-4 px-8 shadow-xl shadow-pink-glow hover:scale-[1.02] transition-transform text-center">
+                    Explore Services →
+                </a>
+                <a href="{% url 'booking:booking_form' %}" class="btn-outline-pink w-full sm:w-auto text-xs uppercase tracking-wider font-bold py-4 px-8 backdrop-blur-sm text-center">
+                    Book Appointment
+                </a>
             </div>
+        </div>
 
-            <!-- Hero Photo Composition Frame -->
-            <div class="lg:col-span-5 relative">
-                <div class="relative mx-auto max-w-md lg:max-w-none">
-                    <div class="relative bg-brand-black rounded-3xl p-3 shadow-2xl border border-brand-black-muted overflow-hidden">
-                        <div class="aspect-[4/5] rounded-2xl bg-gradient-to-tr from-brand-black via-brand-black-light to-brand-neutral-800 flex flex-col justify-between p-8 text-white relative">
-                            <span class="badge-pink bg-white/90 text-brand-black border-none font-bold self-start">
-                                IBADAN, NIGERIA
-                            </span>
-                            
-                            <div class="my-auto text-center space-y-3">
-                                <div class="w-16 h-16 mx-auto rounded-full bg-brand-pink/20 text-brand-pink flex items-center justify-center font-heading text-2xl font-bold">
-                                    ✦
-                                </div>
-                                <h2 class="font-heading text-2xl font-bold text-white">The Bolbash Standard</h2>
-                                <p class="text-xs text-brand-neutral-300">Precision • Elegance • Professionalism</p>
-                            </div>
-
-                            <div class="bg-white/10 backdrop-blur-md rounded-xl p-4 text-center border border-white/15">
-                                <span class="text-xs text-brand-pink font-semibold block">Strictly By Appointment</span>
-                                <span class="text-xs text-brand-neutral-300">No Crowding • Dedicated Time</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+        <!-- 4 Smooth Cross-Fade Indicator Dots -->
+        <div class="pt-12 flex items-center justify-center lg:justify-start space-x-3" id="about-hero-dots">
+            <button class="about-dot w-8 h-2 rounded-full bg-brand-pink transition-all duration-300" data-slide="0" aria-label="Slide 1"></button>
+            <button class="about-dot w-2 h-2 rounded-full bg-white/40 hover:bg-brand-pink transition-all duration-300" data-slide="1" aria-label="Slide 2"></button>
+            <button class="about-dot w-2 h-2 rounded-full bg-white/40 hover:bg-brand-pink transition-all duration-300" data-slide="2" aria-label="Slide 3"></button>
+            <button class="about-dot w-2 h-2 rounded-full bg-white/40 hover:bg-brand-pink transition-all duration-300" data-slide="3" aria-label="Slide 4"></button>
         </div>
     </div>
 </section>
+
+<!-- Smooth Background Cross-Fade Script -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const slides = document.querySelectorAll('.about-bg-slide');
+    const dots = document.querySelectorAll('.about-dot');
+    if (!slides.length) return;
+
+    let currentSlide = 0;
+    let slideInterval = null;
+
+    function goToSlide(index) {
+        currentSlide = (index + slides.length) % slides.length;
+        
+        slides.forEach((slide, idx) => {
+            if (idx === currentSlide) {
+                slide.classList.remove('opacity-0');
+                slide.classList.add('opacity-100');
+            } else {
+                slide.classList.remove('opacity-100');
+                slide.classList.add('opacity-0');
+            }
+        });
+
+        dots.forEach((dot, idx) => {
+            if (idx === currentSlide) {
+                dot.className = 'about-dot w-8 h-2 rounded-full bg-brand-pink transition-all duration-300';
+            } else {
+                dot.className = 'about-dot w-2 h-2 rounded-full bg-white/40 hover:bg-brand-pink transition-all duration-300';
+            }
+        });
+    }
+
+    function nextSlide() {
+        goToSlide(currentSlide + 1);
+    }
+
+    function startAutoSlide() {
+        stopAutoSlide();
+        slideInterval = setInterval(nextSlide, 5000);
+    }
+
+    function stopAutoSlide() {
+        if (slideInterval) clearInterval(slideInterval);
+    }
+
+    dots.forEach(dot => {
+        dot.addEventListener('click', (e) => {
+            const index = parseInt(e.currentTarget.getAttribute('data-slide'), 10);
+            goToSlide(index);
+            startAutoSlide();
+        });
+    });
+
+    startAutoSlide();
+});
+</script>
+
+
 
 <!-- ==========================================================================
      2. BRAND STORY SECTION
@@ -76,10 +144,13 @@
             <span class="section-subtitle">Our Philosophy</span>
             <h2 class="section-title">More Than a Beauty Appointment</h2>
             <p class="text-brand-neutral-500 text-base sm:text-lg leading-relaxed">
-                Bolbash Beauty Spot was created to redefine hair and beauty services in Ibadan. We believe every client who sits in our salon chair deserves a personalized, unhurried experience tailored to enhance their natural beauty and boost their confidence.
+                Bolbash Beauty Spot was created to redefine hair and beauty services in Ibadan. We believe every client
+                who sits in our salon chair deserves a personalized, unhurried experience tailored to enhance their
+                natural beauty and boost their confidence.
             </p>
             <p class="text-brand-neutral-500 text-sm sm:text-base leading-relaxed">
-                From intricate frontal installations and custom wig units to complete bridal packages, manicures, and pedicures, our work combines deep technical skill with artistic precision.
+                From intricate frontal installations and custom wig units to complete bridal packages, manicures, and
+                pedicures, our work combines deep technical skill with artistic precision.
             </p>
         </div>
     </div>
@@ -91,14 +162,16 @@
 <section class="py-16 sm:py-24 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            
+
             <!-- Left Collage Frame -->
             <div class="lg:col-span-5 space-y-4">
                 <div class="bg-brand-black text-white p-8 rounded-3xl space-y-4 border border-brand-black-muted">
-                    <span class="text-xs uppercase tracking-widest text-brand-pink font-semibold block">Craftsmanship</span>
+                    <span
+                        class="text-xs uppercase tracking-widest text-brand-pink font-semibold block">Craftsmanship</span>
                     <h3 class="font-heading text-2xl font-bold">Crafted With Intention</h3>
                     <p class="text-xs text-brand-neutral-400 leading-relaxed">
-                        Every lace frontal is customized, plucked, and bleached with precision to complement skin tone and natural scalp flow.
+                        Every lace frontal is customized, plucked, and bleached with precision to complement skin tone
+                        and natural scalp flow.
                     </p>
                     <div class="pt-2 flex items-center space-x-2">
                         <span class="w-2 h-2 rounded-full bg-brand-pink"></span>
@@ -112,13 +185,15 @@
                 <span class="section-subtitle">Dedicated Standards</span>
                 <h2 class="section-title">Where Beauty Meets Technical Excellence</h2>
                 <p class="text-brand-neutral-500 text-base leading-relaxed">
-                    Great hair and beauty styling require both vision and technique. At Bolbash Beauty Spot, we emphasize health-first hair maintenance, long-lasting wig security, and immaculate finishing details.
+                    Great hair and beauty styling require both vision and technique. At Bolbash Beauty Spot, we
+                    emphasize health-first hair maintenance, long-lasting wig security, and immaculate finishing
+                    details.
                 </p>
                 <p class="text-brand-neutral-500 text-sm leading-relaxed">
-                    We also maintain an active training center — Bolbash Beauty Academy — where we train the next generation of beauty entrepreneurs in wig making, frontal installation, and bridal hair styling.
+                    We also publish regular beauty and hair care guides through our official Editorial Blog — empowering clients with professional advice on lace maintenance, hair revamping, and bridal preparation.
                 </p>
                 <div class="pt-2">
-                    <span class="badge-pink">Professional Salon & Academy Hub</span>
+                    <span class="badge-pink">Luxury Salon & Beauty Editorial Hub</span>
                 </div>
             </div>
 
@@ -145,7 +220,8 @@
                 <span class="badge-dark">01</span>
                 <h3 class="font-heading text-xl font-bold text-brand-black">Hair Styling</h3>
                 <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed">
-                    Precision haircuts, professional hair washing, silk pressing, and customized styling for all hair textures.
+                    Precision haircuts, professional hair washing, silk pressing, and customized styling for all hair
+                    textures.
                 </p>
             </div>
 
@@ -154,7 +230,8 @@
                 <span class="badge-dark">02</span>
                 <h3 class="font-heading text-xl font-bold text-brand-black">Wig Artistry</h3>
                 <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed">
-                    Custom wig construction, 360 frontal installation, closure fitting, lace bleaching, and complete wig revamping.
+                    Custom wig construction, 360 frontal installation, closure fitting, lace bleaching, and complete wig
+                    revamping.
                 </p>
             </div>
 
@@ -163,7 +240,8 @@
                 <span class="badge-dark">03</span>
                 <h3 class="font-heading text-xl font-bold text-brand-black">Bridal Beauty</h3>
                 <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed">
-                    Bespoke bridal hair arrangements for traditional engagements, white wedding ceremonies, and wedding parties.
+                    Bespoke bridal hair arrangements for traditional engagements, white wedding ceremonies, and wedding
+                    parties.
                 </p>
             </div>
 
@@ -172,7 +250,8 @@
                 <span class="badge-dark">04</span>
                 <h3 class="font-heading text-xl font-bold text-brand-black">Nail & Beauty Care</h3>
                 <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed">
-                    Acrylic nail fixing, gel polish application, restorative manicures, pedicures, and ear/body piercings.
+                    Acrylic nail fixing, gel polish application, restorative manicures, pedicures, and ear/body
+                    piercings.
                 </p>
             </div>
 
@@ -181,7 +260,8 @@
                 <span class="badge-dark">05</span>
                 <h3 class="font-heading text-xl font-bold text-brand-black">Beauty Training</h3>
                 <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed">
-                    Practical, hands-on masterclasses in wig making, frontal melt installation, and professional salon skills.
+                    Practical, hands-on masterclasses in wig making, frontal melt installation, and professional salon
+                    skills.
                 </p>
             </div>
 
@@ -190,7 +270,8 @@
                 <span class="badge-dark">06</span>
                 <h3 class="font-heading text-xl font-bold text-brand-black">Hair Maintenance</h3>
                 <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed">
-                    Curated hair care products selected to protect, nourish, and preserve your wig units and natural hair.
+                    Curated hair care products selected to protect, nourish, and preserve your wig units and natural
+                    hair.
                 </p>
             </div>
         </div>
@@ -215,7 +296,8 @@
                 <span class="text-xs uppercase tracking-widest text-brand-pink font-bold block">01. Consultation</span>
                 <h3 class="font-heading text-lg font-bold text-brand-black">Client Understanding</h3>
                 <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed">
-                    We listen carefully to your desired look, lifestyle, and preferences before beginning any styling service.
+                    We listen carefully to your desired look, lifestyle, and preferences before beginning any styling
+                    service.
                 </p>
             </div>
 
@@ -223,20 +305,24 @@
                 <span class="text-xs uppercase tracking-widest text-brand-pink font-bold block">02. Craftsmanship</span>
                 <h3 class="font-heading text-lg font-bold text-brand-black">Technical Precision</h3>
                 <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed">
-                    Meticulous attention to lace bleaching, hair partings, and secure installations that look completely natural.
+                    Meticulous attention to lace bleaching, hair partings, and secure installations that look completely
+                    natural.
                 </p>
             </div>
 
             <div class="space-y-3">
-                <span class="text-xs uppercase tracking-widest text-brand-pink font-bold block">03. Personalisation</span>
+                <span class="text-xs uppercase tracking-widest text-brand-pink font-bold block">03.
+                    Personalisation</span>
                 <h3 class="font-heading text-lg font-bold text-brand-black">Tailored Results</h3>
                 <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed">
-                    Every wig, haircut, and bridal style is customized specifically to complement your unique head shape and features.
+                    Every wig, haircut, and bridal style is customized specifically to complement your unique head shape
+                    and features.
                 </p>
             </div>
 
             <div class="space-y-3">
-                <span class="text-xs uppercase tracking-widest text-brand-pink font-bold block">04. Respect For Time</span>
+                <span class="text-xs uppercase tracking-widest text-brand-pink font-bold block">04. Respect For
+                    Time</span>
                 <h3 class="font-heading text-lg font-bold text-brand-black">Organized Booking</h3>
                 <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed">
                     Operating strictly by appointment means your time is respected with minimal waiting.
@@ -252,49 +338,64 @@
 <section class="py-16 sm:py-24 bg-brand-neutral-50 border-y border-brand-neutral-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            
+
             <div class="lg:col-span-6 space-y-6">
                 <span class="section-subtitle">Why Choose Us</span>
                 <h2 class="section-title">A Standard Built On Trust & Excellence</h2>
                 <p class="text-brand-neutral-500 text-base leading-relaxed">
-                    Clients choose Bolbash Beauty Spot because we provide an organized, high-end environment where quality is never compromised.
+                    Clients choose Bolbash Beauty Spot because we provide an organized, high-end environment where
+                    quality is never compromised.
                 </p>
 
                 <div class="space-y-4 pt-2">
                     <div class="flex items-start space-x-4">
-                        <div class="w-8 h-8 rounded-full bg-brand-pink text-white flex items-center justify-center font-bold text-xs">✓</div>
+                        <div
+                            class="w-8 h-8 rounded-full bg-brand-pink text-white flex items-center justify-center font-bold text-xs">
+                            ✓</div>
                         <div>
                             <span class="font-heading font-bold text-brand-black block">Appointment Privacy</span>
-                            <span class="text-xs text-brand-neutral-500">Scheduled slots ensure relaxed, individualized service.</span>
+                            <span class="text-xs text-brand-neutral-500">Scheduled slots ensure relaxed, individualized
+                                service.</span>
                         </div>
                     </div>
 
                     <div class="flex items-start space-x-4">
-                        <div class="w-8 h-8 rounded-full bg-brand-pink text-white flex items-center justify-center font-bold text-xs">✓</div>
+                        <div
+                            class="w-8 h-8 rounded-full bg-brand-pink text-white flex items-center justify-center font-bold text-xs">
+                            ✓</div>
                         <div>
-                            <span class="font-heading font-bold text-brand-black block">Complete Beauty Destination</span>
-                            <span class="text-xs text-brand-neutral-500">Get your hair, nails, and beauty care handled in one spot.</span>
+                            <span class="font-heading font-bold text-brand-black block">Complete Beauty
+                                Destination</span>
+                            <span class="text-xs text-brand-neutral-500">Get your hair, nails, and beauty care handled
+                                in one spot.</span>
                         </div>
                     </div>
 
                     <div class="flex items-start space-x-4">
-                        <div class="w-8 h-8 rounded-full bg-brand-pink text-white flex items-center justify-center font-bold text-xs">✓</div>
+                        <div
+                            class="w-8 h-8 rounded-full bg-brand-pink text-white flex items-center justify-center font-bold text-xs">
+                            ✓</div>
                         <div>
-                            <span class="font-heading font-bold text-brand-black block">Empowerment Through Education</span>
-                            <span class="text-xs text-brand-neutral-500">We train students to launch successful beauty careers.</span>
+                            <span class="font-heading font-bold text-brand-black block">Empowerment Through
+                                Education</span>
+                            <span class="text-xs text-brand-neutral-500">We train students to launch successful beauty
+                                careers.</span>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="lg:col-span-6">
-                <div class="bg-brand-black text-white p-8 sm:p-10 rounded-3xl space-y-6 border border-brand-black-muted text-center">
+                <div
+                    class="bg-brand-black text-white p-8 sm:p-10 rounded-3xl space-y-6 border border-brand-black-muted text-center">
                     <span class="badge-pink">Client Commitment</span>
                     <h3 class="font-heading text-2xl font-bold">Dedicated To Your Satisfaction</h3>
                     <p class="text-xs text-brand-neutral-400 leading-relaxed max-w-md mx-auto">
-                        Whether it is your wedding day or your regular wig maintenance, we aim to exceed your expectations every single time.
+                        Whether it is your wedding day or your regular wig maintenance, we aim to exceed your
+                        expectations every single time.
                     </p>
-                    <a href="{% url 'booking:booking_form' %}" class="btn-primary text-xs uppercase tracking-wider font-bold inline-block">
+                    <a href="{% url 'booking:booking_form' %}"
+                        class="btn-primary text-xs uppercase tracking-wider font-bold inline-block">
                         Book Your Visit
                     </a>
                 </div>
@@ -305,32 +406,40 @@
 </section>
 
 <!-- ==========================================================================
-     7. BEAUTY + EDUCATION (ACADEMY FEATURE)
+     7. BEAUTY + EDITORIAL INSIGHTS (BLOG FEATURE)
      ========================================================================== -->
 <section class="py-16 sm:py-24 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="bg-brand-black text-white rounded-3xl p-8 sm:p-12 lg:p-16 border border-brand-black-muted relative overflow-hidden">
+        <div
+            class="bg-brand-black text-white rounded-3xl p-8 sm:p-12 lg:p-16 border border-brand-black-muted relative overflow-hidden shadow-2xl">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center z-10 relative">
-                
+
                 <div class="lg:col-span-8 space-y-6">
-                    <span class="badge-pink bg-brand-pink text-white border-none">Bolbash Beauty Academy</span>
+                    <span class="badge-pink bg-brand-pink text-white border-none font-bold">The Bolbash Editorial</span>
                     <h2 class="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold tracking-tight text-white">
-                        Beauty + Master Education
+                        Beauty + Hair Care Insights
                     </h2>
-                    <p class="text-brand-neutral-400 text-sm sm:text-base leading-relaxed max-w-2xl">
-                        At Bolbash, we pass on master techniques. Our academy provides practical training in custom wig making, lace installation, bridal styling, and nail art — helping students gain industry-ready skills and confidence.
+                    <p class="text-brand-neutral-300 text-sm sm:text-base leading-relaxed max-w-2xl">
+                        At Bolbash, we share master hair styling advice. Our beauty editorial provides expert guides on custom wig maintenance, lace frontal melting secrets, bridal hair timelines, and product recommendations.
                     </p>
-                    <div class="pt-4">
-                        <a href="{% url 'academy:academy_landing' %}" class="btn-primary text-xs uppercase tracking-wider font-bold">
-                            Explore the Academy
+                    <div class="pt-4 flex flex-wrap gap-4">
+                        <a href="{% url 'blog:post_list' %}"
+                            class="btn-primary text-xs uppercase tracking-wider font-bold">
+                            Explore Beauty Blog →
+                        </a>
+                        <a href="{% url 'core:service_list' %}"
+                            class="btn-outline-pink text-xs uppercase tracking-wider font-bold">
+                            View Salon Services
                         </a>
                     </div>
                 </div>
 
-                <div class="lg:col-span-4 text-center lg:text-right border-t lg:border-t-0 lg:border-l border-brand-black-muted pt-6 lg:pt-0 lg:pl-8 space-y-3">
-                    <span class="block text-3xl font-heading font-bold text-brand-pink">Hands-On</span>
-                    <span class="text-xs uppercase tracking-wider text-brand-neutral-300 block">Practical Beauty Training</span>
-                    <span class="text-xs text-brand-neutral-500 block">Career-Ready Skill Development</span>
+                <div
+                    class="lg:col-span-4 text-center lg:text-right border-t lg:border-t-0 lg:border-l border-brand-black-muted pt-6 lg:pt-0 lg:pl-8 space-y-3">
+                    <span class="block text-3xl font-heading font-bold text-brand-pink">Expert</span>
+                    <span class="text-xs uppercase tracking-wider text-brand-neutral-300 block">Hair Care & Styling
+                        Guides</span>
+                    <span class="text-xs text-brand-neutral-500 block">By Master Hair Artists</span>
                 </div>
 
             </div>
@@ -347,7 +456,9 @@
             <span class="section-subtitle">Your Experience</span>
             <h2 class="section-title">Your Beauty. Your Time. Your Experience.</h2>
             <p class="text-brand-neutral-500 text-base sm:text-lg leading-relaxed">
-                Bolbash Beauty Spot operates <strong class="text-brand-black">strictly by appointment</strong>. This policy allows us to prepare for your arrival, maintain an uncrowded atmosphere, and focus entirely on delivering immaculate hair and beauty results.
+                Bolbash Beauty Spot operates <strong class="text-brand-black">strictly by appointment</strong>. This
+                policy allows us to prepare for your arrival, maintain an uncrowded atmosphere, and focus entirely on
+                delivering immaculate hair and beauty results.
             </p>
             <div class="pt-4 flex justify-center gap-4">
                 <span class="badge-pink">Private Booking Slots</span>
@@ -362,7 +473,7 @@
      ========================================================================== -->
 <section class="py-16 sm:py-24 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
-        
+
         <!-- Location Details Grid -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <div class="lg:col-span-6 space-y-6">
@@ -374,53 +485,76 @@
 
                 <div class="space-y-4 pt-2">
                     <div class="flex items-start space-x-4">
-                        <div class="w-10 h-10 rounded-lg bg-brand-pink-50 text-brand-pink flex items-center justify-center font-bold">📍</div>
+                        <div
+                            class="w-10 h-10 rounded-lg bg-brand-pink-50 text-brand-pink flex items-center justify-center font-bold">
+                            📍</div>
                         <div>
                             <span class="font-heading font-bold text-brand-black block">Address</span>
-                            <span class="text-sm text-brand-neutral-500">No. 40, SIOA Plaza, at the entrance of E Exclusive Hotel, Ore-Ofe Bus Stop, Sango-Eleyele Road, Ibadan, Nigeria.</span>
+                            <span class="text-sm text-brand-neutral-500">No. 40, SIOA Plaza, at the entrance of E
+                                Exclusive Hotel, Ore-Ofe Bus Stop, Sango-Eleyele Road, Ibadan, Nigeria.</span>
                         </div>
                     </div>
 
                     <div class="flex items-start space-x-4">
-                        <div class="w-10 h-10 rounded-lg bg-brand-pink-50 text-brand-pink flex items-center justify-center font-bold">📞</div>
+                        <div
+                            class="w-10 h-10 rounded-lg bg-brand-pink-50 text-brand-pink flex items-center justify-center font-bold">
+                            📞</div>
                         <div>
                             <span class="font-heading font-bold text-brand-black block">Phone / WhatsApp</span>
-                            <a href="tel:08168956606" class="text-sm font-semibold text-brand-pink hover:underline">08168956606</a>
+                            <a href="tel:08168956606"
+                                class="text-sm font-semibold text-brand-pink hover:underline">08168956606</a>
                         </div>
                     </div>
                 </div>
 
-                <div class="pt-4 flex flex-wrap gap-4">
-                    <a href="https://wa.me/message/UW6FRPKW3STAM1" target="_blank" rel="noopener noreferrer" class="btn-primary text-xs uppercase tracking-wider">
-                        Chat On WhatsApp
-                    </a>
-                </div>
+
             </div>
 
             <div class="lg:col-span-6">
-                <div class="bg-brand-neutral-50 border border-brand-neutral-200 rounded-3xl p-8 text-center space-y-4">
-                    <div class="aspect-video rounded-2xl bg-brand-neutral-200 flex flex-col items-center justify-center p-6 space-y-2">
-                        <span class="font-heading font-bold text-brand-black">Interactive Location Map</span>
-                        <span class="text-xs text-brand-neutral-500">Sango-Eleyele Road, Ibadan</span>
+                <div class="bg-white border border-brand-neutral-200 rounded-3xl p-3 shadow-xl overflow-hidden group">
+                    <div class="w-full h-80 sm:h-96 rounded-2xl overflow-hidden relative border border-brand-neutral-200">
+                        <iframe 
+                            title="Bolbash Beauty Spot Location Map"
+                            src="https://maps.google.com/maps?q=SIOA%20Plaza,%20Sango-Eleyele%20Road,%20Ibadan,%20Nigeria&t=&z=16&ie=UTF8&iwloc=&output=embed" 
+                            class="w-full h-full border-0 rounded-2xl" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                        <div class="absolute bottom-3 left-3 right-3 bg-brand-black/90 backdrop-blur-md text-white rounded-xl p-3.5 flex items-center justify-between shadow-lg border border-white/10">
+                            <div>
+                                <span class="font-heading text-sm font-bold block text-white">Bolbash Beauty Spot</span>
+                                <span class="text-[11px] text-brand-neutral-300">SIOA Plaza, Sango-Eleyele Rd, Ibadan</span>
+                            </div>
+                            <a href="https://maps.google.com/?q=SIOA+Plaza,+Sango-Eleyele+Road,+Ibadan,+Nigeria" 
+                               target="_blank" rel="noopener noreferrer" 
+                               class="btn-primary text-[10px] uppercase font-bold py-2 px-3 whitespace-nowrap shadow-sm">
+                                Open Maps ↗
+                            </a>
+                        </div>
                     </div>
-                    <span class="text-xs text-brand-neutral-400 block">Directions: Entrance of E Exclusive Hotel, Ore-Ofe Bus Stop</span>
                 </div>
             </div>
         </div>
 
         <!-- Final Conversion Banner -->
-        <div class="bg-brand-black text-white rounded-3xl p-10 sm:p-16 text-center space-y-8 border border-brand-black-muted">
-            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold text-white tracking-tight max-w-2xl mx-auto">
+        <div
+            class="bg-brand-black text-white rounded-3xl p-10 sm:p-16 text-center space-y-8 border border-brand-black-muted">
+            <h2
+                class="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold text-white tracking-tight max-w-2xl mx-auto">
                 Ready to Experience Bolbash?
             </h2>
             <p class="text-brand-neutral-400 text-base max-w-xl mx-auto leading-relaxed">
-                Explore our full catalogue of services or book your dedicated appointment slot with Bolbash Beauty Spot today.
+                Explore our full catalogue of services or book your dedicated appointment slot with Bolbash Beauty Spot
+                today.
             </p>
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
-                <a href="{% url 'core:service_list' %}" class="btn-primary w-full sm:w-auto text-xs uppercase tracking-wider font-bold shadow-xl shadow-pink-glow">
+                <a href="{% url 'core:service_list' %}"
+                    class="btn-primary w-full sm:w-auto text-xs uppercase tracking-wider font-bold shadow-xl shadow-pink-glow">
                     Explore Services
                 </a>
-                <a href="{% url 'booking:booking_form' %}" class="btn-outline-pink w-full sm:w-auto text-xs uppercase tracking-wider">
+                <a href="{% url 'booking:booking_form' %}"
+                    class="btn-outline-pink w-full sm:w-auto text-xs uppercase tracking-wider">
                     Book Appointment
                 </a>
             </div>
