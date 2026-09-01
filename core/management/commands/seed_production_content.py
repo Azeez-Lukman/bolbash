@@ -448,33 +448,60 @@ class Command(BaseCommand):
                 }
             )
 
-        # 6. Seed Portfolio Gallery Images
-        self.stdout.write("-> Seeding Gallery Images...")
+        # 6. Seed Portfolio Gallery Images (Deduplicated, 100% Unique Authentic Photos)
+        self.stdout.write("-> Seeding Gallery Images (Deduplicated)...")
+        GalleryImage.objects.all().delete()
+        
         gallery_items = [
-            ('Regal Bridal Hair Styling', 'BRIDAL', 'bridal_hair_1.jpg', 'Bespoke bridal styling and veil placement.'),
-            ('Traditional Engagement Glam', 'BRIDAL', 'bridal_hair_2.jpg', 'Gele and coral bead traditional coordination.'),
-            ('Sleek High Ponytail & Edges', 'HAIRSTYLES', 'ponytail_updo_1.jpg', 'Sleek ponytail with sculpted edges.'),
-            ('Editorial Textured Updo', 'HAIRSTYLES', 'ponytail_updo_2.jpg', 'Glamorous textured updo for events.'),
-            ('Invisible HD Frontal Lace Melt', 'WIG_MELT', 'frontal_melt_1.jpg', '100% skin-melted HD frontal installation.'),
-            ('360 Full Lace Unit Install', 'WIG_MELT', 'wig_installation_1.jpg', 'Full perimeter custom wig installation.'),
-            ('Custom Machine Wig Construction', 'WIG_MELT', 'wig_making_custom_1.jpg', 'Bespoke machine-made human hair unit.'),
-            ('Silky Straight Bundle Revamping', 'TRANSFORMATION', 'hair_revamping_1.jpg', 'Silicone wash and bone straight press.'),
-            ('Luxury Acrylic Nails & Gel Polish', 'EVENTS', 'nail_extensions_1.jpg', 'French ombré acrylic tips.'),
-            ('Spa Pedicure & Foot Scrub', 'EVENTS', 'pedicure_manicure_1.jpg', 'Callus removal and revitalizing foot spa.'),
-            ('Professional Earlobe & Nose Piercing', 'EVENTS', 'body_piercing_1.jpg', 'Hygienic surgical steel stud piercing.'),
-            ('Luxe Lash Extensions & Glam', 'EVENTS', 'lash_extensions_1.jpg', 'Full volume mink lash extensions.'),
+            # 1. Bridal & Wedding Glamour
+            ('Regal Bridal Updo & Crown Fitting', 'BRIDAL', 'bridal_hair_1.jpg', 'Bespoke bridal styling and veil placement.'),
+            ('Traditional Engagement Coral Glam', 'BRIDAL', 'bridal_hair_2.jpg', 'Gele and coral bead traditional coordination.'),
+            ('Bespoke Bridal Veil Styling', 'BRIDAL', 'image_29.jpg', 'Intricate updo paired with cathedral veil styling.'),
+            ('Luxury Reception Glamour Hair', 'BRIDAL', 'image_30.jpg', 'Voluminous Hollywood waves for evening bridal receptions.'),
+
+            # 2. Signature Hair Styling & Updos
+            ('Ultra-Sleek High Ponytail & Edges', 'HAIRSTYLES', 'ponytail_updo_1.jpg', 'Sleek ponytail with sculpted hairline edges.'),
+            ('Editorial Textured Gala Updo', 'HAIRSTYLES', 'ponytail_updo_2.jpg', 'Glamorous textured updo for luxury events.'),
+            ('Precision Knotless Braids', 'HAIRSTYLES', 'braids_cornrows_1.jpg', 'Lightweight, tension-free knotless box braids.'),
+            ('Designer Patterned Cornrows', 'HAIRSTYLES', 'braids_cornrows_2.jpg', 'Custom geometric stitched cornrows.'),
+            ('Glossy Silk Press & Body Curls', 'HAIRSTYLES', 'image_31.jpg', 'Deep thermal heat protectant press with bouncy curls.'),
+
+            # 3. Wig Installation & Lace Melt
+            ('360 Full Perimeter Lace Installation', 'WIG_MELT', 'wig_installation_1.jpg', 'Seamless perimeter melt allowing versatile updos.'),
+            ('Custom Plucked HD Lace Unit', 'WIG_MELT', 'wig_installation_2.jpg', 'Thin HD lace customized with natural density gradient.'),
+            ('100% Invisible Skin-Fusion Frontal', 'WIG_MELT', 'frontal_melt_1.jpg', 'Flawless skin melt with custom bleached knots.'),
+            ('Precision Bleached Knot Frontal Melt', 'WIG_MELT', 'frontal_melt_2.jpg', 'Natural scalp-look illusion with baby hairs.'),
+            ('Glueless HD Closure Transformation', 'WIG_MELT', 'image_33.jpg', 'Snug, secure glueless 5x5 closure installation.'),
+
+            # 4. Hair Transformation & Revamping
+            ('Silky Bone Straight Bundle Revamp', 'TRANSFORMATION', 'hair_revamping_1.jpg', 'Silicone bath gloss wash and bone-straight press.'),
+            ('Custom Blonde Bleaching & Toning', 'TRANSFORMATION', 'hair_revamping_2.jpg', 'Safe lift blonde weavon bleaching and conditioning.'),
+            ('Custom Machine-Stitched Wig Unit', 'TRANSFORMATION', 'wig_making_custom_1.jpg', 'Bespoke machine construction tailored to head dimensions.'),
+            ('Tailored Ventilated Dome Cap Unit', 'TRANSFORMATION', 'wig_making_custom_2.jpg', 'Hand-crafted glueless unit on breathable dome cap.'),
+            ('Deep Conditioning & Keratin Treatment', 'TRANSFORMATION', 'image_35.jpg', 'Restorative protein moisture treatment for dry bundles.'),
+
+            # 5. Natural Hair & Maintenance
+            ('Nourishing Scalp & Edge Stimulation', 'NATURAL_HAIR', 'image_37.jpg', 'Stimulating botanical oil application and follicle massage.'),
+            ('Hydrating Moisture-Lock Routine', 'NATURAL_HAIR', 'image_38.jpg', 'Deep hydration steam therapy for natural hair.'),
+            ('Natural Texture Curl Definition', 'NATURAL_HAIR', 'image_39.jpg', 'Botanical gel curl enhancement and hydration.'),
+            ('Tension-Free Protective Styling', 'NATURAL_HAIR', 'image_40.jpg', 'Gentle styling designed to foster natural hairline growth.'),
+
+            # 6. Events & Core Beauty Specialties (Curated & Highlighted)
+            ('Luxury Acrylic Nail Extensions & Gel Art', 'EVENTS', 'nail_extensions_1.jpg', 'Full acrylic tip extensions with French ombré & gel polish.'),
+            ('Deluxe Spa Pedicure & Foot Scrub', 'EVENTS', 'pedicure_manicure_1.jpg', 'Exfoliating foot soak, callus removal, and massage.'),
+            ('Professional Body & Ear Piercing', 'EVENTS', 'body_piercing_1.jpg', 'Hygienic surgical steel stud piercing with aftercare kit.'),
+            ('Luxe Volume Lash Extensions', 'EVENTS', 'lash_extensions_1.jpg', 'Full volume lightweight lash extensions.'),
+            ('Soft Glam Evening Makeup Transformation', 'EVENTS', 'makeup_glam_1.jpg', 'Flawless skin finish, defined brows, and nude glam lips.')
         ]
 
         for title, cat, img_name, caption in gallery_items:
             img_rel = copy_media(img_name, 'gallery')
-            GalleryImage.objects.update_or_create(
+            GalleryImage.objects.create(
                 title=title,
-                defaults={
-                    'category': cat,
-                    'caption': caption,
-                    'image': img_rel if img_rel else f"gallery/{img_name}",
-                    'is_active': True
-                }
+                category=cat,
+                caption=caption,
+                image=img_rel if img_rel else f"gallery/{img_name}",
+                is_active=True
             )
 
-        self.stdout.write(self.style.SUCCESS("All Bolbash Production Content successfully seeded!"))
+        self.stdout.write(self.style.SUCCESS(f"All Bolbash Production Content ({len(gallery_items)} unique gallery items) successfully seeded!"))
