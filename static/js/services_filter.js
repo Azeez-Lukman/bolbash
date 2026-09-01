@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
             serviceCards.forEach(card => {
                 const cardCategory = card.getAttribute('data-category-slug');
                 if (filterValue === 'all' || cardCategory === filterValue) {
-                    card.style.display = 'block';
+                    card.style.display = 'flex';
                     card.classList.add('animate-fadeIn');
                 } else {
                     card.style.display = 'none';

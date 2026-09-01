@@ -57,52 +57,45 @@
 <!-- ==========================================================================
      3. FEATURED SPOTLIGHT SERVICES
      ========================================================================== -->
-<section class="py-16 bg-white border-b border-brand-neutral-200">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        <div class="text-center max-w-2xl mx-auto space-y-3">
+<section class="py-12 sm:py-16 bg-white border-b border-brand-neutral-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        <div class="text-center max-w-2xl mx-auto space-y-2">
             <span class="section-subtitle">Signature Specialities</span>
             <h2 class="section-title">Featured Artistry Services</h2>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {% for service in featured_services %}
-            <div class="bg-brand-black text-white rounded-3xl p-6 sm:p-8 border border-brand-black-muted flex flex-col justify-between space-y-6 relative overflow-hidden group shadow-xl hover:border-brand-pink/50 transition-all duration-300">
-                <div class="flex flex-col sm:flex-row gap-6 items-start">
-                    <div class="w-full sm:w-40 h-40 rounded-2xl overflow-hidden flex-shrink-0 bg-brand-neutral-800 border border-white/10 relative">
-                        {% if service.image %}
-                        <img src="{{ service.image.url }}" alt="{{ service.name }}" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" loading="lazy" onerror="this.onerror=null; this.src='{% static 'images/salon_hero_showcase.jpg' %}';" />
-                        {% else %}
-                        <img src="{% static 'images/salon_hero_showcase.jpg' %}" alt="{{ service.name }}" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" loading="lazy" />
-                        {% endif %}
-                        <span class="absolute top-2 left-2 badge-pink text-[9px] py-0.5 px-2 font-bold uppercase tracking-wider">Featured</span>
+            <div class="bg-brand-black text-white rounded-2xl p-5 sm:p-6 border border-brand-black-muted flex flex-col justify-between space-y-5 relative overflow-hidden group shadow-lg hover:border-brand-pink/50 transition-all duration-300">
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="badge-pink bg-brand-pink text-white border-none text-[10px] font-bold uppercase tracking-wider">{{ service.category.name }}</span>
+                        <span class="text-[10px] text-amber-300 font-semibold tracking-wider uppercase">★ Featured</span>
                     </div>
-                    <div class="space-y-3 flex-grow">
-                        <span class="text-xs uppercase tracking-wider text-brand-pink font-semibold">{{ service.category.name }}</span>
-                        <h3 class="font-heading text-xl sm:text-2xl font-bold text-white group-hover:text-brand-pink transition-colors">
-                            {{ service.name }}
-                        </h3>
-                        <p class="text-brand-neutral-400 text-xs sm:text-sm leading-relaxed line-clamp-3">
-                            {{ service.short_description|default:service.description }}
-                        </p>
-                    </div>
+                    <h3 class="font-heading text-lg sm:text-xl font-bold text-white group-hover:text-brand-pink transition-colors">
+                        <a href="{% url 'core:service_detail' service.slug %}">{{ service.name }}</a>
+                    </h3>
+                    <p class="text-brand-neutral-400 text-xs leading-relaxed line-clamp-2">
+                        {{ service.short_description|default:service.description }}
+                    </p>
                 </div>
 
-                <div class="pt-4 border-t border-white/10 flex items-center justify-between">
+                <div class="pt-3.5 border-t border-white/10 flex items-center justify-between">
                     <div>
                         {% if service.price %}
-                        <span class="font-heading text-lg font-bold text-brand-pink">₦{{ service.price|floatformat:2 }}</span>
+                        <span class="font-heading text-base font-bold text-brand-pink">₦{{ service.price|floatformat:2 }}</span>
                         {% else %}
-                        <span class="text-xs text-brand-neutral-400 font-medium">Price on enquiry</span>
+                        <span class="text-[11px] text-brand-neutral-400 font-medium">Price on enquiry</span>
                         {% endif %}
                         {% if service.duration %}
-                        <span class="text-[11px] text-brand-neutral-400 ml-2">⏱ {{ service.duration }} mins</span>
+                        <span class="text-[10px] text-brand-neutral-400 block">⏱ {{ service.duration }} mins</span>
                         {% endif %}
                     </div>
-                    <div class="flex items-center space-x-2 sm:space-x-3">
-                        <a href="{% url 'core:service_detail' service.slug %}" class="btn-outline-pink text-xs uppercase tracking-wider py-2 px-3 sm:px-4">
+                    <div class="flex items-center space-x-2">
+                        <a href="{% url 'core:service_detail' service.slug %}" class="btn-outline-pink text-[11px] uppercase tracking-wider py-1.5 px-3">
                             Details
                         </a>
-                        <a href="{% url 'booking:booking_form' %}?service={{ service.slug }}" class="btn-primary text-xs uppercase tracking-wider py-2 px-3 sm:px-4">
+                        <a href="{% url 'booking:booking_form' %}?service={{ service.slug }}" class="btn-primary text-[11px] uppercase tracking-wider py-1.5 px-3">
                             Book
                         </a>
                     </div>
@@ -116,49 +109,49 @@
 <!-- ==========================================================================
      4. ALL SERVICES CARDS GRID
      ========================================================================== -->
-<section class="py-16 sm:py-24 bg-brand-neutral-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        <div class="text-center max-w-2xl mx-auto space-y-3">
+<section class="py-12 sm:py-20 bg-brand-neutral-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+        <div class="text-center max-w-2xl mx-auto space-y-2">
             <span class="section-subtitle">Service Catalogue</span>
             <h2 class="section-title">Explore All Services</h2>
-            <p class="text-brand-neutral-500 text-sm sm:text-base">
+            <p class="text-brand-neutral-500 text-xs sm:text-sm">
                 Click any service card to view complete details, recommendations, and booking instructions.
             </p>
         </div>
 
         <!-- Service Cards Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="services-grid">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7" id="services-grid">
             {% for service in services %}
-            <div class="bg-white rounded-2xl border border-brand-neutral-200 p-5 sm:p-6 flex flex-col justify-between transition-all duration-300 group hover:shadow-xl overflow-hidden"
+            <div class="bg-white rounded-2xl border border-brand-neutral-200 p-4 sm:p-5 flex flex-col justify-between transition-all duration-300 group hover:shadow-xl hover:border-brand-pink/40 overflow-hidden"
                  data-category-slug="{{ service.category.slug }}">
                 
-                <div class="relative h-48 sm:h-52 w-full rounded-xl overflow-hidden mb-4 bg-brand-neutral-100 border border-brand-neutral-200">
+                <div class="relative h-36 sm:h-40 w-full rounded-xl overflow-hidden mb-3.5 bg-brand-neutral-100 border border-brand-neutral-200">
                     {% if service.image %}
                     <img src="{{ service.image.url }}" alt="{{ service.name }}" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" loading="lazy" onerror="this.onerror=null; this.src='{% static 'images/salon_hero_showcase.jpg' %}';" />
                     {% else %}
                     <img src="{% static 'images/salon_hero_showcase.jpg' %}" alt="{{ service.name }}" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" loading="lazy" />
                     {% endif %}
-                    <div class="absolute top-3 left-3">
-                        <span class="badge-dark text-[10px] uppercase tracking-wider shadow-sm">{{ service.category.name }}</span>
+                    <div class="absolute top-2.5 left-2.5">
+                        <span class="badge-dark text-[9px] uppercase tracking-wider shadow-sm">{{ service.category.name }}</span>
                     </div>
                     {% if service.featured %}
-                    <div class="absolute top-3 right-3">
-                        <span class="badge-pink bg-white/95 text-brand-pink text-[10px] shadow-sm font-bold border-none">Featured</span>
+                    <div class="absolute top-2.5 right-2.5">
+                        <span class="badge-pink bg-white/95 text-brand-pink text-[9px] shadow-sm font-bold border-none">Featured</span>
                     </div>
                     {% endif %}
                 </div>
 
-                <div class="space-y-3">
-                    <h3 class="font-heading text-xl font-bold text-brand-black group-hover:text-brand-pink transition-colors">
+                <div class="space-y-2 mb-3.5">
+                    <h3 class="font-heading text-base sm:text-lg font-bold text-brand-black group-hover:text-brand-pink transition-colors line-clamp-1">
                         <a href="{% url 'core:service_detail' service.slug %}">{{ service.name }}</a>
                     </h3>
 
-                    <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed">
+                    <p class="text-brand-neutral-500 text-xs leading-relaxed line-clamp-2">
                         {{ service.short_description }}
                     </p>
                 </div>
 
-                <div class="pt-4 border-t border-brand-neutral-100 flex flex-col space-y-4">
+                <div class="pt-3 border-t border-brand-neutral-100 flex flex-col space-y-3">
                     <div class="flex items-center justify-between text-xs text-brand-neutral-500">
                         <span>
                             {% if service.duration %}
@@ -167,7 +160,7 @@
                             ⏱ Duration varies
                             {% endif %}
                         </span>
-                        <span class="font-bold text-brand-black">
+                        <span class="font-bold text-brand-black text-sm">
                             {% if service.price %}
                             ₦{{ service.price|floatformat:2 }}
                             {% else %}
@@ -176,11 +169,11 @@
                         </span>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-3">
-                        <a href="{% url 'core:service_detail' service.slug %}" class="btn-outline-pink w-full text-center text-xs uppercase tracking-wider py-2">
+                    <div class="grid grid-cols-2 gap-2.5">
+                        <a href="{% url 'core:service_detail' service.slug %}" class="btn-outline-pink w-full text-center text-[11px] uppercase tracking-wider py-2">
                             Details
                         </a>
-                        <a href="{% url 'booking:booking_form' %}?service={{ service.slug }}" class="btn-primary w-full text-center text-xs uppercase tracking-wider py-2">
+                        <a href="{% url 'booking:booking_form' %}?service={{ service.slug }}" class="btn-primary w-full text-center text-[11px] uppercase tracking-wider py-2">
                             Book
                         </a>
                     </div>
