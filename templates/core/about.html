@@ -8,38 +8,20 @@
 {% block content %}
 
 <!-- ==========================================================================
-     1. ABOUT HERO SECTION
+     1. ABOUT HERO SECTION (Single High-Resolution Luxury Hero Background)
      ========================================================================== -->
-<!-- ==========================================================================
-     1. ABOUT HERO SECTION (Full-Width Animated Background Transition)
-     ========================================================================== -->
-<section class="relative bg-brand-black min-h-[85vh] flex items-center justify-center overflow-hidden text-white relative z-10" id="about-hero-slider">
+<section class="relative bg-brand-black min-h-[85vh] flex items-center justify-center overflow-hidden text-white z-10" id="about-hero">
     
-    <!-- Background Media Slides Container -->
+    <!-- Single High-Res Background Image -->
     <div class="absolute inset-0 z-0">
-        <!-- Slide 1: High-Res Editorial Model -->
-        <div class="about-bg-slide absolute inset-0 opacity-100 transition-opacity duration-1000 ease-in-out">
-            <img src="{% static 'images/bolbash_editorial_model.jpg' %}" alt="Bolbash Luxury Beauty Artistry" class="w-full h-full object-cover object-center" />
-        </div>
-        <!-- Slide 2: High-Res Traditional Bridal -->
-        <div class="about-bg-slide absolute inset-0 opacity-0 transition-opacity duration-1000 ease-in-out">
-            <img src="{% static 'images/bridal_traditional.jpg' %}" alt="Bespoke Bridal Glamour" class="w-full h-full object-cover object-top" />
-        </div>
-        <!-- Slide 3: High-Res Salon Showcase -->
-        <div class="about-bg-slide absolute inset-0 opacity-0 transition-opacity duration-1000 ease-in-out">
-            <img src="{% static 'images/salon_hero_showcase.jpg' %}" alt="Frontal Wig Melt Installation" class="w-full h-full object-cover object-center" />
-        </div>
-        <!-- Slide 4: High-Res Bridal Hero -->
-        <div class="about-bg-slide absolute inset-0 opacity-0 transition-opacity duration-1000 ease-in-out">
-            <img src="{% static 'images/bridal_hero.jpg' %}" alt="Bolbash Beauty Spot Sanctuary" class="w-full h-full object-cover object-top" />
-        </div>
+        <img src="{% static 'images/bolbash_editorial_model.jpg' %}" alt="Bolbash Luxury Beauty Artistry" class="w-full h-full object-cover object-center" />
 
         <!-- Extra Dark Luxury Overlay for Maximum Text Contrast & Crispness -->
         <div class="absolute inset-0 bg-gradient-to-r from-brand-black via-brand-black/90 to-brand-black/75"></div>
         <div class="absolute inset-0 bg-brand-black/40"></div>
     </div>
 
-    <!-- Hero Content Overlay Container (Clean Expanded Layout) -->
+    <!-- Hero Content Overlay Container -->
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28 text-center lg:text-left w-full">
         <div class="max-w-3xl space-y-6">
             <span class="inline-flex items-center space-x-2 bg-brand-pink/20 text-brand-pink border border-brand-pink/40 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest backdrop-blur-md">
@@ -65,73 +47,8 @@
                 </a>
             </div>
         </div>
-
-        <!-- 4 Smooth Cross-Fade Indicator Dots -->
-        <div class="pt-12 flex items-center justify-center lg:justify-start space-x-3" id="about-hero-dots">
-            <button class="about-dot w-8 h-2 rounded-full bg-brand-pink transition-all duration-300" data-slide="0" aria-label="Slide 1"></button>
-            <button class="about-dot w-2 h-2 rounded-full bg-white/40 hover:bg-brand-pink transition-all duration-300" data-slide="1" aria-label="Slide 2"></button>
-            <button class="about-dot w-2 h-2 rounded-full bg-white/40 hover:bg-brand-pink transition-all duration-300" data-slide="2" aria-label="Slide 3"></button>
-            <button class="about-dot w-2 h-2 rounded-full bg-white/40 hover:bg-brand-pink transition-all duration-300" data-slide="3" aria-label="Slide 4"></button>
-        </div>
     </div>
 </section>
-
-<!-- Smooth Background Cross-Fade Script -->
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    const slides = document.querySelectorAll('.about-bg-slide');
-    const dots = document.querySelectorAll('.about-dot');
-    if (!slides.length) return;
-
-    let currentSlide = 0;
-    let slideInterval = null;
-
-    function goToSlide(index) {
-        currentSlide = (index + slides.length) % slides.length;
-        
-        slides.forEach((slide, idx) => {
-            if (idx === currentSlide) {
-                slide.classList.remove('opacity-0');
-                slide.classList.add('opacity-100');
-            } else {
-                slide.classList.remove('opacity-100');
-                slide.classList.add('opacity-0');
-            }
-        });
-
-        dots.forEach((dot, idx) => {
-            if (idx === currentSlide) {
-                dot.className = 'about-dot w-8 h-2 rounded-full bg-brand-pink transition-all duration-300';
-            } else {
-                dot.className = 'about-dot w-2 h-2 rounded-full bg-white/40 hover:bg-brand-pink transition-all duration-300';
-            }
-        });
-    }
-
-    function nextSlide() {
-        goToSlide(currentSlide + 1);
-    }
-
-    function startAutoSlide() {
-        stopAutoSlide();
-        slideInterval = setInterval(nextSlide, 5000);
-    }
-
-    function stopAutoSlide() {
-        if (slideInterval) clearInterval(slideInterval);
-    }
-
-    dots.forEach(dot => {
-        dot.addEventListener('click', (e) => {
-            const index = parseInt(e.currentTarget.getAttribute('data-slide'), 10);
-            goToSlide(index);
-            startAutoSlide();
-        });
-    });
-
-    startAutoSlide();
-});
-</script>
 
 
 
