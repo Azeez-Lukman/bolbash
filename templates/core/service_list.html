@@ -55,15 +55,70 @@
 </section>
 
 <!-- ==========================================================================
-     3. ALL SERVICES CARDS GRID (Unified Luxury Visual Catalogue)
+     3. FEATURED SPOTLIGHT SERVICES
      ========================================================================== -->
-<section class="py-12 sm:py-20 bg-brand-neutral-50" id="catalogue-section">
+<section class="py-16 sm:py-20 bg-white border-b border-brand-neutral-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+        <div class="text-center max-w-2xl mx-auto space-y-3">
+            <span class="section-subtitle">Signature Specialities</span>
+            <h2 class="section-title">Featured Artistry Services</h2>
+            <p class="text-brand-neutral-500 text-sm sm:text-base">
+                Explore our signature salon treatments crafted for exquisite glamour and master artistry.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {% for service in featured_services %}
+            <div class="bg-brand-black text-white rounded-3xl p-8 sm:p-10 border border-brand-black-muted flex flex-col justify-between space-y-6 relative overflow-hidden group shadow-xl hover:border-brand-pink/50 transition-all duration-300">
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span class="badge-pink bg-brand-pink text-white border-none font-bold uppercase tracking-wider text-[10px]">{{ service.category.name }}</span>
+                        <span class="text-[10px] text-amber-300 font-semibold tracking-wider uppercase">★ Featured Spotlight</span>
+                    </div>
+                    <h3 class="font-heading text-2xl sm:text-3xl font-bold text-white group-hover:text-brand-pink transition-colors">
+                        <a href="{% url 'core:service_detail' service.slug %}">{{ service.name }}</a>
+                    </h3>
+                    <p class="text-brand-neutral-400 text-sm leading-relaxed">
+                        {{ service.description|default:service.short_description }}
+                    </p>
+                </div>
+
+                <div class="pt-5 border-t border-white/10 flex items-center justify-between">
+                    <div>
+                        {% if service.price %}
+                        <span class="font-heading text-xl font-extrabold text-brand-pink">₦{{ service.price|floatformat:2 }}</span>
+                        {% else %}
+                        <span class="text-xs text-brand-neutral-400 font-medium">Price available on enquiry</span>
+                        {% endif %}
+                        {% if service.duration %}
+                        <span class="text-xs text-brand-neutral-400 block mt-0.5">⏱ {{ service.duration }} mins appointment</span>
+                        {% endif %}
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <a href="{% url 'core:service_detail' service.slug %}" class="btn-outline-pink text-xs uppercase tracking-wider py-2.5 px-4 font-bold">
+                            View Details
+                        </a>
+                        <a href="{% url 'booking:booking_form' %}?service={{ service.slug }}" class="btn-primary text-xs uppercase tracking-wider py-2.5 px-5 font-bold shadow-md shadow-pink-glow">
+                            Book Now →
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================================================
+     4. ALL SERVICES CARDS GRID (Unified Luxury Visual Catalogue)
+     ========================================================================== -->
+<section class="py-16 sm:py-24 bg-brand-neutral-50" id="catalogue-section">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         <div class="text-center max-w-2xl mx-auto space-y-2">
             <span class="section-subtitle">Service Catalogue</span>
-            <h2 class="section-title">Explore Our Signature Offerings</h2>
+            <h2 class="section-title">Explore All Services</h2>
             <p class="text-brand-neutral-500 text-xs sm:text-sm">
-                Select any category above to filter specialties. Click any service card to view complete specifications, recommendations, and direct booking.
+                Click any service card to view complete specifications, recommendations, and direct booking.
             </p>
         </div>
 
