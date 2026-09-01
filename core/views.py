@@ -157,7 +157,7 @@ def gallery(request):
     wig melts, transformations, natural hair, and events with client-side filtering & lightbox.
     """
     from .models import GalleryImage
-    gallery_images = GalleryImage.objects.filter(is_active=True).select_related('service_category')
+    gallery_images = GalleryImage.objects.filter(is_active=True).select_related('service_category').order_by('display_order', 'id')
     categories = GalleryImage.CATEGORY_CHOICES
 
     # Count of active images per category for empty state management

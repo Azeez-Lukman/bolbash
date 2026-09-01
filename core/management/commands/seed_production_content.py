@@ -448,59 +448,60 @@ class Command(BaseCommand):
                 }
             )
 
-        # 6. Seed Portfolio Gallery Images (Deduplicated, 100% Unique Authentic Photos)
-        self.stdout.write("-> Seeding Gallery Images (Deduplicated)...")
+        # 6. Seed Portfolio Gallery Images (Deduplicated, Prioritizing Hair First)
+        self.stdout.write("-> Seeding Gallery Images (Hair Services First)...")
         GalleryImage.objects.all().delete()
         
         gallery_items = [
-            # 1. Bridal & Wedding Glamour
-            ('Regal Bridal Updo & Crown Fitting', 'BRIDAL', 'bridal_hair_1.jpg', 'Bespoke bridal styling and veil placement.'),
-            ('Traditional Engagement Coral Glam', 'BRIDAL', 'bridal_hair_2.jpg', 'Gele and coral bead traditional coordination.'),
-            ('Bespoke Bridal Veil Styling', 'BRIDAL', 'image_29.jpg', 'Intricate updo paired with cathedral veil styling.'),
-            ('Luxury Reception Glamour Hair', 'BRIDAL', 'image_30.jpg', 'Voluminous Hollywood waves for evening bridal receptions.'),
+            # 1. Bridal & Wedding Glamour (Priority 1)
+            ('Regal Bridal Updo & Crown Fitting', 'BRIDAL', 'bridal_hair_1.jpg', 'Bespoke bridal styling and veil placement.', 10),
+            ('Traditional Engagement Coral Glam', 'BRIDAL', 'bridal_hair_2.jpg', 'Gele and coral bead traditional coordination.', 11),
+            ('Bespoke Bridal Veil Styling', 'BRIDAL', 'image_29.jpg', 'Intricate updo paired with cathedral veil styling.', 12),
+            ('Luxury Reception Glamour Hair', 'BRIDAL', 'image_30.jpg', 'Voluminous Hollywood waves for evening bridal receptions.', 13),
 
-            # 2. Signature Hair Styling & Updos
-            ('Ultra-Sleek High Ponytail & Edges', 'HAIRSTYLES', 'ponytail_updo_1.jpg', 'Sleek ponytail with sculpted hairline edges.'),
-            ('Editorial Textured Gala Updo', 'HAIRSTYLES', 'ponytail_updo_2.jpg', 'Glamorous textured updo for luxury events.'),
-            ('Precision Knotless Braids', 'HAIRSTYLES', 'braids_cornrows_1.jpg', 'Lightweight, tension-free knotless box braids.'),
-            ('Designer Patterned Cornrows', 'HAIRSTYLES', 'braids_cornrows_2.jpg', 'Custom geometric stitched cornrows.'),
-            ('Glossy Silk Press & Body Curls', 'HAIRSTYLES', 'image_31.jpg', 'Deep thermal heat protectant press with bouncy curls.'),
+            # 2. Signature Hair Styling & Updos (Priority 2)
+            ('Ultra-Sleek High Ponytail & Edges', 'HAIRSTYLES', 'ponytail_updo_1.jpg', 'Sleek ponytail with sculpted hairline edges.', 20),
+            ('Editorial Textured Gala Updo', 'HAIRSTYLES', 'ponytail_updo_2.jpg', 'Glamorous textured updo for luxury events.', 21),
+            ('Precision Knotless Braids', 'HAIRSTYLES', 'braids_cornrows_1.jpg', 'Lightweight, tension-free knotless box braids.', 22),
+            ('Designer Patterned Cornrows', 'HAIRSTYLES', 'braids_cornrows_2.jpg', 'Custom geometric stitched cornrows.', 23),
+            ('Glossy Silk Press & Body Curls', 'HAIRSTYLES', 'image_31.jpg', 'Deep thermal heat protectant press with bouncy curls.', 24),
 
-            # 3. Wig Installation & Lace Melt
-            ('360 Full Perimeter Lace Installation', 'WIG_MELT', 'wig_installation_1.jpg', 'Seamless perimeter melt allowing versatile updos.'),
-            ('Custom Plucked HD Lace Unit', 'WIG_MELT', 'wig_installation_2.jpg', 'Thin HD lace customized with natural density gradient.'),
-            ('100% Invisible Skin-Fusion Frontal', 'WIG_MELT', 'frontal_melt_1.jpg', 'Flawless skin melt with custom bleached knots.'),
-            ('Precision Bleached Knot Frontal Melt', 'WIG_MELT', 'frontal_melt_2.jpg', 'Natural scalp-look illusion with baby hairs.'),
-            ('Glueless HD Closure Transformation', 'WIG_MELT', 'image_33.jpg', 'Snug, secure glueless 5x5 closure installation.'),
+            # 3. Wig Installation & Lace Melt (Priority 3)
+            ('360 Full Perimeter Lace Installation', 'WIG_MELT', 'wig_installation_1.jpg', 'Seamless perimeter melt allowing versatile updos.', 30),
+            ('Custom Plucked HD Lace Unit', 'WIG_MELT', 'wig_installation_2.jpg', 'Thin HD lace customized with natural density gradient.', 31),
+            ('100% Invisible Skin-Fusion Frontal', 'WIG_MELT', 'frontal_melt_1.jpg', 'Flawless skin melt with custom bleached knots.', 32),
+            ('Precision Bleached Knot Frontal Melt', 'WIG_MELT', 'frontal_melt_2.jpg', 'Natural scalp-look illusion with baby hairs.', 33),
+            ('Glueless HD Closure Transformation', 'WIG_MELT', 'image_33.jpg', 'Snug, secure glueless 5x5 closure installation.', 34),
 
-            # 4. Hair Transformation & Revamping
-            ('Silky Bone Straight Bundle Revamp', 'TRANSFORMATION', 'hair_revamping_1.jpg', 'Silicone bath gloss wash and bone-straight press.'),
-            ('Custom Blonde Bleaching & Toning', 'TRANSFORMATION', 'hair_revamping_2.jpg', 'Safe lift blonde weavon bleaching and conditioning.'),
-            ('Custom Machine-Stitched Wig Unit', 'TRANSFORMATION', 'wig_making_custom_1.jpg', 'Bespoke machine construction tailored to head dimensions.'),
-            ('Tailored Ventilated Dome Cap Unit', 'TRANSFORMATION', 'wig_making_custom_2.jpg', 'Hand-crafted glueless unit on breathable dome cap.'),
-            ('Deep Conditioning & Keratin Treatment', 'TRANSFORMATION', 'image_35.jpg', 'Restorative protein moisture treatment for dry bundles.'),
+            # 4. Hair Transformation & Revamping (Priority 4)
+            ('Silky Bone Straight Bundle Revamp', 'TRANSFORMATION', 'hair_revamping_1.jpg', 'Silicone bath gloss wash and bone-straight press.', 40),
+            ('Custom Blonde Bleaching & Toning', 'TRANSFORMATION', 'hair_revamping_2.jpg', 'Safe lift blonde weavon bleaching and conditioning.', 41),
+            ('Custom Machine-Stitched Wig Unit', 'TRANSFORMATION', 'wig_making_custom_1.jpg', 'Bespoke machine construction tailored to head dimensions.', 42),
+            ('Tailored Ventilated Dome Cap Unit', 'TRANSFORMATION', 'wig_making_custom_2.jpg', 'Hand-crafted glueless unit on breathable dome cap.', 43),
+            ('Deep Conditioning & Keratin Treatment', 'TRANSFORMATION', 'image_35.jpg', 'Restorative protein moisture treatment for dry bundles.', 44),
 
-            # 5. Natural Hair & Maintenance
-            ('Nourishing Scalp & Edge Stimulation', 'NATURAL_HAIR', 'image_37.jpg', 'Stimulating botanical oil application and follicle massage.'),
-            ('Hydrating Moisture-Lock Routine', 'NATURAL_HAIR', 'image_38.jpg', 'Deep hydration steam therapy for natural hair.'),
-            ('Natural Texture Curl Definition', 'NATURAL_HAIR', 'image_39.jpg', 'Botanical gel curl enhancement and hydration.'),
-            ('Tension-Free Protective Styling', 'NATURAL_HAIR', 'image_40.jpg', 'Gentle styling designed to foster natural hairline growth.'),
+            # 5. Natural Hair & Maintenance (Priority 5)
+            ('Nourishing Scalp & Edge Stimulation', 'NATURAL_HAIR', 'image_37.jpg', 'Stimulating botanical oil application and follicle massage.', 50),
+            ('Hydrating Moisture-Lock Routine', 'NATURAL_HAIR', 'image_38.jpg', 'Deep hydration steam therapy for natural hair.', 51),
+            ('Natural Texture Curl Definition', 'NATURAL_HAIR', 'image_39.jpg', 'Botanical gel curl enhancement and hydration.', 52),
+            ('Tension-Free Protective Styling', 'NATURAL_HAIR', 'image_40.jpg', 'Gentle styling designed to foster natural hairline growth.', 53),
 
-            # 6. Events & Core Beauty Specialties (Curated & Highlighted)
-            ('Luxury Acrylic Nail Extensions & Gel Art', 'EVENTS', 'nail_extensions_1.jpg', 'Full acrylic tip extensions with French ombré & gel polish.'),
-            ('Deluxe Spa Pedicure & Foot Scrub', 'EVENTS', 'pedicure_manicure_1.jpg', 'Exfoliating foot soak, callus removal, and massage.'),
-            ('Professional Body & Ear Piercing', 'EVENTS', 'body_piercing_1.jpg', 'Hygienic surgical steel stud piercing with aftercare kit.'),
-            ('Luxe Volume Lash Extensions', 'EVENTS', 'lash_extensions_1.jpg', 'Full volume lightweight lash extensions.'),
-            ('Soft Glam Evening Makeup Transformation', 'EVENTS', 'makeup_glam_1.jpg', 'Flawless skin finish, defined brows, and nude glam lips.')
+            # 6. Events & Core Beauty Specialties (Priority 6 — Nails, Pedicure, Piercing, Lashes, Makeup)
+            ('Luxury Acrylic Nail Extensions & Gel Art', 'EVENTS', 'nail_extensions_1.jpg', 'Full acrylic tip extensions with French ombré & gel polish.', 90),
+            ('Deluxe Spa Pedicure & Foot Scrub', 'EVENTS', 'pedicure_manicure_1.jpg', 'Exfoliating foot soak, callus removal, and massage.', 91),
+            ('Professional Body & Ear Piercing', 'EVENTS', 'body_piercing_1.jpg', 'Hygienic surgical steel stud piercing with aftercare kit.', 92),
+            ('Luxe Volume Lash Extensions', 'EVENTS', 'lash_extensions_1.jpg', 'Full volume lightweight lash extensions.', 93),
+            ('Soft Glam Evening Makeup Transformation', 'EVENTS', 'makeup_glam_1.jpg', 'Flawless skin finish, defined brows, and nude glam lips.', 94)
         ]
 
-        for title, cat, img_name, caption in gallery_items:
+        for title, cat, img_name, caption, order in gallery_items:
             img_rel = copy_media(img_name, 'gallery')
             GalleryImage.objects.create(
                 title=title,
                 category=cat,
                 caption=caption,
                 image=img_rel if img_rel else f"gallery/{img_name}",
+                display_order=order,
                 is_active=True
             )
 

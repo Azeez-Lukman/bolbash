@@ -16,7 +16,7 @@ class GalleryImage(models.Model):
         ('WIG_MELT', 'Wig Installation & Lace Melt'),
         ('TRANSFORMATION', 'Hair Transformation'),
         ('NATURAL_HAIR', 'Natural Hair & Maintenance'),
-        ('EVENTS', 'Events & Special Occasions'),
+        ('EVENTS', 'Events & Other Beauty Care'),
     ]
 
     title = models.CharField(max_length=150)
