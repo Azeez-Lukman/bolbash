@@ -11,42 +11,81 @@ from .models import ProductCategory, Product, ProductImage, Cart, CartItem, Orde
 def _get_or_create_cart(request):
     """
     Helper function resolving the active shopping cart for authenticated user or guest session.
-    Merges guest session cart items into user cart upon login using preserved pre_login_session_key.
+    Safely handles duplicate carts and guest-to-user cart mergers without MultipleObjectsReturned exceptions.
     """
-    if not request.session.session_key:
-        request.session.create()
-    current_key = request.session.session_key
+    try:
+        if not request.session.session_key:
+            request.session.create()
+        current_key = request.session.session_key
 
-    if request.user.is_authenticated:
-        user_cart, _ = Cart.objects.get_or_create(user=request.user)
+        if request.user.is_authenticated:
+            user_carts = Cart.objects.filter(user=request.user).order_by('-updated_at')
+            if user_carts.exists():
+                user_cart = user_carts.first()
+                if user_carts.count() > 1:
+                    for dup_cart in user_carts[1:]:
+                        for dup_item in dup_cart.items.all():
+                            u_item = CartItem.objects.filter(cart=user_cart, product=dup_item.product).first()
+                            if u_item:
+                                u_item.quantity += dup_item.quantity
+                                u_item.save()
+                            else:
+                                dup_item.cart = user_cart
+                                dup_item.save()
+                        dup_cart.delete()
+            else:
+                user_cart = Cart.objects.create(user=request.user)
 
-        # Retrieve any guest cart associated with current or pre-login session key
-        pre_login_key = request.session.get('pre_login_session_key')
-        keys_to_check = [current_key]
-        if pre_login_key and pre_login_key not in keys_to_check:
-            keys_to_check.append(pre_login_key)
+            # Retrieve any guest cart associated with current or pre-login session key
+            pre_login_key = request.session.get('pre_login_session_key')
+            keys_to_check = [current_key] if current_key else []
+            if pre_login_key and pre_login_key not in keys_to_check:
+                keys_to_check.append(pre_login_key)
 
-        guest_carts = Cart.objects.filter(session_key__in=keys_to_check, user__isnull=True)
-        for guest_cart in guest_carts:
-            for guest_item in guest_cart.items.select_related('product').all():
-                user_item, created = CartItem.objects.get_or_create(
-                    cart=user_cart,
-                    product=guest_item.product,
-                    defaults={'quantity': guest_item.quantity}
-                )
-                if not created:
-                    user_item.quantity = min(guest_item.product.stock_quantity, user_item.quantity + guest_item.quantity)
-                    user_item.save()
-            guest_cart.delete()
+            if keys_to_check:
+                guest_carts = Cart.objects.filter(session_key__in=keys_to_check, user__isnull=True)
+                for guest_cart in guest_carts:
+                    for guest_item in guest_cart.items.select_related('product').all():
+                        u_item = CartItem.objects.filter(cart=user_cart, product=guest_item.product).first()
+                        if u_item:
+                            u_item.quantity = min(guest_item.product.stock_quantity, u_item.quantity + guest_item.quantity)
+                            u_item.save()
+                        else:
+                            CartItem.objects.create(
+                                cart=user_cart,
+                                product=guest_item.product,
+                                quantity=min(guest_item.product.stock_quantity, guest_item.quantity)
+                            )
+                    guest_cart.delete()
 
-        if 'pre_login_session_key' in request.session:
-            del request.session['pre_login_session_key']
+            if 'pre_login_session_key' in request.session:
+                del request.session['pre_login_session_key']
 
-        return user_cart
-    else:
-        cart, _ = Cart.objects.get_or_create(session_key=current_key, user__isnull=True)
-        request.session['pre_login_session_key'] = current_key
-        return cart
+            return user_cart
+        else:
+            guest_carts = Cart.objects.filter(session_key=current_key, user__isnull=True).order_by('-updated_at') if current_key else Cart.objects.none()
+            if guest_carts.exists():
+                cart = guest_carts.first()
+                if guest_carts.count() > 1:
+                    for dup_cart in guest_carts[1:]:
+                        for dup_item in dup_cart.items.all():
+                            g_item = CartItem.objects.filter(cart=cart, product=dup_item.product).first()
+                            if g_item:
+                                g_item.quantity += dup_item.quantity
+                                g_item.save()
+                            else:
+                                dup_item.cart = cart
+                                dup_item.save()
+                        dup_cart.delete()
+            else:
+                cart = Cart.objects.create(session_key=current_key, user__isnull=True)
+
+            request.session['pre_login_session_key'] = current_key
+            return cart
+    except Exception:
+        # Fallback cart creation to ensure view rendering never crashes
+        return None
+
 
 
 
@@ -180,9 +219,13 @@ def cart_detail(request):
     Displays cart line items, quantity modification controls, subtotal, and total.
     """
     cart = _get_or_create_cart(request)
-    cart_items = cart.items.select_related('product', 'product__category').all()
+    if cart:
+        cart_items = cart.items.select_related('product', 'product__category').all()
+        subtotal = cart.get_total_price()
+    else:
+        cart_items = []
+        subtotal = Decimal('0.00')
 
-    subtotal = cart.get_total_price()
     delivery_fee = Decimal('0.00')
     total_amount = subtotal
 

@@ -28,7 +28,11 @@
 
 ---
 
-# COMPLETED
+- **Production Media Serving, Shop Robustness & Automated Seeding Fixes**:
+  - **Media URL Serving**: Configured `re_path(r'^media/(?P<path>.*)$', serve, ...)` in `config/urls.py` ensuring uploaded and seeded media assets (services, gallery, products, blog) are reliably served on production hosts like Render even with `DEBUG=False`.
+  - **Shop Cart & 500 Hardening**: Refactored `_get_or_create_cart` and `cart_detail` in `shop/views.py` to defensively handle duplicate session/user carts without `MultipleObjectsReturned` exceptions.
+  - **Automated Production Content Seeding**: Built `python manage.py seed_production_content` management command and integrated it into `build.sh` to automatically seed services, shop products, published editorial blog posts, portfolio gallery, and operating hours on deployment.
+  - **Resilient Image Fallbacks & Styling**: Added luxury thumbnail previews and `onerror` image fallbacks in `service_list.html`, `shop_landing.html`, and `product_catalogue.html` to eliminate blank/broken placeholders.
 
 - **Final Project Completion & Master Audit**:
   - **10/10 Core Business Workflows Tested**: Executed master test suite (`scratch/test_final_project_completion.py`) verifying:

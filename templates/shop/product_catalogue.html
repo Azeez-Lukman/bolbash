@@ -106,11 +106,9 @@
                             <!-- Product Image -->
                             <div class="aspect-square bg-brand-neutral-100 relative overflow-hidden">
                                 {% if product.image %}
-                                <img src="{{ product.image.url }}" alt="{{ product.name }}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                <img src="{{ product.image.url }}" alt="{{ product.name }}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.src='{% static 'images/hairbybolbash/hair_product_oil_1.jpg' %}';">
                                 {% else %}
-                                <div class="w-full h-full flex items-center justify-center text-4xl text-brand-neutral-300">
-                                    🛍️
-                                </div>
+                                <img src="{% static 'images/hairbybolbash/hair_product_oil_1.jpg' %}" alt="{{ product.name }}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                                 {% endif %}
 
                                 <div class="absolute top-3 left-3">

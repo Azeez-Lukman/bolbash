@@ -3,7 +3,8 @@
 
 {% block title %}Bolbash Beauty Spot | Luxury Beauty Salon in Ibadan{% endblock title %}
 
-{% block meta_description %}Bolbash Beauty Spot is Ibadan's premier luxury beauty salon offering expert hair styling, wig installation, bridal styling, nail fixing, and expert hair care guides.{% endblock meta_description %}
+{% block meta_description %}Bolbash Beauty Spot is Ibadan's premier luxury beauty salon offering expert hair styling,
+wig installation, bridal styling, nail fixing, and expert hair care guides.{% endblock meta_description %}
 
 {% block content %}
 
@@ -51,18 +52,31 @@
                 </div>
 
                 <!-- Trust Badges Bar -->
-                <div class="pt-8 border-t border-white/10 grid grid-cols-3 gap-2 sm:gap-4 max-w-lg mx-auto lg:mx-0 text-center">
-                    <div class="p-2 sm:p-3 rounded-xl sm:rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm">
-                        <span class="block text-lg sm:text-2xl font-heading font-bold text-white leading-tight">100%</span>
-                        <span class="text-[9px] sm:text-[10px] text-brand-pink uppercase tracking-tight sm:tracking-wider font-bold block mt-0.5">Appointment Only</span>
+                <div
+                    class="pt-8 border-t border-white/10 grid grid-cols-3 gap-2 sm:gap-4 max-w-lg mx-auto lg:mx-0 text-center">
+                    <div
+                        class="p-2 sm:p-3 rounded-xl sm:rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm">
+                        <span
+                            class="block text-lg sm:text-2xl font-heading font-bold text-white leading-tight">100%</span>
+                        <span
+                            class="text-[9px] sm:text-[10px] text-brand-pink uppercase tracking-tight sm:tracking-wider font-bold block mt-0.5">Appointment
+                            Only</span>
                     </div>
-                    <div class="p-2 sm:p-3 rounded-xl sm:rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm">
-                        <span class="block text-lg sm:text-2xl font-heading font-bold text-brand-pink leading-tight">Bespoke</span>
-                        <span class="text-[9px] sm:text-[10px] text-brand-neutral-300 uppercase tracking-tight sm:tracking-wider font-semibold block mt-0.5">Bridal & Wigs</span>
+                    <div
+                        class="p-2 sm:p-3 rounded-xl sm:rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm">
+                        <span
+                            class="block text-lg sm:text-2xl font-heading font-bold text-brand-pink leading-tight">Bespoke</span>
+                        <span
+                            class="text-[9px] sm:text-[10px] text-brand-neutral-300 uppercase tracking-tight sm:tracking-wider font-semibold block mt-0.5">Bridal
+                            & Wigs</span>
                     </div>
-                    <div class="p-2 sm:p-3 rounded-xl sm:rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm">
-                        <span class="block text-lg sm:text-2xl font-heading font-bold text-white leading-tight">Editorial</span>
-                        <span class="text-[9px] sm:text-[10px] text-brand-pink uppercase tracking-tight sm:tracking-wider font-bold block mt-0.5">Beauty Guides</span>
+                    <div
+                        class="p-2 sm:p-3 rounded-xl sm:rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm">
+                        <span
+                            class="block text-lg sm:text-2xl font-heading font-bold text-white leading-tight">Editorial</span>
+                        <span
+                            class="text-[9px] sm:text-[10px] text-brand-pink uppercase tracking-tight sm:tracking-wider font-bold block mt-0.5">Beauty
+                            Guides</span>
                     </div>
                 </div>
 
@@ -73,47 +87,57 @@
                 <div class="relative mx-auto max-w-md lg:max-w-none">
 
                     <!-- Sleek Image Showcase Container -->
-                    <div id="hero-carousel" class="w-full rounded-2xl relative overflow-hidden bg-brand-black shadow-2xl border border-white/15 group" style="min-height: 480px; aspect-ratio: 4 / 5;">
-                            
-                            <!-- Slide 1: Luxury Wig & Hair Artistry Showcase -->
-                            <div class="hero-slide absolute inset-0 transition-opacity duration-700 opacity-100 z-10" data-slide="0">
-                                <img src="{% static 'images/hairbybolbash/wig_making_custom_1.jpg' %}" 
-                                     alt="Luxury Hair & Wig Artistry by Bolbash" 
-                                     class="w-full h-full object-cover object-top sm:object-center transform group-hover:scale-105 transition-transform duration-700 ease-out" />
-                            </div>
+                    <div id="hero-carousel"
+                        class="w-full rounded-2xl relative overflow-hidden bg-brand-black shadow-2xl border border-white/15 group"
+                        style="min-height: 480px; aspect-ratio: 4 / 5;">
 
-                            <!-- Slide 2: Bespoke Bridal Glamour -->
-                            <div class="hero-slide absolute inset-0 transition-opacity duration-700 opacity-0 z-0" data-slide="1">
-                                <img src="{% static 'images/bridal_hero.jpg' %}" 
-                                     alt="Bespoke Luxury Bridal Glamour & Styling" 
-                                     class="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-700 ease-out" />
-                            </div>
-
-                            <!-- Slide 3: Executive Salon Studio & Styling -->
-                            <div class="hero-slide absolute inset-0 transition-opacity duration-700 opacity-0 z-0" data-slide="2">
-                                <img src="{% static 'images/salon_hero_showcase.jpg' %}" 
-                                     alt="Salon Studio & Luxury Wig Revamp" 
-                                     class="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-700 ease-out" />
-                            </div>
-
-                            <!-- Carousel Controls -->
-                            <button id="carousel-prev" type="button" aria-label="Previous Slide" 
-                                    class="absolute left-3 top-1/2 -translate-y-1/2 z-30 w-8 h-8 rounded-full bg-black/60 hover:bg-brand-pink text-white flex items-center justify-center backdrop-blur-md transition-colors border border-white/20 focus:outline-none">
-                                ‹
-                            </button>
-                            <button id="carousel-next" type="button" aria-label="Next Slide" 
-                                    class="absolute right-3 top-1/2 -translate-y-1/2 z-30 w-8 h-8 rounded-full bg-black/60 hover:bg-brand-pink text-white flex items-center justify-center backdrop-blur-md transition-colors border border-white/20 focus:outline-none">
-                                ›
-                            </button>
-
-                            <!-- Indicator Dots -->
-                            <div class="absolute bottom-4 left-1/2 -translate-x-1/2 z-30 flex items-center space-x-2">
-                                <button class="carousel-dot w-6 h-2 rounded-full bg-brand-pink transition-all duration-300" data-index="0" aria-label="Slide 1"></button>
-                                <button class="carousel-dot w-2 h-2 rounded-full bg-white/40 hover:bg-white transition-all duration-300" data-index="1" aria-label="Slide 2"></button>
-                                <button class="carousel-dot w-2 h-2 rounded-full bg-white/40 hover:bg-white transition-all duration-300" data-index="2" aria-label="Slide 3"></button>
-                            </div>
-
+                        <!-- Slide 1: Salon Studio & Luxury Wig Revamp Showcase -->
+                        <div class="hero-slide absolute inset-0 transition-opacity duration-700 opacity-100 z-10"
+                            data-slide="0">
+                            <img src="{% static 'images/salon_hero_showcase.jpg' %}"
+                                alt="Salon Studio & Luxury Wig Revamp"
+                                class="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-700 ease-out" />
                         </div>
+
+                        <!-- Slide 2: Bespoke Bridal Glamour -->
+                        <div class="hero-slide absolute inset-0 transition-opacity duration-700 opacity-0 z-0"
+                            data-slide="1">
+                            <img src="{% static 'images/bridal_hero.jpg' %}"
+                                alt="Bespoke Luxury Bridal Glamour & Styling"
+                                class="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-700 ease-out" />
+                        </div>
+
+                        <!-- Slide 3: Luxury Hair & Wig Artistry by Bolbash -->
+                        <div class="hero-slide absolute inset-0 transition-opacity duration-700 opacity-0 z-0"
+                            data-slide="2">
+                            <img src="{% static 'images/hairbybolbash/wig_making_custom_1.jpg' %}"
+                                alt="Luxury Hair & Wig Artistry by Bolbash"
+                                class="w-full h-full object-cover object-top sm:object-center transform group-hover:scale-105 transition-transform duration-700 ease-out" />
+                        </div>
+
+                        <!-- Carousel Controls -->
+                        <button id="carousel-prev" type="button" aria-label="Previous Slide"
+                            class="absolute left-3 top-1/2 -translate-y-1/2 z-30 w-8 h-8 rounded-full bg-black/60 hover:bg-brand-pink text-white flex items-center justify-center backdrop-blur-md transition-colors border border-white/20 focus:outline-none">
+                            ‹
+                        </button>
+                        <button id="carousel-next" type="button" aria-label="Next Slide"
+                            class="absolute right-3 top-1/2 -translate-y-1/2 z-30 w-8 h-8 rounded-full bg-black/60 hover:bg-brand-pink text-white flex items-center justify-center backdrop-blur-md transition-colors border border-white/20 focus:outline-none">
+                            ›
+                        </button>
+
+                        <!-- Indicator Dots -->
+                        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 z-30 flex items-center space-x-2">
+                            <button class="carousel-dot w-6 h-2 rounded-full bg-brand-pink transition-all duration-300"
+                                data-index="0" aria-label="Slide 1"></button>
+                            <button
+                                class="carousel-dot w-2 h-2 rounded-full bg-white/40 hover:bg-white transition-all duration-300"
+                                data-index="1" aria-label="Slide 2"></button>
+                            <button
+                                class="carousel-dot w-2 h-2 rounded-full bg-white/40 hover:bg-white transition-all duration-300"
+                                data-index="2" aria-label="Slide 3"></button>
+                        </div>
+
+                    </div>
                 </div>
             </div>
 
@@ -204,20 +228,26 @@
             <div class="service-item card-premium card-hover flex flex-col justify-between transition-all duration-300 group overflow-hidden"
                 data-category="bridal">
                 <!-- Service Image Header -->
-                <div class="relative h-52 sm:h-56 w-full rounded-2xl overflow-hidden mb-4 bg-brand-neutral-100 shadow-sm border border-brand-neutral-200">
-                    <img src="{% static 'images/hairbybolbash/bridal_hair_1.jpg' %}" 
-                         alt="Trending Bridal Hair Styling" 
-                         class="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-500" loading="lazy" />
-                    <div class="absolute top-3 left-3 bg-brand-black/80 backdrop-blur-md text-white text-xs font-bold px-3 py-1.5 rounded-xl border border-white/20">
+                <div
+                    class="relative h-52 sm:h-56 w-full rounded-2xl overflow-hidden mb-4 bg-brand-neutral-100 shadow-sm border border-brand-neutral-200">
+                    <img src="{% static 'images/hairbybolbash/bridal_hair_1.jpg' %}" alt="Trending Bridal Hair Styling"
+                        class="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-500"
+                        loading="lazy" />
+                    <div
+                        class="absolute top-3 left-3 bg-brand-black/80 backdrop-blur-md text-white text-xs font-bold px-3 py-1.5 rounded-xl border border-white/20">
                         01
                     </div>
                     <div class="absolute top-3 right-3">
-                        <span class="badge-pink bg-white/95 backdrop-blur-md shadow-md border-none font-bold text-[10px] text-brand-pink">Bespoke Bridal</span>
+                        <span
+                            class="badge-pink bg-white/95 backdrop-blur-md shadow-md border-none font-bold text-[10px] text-brand-pink">Bespoke
+                            Bridal</span>
                     </div>
                 </div>
 
                 <div class="space-y-3 px-1">
-                    <h3 class="text-xl font-heading font-bold text-brand-black group-hover:text-brand-pink transition-colors">Trending Bridal Hair Styling</h3>
+                    <h3
+                        class="text-xl font-heading font-bold text-brand-black group-hover:text-brand-pink transition-colors">
+                        Trending Bridal Hair Styling</h3>
                     <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed">
                         Exquisite bridal updos, traditional engagement styling, and glamour arrangements designed to
                         make your wedding day unforgettable.
@@ -236,20 +266,26 @@
             <div class="service-item card-premium card-hover flex flex-col justify-between transition-all duration-300 group overflow-hidden"
                 data-category="wig-frontal">
                 <!-- Service Image Header -->
-                <div class="relative h-52 sm:h-56 w-full rounded-2xl overflow-hidden mb-4 bg-brand-neutral-100 shadow-sm border border-brand-neutral-200">
-                    <img src="{% static 'images/hairbybolbash/wig_installation_1.jpg' %}" 
-                         alt="360 Installation" 
-                         class="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-500" loading="lazy" />
-                    <div class="absolute top-3 left-3 bg-brand-black/80 backdrop-blur-md text-white text-xs font-bold px-3 py-1.5 rounded-xl border border-white/20">
+                <div
+                    class="relative h-52 sm:h-56 w-full rounded-2xl overflow-hidden mb-4 bg-brand-neutral-100 shadow-sm border border-brand-neutral-200">
+                    <img src="{% static 'images/hairbybolbash/wig_installation_1.jpg' %}" alt="360 Installation"
+                        class="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-500"
+                        loading="lazy" />
+                    <div
+                        class="absolute top-3 left-3 bg-brand-black/80 backdrop-blur-md text-white text-xs font-bold px-3 py-1.5 rounded-xl border border-white/20">
                         02
                     </div>
                     <div class="absolute top-3 right-3">
-                        <span class="badge-pink bg-white/95 backdrop-blur-md shadow-md border-none font-bold text-[10px] text-brand-pink">360 Perimeter</span>
+                        <span
+                            class="badge-pink bg-white/95 backdrop-blur-md shadow-md border-none font-bold text-[10px] text-brand-pink">360
+                            Perimeter</span>
                     </div>
                 </div>
 
                 <div class="space-y-3 px-1">
-                    <h3 class="text-xl font-heading font-bold text-brand-black group-hover:text-brand-pink transition-colors">360 Installation</h3>
+                    <h3
+                        class="text-xl font-heading font-bold text-brand-black group-hover:text-brand-pink transition-colors">
+                        360 Installation</h3>
                     <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed">
                         Flawless 360 lace installation providing a seamless hairline and versatile high-ponytail styling
                         options.
@@ -268,20 +304,26 @@
             <div class="service-item card-premium card-hover flex flex-col justify-between transition-all duration-300 group overflow-hidden"
                 data-category="wig-frontal">
                 <!-- Service Image Header -->
-                <div class="relative h-52 sm:h-56 w-full rounded-2xl overflow-hidden mb-4 bg-brand-neutral-100 shadow-sm border border-brand-neutral-200">
-                    <img src="{% static 'images/hairbybolbash/frontal_melt_1.jpg' %}" 
-                         alt="Frontal Installation" 
-                         class="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-500" loading="lazy" />
-                    <div class="absolute top-3 left-3 bg-brand-black/80 backdrop-blur-md text-white text-xs font-bold px-3 py-1.5 rounded-xl border border-white/20">
+                <div
+                    class="relative h-52 sm:h-56 w-full rounded-2xl overflow-hidden mb-4 bg-brand-neutral-100 shadow-sm border border-brand-neutral-200">
+                    <img src="{% static 'images/hairbybolbash/frontal_melt_1.jpg' %}" alt="Frontal Installation"
+                        class="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-500"
+                        loading="lazy" />
+                    <div
+                        class="absolute top-3 left-3 bg-brand-black/80 backdrop-blur-md text-white text-xs font-bold px-3 py-1.5 rounded-xl border border-white/20">
                         03
                     </div>
                     <div class="absolute top-3 right-3">
-                        <span class="badge-pink bg-white/95 backdrop-blur-md shadow-md border-none font-bold text-[10px] text-brand-pink">Natural Scalp</span>
+                        <span
+                            class="badge-pink bg-white/95 backdrop-blur-md shadow-md border-none font-bold text-[10px] text-brand-pink">Natural
+                            Scalp</span>
                     </div>
                 </div>
 
                 <div class="space-y-3 px-1">
-                    <h3 class="text-xl font-heading font-bold text-brand-black group-hover:text-brand-pink transition-colors">Frontal Installation</h3>
+                    <h3
+                        class="text-xl font-heading font-bold text-brand-black group-hover:text-brand-pink transition-colors">
+                        Frontal Installation</h3>
                     <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed">
                         Precision customization, knot bleaching, ear-tab fitting, and invisible lace melting for a
                         scalp-like appearance.
@@ -300,20 +342,26 @@
             <div class="service-item card-premium card-hover flex flex-col justify-between transition-all duration-300 group overflow-hidden"
                 data-category="wig-frontal">
                 <!-- Service Image Header -->
-                <div class="relative h-52 sm:h-56 w-full rounded-2xl overflow-hidden mb-4 bg-brand-neutral-100 shadow-sm border border-brand-neutral-200">
-                    <img src="{% static 'images/hairbybolbash/wig_making_custom_1.jpg' %}" 
-                         alt="Custom Wig Making" 
-                         class="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-500" loading="lazy" />
-                    <div class="absolute top-3 left-3 bg-brand-black/80 backdrop-blur-md text-white text-xs font-bold px-3 py-1.5 rounded-xl border border-white/20">
+                <div
+                    class="relative h-52 sm:h-56 w-full rounded-2xl overflow-hidden mb-4 bg-brand-neutral-100 shadow-sm border border-brand-neutral-200">
+                    <img src="{% static 'images/hairbybolbash/wig_making_custom_1.jpg' %}" alt="Custom Wig Making"
+                        class="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-500"
+                        loading="lazy" />
+                    <div
+                        class="absolute top-3 left-3 bg-brand-black/80 backdrop-blur-md text-white text-xs font-bold px-3 py-1.5 rounded-xl border border-white/20">
                         04
                     </div>
                     <div class="absolute top-3 right-3">
-                        <span class="badge-pink bg-white/95 backdrop-blur-md shadow-md border-none font-bold text-[10px] text-brand-pink">Custom Fit</span>
+                        <span
+                            class="badge-pink bg-white/95 backdrop-blur-md shadow-md border-none font-bold text-[10px] text-brand-pink">Custom
+                            Fit</span>
                     </div>
                 </div>
 
                 <div class="space-y-3 px-1">
-                    <h3 class="text-xl font-heading font-bold text-brand-black group-hover:text-brand-pink transition-colors">Custom Wig Making</h3>
+                    <h3
+                        class="text-xl font-heading font-bold text-brand-black group-hover:text-brand-pink transition-colors">
+                        Custom Wig Making</h3>
                     <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed">
                         Bespoke wig construction crafted according to your precise head measurement, cap preference, and
                         hair density.
@@ -332,20 +380,25 @@
             <div class="service-item card-premium card-hover flex flex-col justify-between transition-all duration-300 group overflow-hidden"
                 data-category="maintenance">
                 <!-- Service Image Header -->
-                <div class="relative h-52 sm:h-56 w-full rounded-2xl overflow-hidden mb-4 bg-brand-neutral-100 shadow-sm border border-brand-neutral-200">
-                    <img src="{% static 'images/hairbybolbash/hair_revamping_1.jpg' %}" 
-                         alt="Wig Revamping & Bleaching" 
-                         class="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-500" loading="lazy" />
-                    <div class="absolute top-3 left-3 bg-brand-black/80 backdrop-blur-md text-white text-xs font-bold px-3 py-1.5 rounded-xl border border-white/20">
+                <div
+                    class="relative h-52 sm:h-56 w-full rounded-2xl overflow-hidden mb-4 bg-brand-neutral-100 shadow-sm border border-brand-neutral-200">
+                    <img src="{% static 'images/hairbybolbash/hair_revamping_1.jpg' %}" alt="Wig Revamping & Bleaching"
+                        class="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-500"
+                        loading="lazy" />
+                    <div
+                        class="absolute top-3 left-3 bg-brand-black/80 backdrop-blur-md text-white text-xs font-bold px-3 py-1.5 rounded-xl border border-white/20">
                         05
                     </div>
                     <div class="absolute top-3 right-3">
-                        <span class="badge-pink bg-white/95 backdrop-blur-md shadow-md border-none font-bold text-[10px] text-brand-pink">Restoration</span>
+                        <span
+                            class="badge-pink bg-white/95 backdrop-blur-md shadow-md border-none font-bold text-[10px] text-brand-pink">Restoration</span>
                     </div>
                 </div>
 
                 <div class="space-y-3 px-1">
-                    <h3 class="text-xl font-heading font-bold text-brand-black group-hover:text-brand-pink transition-colors">Wig Revamping & Bleaching</h3>
+                    <h3
+                        class="text-xl font-heading font-bold text-brand-black group-hover:text-brand-pink transition-colors">
+                        Wig Revamping & Bleaching</h3>
                     <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed">
                         Restorative treatment for old or matted wig units, deep steam conditioning, bundle bleaching,
                         and silk pressing.
@@ -364,20 +417,27 @@
             <div class="service-item card-premium card-hover flex flex-col justify-between transition-all duration-300 group overflow-hidden"
                 data-category="beauty-nails">
                 <!-- Service Image Header -->
-                <div class="relative h-52 sm:h-56 w-full rounded-2xl overflow-hidden mb-4 bg-brand-neutral-100 shadow-sm border border-brand-neutral-200">
-                    <img src="{% static 'images/hairbybolbash/nail_extensions_1.jpg' %}" 
-                         alt="Acrylic & Gel Nail Artistry" 
-                         class="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-500" loading="lazy" />
-                    <div class="absolute top-3 left-3 bg-brand-black/80 backdrop-blur-md text-white text-xs font-bold px-3 py-1.5 rounded-xl border border-white/20">
+                <div
+                    class="relative h-52 sm:h-56 w-full rounded-2xl overflow-hidden mb-4 bg-brand-neutral-100 shadow-sm border border-brand-neutral-200">
+                    <img src="{% static 'images/hairbybolbash/nail_extensions_1.jpg' %}"
+                        alt="Acrylic & Gel Nail Artistry"
+                        class="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-500"
+                        loading="lazy" />
+                    <div
+                        class="absolute top-3 left-3 bg-brand-black/80 backdrop-blur-md text-white text-xs font-bold px-3 py-1.5 rounded-xl border border-white/20">
                         06
                     </div>
                     <div class="absolute top-3 right-3">
-                        <span class="badge-pink bg-white/95 backdrop-blur-md shadow-md border-none font-bold text-[10px] text-brand-pink">Nail Art</span>
+                        <span
+                            class="badge-pink bg-white/95 backdrop-blur-md shadow-md border-none font-bold text-[10px] text-brand-pink">Nail
+                            Art</span>
                     </div>
                 </div>
 
                 <div class="space-y-3 px-1">
-                    <h3 class="text-xl font-heading font-bold text-brand-black group-hover:text-brand-pink transition-colors">Acrylic & Gel Nail Artistry</h3>
+                    <h3
+                        class="text-xl font-heading font-bold text-brand-black group-hover:text-brand-pink transition-colors">
+                        Acrylic & Gel Nail Artistry</h3>
                     <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed">
                         Professional nail extension fixing, acrylic powder shaping, gel polish, manicures, and custom
                         press-on applications.
@@ -468,7 +528,8 @@
                     📖</div>
                 <h3 class="font-heading text-lg font-bold text-brand-black">Hair Care & Beauty Editorial</h3>
                 <p class="text-brand-neutral-500 text-xs sm:text-sm leading-relaxed">
-                    Expert hair maintenance advice, frontal installation tutorials, and beauty tips from our master stylists.
+                    Expert hair maintenance advice, frontal installation tutorials, and beauty tips from our master
+                    stylists.
                 </p>
             </div>
 
@@ -511,7 +572,8 @@
                     Master Hair Care & Wig Maintenance.
                 </h3>
                 <p class="text-brand-neutral-300 text-xs sm:text-sm leading-relaxed">
-                    Discover professional guides on lace frontal care, human hair revamping, bridal beauty preparation, and styling secrets from our top artists.
+                    Discover professional guides on lace frontal care, human hair revamping, bridal beauty preparation,
+                    and styling secrets from our top artists.
                 </p>
                 <div class="pt-2">
                     <a href="{% url 'blog:post_list' %}"
@@ -542,123 +604,138 @@
 
         <!-- Interactive Reviews Carousel Slider Wrapper -->
         <div class="relative max-w-7xl mx-auto px-2 overflow-hidden group/carousel" id="reviews-carousel-wrapper">
-            
+
             <!-- Left/Right Slide Arrows -->
             <button id="rev-carousel-prev" type="button" aria-label="Previous Reviews"
-                    class="absolute left-2 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-white/95 hover:bg-brand-pink text-brand-black hover:text-white shadow-xl flex items-center justify-center transition-all border border-brand-neutral-200 focus:outline-none opacity-80 hover:opacity-100">
+                class="absolute left-2 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-white/95 hover:bg-brand-pink text-brand-black hover:text-white shadow-xl flex items-center justify-center transition-all border border-brand-neutral-200 focus:outline-none opacity-80 hover:opacity-100">
                 ‹
             </button>
             <button id="rev-carousel-next" type="button" aria-label="Next Reviews"
-                    class="absolute right-2 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-white/95 hover:bg-brand-pink text-brand-black hover:text-white shadow-xl flex items-center justify-center transition-all border border-brand-neutral-200 focus:outline-none opacity-80 hover:opacity-100">
+                class="absolute right-2 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-white/95 hover:bg-brand-pink text-brand-black hover:text-white shadow-xl flex items-center justify-center transition-all border border-brand-neutral-200 focus:outline-none opacity-80 hover:opacity-100">
                 ›
             </button>
 
             <!-- Sliding Track Container -->
             <div id="reviews-slider-track" class="flex transition-transform duration-700 ease-out space-x-6">
                 {% if approved_reviews %}
-                    {% for rev in approved_reviews %}
-                        <div class="review-slide-card flex-shrink-0 w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] bg-brand-neutral-50 p-6 sm:p-8 rounded-3xl border border-brand-neutral-200 space-y-4 flex flex-col justify-between shadow-sm hover:shadow-md transition-all">
-                            <div class="space-y-3">
-                                <div class="flex items-center justify-between">
-                                    <div class="text-amber-400 text-sm font-bold">
-                                        {% if rev.rating == 5 %}★★★★★
-                                        {% elif rev.rating == 4 %}★★★★☆
-                                        {% elif rev.rating == 3 %}★★★☆☆
-                                        {% elif rev.rating == 2 %}★★☆☆☆
-                                        {% else %}★☆☆☆☆{% endif %}
-                                    </div>
-                                    <span class="text-[10px] font-semibold text-green-700 bg-green-50 px-2.5 py-0.5 rounded-full border border-green-200">
-                                        ✓ Verified Client
-                                    </span>
-                                </div>
-                                <p class="text-brand-neutral-600 text-xs sm:text-sm leading-relaxed italic">
-                                    "{{ rev.comment }}"
-                                </p>
+                {% for rev in approved_reviews %}
+                <div
+                    class="review-slide-card flex-shrink-0 w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] bg-brand-neutral-50 p-6 sm:p-8 rounded-3xl border border-brand-neutral-200 space-y-4 flex flex-col justify-between shadow-sm hover:shadow-md transition-all">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <div class="text-amber-400 text-sm font-bold">
+                                {% if rev.rating == 5 %}★★★★★
+                                {% elif rev.rating == 4 %}★★★★☆
+                                {% elif rev.rating == 3 %}★★★☆☆
+                                {% elif rev.rating == 2 %}★★☆☆☆
+                                {% else %}★☆☆☆☆{% endif %}
                             </div>
-
-                            <div class="pt-4 border-t border-brand-neutral-200 flex items-center justify-between mt-auto">
-                                <div>
-                                    <span class="font-heading font-bold text-sm text-brand-black block">
-                                        {{ rev.user.get_full_name|default:rev.user.first_name|default:rev.user.username }}
-                                    </span>
-                                    <span class="text-[10px] text-brand-neutral-400">{{ rev.created_at|date:"M d, Y" }}</span>
-                                </div>
-                                {% if rev.booking %}
-                                    <span class="badge-pink font-semibold truncate max-w-[120px]">{{ rev.booking.service_name_snapshot }}</span>
-                                {% elif rev.service %}
-                                    <span class="badge-pink font-semibold truncate max-w-[120px]">{{ rev.service.name }}</span>
-                                {% else %}
-                                    <span class="badge-pink">Verified Review</span>
-                                {% endif %}
-                            </div>
+                            <span
+                                class="text-[10px] font-semibold text-green-700 bg-green-50 px-2.5 py-0.5 rounded-full border border-green-200">
+                                ✓ Verified Client
+                            </span>
                         </div>
-                    {% endfor %}
+                        <p class="text-brand-neutral-600 text-xs sm:text-sm leading-relaxed italic">
+                            "{{ rev.comment }}"
+                        </p>
+                    </div>
+
+                    <div class="pt-4 border-t border-brand-neutral-200 flex items-center justify-between mt-auto">
+                        <div>
+                            <span class="font-heading font-bold text-sm text-brand-black block">
+                                {{ rev.user.get_full_name|default:rev.user.first_name|default:rev.user.username }}
+                            </span>
+                            <span class="text-[10px] text-brand-neutral-400">{{ rev.created_at|date:"M d, Y" }}</span>
+                        </div>
+                        {% if rev.booking %}
+                        <span class="badge-pink font-semibold truncate max-w-[120px]">{{
+                            rev.booking.service_name_snapshot }}</span>
+                        {% elif rev.service %}
+                        <span class="badge-pink font-semibold truncate max-w-[120px]">{{ rev.service.name }}</span>
+                        {% else %}
+                        <span class="badge-pink">Verified Review</span>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
                 {% else %}
-                    <!-- Fallback Slide Card 1 -->
-                    <div class="review-slide-card flex-shrink-0 w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] bg-brand-neutral-50 p-6 sm:p-8 rounded-3xl border border-brand-neutral-200 space-y-4 flex flex-col justify-between shadow-sm">
-                        <div class="space-y-3">
-                            <div class="flex text-amber-400 text-sm font-bold">★★★★★</div>
-                            <p class="text-brand-neutral-600 text-xs sm:text-sm leading-relaxed italic">
-                                "My frontal installation for my wedding was completely seamless! People kept asking if it was my real scalp. Bolbash is the absolute best hair artist in Ibadan."
-                            </p>
-                        </div>
-                        <div class="pt-4 border-t border-brand-neutral-200 flex items-center justify-between">
-                            <div>
-                                <span class="font-heading font-bold text-sm text-brand-black block">Adebisi Folake</span>
-                                <span class="text-[10px] text-brand-neutral-400">Ibadan, Nigeria</span>
-                            </div>
-                            <span class="badge-pink">Frontal Melt</span>
-                        </div>
+                <!-- Fallback Slide Card 1 -->
+                <div
+                    class="review-slide-card flex-shrink-0 w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] bg-brand-neutral-50 p-6 sm:p-8 rounded-3xl border border-brand-neutral-200 space-y-4 flex flex-col justify-between shadow-sm">
+                    <div class="space-y-3">
+                        <div class="flex text-amber-400 text-sm font-bold">★★★★★</div>
+                        <p class="text-brand-neutral-600 text-xs sm:text-sm leading-relaxed italic">
+                            "My frontal installation for my wedding was completely seamless! People kept asking if it
+                            was my real scalp. Bolbash is the absolute best hair artist in Ibadan."
+                        </p>
                     </div>
+                    <div class="pt-4 border-t border-brand-neutral-200 flex items-center justify-between">
+                        <div>
+                            <span class="font-heading font-bold text-sm text-brand-black block">Adebisi Folake</span>
+                            <span class="text-[10px] text-brand-neutral-400">Ibadan, Nigeria</span>
+                        </div>
+                        <span class="badge-pink">Frontal Melt</span>
+                    </div>
+                </div>
 
-                    <!-- Fallback Slide Card 2 -->
-                    <div class="review-slide-card flex-shrink-0 w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] bg-brand-neutral-50 p-6 sm:p-8 rounded-3xl border border-brand-neutral-200 space-y-4 flex flex-col justify-between shadow-sm">
-                        <div class="space-y-3">
-                            <div class="flex text-amber-400 text-sm font-bold">★★★★★</div>
-                            <p class="text-brand-neutral-600 text-xs sm:text-sm leading-relaxed italic">
-                                "Extremely organized appointment system! Zero waiting time when you arrive, and the studio atmosphere is calm, clean, and truly high-end."
-                            </p>
-                        </div>
-                        <div class="pt-4 border-t border-brand-neutral-200 flex items-center justify-between">
-                            <div>
-                                <span class="font-heading font-bold text-sm text-brand-black block">Oluwaseun Alabi</span>
-                                <span class="text-[10px] text-brand-neutral-400">Sango, Ibadan</span>
-                            </div>
-                            <span class="badge-pink">Bridal Styling</span>
-                        </div>
+                <!-- Fallback Slide Card 2 -->
+                <div
+                    class="review-slide-card flex-shrink-0 w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] bg-brand-neutral-50 p-6 sm:p-8 rounded-3xl border border-brand-neutral-200 space-y-4 flex flex-col justify-between shadow-sm">
+                    <div class="space-y-3">
+                        <div class="flex text-amber-400 text-sm font-bold">★★★★★</div>
+                        <p class="text-brand-neutral-600 text-xs sm:text-sm leading-relaxed italic">
+                            "Extremely organized appointment system! Zero waiting time when you arrive, and the studio
+                            atmosphere is calm, clean, and truly high-end."
+                        </p>
                     </div>
+                    <div class="pt-4 border-t border-brand-neutral-200 flex items-center justify-between">
+                        <div>
+                            <span class="font-heading font-bold text-sm text-brand-black block">Oluwaseun Alabi</span>
+                            <span class="text-[10px] text-brand-neutral-400">Sango, Ibadan</span>
+                        </div>
+                        <span class="badge-pink">Bridal Styling</span>
+                    </div>
+                </div>
 
-                    <!-- Fallback Slide Card 3 -->
-                    <div class="review-slide-card flex-shrink-0 w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] bg-brand-neutral-50 p-6 sm:p-8 rounded-3xl border border-brand-neutral-200 space-y-4 flex flex-col justify-between shadow-sm">
-                        <div class="space-y-3">
-                            <div class="flex text-amber-400 text-sm font-bold">★★★★★</div>
-                            <p class="text-brand-neutral-600 text-xs sm:text-sm leading-relaxed italic">
-                                "The frontal melt and styling I received at Bolbash was beyond perfection. The lace was truly invisible and stayed intact for weeks!"
-                            </p>
-                        </div>
-                        <div class="pt-4 border-t border-brand-neutral-200 flex items-center justify-between">
-                            <div>
-                                <span class="font-heading font-bold text-sm text-brand-black block">Zainab Bello</span>
-                                <span class="text-[10px] text-brand-neutral-400">Frontal Melt Client</span>
-                            </div>
-                            <span class="badge-pink">Salon Client</span>
-                        </div>
+                <!-- Fallback Slide Card 3 -->
+                <div
+                    class="review-slide-card flex-shrink-0 w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] bg-brand-neutral-50 p-6 sm:p-8 rounded-3xl border border-brand-neutral-200 space-y-4 flex flex-col justify-between shadow-sm">
+                    <div class="space-y-3">
+                        <div class="flex text-amber-400 text-sm font-bold">★★★★★</div>
+                        <p class="text-brand-neutral-600 text-xs sm:text-sm leading-relaxed italic">
+                            "The frontal melt and styling I received at Bolbash was beyond perfection. The lace was
+                            truly invisible and stayed intact for weeks!"
+                        </p>
                     </div>
+                    <div class="pt-4 border-t border-brand-neutral-200 flex items-center justify-between">
+                        <div>
+                            <span class="font-heading font-bold text-sm text-brand-black block">Zainab Bello</span>
+                            <span class="text-[10px] text-brand-neutral-400">Frontal Melt Client</span>
+                        </div>
+                        <span class="badge-pink">Salon Client</span>
+                    </div>
+                </div>
                 {% endif %}
             </div>
 
             <!-- 3 Pagination Indicator Dots Underneath -->
             <div class="pt-8 flex items-center justify-center space-x-3" id="reviews-dots-container">
-                <button class="rev-dot w-8 h-2.5 rounded-full bg-brand-pink transition-all duration-300" data-index="0" aria-label="Review Slide 1"></button>
-                <button class="rev-dot w-2.5 h-2.5 rounded-full bg-brand-neutral-300 hover:bg-brand-pink transition-all duration-300" data-index="1" aria-label="Review Slide 2"></button>
-                <button class="rev-dot w-2.5 h-2.5 rounded-full bg-brand-neutral-300 hover:bg-brand-pink transition-all duration-300" data-index="2" aria-label="Review Slide 3"></button>
+                <button class="rev-dot w-8 h-2.5 rounded-full bg-brand-pink transition-all duration-300" data-index="0"
+                    aria-label="Review Slide 1"></button>
+                <button
+                    class="rev-dot w-2.5 h-2.5 rounded-full bg-brand-neutral-300 hover:bg-brand-pink transition-all duration-300"
+                    data-index="1" aria-label="Review Slide 2"></button>
+                <button
+                    class="rev-dot w-2.5 h-2.5 rounded-full bg-brand-neutral-300 hover:bg-brand-pink transition-all duration-300"
+                    data-index="2" aria-label="Review Slide 3"></button>
             </div>
 
         </div>
 
         <!-- View All Reviews Showcase Link -->
         <div class="text-center pt-6">
-            <a href="{% url 'core:reviews_showcase' %}" class="btn-secondary py-3 px-8 text-xs uppercase tracking-wider font-bold inline-flex items-center space-x-2">
+            <a href="{% url 'core:reviews_showcase' %}"
+                class="btn-secondary py-3 px-8 text-xs uppercase tracking-wider font-bold inline-flex items-center space-x-2">
                 <span>View All Client Reviews & Ratings</span>
                 <span>→</span>
             </a>
@@ -669,107 +746,107 @@
 
 <!-- Vanilla JavaScript Carousel Slider Controller -->
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-    const track = document.getElementById('reviews-slider-track');
-    const prevBtn = document.getElementById('rev-carousel-prev');
-    const nextBtn = document.getElementById('rev-carousel-next');
-    const dotsContainer = document.getElementById('reviews-dots-container');
-    const wrapper = document.getElementById('reviews-carousel-wrapper');
+    document.addEventListener('DOMContentLoaded', () => {
+        const track = document.getElementById('reviews-slider-track');
+        const prevBtn = document.getElementById('rev-carousel-prev');
+        const nextBtn = document.getElementById('rev-carousel-next');
+        const dotsContainer = document.getElementById('reviews-dots-container');
+        const wrapper = document.getElementById('reviews-carousel-wrapper');
 
-    if (!track) return;
+        if (!track) return;
 
-    let currentIndex = 0;
-    let autoPlayInterval = null;
+        let currentIndex = 0;
+        let autoPlayInterval = null;
 
-    function getCardsPerPage() {
-        if (window.innerWidth >= 1024) return 3;
-        if (window.innerWidth >= 640) return 2;
-        return 1;
-    }
-
-    function getTotalPages() {
-        const cards = track.querySelectorAll('.review-slide-card');
-        const perPage = getCardsPerPage();
-        return Math.max(1, Math.ceil(cards.length / perPage));
-    }
-
-    function updateCarousel(index) {
-        const cards = track.querySelectorAll('.review-slide-card');
-        if (!cards.length) return;
-
-        const totalPages = getTotalPages();
-        currentIndex = (index + totalPages) % totalPages;
-        const cardsPerPage = getCardsPerPage();
-
-        const cardWidth = cards[0].getBoundingClientRect().width;
-        const gap = 24; // space-x-6 = 24px
-
-        // Prevent shifting past the last card to eliminate blank space
-        const targetShiftCards = currentIndex * cardsPerPage;
-        const maxShiftCards = Math.max(0, cards.length - cardsPerPage);
-        const actualShiftCards = Math.min(targetShiftCards, maxShiftCards);
-
-        const shiftAmount = actualShiftCards * (cardWidth + gap);
-        track.style.transform = `translateX(-${shiftAmount}px)`;
-
-        renderDots(totalPages);
-    }
-
-    function renderDots(totalPages) {
-        if (!dotsContainer) return;
-        dotsContainer.innerHTML = '';
-        if (totalPages <= 1) return;
-
-        for (let i = 0; i < totalPages; i++) {
-            const btn = document.createElement('button');
-            btn.type = 'button';
-            btn.className = (i === currentIndex)
-                ? 'rev-dot w-8 h-2.5 rounded-full bg-brand-pink transition-all duration-300'
-                : 'rev-dot w-2.5 h-2.5 rounded-full bg-brand-neutral-300 hover:bg-brand-pink transition-all duration-300';
-            btn.setAttribute('data-index', i);
-            btn.setAttribute('aria-label', `Review Slide ${i + 1}`);
-            btn.addEventListener('click', () => {
-                updateCarousel(i);
-                startAutoPlay();
-            });
-            dotsContainer.appendChild(btn);
+        function getCardsPerPage() {
+            if (window.innerWidth >= 1024) return 3;
+            if (window.innerWidth >= 640) return 2;
+            return 1;
         }
-    }
 
-    function nextSlide() {
-        updateCarousel(currentIndex + 1);
-    }
-
-    function prevSlide() {
-        updateCarousel(currentIndex - 1);
-    }
-
-    function startAutoPlay() {
-        stopAutoPlay();
-        autoPlayInterval = setInterval(nextSlide, 5000);
-    }
-
-    function stopAutoPlay() {
-        if (autoPlayInterval) {
-            clearInterval(autoPlayInterval);
-            autoPlayInterval = null;
+        function getTotalPages() {
+            const cards = track.querySelectorAll('.review-slide-card');
+            const perPage = getCardsPerPage();
+            return Math.max(1, Math.ceil(cards.length / perPage));
         }
-    }
 
-    if (prevBtn) prevBtn.addEventListener('click', () => { prevSlide(); startAutoPlay(); });
-    if (nextBtn) nextBtn.addEventListener('click', () => { nextSlide(); startAutoPlay(); });
+        function updateCarousel(index) {
+            const cards = track.querySelectorAll('.review-slide-card');
+            if (!cards.length) return;
 
-    if (wrapper) {
-        wrapper.addEventListener('mouseenter', stopAutoPlay);
-        wrapper.addEventListener('mouseleave', startAutoPlay);
-    }
+            const totalPages = getTotalPages();
+            currentIndex = (index + totalPages) % totalPages;
+            const cardsPerPage = getCardsPerPage();
 
-    window.addEventListener('resize', () => updateCarousel(currentIndex));
+            const cardWidth = cards[0].getBoundingClientRect().width;
+            const gap = 24; // space-x-6 = 24px
 
-    // Initialize
-    updateCarousel(0);
-    startAutoPlay();
-});
+            // Prevent shifting past the last card to eliminate blank space
+            const targetShiftCards = currentIndex * cardsPerPage;
+            const maxShiftCards = Math.max(0, cards.length - cardsPerPage);
+            const actualShiftCards = Math.min(targetShiftCards, maxShiftCards);
+
+            const shiftAmount = actualShiftCards * (cardWidth + gap);
+            track.style.transform = `translateX(-${shiftAmount}px)`;
+
+            renderDots(totalPages);
+        }
+
+        function renderDots(totalPages) {
+            if (!dotsContainer) return;
+            dotsContainer.innerHTML = '';
+            if (totalPages <= 1) return;
+
+            for (let i = 0; i < totalPages; i++) {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = (i === currentIndex)
+                    ? 'rev-dot w-8 h-2.5 rounded-full bg-brand-pink transition-all duration-300'
+                    : 'rev-dot w-2.5 h-2.5 rounded-full bg-brand-neutral-300 hover:bg-brand-pink transition-all duration-300';
+                btn.setAttribute('data-index', i);
+                btn.setAttribute('aria-label', `Review Slide ${i + 1}`);
+                btn.addEventListener('click', () => {
+                    updateCarousel(i);
+                    startAutoPlay();
+                });
+                dotsContainer.appendChild(btn);
+            }
+        }
+
+        function nextSlide() {
+            updateCarousel(currentIndex + 1);
+        }
+
+        function prevSlide() {
+            updateCarousel(currentIndex - 1);
+        }
+
+        function startAutoPlay() {
+            stopAutoPlay();
+            autoPlayInterval = setInterval(nextSlide, 5000);
+        }
+
+        function stopAutoPlay() {
+            if (autoPlayInterval) {
+                clearInterval(autoPlayInterval);
+                autoPlayInterval = null;
+            }
+        }
+
+        if (prevBtn) prevBtn.addEventListener('click', () => { prevSlide(); startAutoPlay(); });
+        if (nextBtn) nextBtn.addEventListener('click', () => { nextSlide(); startAutoPlay(); });
+
+        if (wrapper) {
+            wrapper.addEventListener('mouseenter', stopAutoPlay);
+            wrapper.addEventListener('mouseleave', startAutoPlay);
+        }
+
+        window.addEventListener('resize', () => updateCarousel(currentIndex));
+
+        // Initialize
+        updateCarousel(0);
+        startAutoPlay();
+    });
 </script>
 
 
@@ -834,23 +911,23 @@ document.addEventListener('DOMContentLoaded', () => {
             <!-- Interactive Studio Location Map -->
             <div class="lg:col-span-6">
                 <div class="bg-white border border-brand-neutral-200 rounded-3xl p-3 shadow-xl overflow-hidden group">
-                    <div class="w-full h-80 sm:h-96 rounded-2xl overflow-hidden relative border border-brand-neutral-200">
-                        <iframe 
-                            title="Bolbash Beauty Spot Location Map"
-                            src="https://maps.google.com/maps?q=SIOA%20Plaza,%20Sango-Eleyele%20Road,%20Ibadan,%20Nigeria&t=&z=16&ie=UTF8&iwloc=&output=embed" 
-                            class="w-full h-full border-0 rounded-2xl" 
-                            allowfullscreen="" 
-                            loading="lazy" 
+                    <div
+                        class="w-full h-80 sm:h-96 rounded-2xl overflow-hidden relative border border-brand-neutral-200">
+                        <iframe title="Bolbash Beauty Spot Location Map"
+                            src="https://maps.google.com/maps?q=SIOA%20Plaza,%20Sango-Eleyele%20Road,%20Ibadan,%20Nigeria&t=&z=16&ie=UTF8&iwloc=&output=embed"
+                            class="w-full h-full border-0 rounded-2xl" allowfullscreen="" loading="lazy"
                             referrerpolicy="no-referrer-when-downgrade">
                         </iframe>
-                        <div class="absolute bottom-3 left-3 right-3 bg-brand-black/90 backdrop-blur-md text-white rounded-xl p-3.5 flex items-center justify-between shadow-lg border border-white/10">
+                        <div
+                            class="absolute bottom-3 left-3 right-3 bg-brand-black/90 backdrop-blur-md text-white rounded-xl p-3.5 flex items-center justify-between shadow-lg border border-white/10">
                             <div>
                                 <span class="font-heading text-sm font-bold block text-white">Bolbash Beauty Spot</span>
-                                <span class="text-[11px] text-brand-neutral-300">SIOA Plaza, Sango-Eleyele Rd, Ibadan</span>
+                                <span class="text-[11px] text-brand-neutral-300">SIOA Plaza, Sango-Eleyele Rd,
+                                    Ibadan</span>
                             </div>
-                            <a href="https://maps.google.com/?q=SIOA+Plaza,+Sango-Eleyele+Road,+Ibadan,+Nigeria" 
-                               target="_blank" rel="noopener noreferrer" 
-                               class="btn-primary text-[10px] uppercase font-bold py-2 px-3 whitespace-nowrap shadow-sm">
+                            <a href="https://maps.google.com/?q=SIOA+Plaza,+Sango-Eleyele+Road,+Ibadan,+Nigeria"
+                                target="_blank" rel="noopener noreferrer"
+                                class="btn-primary text-[10px] uppercase font-bold py-2 px-3 whitespace-nowrap shadow-sm">
                                 Open Maps ↗
                             </a>
                         </div>
@@ -1021,6 +1098,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             });
 
+            showSlide(0);
             startAutoPlay();
         }
     });

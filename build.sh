@@ -12,3 +12,7 @@ python manage.py collectstatic --no-input
 # Run database migrations if database is available
 python manage.py migrate --no-input || echo "[WARNING] Database migration failed or skipped. Please verify your cloud DATABASE_URL environment variable."
 
+# Seed essential production data & sync media assets
+python manage.py seed_production_content || echo "[WARNING] Production content seeding skipped or database not reachable."
+
+

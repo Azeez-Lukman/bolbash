@@ -25,7 +25,16 @@ handler403 = 'core.views.custom_403'
 handler500 = 'core.views.custom_500'
 
 
+from django.urls import re_path
+from django.views.static import serve
+
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+else:
+    # Serve media files on cloud hosts (e.g. Render)
+    urlpatterns += [
+        re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
+    ]
+
 
