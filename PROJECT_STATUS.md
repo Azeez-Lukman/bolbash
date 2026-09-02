@@ -28,11 +28,14 @@
 
 ---
 
-- **Production Media Serving, Shop Robustness & Automated Seeding Fixes**:
+- **Production Media Serving, Shop Robustness, Gallery Deduplication & Automated Seeding**:
   - **Media URL Serving**: Configured `re_path(r'^media/(?P<path>.*)$', serve, ...)` in `config/urls.py` ensuring uploaded and seeded media assets (services, gallery, products, blog) are reliably served on production hosts like Render even with `DEBUG=False`.
+  - **Services Page Refinements**: Balanced 2x2 grid for top 4 featured services, capped visual image containers for scan-friendly layout, and fixed JavaScript category filter display to preserve flexbox alignments.
+  - **Gallery Portfolio Curation**: Deduplicated database entries to exactly 28 unique authentic client works, prioritized hair artistry & wig melts at the top, and placed accessory/nail care at the bottom.
+  - **Shop Catalogue Luxury Dropdowns**: Designed custom brand-styled category and price dropdowns with pink active pills and outside-click dismissal, eliminating generic browser select menus.
+  - **Blog Featured Story Model Portrait**: Restored high-definition Bolbash editorial model portrait for the featured story cover.
   - **Shop Cart & 500 Hardening**: Refactored `_get_or_create_cart` and `cart_detail` in `shop/views.py` to defensively handle duplicate session/user carts without `MultipleObjectsReturned` exceptions.
-  - **Automated Production Content Seeding**: Built `python manage.py seed_production_content` management command and integrated it into `build.sh` to automatically seed services, shop products, published editorial blog posts, portfolio gallery, and operating hours on deployment.
-  - **Resilient Image Fallbacks & Styling**: Added luxury thumbnail previews and `onerror` image fallbacks in `service_list.html`, `shop_landing.html`, and `product_catalogue.html` to eliminate blank/broken placeholders.
+  - **Automated Production Content Seeding**: Integrated `python manage.py seed_production_content` in `build.sh` to automatically seed services, shop products, published editorial blog posts, portfolio gallery, and operating hours on Render deployment.
 
 - **Final Project Completion & Master Audit**:
   - **10/10 Core Business Workflows Tested**: Executed master test suite (`scratch/test_final_project_completion.py`) verifying:
