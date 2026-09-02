@@ -446,6 +446,9 @@ class Command(BaseCommand):
             }
         ]
 
+        # Clean legacy obsolete blog posts
+        BlogPost.objects.exclude(slug__in=[a['slug'] for a in articles]).delete()
+
         for art in articles:
             img_rel = copy_media(art['img'], 'blog')
             BlogPost.objects.update_or_create(
