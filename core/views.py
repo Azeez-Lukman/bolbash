@@ -37,9 +37,9 @@ def service_list(request):
     Bolbash Beauty Spot Services Landing View.
     Fetches all active service categories and services for category filtering and display.
     """
-    categories = ServiceCategory.objects.prefetch_related('services').all()
-    featured_services = Service.objects.filter(active=True, featured=True).select_related('category')
-    all_services = Service.objects.filter(active=True).select_related('category')
+    categories = ServiceCategory.objects.prefetch_related('services').all().order_by('display_order', 'id')
+    featured_services = Service.objects.filter(active=True, featured=True).select_related('category').order_by('category__display_order', 'display_order', 'id')
+    all_services = Service.objects.filter(active=True).select_related('category').order_by('category__display_order', 'display_order', 'id')
 
     context = {
         'categories': categories,

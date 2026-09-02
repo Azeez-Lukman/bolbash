@@ -54,15 +54,18 @@ class Command(BaseCommand):
                 }
             )
 
-        # 3. Seed Service Categories & Services
-        self.stdout.write("-> Seeding Services & Categories...")
+        # 3. Seed Service Categories & Services (Hair Priority 1-3, Nails & Piercing Priority 90-95)
+        self.stdout.write("-> Seeding Services & Categories (Prioritizing Hair Services First)...")
         service_categories = [
             ('Hair Styling & Updos', 'hair-styling-updos', 'Expert hair styling, bespoke ponytails, updos, and cornrows.', 1),
             ('Wig Installation & Lace Melt', 'wig-installation-lace-melt', '100% invisible HD lace melts, 360 installs, and custom wig making.', 2),
             ('Hair Revamping & Treatment', 'hair-revamping-treatment', 'Complete wash, deep conditioning, bundle restoration, and bleaching.', 3),
-            ('Nail Artistry & Extensions', 'nail-artistry-extensions', 'Luxury acrylic full sets, gel polish, manicures, and pedicures.', 4),
-            ('Body Piercing & Beauty', 'body-piercing-beauty', 'Professional ear/nose piercings and beauty care.', 5),
+            ('Nail Artistry & Extensions', 'nail-artistry-extensions', 'Luxury acrylic full sets, gel polish, manicures, and pedicures.', 90),
+            ('Body Piercing & Beauty', 'body-piercing-beauty', 'Professional ear/nose piercings and beauty care.', 95),
         ]
+
+        # Safely reorder and deactivate legacy categories
+        ServiceCategory.objects.exclude(slug__in=[s[1] for s in service_categories]).update(display_order=100)
 
         cat_map = {}
         for name, slug, desc, order in service_categories:
@@ -73,8 +76,8 @@ class Command(BaseCommand):
             cat_map[slug] = cat
 
         services_data = [
+            # 1. Hair Styling & Updos (Priority 1-5)
             {
-                'id': 1,
                 'name': 'Bespoke Bridal Hair Styling & Glamour',
                 'slug': 'bespoke-bridal-hair-styling',
                 'category': cat_map['hair-styling-updos'],
@@ -83,10 +86,10 @@ class Command(BaseCommand):
                 'price': Decimal('45000.00'),
                 'duration': 120,
                 'featured': True,
+                'display_order': 1,
                 'img': 'bridal_hair_1.jpg'
             },
             {
-                'id': 2,
                 'name': 'Luxury Sleek Ponytail & Updo',
                 'slug': 'luxury-sleek-ponytail-updo',
                 'category': cat_map['hair-styling-updos'],
@@ -95,10 +98,12 @@ class Command(BaseCommand):
                 'price': Decimal('15000.00'),
                 'duration': 75,
                 'featured': False,
+                'display_order': 2,
                 'img': 'ponytail_updo_1.jpg'
             },
+
+            # 2. Wig Installation & Lace Melt (Priority 10-15)
             {
-                'id': 3,
                 'name': '360 & Frontal Wig Installation (HD Melt)',
                 'slug': '360-frontal-wig-installation-hd-melt',
                 'category': cat_map['wig-installation-lace-melt'],
@@ -107,10 +112,10 @@ class Command(BaseCommand):
                 'price': Decimal('20000.00'),
                 'duration': 90,
                 'featured': True,
+                'display_order': 10,
                 'img': 'wig_installation_1.jpg'
             },
             {
-                'id': 4,
                 'name': 'Closure Wig Installation & Customization',
                 'slug': 'closure-wig-installation-customization',
                 'category': cat_map['wig-installation-lace-melt'],
@@ -119,10 +124,10 @@ class Command(BaseCommand):
                 'price': Decimal('12000.00'),
                 'duration': 60,
                 'featured': False,
+                'display_order': 11,
                 'img': 'frontal_melt_1.jpg'
             },
             {
-                'id': 5,
                 'name': '360 Full Lace Wig Installation',
                 'slug': '360-full-lace-wig-installation',
                 'category': cat_map['wig-installation-lace-melt'],
@@ -131,10 +136,10 @@ class Command(BaseCommand):
                 'price': Decimal('25000.00'),
                 'duration': 120,
                 'featured': True,
+                'display_order': 12,
                 'img': 'wig_installation_2.jpg'
             },
             {
-                'id': 6,
                 'name': 'Custom Wig Making & Machine Construction',
                 'slug': 'custom-wig-making-machine-construction',
                 'category': cat_map['wig-installation-lace-melt'],
@@ -143,10 +148,10 @@ class Command(BaseCommand):
                 'price': Decimal('18000.00'),
                 'duration': 180,
                 'featured': False,
+                'display_order': 13,
                 'img': 'wig_making_custom_1.jpg'
             },
             {
-                'id': 7,
                 'name': 'Frontal Revamp & Lace Replacement',
                 'slug': 'frontal-revamp-lace-replacement',
                 'category': cat_map['wig-installation-lace-melt'],
@@ -155,10 +160,12 @@ class Command(BaseCommand):
                 'price': Decimal('16000.00'),
                 'duration': 90,
                 'featured': False,
+                'display_order': 14,
                 'img': 'frontal_melt_2.jpg'
             },
+
+            # 3. Hair Revamping & Treatment (Priority 20-25)
             {
-                'id': 8,
                 'name': 'Luxury Hair Revamping, Washing & Treatment',
                 'slug': 'luxury-hair-revamping-washing-treatment',
                 'category': cat_map['hair-revamping-treatment'],
@@ -167,10 +174,12 @@ class Command(BaseCommand):
                 'price': Decimal('10000.00'),
                 'duration': 60,
                 'featured': True,
+                'display_order': 20,
                 'img': 'hair_revamping_1.jpg'
             },
+
+            # 4. Nail Artistry & Extensions (Priority 90-94 — Positioned Down at the Bottom)
             {
-                'id': 9,
                 'name': 'Luxury Acrylic Nail Extensions & Gel Art',
                 'slug': 'luxury-acrylic-nail-extensions-gel-art',
                 'category': cat_map['nail-artistry-extensions'],
@@ -178,11 +187,11 @@ class Command(BaseCommand):
                 'description': 'Long-lasting acrylic enhancement sculpted to perfection with French tips, ombré, or crystal art.',
                 'price': Decimal('12000.00'),
                 'duration': 75,
-                'featured': True,
+                'featured': False,
+                'display_order': 90,
                 'img': 'nail_extensions_1.jpg'
             },
             {
-                'id': 10,
                 'name': 'Spa Manicure & Cuticle Treatment',
                 'slug': 'spa-manicure-cuticle-treatment',
                 'category': cat_map['nail-artistry-extensions'],
@@ -191,10 +200,10 @@ class Command(BaseCommand):
                 'price': Decimal('6000.00'),
                 'duration': 45,
                 'featured': False,
+                'display_order': 91,
                 'img': 'pedicure_manicure_1.jpg'
             },
             {
-                'id': 11,
                 'name': 'Luxury Pedicure & Foot Scrub Spa',
                 'slug': 'luxury-pedicure-foot-scrub-spa',
                 'category': cat_map['nail-artistry-extensions'],
@@ -203,10 +212,12 @@ class Command(BaseCommand):
                 'price': Decimal('8000.00'),
                 'duration': 60,
                 'featured': False,
+                'display_order': 92,
                 'img': 'pedicure_manicure_2.jpg'
             },
+
+            # 5. Body Piercing & Beauty (Priority 95 — Positioned Down at the Bottom)
             {
-                'id': 12,
                 'name': 'Professional Body & Facial Piercing',
                 'slug': 'professional-body-facial-piercing',
                 'category': cat_map['body-piercing-beauty'],
@@ -215,9 +226,13 @@ class Command(BaseCommand):
                 'price': Decimal('5000.00'),
                 'duration': 30,
                 'featured': False,
+                'display_order': 95,
                 'img': 'body_piercing_1.jpg'
             }
         ]
+
+        # Deactivate legacy obsolete services
+        Service.objects.exclude(slug__in=[s['slug'] for s in services_data]).update(active=False, display_order=100)
 
         for s_data in services_data:
             img_rel = copy_media(s_data['img'], 'services')
@@ -231,6 +246,7 @@ class Command(BaseCommand):
                     'price': s_data['price'],
                     'duration': s_data['duration'],
                     'featured': s_data['featured'],
+                    'display_order': s_data['display_order'],
                     'active': True,
                     'image': img_rel if img_rel else f"services/{s_data['img']}"
                 }
