@@ -114,39 +114,104 @@
                         <a href="{% url 'shop:shop_landing' %}#catalogue-section" class="text-[11px] text-brand-pink hover:underline font-semibold">Clear Filters</a>
                     </div>
 
-                    <form method="GET" action="{% url 'shop:shop_landing' %}#catalogue-section" class="space-y-6">
+                    <form method="GET" action="{% url 'shop:shop_landing' %}" id="filter-form" class="space-y-5">
                         {% if search_query %}<input type="hidden" name="q" value="{{ search_query }}">{% endif %}
 
-                        <!-- Category Filter -->
-                        <div class="space-y-2">
+                        <!-- Category Filter (Custom Luxury Dropdown) -->
+                        <div class="space-y-2 relative" id="category-dropdown-wrapper">
                             <label class="block text-xs font-bold uppercase tracking-wider text-brand-black">Category</label>
-                            <select name="category" onchange="this.form.submit()" class="w-full px-3 py-2.5 rounded-xl border border-brand-neutral-200 text-xs focus:ring-2 focus:ring-brand-pink focus:border-brand-pink">
-                                <option value="">All Categories</option>
+                            <input type="hidden" name="category" id="selected-category-input" value="{{ selected_category|default:'' }}">
+                            
+                            <!-- Dropdown Trigger Button -->
+                            <button type="button" 
+                                    id="category-dropdown-btn" 
+                                    onclick="toggleDropdown('category-dropdown-menu')" 
+                                    class="w-full px-4 py-3 rounded-2xl border border-brand-neutral-200 bg-white text-xs font-semibold text-brand-black flex items-center justify-between hover:border-brand-pink focus:outline-none focus:ring-2 focus:ring-brand-pink focus:border-brand-pink transition-all shadow-sm">
+                                <span id="category-dropdown-label" class="truncate">
+                                    {% if selected_category %}
+                                        {% for cat in categories %}
+                                            {% if selected_category == cat.slug %}{{ cat.name }}{% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                        All Categories
+                                    {% endif %}
+                                </span>
+                                <svg class="w-4 h-4 text-brand-neutral-400 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </button>
+
+                            <!-- Dropdown Options Menu -->
+                            <div id="category-dropdown-menu" class="hidden absolute left-0 right-0 top-full mt-1.5 bg-white rounded-2xl border border-brand-neutral-200 shadow-2xl p-1.5 space-y-1 z-50 max-h-60 overflow-y-auto">
+                                <div onclick="selectOption('category', '', 'All Categories')" 
+                                     class="px-3.5 py-2.5 rounded-xl text-xs font-semibold cursor-pointer transition-colors flex items-center justify-between {% if not selected_category %}bg-brand-pink text-white font-bold{% else %}text-brand-neutral-700 hover:bg-brand-pink/10 hover:text-brand-pink{% endif %}">
+                                    <span>All Categories</span>
+                                    {% if not selected_category %}<span>✓</span>{% endif %}
+                                </div>
                                 {% for cat in categories %}
-                                <option value="{{ cat.slug }}" {% if selected_category == cat.slug %}selected{% endif %}>{{ cat.name }}</option>
+                                <div onclick="selectOption('category', '{{ cat.slug }}', '{{ cat.name }}')" 
+                                     class="px-3.5 py-2.5 rounded-xl text-xs font-semibold cursor-pointer transition-colors flex items-center justify-between {% if selected_category == cat.slug %}bg-brand-pink text-white font-bold{% else %}text-brand-neutral-700 hover:bg-brand-pink/10 hover:text-brand-pink{% endif %}">
+                                    <span>{{ cat.name }}</span>
+                                    {% if selected_category == cat.slug %}<span>✓</span>{% endif %}
+                                </div>
                                 {% endfor %}
-                            </select>
+                            </div>
                         </div>
 
-                        <!-- Price Range Filter -->
-                        <div class="space-y-2">
+                        <!-- Price Range Filter (Custom Luxury Dropdown) -->
+                        <div class="space-y-2 relative" id="price-dropdown-wrapper">
                             <label class="block text-xs font-bold uppercase tracking-wider text-brand-black">Price Range</label>
-                            <select name="price" onchange="this.form.submit()" class="w-full px-3 py-2.5 rounded-xl border border-brand-neutral-200 text-xs focus:ring-2 focus:ring-brand-pink focus:border-brand-pink">
-                                <option value="">All Prices</option>
-                                <option value="under_10k" {% if selected_price == 'under_10k' %}selected{% endif %}>Under NGN 10,000</option>
-                                <option value="10k_25k" {% if selected_price == '10k_25k' %}selected{% endif %}>NGN 10,000 - NGN 25,000</option>
-                                <option value="over_25k" {% if selected_price == 'over_25k' %}selected{% endif %}>Over NGN 25,000</option>
-                            </select>
+                            <input type="hidden" name="price" id="selected-price-input" value="{{ selected_price|default:'' }}">
+                            
+                            <!-- Dropdown Trigger Button -->
+                            <button type="button" 
+                                    id="price-dropdown-btn" 
+                                    onclick="toggleDropdown('price-dropdown-menu')" 
+                                    class="w-full px-4 py-3 rounded-2xl border border-brand-neutral-200 bg-white text-xs font-semibold text-brand-black flex items-center justify-between hover:border-brand-pink focus:outline-none focus:ring-2 focus:ring-brand-pink focus:border-brand-pink transition-all shadow-sm">
+                                <span id="price-dropdown-label" class="truncate">
+                                    {% if selected_price == 'under_10k' %}Under NGN 10,000
+                                    {% elif selected_price == '10k_25k' %}NGN 10,000 - NGN 25,000
+                                    {% elif selected_price == 'over_25k' %}Over NGN 25,000
+                                    {% else %}All Prices{% endif %}
+                                </span>
+                                <svg class="w-4 h-4 text-brand-neutral-400 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </button>
+
+                            <!-- Dropdown Options Menu -->
+                            <div id="price-dropdown-menu" class="hidden absolute left-0 right-0 top-full mt-1.5 bg-white rounded-2xl border border-brand-neutral-200 shadow-2xl p-1.5 space-y-1 z-50">
+                                <div onclick="selectOption('price', '', 'All Prices')" 
+                                     class="px-3.5 py-2.5 rounded-xl text-xs font-semibold cursor-pointer transition-colors flex items-center justify-between {% if not selected_price %}bg-brand-pink text-white font-bold{% else %}text-brand-neutral-700 hover:bg-brand-pink/10 hover:text-brand-pink{% endif %}">
+                                    <span>All Prices</span>
+                                    {% if not selected_price %}<span>✓</span>{% endif %}
+                                </div>
+                                <div onclick="selectOption('price', 'under_10k', 'Under NGN 10,000')" 
+                                     class="px-3.5 py-2.5 rounded-xl text-xs font-semibold cursor-pointer transition-colors flex items-center justify-between {% if selected_price == 'under_10k' %}bg-brand-pink text-white font-bold{% else %}text-brand-neutral-700 hover:bg-brand-pink/10 hover:text-brand-pink{% endif %}">
+                                    <span>Under NGN 10,000</span>
+                                    {% if selected_price == 'under_10k' %}<span>✓</span>{% endif %}
+                                </div>
+                                <div onclick="selectOption('price', '10k_25k', 'NGN 10,000 - NGN 25,000')" 
+                                     class="px-3.5 py-2.5 rounded-xl text-xs font-semibold cursor-pointer transition-colors flex items-center justify-between {% if selected_price == '10k_25k' %}bg-brand-pink text-white font-bold{% else %}text-brand-neutral-700 hover:bg-brand-pink/10 hover:text-brand-pink{% endif %}">
+                                    <span>NGN 10,000 - NGN 25,000</span>
+                                    {% if selected_price == '10k_25k' %}<span>✓</span>{% endif %}
+                                </div>
+                                <div onclick="selectOption('price', 'over_25k', 'Over NGN 25,000')" 
+                                     class="px-3.5 py-2.5 rounded-xl text-xs font-semibold cursor-pointer transition-colors flex items-center justify-between {% if selected_price == 'over_25k' %}bg-brand-pink text-white font-bold{% else %}text-brand-neutral-700 hover:bg-brand-pink/10 hover:text-brand-pink{% endif %}">
+                                    <span>Over NGN 25,000</span>
+                                    {% if selected_price == 'over_25k' %}<span>✓</span>{% endif %}
+                                </div>
+                            </div>
                         </div>
 
                         <!-- In Stock Only Checkbox -->
                         <div class="flex items-center space-x-2 pt-1">
-                            <input type="checkbox" id="in_stock" name="in_stock" value="true" {% if in_stock_only == 'true' %}checked{% endif %} onchange="this.form.submit()" 
+                            <input type="checkbox" id="in_stock" name="in_stock" value="true" {% if in_stock_only == 'true' %}checked{% endif %} onchange="document.getElementById('filter-form').submit()" 
                                    class="rounded border-brand-neutral-300 text-brand-pink focus:ring-brand-pink h-4 w-4">
                             <label for="in_stock" class="text-xs font-semibold text-brand-neutral-700 cursor-pointer">In Stock Only</label>
                         </div>
 
-                        <button type="submit" class="btn-primary text-xs uppercase tracking-wider font-bold py-2.5 w-full text-center shadow-md shadow-pink-glow">
+                        <button type="submit" class="btn-primary text-xs uppercase tracking-wider font-bold py-3 w-full text-center shadow-md shadow-pink-glow">
                             Apply Filter
                         </button>
                     </form>
@@ -248,3 +313,37 @@
 </section>
 
 {% endblock content %}
+
+{% block extra_js %}
+<script>
+function toggleDropdown(menuId) {
+    const menu = document.getElementById(menuId);
+    const isHidden = menu.classList.contains('hidden');
+    // Close other dropdowns
+    document.querySelectorAll('[id$="-dropdown-menu"]').forEach(m => m.classList.add('hidden'));
+    if (isHidden) {
+        menu.classList.remove('hidden');
+    }
+}
+
+function selectOption(type, value, label) {
+    const input = document.getElementById('selected-' + type + '-input');
+    const labelSpan = document.getElementById(type + '-dropdown-label');
+    const menu = document.getElementById(type + '-dropdown-menu');
+    
+    if (input) input.value = value;
+    if (labelSpan) labelSpan.textContent = label;
+    if (menu) menu.classList.add('hidden');
+    
+    const form = document.getElementById('filter-form');
+    if (form) form.submit();
+}
+
+// Close dropdowns when clicking outside
+document.addEventListener('click', function(e) {
+    if (!e.target.closest('#category-dropdown-wrapper') && !e.target.closest('#price-dropdown-wrapper')) {
+        document.querySelectorAll('[id$="-dropdown-menu"]').forEach(m => m.classList.add('hidden'));
+    }
+});
+</script>
+{% endblock extra_js %}
