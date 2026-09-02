@@ -263,6 +263,9 @@ class Command(BaseCommand):
             ('Nails & Body Glamour', 'nails-body-glamour', 'Gel polishes, press-on nails, cuticle oils, and piercing studs.', '💅', 4),
         ]
 
+        # Deactivate legacy obsolete categories on local/production
+        ProductCategory.objects.exclude(slug__in=[s[1] for s in shop_categories]).update(active=False)
+
         shop_cat_map = {}
         for name, slug, desc, icon, order in shop_categories:
             scat, _ = ProductCategory.objects.update_or_create(
@@ -315,8 +318,33 @@ class Command(BaseCommand):
                 'stock': 20,
                 'featured': False,
                 'img': 'hair_product_oil_1.jpg'
+            },
+            {
+                'name': 'Bolbash Professional Melt Band & Bonnet Duo',
+                'slug': 'bolbash-melt-band-bonnet-duo',
+                'category': shop_cat_map['wig-adhesives-essentials'],
+                'short_description': 'Adjustable velcro elastic melt band with double-layered silk satin bonnet.',
+                'full_description': 'Keep your frontal melt flat and protect your extensions from bedtime friction. Essential for every wig lover.',
+                'price': Decimal('5500.00'),
+                'stock': 35,
+                'featured': False,
+                'img': 'hair_product_spray_1.jpg'
+            },
+            {
+                'name': 'Bolbash Luxury Press-On Nails & Nourishing Cuticle Oil Set',
+                'slug': 'bolbash-luxury-press-on-nails-cuticle-oil',
+                'category': shop_cat_map['nails-body-glamour'],
+                'short_description': 'Handcrafted salon-quality acrylic press-on nails with botanical cuticle hydration oil.',
+                'full_description': 'Get instant red-carpet nails in minutes. Includes 24 reusable nail tips, nail adhesive tabs, buffer, and vitamin E enriched cuticle oil dropper.',
+                'price': Decimal('10500.00'),
+                'stock': 15,
+                'featured': True,
+                'img': 'nail_extensions_1.jpg'
             }
         ]
+
+        # Deactivate legacy obsolete products
+        Product.objects.exclude(slug__in=[p['slug'] for p in shop_products]).update(is_active=False)
 
         for p_data in shop_products:
             img_rel = copy_media(p_data['img'], 'shop/products')
