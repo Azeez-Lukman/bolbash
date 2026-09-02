@@ -25,6 +25,8 @@ class Command(BaseCommand):
 
         def copy_media(src_filename, subfolder):
             src_path = os.path.join(source_dir, src_filename)
+            if not os.path.exists(src_path):
+                src_path = os.path.join(settings.BASE_DIR, 'static', 'images', src_filename)
             dest_dir = os.path.join(media_root, subfolder)
             os.makedirs(dest_dir, exist_ok=True)
             dest_path = os.path.join(dest_dir, src_filename)
@@ -359,7 +361,7 @@ class Command(BaseCommand):
                 'category': bcat_map['hair-care-maintenance'],
                 'excerpt': 'Learn the exact step-by-step nighttime routine, washing technique, and product combinations required to keep your frontal melt flawless and your raw bundles silky.',
                 'is_featured': True,
-                'img': 'frontal_melt_1.jpg',
+                'img': 'bolbash_editorial_model.jpg',
                 'content': """<h3>The Golden Rules of Frontal Care</h3>
 <p>A flawless frontal melt is an investment in your confidence and beauty. When done by a master stylist, the lace disappears seamlessly into your skin. However, what you do in the days and weeks following your appointment determines how long that seamless melt endures.</p>
 
