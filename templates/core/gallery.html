@@ -50,13 +50,13 @@
 <section class="py-12 sm:py-16 lg:py-20 bg-brand-neutral-50 min-h-[600px]">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
 
-        <!-- Category Filter Buttons Bar -->
-        <div class="flex items-center justify-center">
-            <nav class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 bg-white p-2 rounded-2xl border border-brand-neutral-200 shadow-sm" aria-label="Gallery Category Filters">
+        <!-- Category Filter Buttons Bar (Mobile Touch-Scroll Friendly) -->
+        <div class="flex items-center justify-center max-w-full overflow-hidden">
+            <nav class="flex items-center justify-start sm:justify-center overflow-x-auto no-scrollbar gap-2 sm:gap-3 bg-white p-2 sm:p-2.5 rounded-2xl border border-brand-neutral-200 shadow-sm max-w-full" aria-label="Gallery Category Filters">
                 
                 <button type="button" 
                         data-filter="ALL" 
-                        class="gallery-filter-btn active-filter px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 bg-brand-black text-white shadow-md">
+                        class="gallery-filter-btn active-filter px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 bg-brand-black text-white shadow-md whitespace-nowrap flex-shrink-0">
                     All Work
                     {% if total_images_count > 0 %}
                         <span class="ml-1 px-2 py-0.5 text-[10px] rounded-full bg-brand-pink text-white font-bold">{{ total_images_count }}</span>
@@ -66,7 +66,7 @@
                 {% for cat_code, cat_label in categories %}
                     <button type="button" 
                             data-filter="{{ cat_code }}" 
-                            class="gallery-filter-btn px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 text-brand-neutral-700 hover:bg-brand-pink-50 hover:text-brand-pink">
+                            class="gallery-filter-btn px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 text-brand-neutral-700 hover:bg-brand-pink-50 hover:text-brand-pink whitespace-nowrap flex-shrink-0">
                         {{ cat_label }}
                         {% if category_counts %}
                             {% for c_code, c_count in category_counts.items %}
@@ -86,7 +86,7 @@
             
             {% if gallery_images %}
                 {% for img in gallery_images %}
-                    <div class="gallery-item group relative bg-white rounded-2xl overflow-hidden border border-brand-neutral-200 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col cursor-pointer"
+                    <div class="gallery-item group relative bg-white rounded-2xl overflow-hidden border border-brand-neutral-200 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col cursor-pointer w-full"
                          data-category="{{ img.category }}"
                          data-title="{{ img.title }}"
                          data-caption="{{ img.caption|default:'' }}"
@@ -94,12 +94,12 @@
                          data-image-url="{{ img.image.url }}"
                          onclick="openLightboxFromElement(this)">
                         
-                        <!-- Image Container -->
-                        <div class="relative w-full aspect-square sm:aspect-[4/3] bg-brand-neutral-100 overflow-hidden">
+                        <!-- Image Container (Explicit Height for Flawless Mobile & Desktop Rendering) -->
+                        <div class="relative w-full h-72 sm:h-60 md:h-64 lg:h-56 xl:h-60 bg-brand-neutral-100 overflow-hidden">
                             <img src="{{ img.image.url }}" 
                                  alt="{{ img.title }}" 
                                  loading="lazy"
-                                 class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
+                                 class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out block"
                                  onerror="this.onerror=null; this.src='{% static 'images/salon_hero_showcase.jpg' %}';" />
                             
                             <!-- Overlay Gradient on Hover -->
