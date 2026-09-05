@@ -19,6 +19,8 @@ DEBUG = os.getenv('DEBUG', 'True').lower() in ('true', '1', 't')
 
 # Host and Domain Configuration
 ALLOWED_HOSTS = [host.strip() for host in os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,testserver').split(',') if host.strip()]
+if '.onrender.com' not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.extend(['.onrender.com', 'hairbybolbash.onrender.com'])
 
 # Automatic Render Hostname Detection
 RENDER_EXTERNAL_HOSTNAME = os.getenv('RENDER_EXTERNAL_HOSTNAME')
@@ -30,6 +32,7 @@ CSRF_TRUSTED_ORIGINS = [
     f"https://{host}" for host in ALLOWED_HOSTS 
     if host not in ('localhost', '127.0.0.1', 'testserver') and not host.startswith('.')
 ]
+CSRF_TRUSTED_ORIGINS.extend(['https://*.onrender.com', 'https://hairbybolbash.onrender.com'])
 env_csrf = os.getenv('CSRF_TRUSTED_ORIGINS', '')
 if env_csrf:
     CSRF_TRUSTED_ORIGINS.extend([origin.strip() for origin in env_csrf.split(',') if origin.strip()])

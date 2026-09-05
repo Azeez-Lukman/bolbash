@@ -378,131 +378,116 @@
             </p>
         </div>
 
-        <!-- Interactive Reviews Carousel Slider Wrapper (1 Review at a Time) -->
-        <div class="relative max-w-3xl mx-auto px-4 sm:px-12 group/carousel" id="about-reviews-carousel-wrapper">
+        <!-- Interactive Reviews Carousel Slider Wrapper (3 on Desktop, Sliding 1-by-1) -->
+        <div class="relative max-w-7xl mx-auto px-2 overflow-hidden group/carousel" id="about-reviews-carousel-wrapper">
 
             <!-- Left/Right Slide Arrows -->
             <button id="about-rev-carousel-prev" type="button" aria-label="Previous Review"
-                class="absolute -left-2 sm:-left-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-white hover:bg-brand-pink text-brand-black hover:text-white shadow-xl flex items-center justify-center transition-all border border-brand-neutral-200 focus:outline-none opacity-90 hover:opacity-100 hover:scale-110">
+                class="absolute left-2 top-1/2 -translate-y-1/2 z-30 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/95 hover:bg-brand-pink text-brand-black hover:text-white shadow-xl flex items-center justify-center transition-all border border-brand-neutral-200 focus:outline-none opacity-85 hover:opacity-100">
                 ‹
             </button>
             <button id="about-rev-carousel-next" type="button" aria-label="Next Review"
-                class="absolute -right-2 sm:-right-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-white hover:bg-brand-pink text-brand-black hover:text-white shadow-xl flex items-center justify-center transition-all border border-brand-neutral-200 focus:outline-none opacity-90 hover:opacity-100 hover:scale-110">
+                class="absolute right-2 top-1/2 -translate-y-1/2 z-30 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/95 hover:bg-brand-pink text-brand-black hover:text-white shadow-xl flex items-center justify-center transition-all border border-brand-neutral-200 focus:outline-none opacity-85 hover:opacity-100">
                 ›
             </button>
 
-            <!-- Overflow Hidden Frame -->
-            <div class="overflow-hidden rounded-3xl">
-                <!-- Sliding Track Container -->
-                <div id="about-reviews-slider-track" class="flex transition-transform duration-500 ease-out cursor-grab active:cursor-grabbing">
-                    {% if approved_reviews %}
-                    {% for rev in approved_reviews %}
-                    <div class="review-slide-card flex-shrink-0 w-full select-none px-1">
-                        <div class="bg-brand-neutral-50 p-7 sm:p-10 rounded-3xl border border-brand-neutral-200 space-y-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between min-h-[260px] sm:min-h-[240px]">
-                            <div class="space-y-4">
-                                <div class="flex items-center justify-between">
-                                    <div class="text-amber-400 text-base sm:text-lg font-bold tracking-widest">
-                                        {% if rev.rating == 5 %}★★★★★
-                                        {% elif rev.rating == 4 %}★★★★☆
-                                        {% elif rev.rating == 3 %}★★★☆☆
-                                        {% elif rev.rating == 2 %}★★☆☆☆
-                                        {% else %}★☆☆☆☆{% endif %}
-                                    </div>
-                                    <span class="text-[10px] sm:text-xs font-semibold text-green-700 bg-green-50 px-3 py-1 rounded-full border border-green-200">
-                                        ✓ Verified Client
-                                    </span>
-                                </div>
-                                <p class="text-brand-neutral-700 text-sm sm:text-base leading-relaxed italic font-normal">
-                                    "{{ rev.comment }}"
-                                </p>
+            <!-- Sliding Track Container -->
+            <div id="about-reviews-slider-track" class="flex transition-transform duration-500 ease-out space-x-6 cursor-grab active:cursor-grabbing">
+                {% if approved_reviews %}
+                {% for rev in approved_reviews %}
+                <div
+                    class="review-slide-card flex-shrink-0 w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] bg-brand-neutral-50 p-6 sm:p-8 rounded-3xl border border-brand-neutral-200 space-y-4 flex flex-col justify-between shadow-sm hover:shadow-md transition-all select-none">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <div class="text-amber-400 text-sm font-bold">
+                                {% if rev.rating == 5 %}★★★★★
+                                {% elif rev.rating == 4 %}★★★★☆
+                                {% elif rev.rating == 3 %}★★★☆☆
+                                {% elif rev.rating == 2 %}★★☆☆☆
+                                {% else %}★☆☆☆☆{% endif %}
                             </div>
-
-                            <div class="pt-5 border-t border-brand-neutral-200/80 flex items-center justify-between mt-auto">
-                                <div>
-                                    <span class="font-heading font-bold text-base text-brand-black block">
-                                        {{ rev.user.get_full_name|default:rev.user.first_name|default:rev.user.username }}
-                                    </span>
-                                    <span class="text-xs text-brand-neutral-400">{{ rev.created_at|date:"M d, Y" }}</span>
-                                </div>
-                                {% if rev.booking %}
-                                <span class="badge-pink font-semibold truncate max-w-[160px]">{{ rev.booking.service_name_snapshot }}</span>
-                                {% elif rev.service %}
-                                <span class="badge-pink font-semibold truncate max-w-[160px]">{{ rev.service.name }}</span>
-                                {% else %}
-                                <span class="badge-pink">Verified Review</span>
-                                {% endif %}
-                            </div>
+                            <span
+                                class="text-[10px] font-semibold text-green-700 bg-green-50 px-2.5 py-0.5 rounded-full border border-green-200">
+                                ✓ Verified Client
+                            </span>
                         </div>
-                    </div>
-                    {% endfor %}
-                    {% else %}
-                    <!-- Fallback Slide Card 1 -->
-                    <div class="review-slide-card flex-shrink-0 w-full select-none px-1">
-                        <div class="bg-brand-neutral-50 p-7 sm:p-10 rounded-3xl border border-brand-neutral-200 space-y-6 shadow-sm min-h-[260px] sm:min-h-[240px] flex flex-col justify-between">
-                            <div class="space-y-4">
-                                <div class="flex items-center justify-between">
-                                    <div class="text-amber-400 text-base sm:text-lg font-bold tracking-widest">★★★★★</div>
-                                    <span class="text-[10px] sm:text-xs font-semibold text-green-700 bg-green-50 px-3 py-1 rounded-full border border-green-200">✓ Verified Client</span>
-                                </div>
-                                <p class="text-brand-neutral-700 text-sm sm:text-base leading-relaxed italic">
-                                    "My frontal installation for my wedding was completely seamless! People kept asking if it was my real scalp. Bolbash is the absolute best hair artist in Ibadan."
-                                </p>
-                            </div>
-                            <div class="pt-5 border-t border-brand-neutral-200/80 flex items-center justify-between mt-auto">
-                                <div>
-                                    <span class="font-heading font-bold text-base text-brand-black block">Adebisi Folake</span>
-                                    <span class="text-xs text-brand-neutral-400">Ibadan, Nigeria</span>
-                                </div>
-                                <span class="badge-pink">Frontal Melt</span>
-                            </div>
-                        </div>
+                        <p class="text-brand-neutral-600 text-xs sm:text-sm leading-relaxed italic">
+                            "{{ rev.comment }}"
+                        </p>
                     </div>
 
-                    <!-- Fallback Slide Card 2 -->
-                    <div class="review-slide-card flex-shrink-0 w-full select-none px-1">
-                        <div class="bg-brand-neutral-50 p-7 sm:p-10 rounded-3xl border border-brand-neutral-200 space-y-6 shadow-sm min-h-[260px] sm:min-h-[240px] flex flex-col justify-between">
-                            <div class="space-y-4">
-                                <div class="flex items-center justify-between">
-                                    <div class="text-amber-400 text-base sm:text-lg font-bold tracking-widest">★★★★★</div>
-                                    <span class="text-[10px] sm:text-xs font-semibold text-green-700 bg-green-50 px-3 py-1 rounded-full border border-green-200">✓ Verified Client</span>
-                                </div>
-                                <p class="text-brand-neutral-700 text-sm sm:text-base leading-relaxed italic">
-                                    "Extremely organized appointment system! Zero waiting time when you arrive, and the studio atmosphere is calm, clean, and truly high-end."
-                                </p>
-                            </div>
-                            <div class="pt-5 border-t border-brand-neutral-200/80 flex items-center justify-between mt-auto">
-                                <div>
-                                    <span class="font-heading font-bold text-base text-brand-black block">Oluwaseun Alabi</span>
-                                    <span class="text-xs text-brand-neutral-400">Sango, Ibadan</span>
-                                </div>
-                                <span class="badge-pink">Bridal Styling</span>
-                            </div>
+                    <div class="pt-4 border-t border-brand-neutral-200 flex items-center justify-between mt-auto">
+                        <div>
+                            <span class="font-heading font-bold text-sm text-brand-black block">
+                                {{ rev.user.get_full_name|default:rev.user.first_name|default:rev.user.username }}
+                            </span>
+                            <span class="text-[10px] text-brand-neutral-400">{{ rev.created_at|date:"M d, Y" }}</span>
                         </div>
+                        {% if rev.booking %}
+                        <span class="badge-pink font-semibold truncate max-w-[120px]">{{ rev.booking.service_name_snapshot }}</span>
+                        {% elif rev.service %}
+                        <span class="badge-pink font-semibold truncate max-w-[120px]">{{ rev.service.name }}</span>
+                        {% else %}
+                        <span class="badge-pink">Verified Review</span>
+                        {% endif %}
                     </div>
-
-                    <!-- Fallback Slide Card 3 -->
-                    <div class="review-slide-card flex-shrink-0 w-full select-none px-1">
-                        <div class="bg-brand-neutral-50 p-7 sm:p-10 rounded-3xl border border-brand-neutral-200 space-y-6 shadow-sm min-h-[260px] sm:min-h-[240px] flex flex-col justify-between">
-                            <div class="space-y-4">
-                                <div class="flex items-center justify-between">
-                                    <div class="text-amber-400 text-base sm:text-lg font-bold tracking-widest">★★★★★</div>
-                                    <span class="text-[10px] sm:text-xs font-semibold text-green-700 bg-green-50 px-3 py-1 rounded-full border border-green-200">✓ Verified Client</span>
-                                </div>
-                                <p class="text-brand-neutral-700 text-sm sm:text-base leading-relaxed italic">
-                                    "The frontal melt and styling I received at Bolbash was beyond perfection. The lace was truly invisible and stayed intact for weeks!"
-                                </p>
-                            </div>
-                            <div class="pt-5 border-t border-brand-neutral-200/80 flex items-center justify-between mt-auto">
-                                <div>
-                                    <span class="font-heading font-bold text-base text-brand-black block">Zainab Bello</span>
-                                    <span class="text-xs text-brand-neutral-400">Frontal Melt Client</span>
-                                </div>
-                                <span class="badge-pink">Salon Client</span>
-                            </div>
-                        </div>
-                    </div>
-                    {% endif %}
                 </div>
+                {% endfor %}
+                {% else %}
+                <!-- Fallback Slide Card 1 -->
+                <div
+                    class="review-slide-card flex-shrink-0 w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] bg-brand-neutral-50 p-6 sm:p-8 rounded-3xl border border-brand-neutral-200 space-y-4 flex flex-col justify-between shadow-sm select-none">
+                    <div class="space-y-3">
+                        <div class="flex text-amber-400 text-sm font-bold">★★★★★</div>
+                        <p class="text-brand-neutral-600 text-xs sm:text-sm leading-relaxed italic">
+                            "My frontal installation for my wedding was completely seamless! People kept asking if it was my real scalp. Bolbash is the absolute best hair artist in Ibadan."
+                        </p>
+                    </div>
+                    <div class="pt-4 border-t border-brand-neutral-200 flex items-center justify-between">
+                        <div>
+                            <span class="font-heading font-bold text-sm text-brand-black block">Adebisi Folake</span>
+                            <span class="text-[10px] text-brand-neutral-400">Ibadan, Nigeria</span>
+                        </div>
+                        <span class="badge-pink">Frontal Melt</span>
+                    </div>
+                </div>
+
+                <!-- Fallback Slide Card 2 -->
+                <div
+                    class="review-slide-card flex-shrink-0 w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] bg-brand-neutral-50 p-6 sm:p-8 rounded-3xl border border-brand-neutral-200 space-y-4 flex flex-col justify-between shadow-sm select-none">
+                    <div class="space-y-3">
+                        <div class="flex text-amber-400 text-sm font-bold">★★★★★</div>
+                        <p class="text-brand-neutral-600 text-xs sm:text-sm leading-relaxed italic">
+                            "Extremely organized appointment system! Zero waiting time when you arrive, and the studio atmosphere is calm, clean, and truly high-end."
+                        </p>
+                    </div>
+                    <div class="pt-4 border-t border-brand-neutral-200 flex items-center justify-between">
+                        <div>
+                            <span class="font-heading font-bold text-sm text-brand-black block">Oluwaseun Alabi</span>
+                            <span class="text-[10px] text-brand-neutral-400">Sango, Ibadan</span>
+                        </div>
+                        <span class="badge-pink">Bridal Styling</span>
+                    </div>
+                </div>
+
+                <!-- Fallback Slide Card 3 -->
+                <div
+                    class="review-slide-card flex-shrink-0 w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] bg-brand-neutral-50 p-6 sm:p-8 rounded-3xl border border-brand-neutral-200 space-y-4 flex flex-col justify-between shadow-sm select-none">
+                    <div class="space-y-3">
+                        <div class="flex text-amber-400 text-sm font-bold">★★★★★</div>
+                        <p class="text-brand-neutral-600 text-xs sm:text-sm leading-relaxed italic">
+                            "The frontal melt and styling I received at Bolbash was beyond perfection. The lace was truly invisible and stayed intact for weeks!"
+                        </p>
+                    </div>
+                    <div class="pt-4 border-t border-brand-neutral-200 flex items-center justify-between">
+                        <div>
+                            <span class="font-heading font-bold text-sm text-brand-black block">Zainab Bello</span>
+                            <span class="text-[10px] text-brand-neutral-400">Frontal Melt Client</span>
+                        </div>
+                        <span class="badge-pink">Salon Client</span>
+                    </div>
+                </div>
+                {% endif %}
             </div>
 
             <!-- Small Elegant Indicator Dots -->
@@ -522,7 +507,7 @@
     </div>
 </section>
 
-<!-- Vanilla JavaScript Carousel Slider Controller (About Page 1-by-1 sliding with small dots & touch swipe) -->
+<!-- Vanilla JavaScript Carousel Slider Controller (3 on Desktop, Sliding 1-by-1 with small dots & touch swipe) -->
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const track = document.getElementById('about-reviews-slider-track');
@@ -540,30 +525,47 @@
             return track.querySelectorAll('.review-slide-card');
         }
 
+        function getCardsPerPage() {
+            if (window.innerWidth >= 1024) return 3;
+            if (window.innerWidth >= 640) return 2;
+            return 1;
+        }
+
+        function getMaxIndex() {
+            const cards = getCards();
+            const perPage = getCardsPerPage();
+            return Math.max(0, cards.length - perPage);
+        }
+
         function updateCarousel(index) {
             const cards = getCards();
             if (!cards.length) return;
 
-            if (index >= cards.length) {
+            const maxIdx = getMaxIndex();
+
+            if (index > maxIdx) {
                 currentIndex = 0;
             } else if (index < 0) {
-                currentIndex = cards.length - 1;
+                currentIndex = maxIdx;
             } else {
                 currentIndex = index;
             }
 
-            const shiftAmount = currentIndex * 100;
-            track.style.transform = `translateX(-${shiftAmount}%)`;
+            const cardWidth = cards[0].getBoundingClientRect().width;
+            const gap = 24; // 1.5rem (space-x-6)
 
-            renderDots(cards.length);
+            const shiftAmount = currentIndex * (cardWidth + gap);
+            track.style.transform = `translateX(-${shiftAmount}px)`;
+
+            renderDots(maxIdx);
         }
 
-        function renderDots(totalCards) {
+        function renderDots(maxIdx) {
             if (!dotsContainer) return;
             dotsContainer.innerHTML = '';
-            if (totalCards <= 1) return;
+            if (maxIdx < 1) return;
 
-            for (let i = 0; i < totalCards; i++) {
+            for (let i = 0; i <= maxIdx; i++) {
                 const btn = document.createElement('button');
                 btn.type = 'button';
                 btn.className = (i === currentIndex)
@@ -628,6 +630,8 @@
             }
             startAutoPlay();
         }, { passive: true });
+
+        window.addEventListener('resize', () => updateCarousel(currentIndex));
 
         // Initialize
         updateCarousel(0);
