@@ -28,11 +28,11 @@
 
 ---
 
-- **Testimonials Carousel 1-by-1 Slider & About Page Integration**:
-  - **Single-Card Step Sliding**: Upgraded the Verified Client Feedback testimonials carousel controller so reviews advance smoothly 1 card at a time on desktop, tablet, and mobile instead of jumping in 3-card batches.
-  - **Small Elegant Indicator Dots**: Refined the bottom slider indicators into subtle, luxury, uniform dots (`w-2 h-2 rounded-full`) with active pink glow styling.
-  - **Mobile Touch-Swipe & Full Review Access**: Added mobile touch-swipe gesture support (`touchstart` / `touchend`) and ensured all 6 authentic 5-star reviews in the database are seamlessly accessible.
-  - **About Page Integration**: Passed `approved_reviews` in `about` view context and embedded the responsive 1-by-1 testimonials slider into `templates/core/about.html` as well as `templates/core/home.html`.
+- **Testimonials Carousel 1-by-1 Slider & Production Seeding (Render)**:
+  - **Automated Render Seeding for All 6 Reviews**: Added the 6 authentic 5-star client testimonials directly into `core/management/commands/seed_production_content.py` executed by `build.sh` on Render, ensuring Render's live database contains all 6 verified reviews.
+  - **Single-Card Focused Testimonials Presentation**: Refactored the testimonial carousel on both Home and About pages to display a single, focused, luxury testimonial card per view (`max-w-3xl`) with 100% sliding translation ("one after the other, not three at once").
+  - **Small Indicator Dots**: Renders 6 small, sleek indicator dots (`w-2 h-2 rounded-full`) underneath corresponding to each of the 6 client reviews.
+  - **Mobile Touch-Swipe & Controls**: Full touch-swipe support on mobile and prev/next arrow buttons on all viewport sizes.
 
 - **Production Media Serving, Shop Robustness, Gallery Deduplication & Automated Seeding**:
   - **Media URL Serving**: Configured `re_path(r'^media/(?P<path>.*)$', serve, ...)` in `config/urls.py` ensuring uploaded and seeded media assets (services, gallery, products, blog) are reliably served on production hosts like Render even with `DEBUG=False`.
