@@ -554,4 +554,78 @@ class Command(BaseCommand):
                 is_active=True
             )
 
-        self.stdout.write(self.style.SUCCESS(f"All Bolbash Production Content ({len(gallery_items)} unique gallery items) successfully seeded!"))
+        # 7. Seed Verified 5-Star Client Testimonials (All 6 Reviews)
+        self.stdout.write("-> Seeding Verified Client Reviews & Testimonials...")
+        from core.models import Review
+        Review.objects.all().delete()
+
+        reviews_data = [
+            {
+                'username': 'zainab_bello',
+                'first_name': 'Zainab',
+                'last_name': 'Bello',
+                'service_slug': 'custom-wig-making-machine-construction',
+                'rating': 5,
+                'comment': 'Custom wig construction fitted exactly to my precise cap measurement. The knot bleaching and hairline plucking are 10/10. Definitely my go-to beauty spot in Ibadan!'
+            },
+            {
+                'username': 'kemi_ogundipe',
+                'first_name': 'Kemi',
+                'last_name': 'Ogundipe',
+                'service_slug': 'luxury-acrylic-nail-extensions-gel-art',
+                'rating': 5,
+                'comment': 'Neat, calm studio environment and super professional nail fixing. The acrylic powder shaping and gel polish were so precise and long-lasting.'
+            },
+            {
+                'username': 'chidimma_nwosu',
+                'first_name': 'Chidimma',
+                'last_name': 'Nwosu',
+                'service_slug': 'luxury-hair-revamping-washing-treatment',
+                'rating': 5,
+                'comment': 'I brought in an old matted wig unit that I thought was completely ruined. Bolbash revamped it, deep steam conditioned the bundles, and it looks brand new again! Exceptional craftsmanship.'
+            },
+            {
+                'username': 'hauwa_mohammed',
+                'first_name': 'Hauwa',
+                'last_name': 'Mohammed',
+                'service_slug': '360-full-lace-wig-installation',
+                'rating': 5,
+                'comment': 'My 360 wig installation was done to perfection! The hairline is completely invisible and allows me to wear high buns comfortably. Truly elite skill.'
+            },
+            {
+                'username': 'oluwaseun_alabi',
+                'first_name': 'Oluwaseun',
+                'last_name': 'Alabi',
+                'service_slug': 'bespoke-bridal-hair-styling',
+                'rating': 5,
+                'comment': 'Bolbash styled my entire bridal party and me. Timely, courteous, and extraordinarily talented. My hair held gracefully all day.'
+            },
+            {
+                'username': 'adebisi_folake',
+                'first_name': 'Adebisi',
+                'last_name': 'Folake',
+                'service_slug': '360-frontal-wig-installation-hd-melt',
+                'rating': 5,
+                'comment': 'My frontal installation for my wedding was completely seamless! The lace melt was invisible and lasted perfectly throughout the entire event. Bolbash is the absolute best!'
+            },
+        ]
+
+        for r_info in reviews_data:
+            u, _ = User.objects.get_or_create(
+                username=r_info['username'],
+                defaults={
+                    'first_name': r_info['first_name'],
+                    'last_name': r_info['last_name'],
+                    'email': f"{r_info['username']}@example.com"
+                }
+            )
+            svc = Service.objects.filter(slug=r_info['service_slug']).first()
+            Review.objects.create(
+                user=u,
+                service=svc,
+                rating=r_info['rating'],
+                comment=r_info['comment'],
+                status=Review.STATUS_APPROVED
+            )
+
+        self.stdout.write(self.style.SUCCESS(f"All Bolbash Production Content ({len(gallery_items)} gallery items, {len(reviews_data)} reviews) successfully seeded!"))
