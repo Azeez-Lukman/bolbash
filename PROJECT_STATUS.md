@@ -28,11 +28,11 @@
 
 ---
 
-- **Testimonials Carousel 1-by-1 Slider & Production Seeding (Render)**:
-  - **Automated Render Seeding for All 6 Reviews**: Added the 6 authentic 5-star client testimonials directly into `core/management/commands/seed_production_content.py` executed by `build.sh` on Render, ensuring Render's live database contains all 6 verified reviews.
-  - **Single-Card Focused Testimonials Presentation**: Refactored the testimonial carousel on both Home and About pages to display a single, focused, luxury testimonial card per view (`max-w-3xl`) with 100% sliding translation ("one after the other, not three at once").
-  - **Small Indicator Dots**: Renders 6 small, sleek indicator dots (`w-2 h-2 rounded-full`) underneath corresponding to each of the 6 client reviews.
-  - **Mobile Touch-Swipe & Controls**: Full touch-swipe support on mobile and prev/next arrow buttons on all viewport sizes.
+- **Testimonials Carousel 3-on-Desktop 1-by-1 Slider & Host Hardening**:
+  - **3 Cards on Desktop & 1-by-1 Sliding**: Configured the testimonials carousel to display 3 cards side-by-side on desktop (`lg:w-[calc(33.333%-1rem)]`), 2 on tablet, and 1 on mobile, while sliding advances smoothly **one card at a time** across all screen sizes.
+  - **Small Indicator Dots**: Renders small, uniform indicator dots (`w-2 h-2 rounded-full`) underneath with pink active state.
+  - **Automated Render Seeding**: Seed script creates all 6 authentic 5-star reviews on Render deployment.
+  - **Production Host Hardening**: Explicitly configured `.onrender.com` and `hairbybolbash.onrender.com` in `ALLOWED_HOSTS` and `CSRF_TRUSTED_ORIGINS`.
 
 - **Production Media Serving, Shop Robustness, Gallery Deduplication & Automated Seeding**:
   - **Media URL Serving**: Configured `re_path(r'^media/(?P<path>.*)$', serve, ...)` in `config/urls.py` ensuring uploaded and seeded media assets (services, gallery, products, blog) are reliably served on production hosts like Render even with `DEBUG=False`.
