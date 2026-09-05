@@ -27,9 +27,13 @@ def index(request):
 def about(request):
     """
     Bolbash Beauty Spot About Us view.
-    Renders the brand story, service philosophy, craftsmanship standards, and location details.
+    Renders the brand story, service philosophy, craftsmanship standards, and client testimonials.
     """
-    return render(request, 'core/about.html')
+    approved_reviews = Review.objects.filter(status=Review.STATUS_APPROVED).select_related('user', 'booking', 'service').order_by('-created_at')[:6]
+    context = {
+        'approved_reviews': approved_reviews,
+    }
+    return render(request, 'core/about.html', context)
 
 
 def service_list(request):

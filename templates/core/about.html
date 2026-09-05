@@ -365,7 +365,282 @@
 </section>
 
 <!-- ==========================================================================
-     8. SALON EXPERIENCE & BOOKING POLICY
+     8. CLIENT TESTIMONIALS & REVIEWS
+     ========================================================================== -->
+<section class="py-16 sm:py-24 bg-white border-t border-brand-neutral-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+
+        <div class="text-center max-w-2xl mx-auto space-y-3">
+            <span class="section-subtitle">VERIFIED CLIENT FEEDBACK</span>
+            <h2 class="section-title">What Our Clients Say</h2>
+            <p class="text-brand-neutral-500 text-sm sm:text-base">
+                Read real experiences from clients who trust Bolbash Beauty Spot with their beauty transformations.
+            </p>
+        </div>
+
+        <!-- Interactive Reviews Carousel Slider Wrapper -->
+        <div class="relative max-w-7xl mx-auto px-2 overflow-hidden group/carousel" id="about-reviews-carousel-wrapper">
+
+            <!-- Left/Right Slide Arrows -->
+            <button id="about-rev-carousel-prev" type="button" aria-label="Previous Review"
+                class="absolute left-2 top-1/2 -translate-y-1/2 z-30 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/95 hover:bg-brand-pink text-brand-black hover:text-white shadow-xl flex items-center justify-center transition-all border border-brand-neutral-200 focus:outline-none opacity-85 hover:opacity-100">
+                ‹
+            </button>
+            <button id="about-rev-carousel-next" type="button" aria-label="Next Review"
+                class="absolute right-2 top-1/2 -translate-y-1/2 z-30 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/95 hover:bg-brand-pink text-brand-black hover:text-white shadow-xl flex items-center justify-center transition-all border border-brand-neutral-200 focus:outline-none opacity-85 hover:opacity-100">
+                ›
+            </button>
+
+            <!-- Sliding Track Container -->
+            <div id="about-reviews-slider-track" class="flex transition-transform duration-500 ease-out space-x-6 cursor-grab active:cursor-grabbing">
+                {% if approved_reviews %}
+                {% for rev in approved_reviews %}
+                <div
+                    class="review-slide-card flex-shrink-0 w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] bg-brand-neutral-50 p-6 sm:p-8 rounded-3xl border border-brand-neutral-200 space-y-4 flex flex-col justify-between shadow-sm hover:shadow-md transition-all select-none">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <div class="text-amber-400 text-sm font-bold">
+                                {% if rev.rating == 5 %}★★★★★
+                                {% elif rev.rating == 4 %}★★★★☆
+                                {% elif rev.rating == 3 %}★★★☆☆
+                                {% elif rev.rating == 2 %}★★☆☆☆
+                                {% else %}★☆☆☆☆{% endif %}
+                            </div>
+                            <span
+                                class="text-[10px] font-semibold text-green-700 bg-green-50 px-2.5 py-0.5 rounded-full border border-green-200">
+                                ✓ Verified Client
+                            </span>
+                        </div>
+                        <p class="text-brand-neutral-600 text-xs sm:text-sm leading-relaxed italic">
+                            "{{ rev.comment }}"
+                        </p>
+                    </div>
+
+                    <div class="pt-4 border-t border-brand-neutral-200 flex items-center justify-between mt-auto">
+                        <div>
+                            <span class="font-heading font-bold text-sm text-brand-black block">
+                                {{ rev.user.get_full_name|default:rev.user.first_name|default:rev.user.username }}
+                            </span>
+                            <span class="text-[10px] text-brand-neutral-400">{{ rev.created_at|date:"M d, Y" }}</span>
+                        </div>
+                        {% if rev.booking %}
+                        <span class="badge-pink font-semibold truncate max-w-[120px]">{{ rev.booking.service_name_snapshot }}</span>
+                        {% elif rev.service %}
+                        <span class="badge-pink font-semibold truncate max-w-[120px]">{{ rev.service.name }}</span>
+                        {% else %}
+                        <span class="badge-pink">Verified Review</span>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <!-- Fallback Slide Card 1 -->
+                <div
+                    class="review-slide-card flex-shrink-0 w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] bg-brand-neutral-50 p-6 sm:p-8 rounded-3xl border border-brand-neutral-200 space-y-4 flex flex-col justify-between shadow-sm select-none">
+                    <div class="space-y-3">
+                        <div class="flex text-amber-400 text-sm font-bold">★★★★★</div>
+                        <p class="text-brand-neutral-600 text-xs sm:text-sm leading-relaxed italic">
+                            "My frontal installation for my wedding was completely seamless! People kept asking if it was my real scalp. Bolbash is the absolute best hair artist in Ibadan."
+                        </p>
+                    </div>
+                    <div class="pt-4 border-t border-brand-neutral-200 flex items-center justify-between">
+                        <div>
+                            <span class="font-heading font-bold text-sm text-brand-black block">Adebisi Folake</span>
+                            <span class="text-[10px] text-brand-neutral-400">Ibadan, Nigeria</span>
+                        </div>
+                        <span class="badge-pink">Frontal Melt</span>
+                    </div>
+                </div>
+
+                <!-- Fallback Slide Card 2 -->
+                <div
+                    class="review-slide-card flex-shrink-0 w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] bg-brand-neutral-50 p-6 sm:p-8 rounded-3xl border border-brand-neutral-200 space-y-4 flex flex-col justify-between shadow-sm select-none">
+                    <div class="space-y-3">
+                        <div class="flex text-amber-400 text-sm font-bold">★★★★★</div>
+                        <p class="text-brand-neutral-600 text-xs sm:text-sm leading-relaxed italic">
+                            "Extremely organized appointment system! Zero waiting time when you arrive, and the studio atmosphere is calm, clean, and truly high-end."
+                        </p>
+                    </div>
+                    <div class="pt-4 border-t border-brand-neutral-200 flex items-center justify-between">
+                        <div>
+                            <span class="font-heading font-bold text-sm text-brand-black block">Oluwaseun Alabi</span>
+                            <span class="text-[10px] text-brand-neutral-400">Sango, Ibadan</span>
+                        </div>
+                        <span class="badge-pink">Bridal Styling</span>
+                    </div>
+                </div>
+
+                <!-- Fallback Slide Card 3 -->
+                <div
+                    class="review-slide-card flex-shrink-0 w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] bg-brand-neutral-50 p-6 sm:p-8 rounded-3xl border border-brand-neutral-200 space-y-4 flex flex-col justify-between shadow-sm select-none">
+                    <div class="space-y-3">
+                        <div class="flex text-amber-400 text-sm font-bold">★★★★★</div>
+                        <p class="text-brand-neutral-600 text-xs sm:text-sm leading-relaxed italic">
+                            "The frontal melt and styling I received at Bolbash was beyond perfection. The lace was truly invisible and stayed intact for weeks!"
+                        </p>
+                    </div>
+                    <div class="pt-4 border-t border-brand-neutral-200 flex items-center justify-between">
+                        <div>
+                            <span class="font-heading font-bold text-sm text-brand-black block">Zainab Bello</span>
+                            <span class="text-[10px] text-brand-neutral-400">Frontal Melt Client</span>
+                        </div>
+                        <span class="badge-pink">Salon Client</span>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Small Elegant Indicator Dots -->
+            <div class="pt-8 flex items-center justify-center space-x-2" id="about-reviews-dots-container"></div>
+
+        </div>
+
+        <!-- View All Reviews Showcase Link -->
+        <div class="text-center pt-6">
+            <a href="{% url 'core:reviews_showcase' %}"
+                class="btn-secondary py-3 px-8 text-xs uppercase tracking-wider font-bold inline-flex items-center space-x-2">
+                <span>View All Client Reviews & Ratings</span>
+                <span>→</span>
+            </a>
+        </div>
+
+    </div>
+</section>
+
+<!-- Vanilla JavaScript Carousel Slider Controller (About Page 1-by-1 sliding with small dots & touch swipe) -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const track = document.getElementById('about-reviews-slider-track');
+        const prevBtn = document.getElementById('about-rev-carousel-prev');
+        const nextBtn = document.getElementById('about-rev-carousel-next');
+        const dotsContainer = document.getElementById('about-reviews-dots-container');
+        const wrapper = document.getElementById('about-reviews-carousel-wrapper');
+
+        if (!track) return;
+
+        let currentIndex = 0;
+        let autoPlayInterval = null;
+
+        function getCards() {
+            return track.querySelectorAll('.review-slide-card');
+        }
+
+        function getCardsPerPage() {
+            if (window.innerWidth >= 1024) return 3;
+            if (window.innerWidth >= 640) return 2;
+            return 1;
+        }
+
+        function getMaxIndex() {
+            const cards = getCards();
+            const perPage = getCardsPerPage();
+            return Math.max(0, cards.length - perPage);
+        }
+
+        function updateCarousel(index) {
+            const cards = getCards();
+            if (!cards.length) return;
+
+            const maxIdx = getMaxIndex();
+
+            if (index > maxIdx) {
+                currentIndex = 0;
+            } else if (index < 0) {
+                currentIndex = maxIdx;
+            } else {
+                currentIndex = index;
+            }
+
+            const cardWidth = cards[0].getBoundingClientRect().width;
+            const gap = 24; // 1.5rem (space-x-6)
+
+            const shiftAmount = currentIndex * (cardWidth + gap);
+            track.style.transform = `translateX(-${shiftAmount}px)`;
+
+            renderDots(maxIdx);
+        }
+
+        function renderDots(maxIdx) {
+            if (!dotsContainer) return;
+            dotsContainer.innerHTML = '';
+            if (maxIdx < 1) return;
+
+            for (let i = 0; i <= maxIdx; i++) {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = (i === currentIndex)
+                    ? 'w-2 h-2 rounded-full bg-brand-pink ring-2 ring-brand-pink/30 scale-125 transition-all duration-300 cursor-pointer'
+                    : 'w-2 h-2 rounded-full bg-brand-neutral-300 hover:bg-brand-pink/60 transition-all duration-300 cursor-pointer';
+                btn.setAttribute('data-index', i);
+                btn.setAttribute('aria-label', `Review Slide ${i + 1}`);
+                btn.addEventListener('click', () => {
+                    updateCarousel(i);
+                    startAutoPlay();
+                });
+                dotsContainer.appendChild(btn);
+            }
+        }
+
+        function nextSlide() {
+            updateCarousel(currentIndex + 1);
+        }
+
+        function prevSlide() {
+            updateCarousel(currentIndex - 1);
+        }
+
+        function startAutoPlay() {
+            stopAutoPlay();
+            autoPlayInterval = setInterval(nextSlide, 5000);
+        }
+
+        function stopAutoPlay() {
+            if (autoPlayInterval) {
+                clearInterval(autoPlayInterval);
+                autoPlayInterval = null;
+            }
+        }
+
+        if (prevBtn) prevBtn.addEventListener('click', () => { prevSlide(); startAutoPlay(); });
+        if (nextBtn) nextBtn.addEventListener('click', () => { nextSlide(); startAutoPlay(); });
+
+        if (wrapper) {
+            wrapper.addEventListener('mouseenter', stopAutoPlay);
+            wrapper.addEventListener('mouseleave', startAutoPlay);
+        }
+
+        // Mobile Touch-Swipe Support
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        track.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+            stopAutoPlay();
+        }, { passive: true });
+
+        track.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            const diff = touchEndX - touchStartX;
+            if (Math.abs(diff) > 40) {
+                if (diff < 0) {
+                    nextSlide();
+                } else {
+                    prevSlide();
+                }
+            }
+            startAutoPlay();
+        }, { passive: true });
+
+        window.addEventListener('resize', () => updateCarousel(currentIndex));
+
+        // Initialize
+        updateCarousel(0);
+        startAutoPlay();
+    });
+</script>
+
+<!-- ==========================================================================
+     9. SALON EXPERIENCE & BOOKING POLICY
      ========================================================================== -->
 <section class="py-16 sm:py-24 bg-brand-neutral-50 border-t border-brand-neutral-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
